@@ -12,17 +12,19 @@ type HeaderType = {
 
 const Header = ({ isErrorPage }: HeaderType) => {
   const router = useRouter();
-  const { cartItems } = useSelector((state: RootState)  => state.cart);
-  const arrayPaths = ['/'];  
+  const { cartItems } = useSelector((state: RootState) => state.cart);
+  const arrayPaths = ['/'];
 
-  const [onTop, setOnTop] = useState(( !arrayPaths.includes(router.pathname) || isErrorPage ) ? false : true);
+  const [onTop, setOnTop] = useState((!arrayPaths.includes(router.pathname) || isErrorPage) ? false : true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [searchText, setSearchText] = useState()
+  const [category, setCategory] = useState([])
   const navRef = useRef(null);
   const searchRef = useRef(null);
 
   const headerClass = () => {
-    if(window.pageYOffset === 0) {
+    if (window.pageYOffset === 0) {
       setOnTop(true);
     } else {
       setOnTop(false);
@@ -30,12 +32,12 @@ const Header = ({ isErrorPage }: HeaderType) => {
   }
 
   useEffect(() => {
-    if(!arrayPaths.includes(router.pathname) || isErrorPage) {
+    if (!arrayPaths.includes(router.pathname) || isErrorPage) {
       return;
     }
 
     headerClass();
-    window.onscroll = function() {
+    window.onscroll = function () {
       headerClass();
     };
   }, []);
@@ -52,18 +54,36 @@ const Header = ({ isErrorPage }: HeaderType) => {
   useOnClickOutside(navRef, closeMenu);
   useOnClickOutside(searchRef, closeSearch);
 
-  return(
+
+  const getCategory = async () => {
+    const resp = await fetch('https://glue.de.faas-suite-prod.cloud.spryker.toys/category-trees', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+      },
+    })
+    const result = await resp.json()
+    setCategory(result?.data[0]?.attributes?.categoryNodesStorage)
+  }
+  console.log("first", category)
+  useEffect(() => {
+    getCategory();
+  }, [])
+
+  return (
     <header className={`site-header ${!onTop ? 'site-header--fixed' : ''}`}>
       <div className="container">
         <Link href="/">
           <a><h1 className="site-logo"><Logo />E-Shop</h1></a>
         </Link>
         <nav ref={navRef} className={`site-nav ${menuOpen ? 'site-nav--open' : ''}`}>
-          <Link href="/products">
-            <a>Products</a>
-          </Link>
-          <a href="#">Inspiration</a>
-          <a href="#">Rooms</a>
+          {category.map((item: any) => {
+            return (
+              <Link href={`/productList/${item?.url?.split('/')[2]}?nodeId=${item.nodeId}`}>
+                <a>{item.name}</a>
+              </Link>
+            )
+          })}
           <button className="site-nav__btn"><p>Account</p></button>
         </nav>
 
@@ -71,14 +91,19 @@ const Header = ({ isErrorPage }: HeaderType) => {
           <button ref={searchRef} className={`search-form-wrapper ${searchOpen ? 'search-form--active' : ''}`}>
             <form className={`search-form`}>
               <i className="icon-cancel" onClick={() => setSearchOpen(!searchOpen)}></i>
-              <input type="text" name="search" placeholder="Enter the product you are looking for" />
-            </form>  
-            <i onClick={() => setSearchOpen(!searchOpen)}  className="icon-search"></i>
+              <input type="text" name="search" onChange={(e: any) => setSearchText(e.target.value)} placeholder="Enter the product you are looking for" />
+            </form>
+            {searchText ? <Link href={`/search/${searchText}`}>
+              <i onClick={() => setSearchOpen(!searchOpen)} className="icon-search"></i>
+            </Link> :
+              <i onClick={() => setSearchOpen(!searchOpen)} className="icon-search"></i>
+            }
+
           </button>
           <Link href="/cart">
             <button className="btn-cart">
               <i className="icon-cart"></i>
-              {cartItems.length > 0 && 
+              {cartItems.length > 0 &&
                 <span className="btn-cart__count">{cartItems.length}</span>
               }
             </button>
@@ -86,8 +111,8 @@ const Header = ({ isErrorPage }: HeaderType) => {
           <Link href="/login">
             <button className="site-header__btn-avatar"><i className="icon-avatar"></i></button>
           </Link>
-          <button 
-            onClick={() => setMenuOpen(true)} 
+          <button
+            onClick={() => setMenuOpen(true)}
             className="site-header__btn-menu">
             <i className="btn-hamburger"><span></span></i>
           </button>

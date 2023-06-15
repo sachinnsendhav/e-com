@@ -2,29 +2,92 @@ import useSwr from 'swr';
 import ProductItem from '../../product-item';
 import ProductsLoading from './loading';
 import { ProductTypeList } from 'types';
-
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react'
 const ProductsContent = () => {
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
-  const { data, error } = useSwr('/api/products', fetcher);
+  const router = useRouter();
+  const [searchResults, setSearchResults] = useState([])
+  const [products, setProducts] = useState([])
+  const nodeId = router.query.nodeId;
+  const searchUrl = router.query.search;
 
-  if (error) return <div>Failed to load users</div>;
+  console.log("--node", nodeId)
+  console.log("--searchUrl--", searchUrl)
+
+  const getSearchData = async () => {
+    const resp = await fetch(
+      `https://glue.de.faas-suite-prod.cloud.spryker.toys/catalog-search-suggestions?q=${searchUrl}`,
+      {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+        },
+      },
+    );
+    const result = await resp.json();
+    console.log(
+      result?.data[0]?.attributes?.abstractProducts,
+      'result based on search',
+    );
+
+    setSearchResults(result?.data[0]?.attributes?.abstractProducts);
+  }
+  console.log("searchResults", searchResults)
+  useEffect(() => {
+    if (searchUrl) {
+      getSearchData()
+    }
+  }, [searchUrl])
+
+  const getProductData = async () => {
+    const resp = await fetch(
+      `https://glue.de.faas-suite-prod.cloud.spryker.toys/catalog-search?category=${nodeId}`,
+      {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+        },
+      },
+    );
+    const result = await resp.json();
+
+    setProducts(result?.data[0]?.attributes?.abstractProducts);
+  }
+
+  useEffect(() => {
+    if (nodeId) {
+      getProductData()
+    }
+  }, [nodeId])
+  console.log("product", products)
   return (
     <>
-      {!data && 
+      {!searchResults &&
         <ProductsLoading />
       }
 
-      {data &&
+      {searchResults &&
         <section className="products-list">
-          {data.map((item: ProductTypeList)  => (
-            <ProductItem 
-              id={item.id} 
-              name={item.name}
+          {searchResults.map((item: any) => (
+            <ProductItem
+              id={item.abstractSku}
+              name={item.abstractName}
               price={item.price}
-              color={item.color}
-              currentPrice={item.currentPrice}
-              key={item.id}
-              images={item.images} 
+              key={item.abstractSku}
+              images={item.images[0].externalUrlLarge}
+            />
+          ))}
+        </section>
+      }
+      {products &&
+        <section className="products-list">
+          {products.map((item: any) => (
+            <ProductItem
+              id={item.abstractSku}
+              name={item.abstractName}
+              price={item.price}
+              key={item.abstractSku}
+              images={item.images[0].externalUrlLarge}
             />
           ))}
         </section>
@@ -32,5 +95,5 @@ const ProductsContent = () => {
     </>
   );
 };
-  
+
 export default ProductsContent

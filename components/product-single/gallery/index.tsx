@@ -1,18 +1,16 @@
-type GalleryProductType = {
-  images: string[]
-}
 
-const Gallery = ({ images }: GalleryProductType) => {
-  const featImage = images[0];
 
+const Gallery = (images: any) => {
+  const featImage = images.images;
+console.log("images----------",images)
   return (
     <section className="product-gallery">
       <div className="product-gallery__thumbs">
-        {images.map(image => (
-          <div key={image} className="product-gallery__thumb">
-            <img src={image} alt="" />
-          </div>
-        ))}
+
+        <div key={images.images} className="product-gallery__thumb">
+          <img src={images.images} alt="" />
+        </div>
+
       </div>
 
       <div className="product-gallery__image">
@@ -21,6 +19,5 @@ const Gallery = ({ images }: GalleryProductType) => {
     </section>
   );
 };
-  
+
 export default Gallery;
-  

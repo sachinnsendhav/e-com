@@ -14,10 +14,10 @@ import { useRouter } from 'next/router';
 const Product = () => {
   const router = useRouter();
   const productId = router.query.skuId;
-  
+
   const [showBlock, setShowBlock] = useState('description');
   const [product, setProduct] = useState()
-
+  const [img, setImg] = useState()
   console.log("productId", productId)
 
   const getProductDetails = async () => {
@@ -31,12 +31,20 @@ const Product = () => {
       },
     );
     const result = await resp.json();
-    console.log(
-      result,
-      'result based on search',
-    );
-
     setProduct(result.data.attributes);
+
+    const img = await fetch(
+      `https://glue.de.faas-suite-prod.cloud.spryker.toys//abstract-products/${productId}/abstract-product-image-sets`,
+      {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+        },
+      },
+    );
+    const imgData = await img.json();
+    setImg(imgData.data[0]?.attributes.imageSets[0].images[0].externalUrlLarge)
+    console.log("imgData", imgData.data[0]?.attributes.imageSets[0].images[0].externalUrlLarge)
   }
   console.log("product details", product)
   useEffect(() => {
@@ -51,8 +59,8 @@ const Product = () => {
       <section className="product-single">
         <div className="container">
           <div className="product-single__content">
-            {/* <Gallery images={product.images} />
-            <Content product={product} /> */}
+            <Gallery images={img} />
+            {/* <Content product={product} /> */}
           </div>
 
           <div className="product-single__info">

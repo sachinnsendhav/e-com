@@ -2,7 +2,6 @@
 
 const Gallery = (images: any) => {
   const featImage = images.images;
-console.log("images----------",images)
   return (
     <section className="product-gallery">
       <div className="product-gallery__thumbs">

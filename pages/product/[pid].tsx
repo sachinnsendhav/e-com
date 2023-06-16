@@ -75,9 +75,9 @@ const Product = () => {
         </div>
       </section>
 
-      <div className="product-single-page">
+      {/* <div className="product-single-page">
         <ProductsFeatured />
-      </div>
+      </div> */}
       <Footer />
     </Layout>
   );

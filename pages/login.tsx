@@ -1,8 +1,8 @@
 import Layout from '../layouts/Main';
 import Link from 'next/link';
 import { useForm } from "react-hook-form";
-import { server } from '../utils/server'; 
-import { postData } from '../utils/services'; 
+import { server } from '../utils/server';
+import { postData } from '../utils/services';
 
 type LoginMail = {
   email: string;
@@ -13,12 +13,29 @@ const LoginPage = () => {
   const { register, handleSubmit, errors } = useForm();
 
   const onSubmit = async (data: LoginMail) => {
-    const res = await postData(`${server}/api/login`, {
-      email: data.email,
-      password: data.password
-    });
+    console.log("login---", data)
+    // const res = await postData(`${server}/api/login`, {
+    //   email: data.email,
+    //   password: data.password
+    // });
+    var formdata = new FormData();
+    formdata.append("grant_type", "password");
+    formdata.append("username", "sonia@spryker.com");
+    formdata.append("password", "change123");
+    formdata.append("client_id", "");
 
-    // console.log(res);
+    const resp = await fetch(
+      `https://glue.de.faas-suite-prod.cloud.spryker.toys/token`,
+      {
+        method: 'POST',
+        headers: {
+          "Content-Type": "multipart/form-data"
+        },
+        body: formdata
+      },
+    );
+    const result = await resp.json();
+    console.log("login-success-----------", result);
   };
 
   return (
@@ -33,15 +50,15 @@ const LoginPage = () => {
 
           <div className="form-block">
             <h2 className="form-block__title">Log in</h2>
-            <p className="form-block__description">Lorem Ipsum is simply dummy text of the printing and typesetting 
-            industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-            
+            <p className="form-block__description">Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+
             <form className="form" onSubmit={handleSubmit(onSubmit)}>
               <div className="form__input-row">
-                <input 
-                  className="form__input" 
-                  placeholder="email" 
-                  type="text" 
+                <input
+                  className="form__input"
+                  placeholder="email"
+                  type="text"
                   name="email"
                   ref={register({
                     required: true,
@@ -49,24 +66,24 @@ const LoginPage = () => {
                   })}
                 />
 
-                {errors.email && errors.email.type === 'required' && 
+                {errors.email && errors.email.type === 'required' &&
                   <p className="message message--error">This field is required</p>
                 }
 
-                {errors.email && errors.email.type === 'pattern' && 
+                {errors.email && errors.email.type === 'pattern' &&
                   <p className="message message--error">Please write a valid email</p>
                 }
               </div>
-              
+
               <div className="form__input-row">
-                <input 
-                  className="form__input" 
-                  type="password" 
-                  placeholder="Password" 
+                <input
+                  className="form__input"
+                  type="password"
+                  placeholder="Password"
                   name="password"
                   ref={register({ required: true })}
                 />
-                {errors.password && errors.password.type === 'required' && 
+                {errors.password && errors.password.type === 'required' &&
                   <p className="message message--error">This field is required</p>
                 }
               </div>
@@ -74,10 +91,10 @@ const LoginPage = () => {
               <div className="form__info">
                 <div className="checkbox-wrapper">
                   <label htmlFor="check-signed-in" className={`checkbox checkbox--sm`}>
-                    <input 
-                      type="checkbox" 
-                      name="keepSigned" 
-                      id="check-signed-in" 
+                    <input
+                      type="checkbox"
+                      name="keepSigned"
+                      id="check-signed-in"
                       ref={register({ required: false })}
                     />
                     <span className="checkbox__check"></span>
@@ -87,10 +104,10 @@ const LoginPage = () => {
                 <a href="/forgot-password" className="form__info__forgot-password">Forgot password?</a>
               </div>
 
-              <div className="form__btns">
+              {/* <div className="form__btns">
                 <button type="button" className="btn-social fb-btn"><i className="icon-facebook"></i>Facebook</button>
                 <button type="button" className="btn-social google-btn"><img src="/images/icons/gmail.svg" alt="gmail" /> Gmail</button>
-              </div>
+              </div> */}
 
               <button type="submit" className="btn btn--rounded btn--yellow btn-submit">Sign in</button>
 
@@ -103,6 +120,5 @@ const LoginPage = () => {
     </Layout>
   )
 }
-  
+
 export default LoginPage
-  

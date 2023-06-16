@@ -16,7 +16,7 @@ const Product = () => {
   const productId = router.query.skuId;
 
   const [showBlock, setShowBlock] = useState('description');
-  const [product, setProduct] = useState()
+  const [product, setProduct] = useState<any>()
   const [img, setImg] = useState()
   console.log("productId", productId)
 
@@ -66,9 +66,9 @@ const Product = () => {
           <div className="product-single__info">
             <div className="product-single__info-btns">
               <button type="button" onClick={() => setShowBlock('description')} className={`btn btn--rounded ${showBlock === 'description' ? 'btn--active' : ''}`}>Description</button>
-              <button type="button" onClick={() => setShowBlock('reviews')} className={`btn btn--rounded ${showBlock === 'reviews' ? 'btn--active' : ''}`}>Reviews (2)</button>
+              {/* <button type="button" onClick={() => setShowBlock('reviews')} className={`btn btn--rounded ${showBlock === 'reviews' ? 'btn--active' : ''}`}>Reviews (2)</button> */}
             </div>
-
+            <div>{product?.description}</div>
             <Description show={showBlock === 'description'} />
             {/* <Reviews product={product} show={showBlock === 'reviews'} /> */}
           </div>

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useForm } from "react-hook-form";
 import { server } from '../utils/server';
 import { postData } from '../utils/services';
-
+import { useRouter } from 'next/router';
 type LoginMail = {
   email: string;
   password: string;
@@ -11,7 +11,7 @@ type LoginMail = {
 
 const LoginPage = () => {
   const { register, handleSubmit, errors } = useForm();
-
+  const router = useRouter();
   const onSubmit = async (data: LoginMail) => {
     var formdata = new FormData();
     formdata.append('grant_type', "password");
@@ -27,6 +27,9 @@ const LoginPage = () => {
     );
     const result = await resp.json();
     localStorage.setItem("token", result?.access_token)
+    if(result){
+      router.push('/');
+    }
   };
   return (
     <Layout>

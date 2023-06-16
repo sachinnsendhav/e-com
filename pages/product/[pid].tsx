@@ -60,7 +60,7 @@ const Product = () => {
         <div className="container">
           <div className="product-single__content">
             <Gallery images={img} />
-            {/* <Content product={product} /> */}
+            <Content product={product} />
           </div>
 
           <div className="product-single__info">

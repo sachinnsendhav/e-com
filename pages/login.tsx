@@ -13,31 +13,21 @@ const LoginPage = () => {
   const { register, handleSubmit, errors } = useForm();
 
   const onSubmit = async (data: LoginMail) => {
-    console.log("login---", data)
-    // const res = await postData(`${server}/api/login`, {
-    //   email: data.email,
-    //   password: data.password
-    // });
     var formdata = new FormData();
-    formdata.append("grant_type", "password");
-    formdata.append("username", "sonia@spryker.com");
-    formdata.append("password", "change123");
-    formdata.append("client_id", "");
-
+    formdata.append('grant_type', "password");
+    formdata.append('username', data.email);
+    formdata.append('password', data.password);
+    formdata.append('client_id', "");
     const resp = await fetch(
       `https://glue.de.faas-suite-prod.cloud.spryker.toys/token`,
       {
         method: 'POST',
-        headers: {
-          "Content-Type": "multipart/form-data"
-        },
-        body: formdata
+        body: formdata,
       },
     );
     const result = await resp.json();
-    console.log("login-success-----------", result);
+    localStorage.setItem("token", result?.access_token)
   };
-
   return (
     <Layout>
       <section className="form-page">
@@ -50,8 +40,6 @@ const LoginPage = () => {
 
           <div className="form-block">
             <h2 className="form-block__title">Log in</h2>
-            <p className="form-block__description">Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
 
             <form className="form" onSubmit={handleSubmit(onSubmit)}>
               <div className="form__input-row">

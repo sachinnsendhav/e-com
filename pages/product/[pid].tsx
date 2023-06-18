@@ -21,30 +21,38 @@ const Product = () => {
   console.log("productId", productId)
 
   const getProductDetails = async () => {
-    const resp = await fetch(
-      `https://glue.de.faas-suite-prod.cloud.spryker.toys/abstract-products/${productId}`,
-      {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-        },
-      },
-    );
-    const result = await resp.json();
-    setProduct(result.data.attributes);
+    try {
+      const resp = await fetch(
+        `https://glue.de.faas-suite-prod.cloud.spryker.toys/abstract-products/${productId}`,
+        {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+          },
+        }
+      );
+      const result = await resp.json();
+      setProduct(result.data.attributes);
+    } catch (error) {
+      console.error('Error occurred while fetching product:', error);
+    }
 
-    const img = await fetch(
-      `https://glue.de.faas-suite-prod.cloud.spryker.toys//abstract-products/${productId}/abstract-product-image-sets`,
-      {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-        },
-      },
-    );
-    const imgData = await img.json();
-    setImg(imgData.data[0]?.attributes.imageSets[0].images[0].externalUrlLarge)
-    console.log("imgData", imgData.data[0]?.attributes.imageSets[0].images[0].externalUrlLarge)
+    try {
+      const img = await fetch(
+        `https://glue.de.faas-suite-prod.cloud.spryker.toys/abstract-products/${productId}/abstract-product-image-sets`,
+        {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+          },
+        }
+      );
+      const imgData = await img.json();
+      setImg(imgData.data[0]?.attributes.imageSets[0].images[0].externalUrlLarge);
+      console.log("imgData", imgData.data[0]?.attributes.imageSets[0].images[0].externalUrlLarge);
+    } catch (error) {
+      console.error('Error occurred while fetching image:', error);
+    }
   }
   console.log("product details", product)
   useEffect(() => {

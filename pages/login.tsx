@@ -48,9 +48,10 @@ const LoginPage = () => {
               <div className="form__input-row">
                 <input
                   className="form__input"
-                  placeholder="email"
+                  placeholder="sonia@spryker.com"
                   type="text"
                   name="email"
+                  value={"sonia@spryker.com"}//just for development testing please remove it after development
                   ref={register({
                     required: true,
                     pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
@@ -70,7 +71,8 @@ const LoginPage = () => {
                 <input
                   className="form__input"
                   type="password"
-                  placeholder="Password"
+                  placeholder="changer123"
+                  value={"change123"}  //just for development testing please remove it after development
                   name="password"
                   ref={register({ required: true })}
                 />

@@ -40,12 +40,15 @@ export type ProductTypeList = {
 
 export type ProductStoreType = {
   id: string;
+  pliId:string;
   name: string;
   thumb: string;
   price: number;
   count: number;
   color: string;
   size: string;
+  setProductCount:any
+  removeProductFromCart:any
 }
 
 export type GtagEventType = {

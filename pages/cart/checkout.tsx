@@ -1,21 +1,57 @@
 import Layout from '../../layouts/Main';
-import { useSelector } from 'react-redux';
 import CheckoutStatus from '../../components/checkout-status';
 import CheckoutItems from '../../components/checkout/items';
-import { RootState } from 'store';
-
+import { useEffect, useState } from 'react';
 const CheckoutPage = () => {
+  const [data, setData] = useState([]);
+  const [shipments, setShipments] = useState<array[]>([]);
+  const [shipmentMethods, setShipmentMethods] = useState<array[]>([]);
+  const [paymentMethods, setPaymentMethods] = useState<array[]>([]);
 
-  const priceTotal = useSelector((state: RootState) => {
-    const cartItems = state.cart.cartItems;
-    let totalPrice = 0;
-    if(cartItems.length > 0) {
-      cartItems.map(item => totalPrice += item.price * item.count);
+  const getCheckoutDetails = async () => {
+    const authToken = localStorage.getItem('token')
+    const data: any = {
+      "data": {
+        "attributes": {
+          "idCart": "b2d6946e-bad3-5d6d-ab9f-b8b71f0cc0fc",
+          "shipmentMethods": []
+        },
+        "type": "checkout-data"
+      }
     }
+    const resp = await fetch(`https://glue.de.faas-suite-prod.cloud.spryker.toys/checkout-data?include=shipments%2Cshipment-methods%2Caddress%2Cpayment-methods%2Citems`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${authToken}`
+      },
+      body: JSON.stringify(data)
+    })
+    const reslut = await resp.json();
+    setData(reslut?.included)
+    console.log("ckeckout---data", reslut)
+  }
+  useEffect(() => {
+    getCheckoutDetails()
+  }, [])
 
-    return totalPrice;
-  })
+  useEffect(() => {
+    if (data.length > 0) {
+      data.forEach((element: any) => {
+        if (element.type === "shipment-methods") {
+          setShipmentMethods((shipmentMethods) => [...shipmentMethods, element.attributes])
+        } else if (element.type === "payment-methods") {
+          setPaymentMethods((paymentMethods) => [...paymentMethods, element.attributes])
+        } else if (element.type === "shipments") {
+          setShipments((shipments) => [...shipments, element.attributes])
+        }
+      });
+    }
+  }, [data])
 
+  console.log("data", data)
+  console.log("shipmentMethods", shipmentMethods)
+  console.log("paymentMethods", paymentMethods)
+  console.log("shipments", shipments)
   return (
     <Layout>
       <section className="cart">
@@ -44,7 +80,7 @@ const CheckoutPage = () => {
                       <input className="form__input form__input--sm" type="text" placeholder="Address" />
                     </div>
                   </div>
-                  
+
                   <div className="form__input-row form__input-row--two">
                     <div className="form__col">
                       <input className="form__input form__input--sm" type="text" placeholder="First name" />
@@ -54,7 +90,7 @@ const CheckoutPage = () => {
                       <input className="form__input form__input--sm" type="text" placeholder="City" />
                     </div>
                   </div>
-                  
+
                   <div className="form__input-row form__input-row--two">
                     <div className="form__col">
                       <input className="form__input form__input--sm" type="text" placeholder="Last name" />
@@ -82,7 +118,7 @@ const CheckoutPage = () => {
                 </form>
               </div>
             </div>
-            
+
             <div className="checkout__col-4">
               <div className="block">
                 <h3 className="block__title">Payment method</h3>
@@ -107,7 +143,7 @@ const CheckoutPage = () => {
                   </li>
                 </ul>
               </div>
-              
+
               <div className="block">
                 <h3 className="block__title">Delivery method</h3>
                 <ul className="round-options round-options--two">
@@ -130,20 +166,20 @@ const CheckoutPage = () => {
                 </ul>
               </div>
             </div>
-            
+
             <div className="checkout__col-2">
               <div className="block">
                 <h3 className="block__title">Your cart</h3>
                 <CheckoutItems />
-                
+
                 <div className="checkout-total">
                   <p>Total cost</p>
-                  <h3>${priceTotal}</h3>
+                  <h3>100</h3>
                 </div>
               </div>
             </div>
           </div>
-          
+
           <div className="cart-actions cart-actions--checkout">
             <a href="/cart" className="cart__btn-back"><i className="icon-left"></i> Back</a>
             <div className="cart-actions__items-wrapper">
@@ -157,5 +193,5 @@ const CheckoutPage = () => {
   )
 };
 
-  
+
 export default CheckoutPage

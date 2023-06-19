@@ -1,43 +1,13 @@
-import { useDispatch } from 'react-redux';
-import { removeProduct, setCount } from 'store/reducers/cart';
+import { useState } from 'react';
 import { ProductStoreType } from 'types';
 
-const ShoppingCart = ({ thumb, name, id, color, size, count, price }: ProductStoreType) => {
-  const dispatch = useDispatch();
-
-  const removeFromCart = () => {
-    dispatch(removeProduct(
-      { 
-        thumb, 
-        name, 
-        id, 
-        color, 
-        size, 
-        count, 
-        price
-      }
-    ))
-  }
-
-  const setProductCount = (count: number) => {
-    if(count <= 0) {
-      return;
-    }
-
-    const payload = {
-      product: { 
-        thumb, 
-        name, 
-        id, 
-        color, 
-        size, 
-        count, 
-        price
-      },
-      count,
-    }
-
-    dispatch(setCount(payload))
+const ShoppingCart = ({ thumb, name,pliId, id, color, size, count, price,setProductCount,removeProductFromCart }: ProductStoreType) => {
+  var token:any;
+  var cartId:any;
+  if (typeof window !== 'undefined') {
+    // Code running in the browser
+     token = localStorage.getItem("token");
+     cartId = localStorage.getItem("cartId");
   }
 
   return (
@@ -51,6 +21,7 @@ const ShoppingCart = ({ thumb, name, id, color, size, count, price }: ProductSto
           <div className="cart-product__content">
             <h3>{name}</h3>
             <p>#{id}</p>
+            {pliId}
           </div>
         </div>
       </td>
@@ -58,17 +29,17 @@ const ShoppingCart = ({ thumb, name, id, color, size, count, price }: ProductSto
       <td className="cart-item-before" data-label="Size"> </td>
       <td>
         <div className="quantity-button">
-          {/* <button type="button" onClick={() => setProductCount(count - 1)} className="quantity-button__btn">
+          <button type="button" onClick={() => setProductCount(count - 1,pliId,id)} className="quantity-button__btn">
             -
-          </button> */}
+          </button>
           <span>{ count }</span>
-          {/* <button type="button" onClick={() => setProductCount(count + 1)} className="quantity-button__btn">
+          <button type="button" onClick={() => setProductCount(count + 1,pliId,id)} className="quantity-button__btn">
             +
-          </button> */}
+          </button>
         </div>
       </td>
       <td>${price}</td>
-      <td className="cart-item-cancel"><i className="icon-cancel" onClick={() => removeFromCart()}></i></td>
+      <td className="cart-item-cancel"><i className="icon-cancel" onClick={() => removeProductFromCart(pliId)}></i></td>
     </tr>
   )
 };

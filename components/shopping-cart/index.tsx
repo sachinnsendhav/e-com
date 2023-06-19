@@ -21,6 +21,7 @@ const ShoppingCart = () => {
   const [cartItems, setCartItems] = useState<any>();
   const [cartPrductArr, setCartPrductArr] = useState<any>([]);
   const [cartPrductImgArr, setCartPrductImgArr] = useState<any>([]);
+  const [cartUpdated, setCartUpdated] = useState<number>(0);
 
   const priceTotal = () => {
     let totalPrice = 0;
@@ -64,7 +65,7 @@ const ShoppingCart = () => {
       }
     };
     handleGetCart();
-  }, []);
+  }, [cartUpdated]);
 
   useEffect(() => {
     const setCartData = async () => {
@@ -119,20 +120,102 @@ const ShoppingCart = () => {
     return imgData;
   };
   
+  const setProductCount = async(count: number,pliId:string, id:string) => {
+    const productCart = {
+      data: {
+        type: "items",
+        attributes: {
+          sku: id,
+          quantity: count,
+          salesUnit: {
+            id: 0,
+            amount: 0,
+          },
+          productOptions: [null],
+        },
+      },
+    };
+    setIsLoading(true);
+    try {
+      const resp = await fetch(
+        `https://glue.de.faas-suite-prod.cloud.spryker.toys/carts/${cartId}/items/${pliId}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify(productCart),
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (resp.status === 401) {
+        // Redirect to "/login" route
+        alert("Please Login")
+        window.location.href = "/login";
+        return;
+      }
+      const response = await resp.json();
+      if (response) {
+        setCartUpdated(cartUpdated+1)
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      
+      setIsLoading(false);
+    }
+  }
+
+  const removeProductFromCart = async (pliId:string) => {
+    if(confirm("Do you want to remove this product")){
+      setIsLoading(true);
+    try {
+      const resp = await fetch(
+        `https://glue.de.faas-suite-prod.cloud.spryker.toys/carts/${cartId}/items/${pliId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(resp,"resp___________A")
+
+      if (resp.status === 401) {
+        // Redirect to "/login" route
+        alert("Please Login");
+        setIsLoading(false);
+        window.location.href = "/login";
+        return;
+      }
+      if (resp.status == 204) {
+        setCartUpdated(cartUpdated + 1);
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setIsLoading(false);
+    } 
+  }
+  };
   
-  console.log(cartData, "hello");
+  console.log(cartItems, "hello");
 
   return (
     <section className="cart">
-       {cartPrductArr && cartPrductArr && cartItems ?
+      {isLoading?<div style={{display:"flex",justifyContent:"center",alignItems:"center"}}>Loading...</div>:
       <div className="container">
+       {cartPrductArr && cartPrductArr && cartItems ?
         <div className="cart__intro">
           <h3 className="cart__title">Shopping Cart</h3>
           <CheckoutStatus step="cart" />
         </div>
-
+        :<div></div>}
         <div className="cart-list">
-          {cartItems?.length > 0 && (
+          {cartItems && cartItems?.length > 0 && (
             <table>
               <tbody>
                 <tr>
@@ -147,6 +230,7 @@ const ShoppingCart = () => {
                 {cartItems.map((item:any,Index:number) => (
                   <Item
                     key={item.id}
+                    pliId={item.id}
                     id={cartPrductArr[Index]?.id}
                     thumb={cartPrductImgArr[Index]}
                     name={cartPrductArr[Index]?.attributes?.name}
@@ -154,13 +238,15 @@ const ShoppingCart = () => {
                     price={item.attributes?.calculations?.unitPrice}
                     size={item.size}
                     count={item?.attributes?.quantity}
+                    setProductCount={setProductCount}
+                    removeProductFromCart={removeProductFromCart}
                   />
                 ))}
               </tbody>
             </table>
           )}
 
-          {cartItems?.length === 0 && <p>Nothing in the cart</p>}
+          {!cartItems && <p>Nothing in the cart</p>}
         </div>
 
         <div className="cart-actions">
@@ -182,8 +268,8 @@ const ShoppingCart = () => {
             </a>
           </div>
         </div>
-      </div>:
-      <div>Loading....</div>}
+      </div>
+}
     </section>
   );
 };

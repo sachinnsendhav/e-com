@@ -11,7 +11,7 @@ const ShoppingCart = () => {
   if (typeof window !== 'undefined') {
     // Code running in the browser
      token = localStorage.getItem("token");
-    localStorage.setItem("cartId", "b2d6946e-bad3-5d6d-ab9f-b8b71f0cc0fc");
+    localStorage.setItem("cartId", "eea65278-fda2-511f-859e-47eba26a5a8d");
      cartId = localStorage.getItem("cartId");
   }
 
@@ -181,7 +181,6 @@ const ShoppingCart = () => {
           },
         }
       );
-      console.log(resp,"resp___________A")
 
       if (resp.status === 401) {
         // Redirect to "/login" route
@@ -202,7 +201,6 @@ const ShoppingCart = () => {
   }
   };
   
-  console.log(cartItems, "hello");
 
   return (
     <section className="cart">

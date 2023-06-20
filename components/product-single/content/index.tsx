@@ -12,7 +12,7 @@ import { RootState } from "store";
 const Content = (product: any) => {
   const dispatch = useDispatch();
 
-  const cartId = "b2d6946e-bad3-5d6d-ab9f-b8b71f0cc0fc";
+  const cartId = "eea65278-fda2-511f-859e-47eba26a5a8d";
   var token:any;
   if (typeof window !== 'undefined') {
     // Code running in the browser
@@ -49,7 +49,6 @@ const Content = (product: any) => {
           }
         );
         const response = await resp.json();
-        console.log(response, "RESPPrice_________");
         if (resp.status == 200) {
           setPrice(response?.data[0]?.attributes?.price);
           setPriceSymbole(
@@ -64,13 +63,11 @@ const Content = (product: any) => {
     }
   }, [productData]);
 
-  console.log(variationData, "variationData");
 
   useEffect(() => {
     var tempVar: any = [];
     const handlerfunction = async () => {
       if (productData) {
-        console.log(productData, "productData");
 
         Object.keys(productData?.attributeMap?.attribute_variant_map)?.map(
           (item, index) => {
@@ -148,13 +145,11 @@ const Content = (product: any) => {
         }
       
         const response = await resp.json();
-        console.log(response, "RESP_________");
       
         if (response) {
           setIsLoading(false);
           alert("Added to cart");
         } else {
-          console.log("response:---------- ", response);
           setIsLoading(false);
         }
       } catch (error) {
@@ -164,7 +159,6 @@ const Content = (product: any) => {
       
     }
   };
-console.log(productData,"productData_____________")
   const onColorSet = (e: string) => setColor(e);
   const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
     setItemSize(e.target.value);
@@ -297,8 +291,8 @@ console.log(productData,"productData_____________")
               type="submit"
               onClick={() => AddtoCartHandler()}
               className="btn btn--rounded btn--yellow"
-            >
-              Add to cart
+            >{isLoading? "Adding to cart...":
+                  "Add to cart"}
             </button>
             <button
               type="button"

@@ -4,7 +4,6 @@ import SwiperCore, { EffectFade, Navigation } from 'swiper';
 SwiperCore.use([EffectFade, Navigation]);
 
 const PageIntro = (props: any) => {
-  console.log("first-props", props.cmsData)
   return (
     <section className="page-intro">
       <Swiper navigation effect="fade" className="swiper-wrapper">

@@ -18,7 +18,6 @@ const Product = () => {
   const [showBlock, setShowBlock] = useState('description');
   const [product, setProduct] = useState<any>()
   const [img, setImg] = useState()
-  console.log("productId", productId)
 
   const getProductDetails = async () => {
     try {
@@ -49,12 +48,10 @@ const Product = () => {
       );
       const imgData = await img.json();
       setImg(imgData.data[0]?.attributes.imageSets[0].images[0].externalUrlLarge);
-      console.log("imgData", imgData.data[0]?.attributes.imageSets[0].images[0].externalUrlLarge);
     } catch (error) {
       console.error('Error occurred while fetching image:', error);
     }
   }
-  console.log("product details", product)
   useEffect(() => {
     if (productId) {
       getProductDetails()

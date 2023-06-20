@@ -6,7 +6,6 @@ const ProductsContent = () => {
   const router = useRouter();
   const [orderProductsOpen, setOrderProductsOpen] = useState(false);
   const category = router.query.category;
-  console.log("sdsd-category", category)
   return (
     <section className="products-content">
       <div className="products-content__intro">

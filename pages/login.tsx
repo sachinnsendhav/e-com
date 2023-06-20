@@ -14,7 +14,6 @@ const LoginPage = () => {
   const [authStatus, setAuthStatus] = useState("false")
   const [authToken, setAuthToken] = useState("");
   const [userDetails, setUserDetails] = useState()
-  console.log("authStatus", authStatus, "token->", authToken)
   useEffect(() => {
     setAuthStatus(localStorage.getItem("status"));
     setAuthToken(localStorage.getItem("token"))
@@ -65,7 +64,6 @@ const LoginPage = () => {
           },
         );
         const result = await resp.json();
-        console.log("result-->>", result)
 
         localStorage.setItem("status", "true")
         localStorage.setItem("token", result?.data?.attributes?.accessToken)
@@ -100,7 +98,6 @@ const LoginPage = () => {
 
     }
   }
-  console.log("user-details--", userDetails)
   useEffect(() => {
     checkTokenExpiry();
     getUserDetails();

@@ -23,7 +23,6 @@ const IndexPage = () => {
       }
     });
   }
-  console.log("cms-data", cmsData)
   useEffect(() => {
     getCmsData()
   }, [])

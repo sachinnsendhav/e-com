@@ -36,6 +36,7 @@ const LoginPage = () => {
     const result = await resp.json();
     localStorage.setItem("token", result?.access_token)
     localStorage.setItem("status", "true")
+    window.location.reload()
     // if (result) {
     //   router.push('/');
     // }
@@ -73,7 +74,6 @@ const LoginPage = () => {
         console.log("errrrrrrrrrrrrrr", err)
         localStorage.setItem("status", "false")
       }
-
     } else {
       localStorage.setItem("status", "false")
     }
@@ -82,23 +82,29 @@ const LoginPage = () => {
 
   const getUserDetails = async () => {
     if (authToken) {
-      const resp = await fetch(`https://glue.de.faas-suite-prod.cloud.spryker.toys/customers`,
-        {
-          method: "GET",
-          headers: {
-            "Authorization": `Bearer ${authToken}`
+      try {
+        const resp = await fetch(`https://glue.de.faas-suite-prod.cloud.spryker.toys/customers`,
+          {
+            method: "GET",
+            headers: {
+              "Authorization": `Bearer ${authToken}`
+            }
           }
-        }
-      );
-      const result = await resp.json();
-      setUserDetails(result.data[0].attributes)
+        );
+        const result = await resp.json();
+        setUserDetails(result.data[0].attributes)
+      } catch {
+        localStorage.setItem("status", "false")
+        setAuthToken("false")
+      }
+
     }
   }
   console.log("user-details--", userDetails)
   useEffect(() => {
     checkTokenExpiry();
     getUserDetails();
-  }, [authToken])
+  }, [authToken, authStatus])
 
 
 
@@ -113,12 +119,12 @@ const LoginPage = () => {
           </div>
           {authStatus === "true" ? <div>
 
-            <h1 style={{fontSize:"18px", paddingBottom:"10px"}}>
+            <h1 style={{ fontSize: "18px", paddingBottom: "10px" }}>
               User Details
             </h1>
-            <p style={{paddingBottom:"5px"}}>Name : {userDetails?.firstName + " " + userDetails?.lastName}</p>
-            <p style={{paddingBottom:"5px"}}>Email : {userDetails?.email}</p>
-            <p style={{paddingBottom:"5px"}}>Gender : {userDetails?.gender}</p>
+            <p style={{ paddingBottom: "5px" }}>Name : {userDetails?.firstName + " " + userDetails?.lastName}</p>
+            <p style={{ paddingBottom: "5px" }}>Email : {userDetails?.email}</p>
+            <p style={{ paddingBottom: "5px" }}>Gender : {userDetails?.gender}</p>
           </div> :
 
             <div className="form-block">

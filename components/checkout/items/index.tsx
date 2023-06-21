@@ -6,7 +6,6 @@ const CheckoutItems = () => {
   if (typeof window !== 'undefined') {
     // Code running in the browser
      token = localStorage.getItem("token");
-    localStorage.setItem("cartId", "eea65278-fda2-511f-859e-47eba26a5a8d");
      cartId = localStorage.getItem("cartId");
   }
 

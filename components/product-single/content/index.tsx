@@ -12,10 +12,11 @@ import { RootState } from "store";
 const Content = (product: any) => {
   const dispatch = useDispatch();
 
-  const cartId = "eea65278-fda2-511f-859e-47eba26a5a8d";
+  var cartId:any;
   var token:any;
   if (typeof window !== 'undefined') {
     // Code running in the browser
+    cartId = localStorage.getItem("cartId")
      token = localStorage.getItem("token");
   }
   const [count, setCount] = useState<number>(1);
@@ -35,6 +36,42 @@ const Content = (product: any) => {
     setProductData(product?.product);
     setVariationIdData(product?.product?.attributeMap?.product_concrete_ids);
   }, [product]);
+
+  useEffect(()=>{
+    const handlecart = async() =>{
+    try {
+      const resp = await fetch(
+        `https://glue.de.faas-suite-prod.cloud.spryker.toys/carts`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    
+      if (resp.status === 401) {
+        alert("Please Login")
+        window.location.href = "/login";
+        return;
+      }
+      console.log(resp,"resp_+_+_+_+_+")
+      const response = await resp.json();
+    
+      if (response) {
+        setIsLoading(false);
+        localStorage.setItem("cartId",response?.data[0].id)
+       console.log(response?.data[0].id,"response_+_+_+_+_+")
+      } else {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      setIsLoading(false);
+    }}
+    handlecart();
+  },[])
 
   useEffect(() => {
     if (productData) {

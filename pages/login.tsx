@@ -3,6 +3,9 @@ import Link from 'next/link';
 import { useForm } from "react-hook-form";
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react'
+import UserDetail from 'components/user/userDetails';
+import Address from 'components/user/address';
+import Orders from 'components/user/orders';
 type LoginMail = {
   email: string;
   password: string;
@@ -13,8 +16,9 @@ const LoginPage = () => {
   const router = useRouter();
   const [authStatus, setAuthStatus] = useState("false")
   const [authToken, setAuthToken] = useState("");
-  const [userDetails, setUserDetails] = useState()
-  console.log("authStatus", authStatus, "token->", authToken)
+  const [userDetails, setUserDetails] = useState();
+  const [showBlock, setShowBlock] = useState('userDetails');
+  // console.log("authStatus", authStatus, "token->", authToken)
   useEffect(() => {
     setAuthStatus(localStorage.getItem("status"));
     setAuthToken(localStorage.getItem("token"))
@@ -65,13 +69,12 @@ const LoginPage = () => {
           },
         );
         const result = await resp.json();
-        console.log("result-->>", result)
 
         localStorage.setItem("status", "true")
         localStorage.setItem("token", result?.data?.attributes?.accessToken)
 
       } catch (err) {
-        console.log("errrrrrrrrrrrrrr", err)
+        console.log("errr", err)
         localStorage.setItem("status", "false")
       }
     } else {
@@ -100,7 +103,6 @@ const LoginPage = () => {
 
     }
   }
-  console.log("user-details--", userDetails)
   useEffect(() => {
     checkTokenExpiry();
     getUserDetails();
@@ -117,16 +119,29 @@ const LoginPage = () => {
               <a><i className="icon-left"></i> Back to Home</a>
             </Link>
           </div>
-          {authStatus === "true" ? <div>
+          {authStatus === "true" ?
+            // <div>
+            //   <h1 style={{ fontSize: "18px", paddingBottom: "10px" }}>
+            //     User Details
+            //   </h1>
+            //   <p style={{ paddingBottom: "5px" }}>Name : {userDetails?.firstName + " " + userDetails?.lastName}</p>
+            //   <p style={{ paddingBottom: "5px" }}>Email : {userDetails?.email}</p>
+            //   <p style={{ paddingBottom: "5px" }}>Gender : {userDetails?.gender}</p>
+            // </div>
+            <section className="product-single">
+              <div className="product-single__info">
+                <div className="product-single__info-btns">
+                  <button type="button" onClick={() => setShowBlock('userDetails')} className={`btn btn--rounded ${showBlock === 'userDetails' ? 'btn--active' : ''}`}>User Details</button>
+                  <button type="button" onClick={() => setShowBlock('address')} className={`btn btn--rounded ${showBlock === 'address' ? 'btn--active' : ''}`}>Address</button>
+                  <button type="button" onClick={() => setShowBlock('order')} className={`btn btn--rounded ${showBlock === 'order' ? 'btn--active' : ''}`}>Order</button>
+                </div>
 
-            <h1 style={{ fontSize: "18px", paddingBottom: "10px" }}>
-              User Details
-            </h1>
-            <p style={{ paddingBottom: "5px" }}>Name : {userDetails?.firstName + " " + userDetails?.lastName}</p>
-            <p style={{ paddingBottom: "5px" }}>Email : {userDetails?.email}</p>
-            <p style={{ paddingBottom: "5px" }}>Gender : {userDetails?.gender}</p>
-          </div> :
-
+                <UserDetail show={showBlock === 'userDetails'} />
+                <Address show={showBlock === 'address'} />
+                <Orders show={showBlock === 'order'} />
+              </div>
+            </section>
+            :
             <div className="form-block">
               <h2 className="form-block__title">Log in</h2>
 

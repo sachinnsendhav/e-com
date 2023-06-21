@@ -4,22 +4,30 @@ import SwiperCore, { EffectFade, Navigation } from 'swiper';
 SwiperCore.use([EffectFade, Navigation]);
 
 const PageIntro = (props: any) => {
-  console.log("first-props", props.cmsData)
   return (
     <section className="page-intro">
       <Swiper navigation effect="fade" className="swiper-wrapper">
-        <SwiperSlide>
-          <div className="page-intro__slide" style={{ backgroundImage: `url(https://${props.cmsData?.topBannerImageOne['en-US']})` }}>
-            <div className="container">
-              <div className="page-intro__slide__content">
-                <h2>{props.cmsData?.topBannerImageTextOne['en-US']}</h2>
-                <a href="#" className="btn-shop"><i className="icon-right"></i>Shop now</a>
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
+        {props.cmsData.nextContentfulHeaderImageCollection.items.length > 0 ?
+          props.cmsData.nextContentfulHeaderImageCollection.items.map((item: any) => {
+            return (
+              <SwiperSlide>
+                <div className="page-intro__slide" style={{ backgroundImage: `url(${item.heroBanner.url})` }}>
+                  <div className="container">
+                    <div className="page-intro__slide__content">
+                      <h2>{item.description}</h2>
+                      <a href="#" className="btn-shop"><i className="icon-right"></i>Shop now</a>
+                    </div>
+                  </div>
+                </div>
+              </SwiperSlide>
+            )
+          })
+          :
+          null
+        }
 
-        <SwiperSlide>
+
+        {/* <SwiperSlide>
           <div className="page-intro__slide" style={{ backgroundImage: `url(https://${props.cmsData?.topBannerImageTwo['en-US']})` }}>
             <div className="container">
               <div className="page-intro__slide__content">
@@ -28,7 +36,7 @@ const PageIntro = (props: any) => {
               </div>
             </div>
           </div>
-        </SwiperSlide>
+        </SwiperSlide> */}
       </Swiper>
 
       <div className="shop-data">

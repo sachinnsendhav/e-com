@@ -2,7 +2,10 @@ import Layout from '../../layouts/Main';
 import CheckoutStatus from '../../components/checkout-status';
 import CheckoutItems from '../../components/checkout/items';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+
 const CheckoutPage = () => {
+  const router = useRouter()
   const [data, setData] = useState([]);
   const [shipments, setShipments] = useState<array[]>([]);
   const [shipmentMethods, setShipmentMethods] = useState<array[]>([]);
@@ -10,26 +13,32 @@ const CheckoutPage = () => {
   const [addresses, setAddresses] = useState<array[]>([]);
 
   const getCheckoutDetails = async () => {
-    const authToken = localStorage.getItem('token')
-    const data: any = {
-      "data": {
-        "attributes": {
-          "idCart": "b2d6946e-bad3-5d6d-ab9f-b8b71f0cc0fc",
-          "shipmentMethods": []
-        },
-        "type": "checkout-data"
+    try {
+      const authToken = localStorage.getItem('token')
+      const data: any = {
+        "data": {
+          "attributes": {
+            "idCart": "b2d6946e-bad3-5d6d-ab9f-b8b71f0cc0fc",
+            "shipmentMethods": []
+          },
+          "type": "checkout-data"
+        }
       }
+
+      const resp = await fetch(`https://glue.de.faas-suite-prod.cloud.spryker.toys/checkout-data?include=shipments%2Cshipment-methods%2Caddresses%2Cpayment-methods%2Citems`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${authToken}`
+        },
+        body: JSON.stringify(data)
+      })
+      const reslut = await resp.json();
+      setData(reslut?.included)
+      console.log("ckeckout---data", reslut)
+    } catch {
+      console.log("errrrrrr")
+      router.push("/login")
     }
-    const resp = await fetch(`https://glue.de.faas-suite-prod.cloud.spryker.toys/checkout-data?include=shipments%2Cshipment-methods%2Caddresses%2Cpayment-methods%2Citems`, {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${authToken}`
-      },
-      body: JSON.stringify(data)
-    })
-    const reslut = await resp.json();
-    setData(reslut?.included)
-    console.log("ckeckout---data", reslut)
   }
   useEffect(() => {
     getCheckoutDetails()

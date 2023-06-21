@@ -65,7 +65,6 @@ const Header = ({ isErrorPage }: HeaderType) => {
     const result = await resp.json()
     setCategory(result?.data[0]?.attributes?.categoryNodesStorage)
   }
-  console.log("first", category)
   useEffect(() => {
     getCategory();
   }, [])

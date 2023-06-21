@@ -16,7 +16,6 @@ const ForgotPassword = () => {
       email: data.email,
     });
 
-    console.log(res);
   };
 
   return (

@@ -11,8 +11,6 @@ const ProductsContent = () => {
   const nodeId = router.query.nodeId;
   const searchUrl = router.query.search;
 
-  console.log("--node", nodeId)
-  console.log("--searchUrl--", searchUrl)
 
   const getSearchData = async () => {
     const resp = await fetch(
@@ -25,14 +23,9 @@ const ProductsContent = () => {
       },
     );
     const result = await resp.json();
-    console.log(
-      result?.data[0]?.attributes?.abstractProducts,
-      'result based on search',
-    );
 
     setSearchResults(result?.data[0]?.attributes?.abstractProducts);
   }
-  console.log("searchResults", searchResults)
   useEffect(() => {
     if (searchUrl) {
       getSearchData()
@@ -59,7 +52,6 @@ const ProductsContent = () => {
       getProductData()
     }
   }, [nodeId])
-  console.log("product", products)
   return (
     <>
       {!searchResults &&

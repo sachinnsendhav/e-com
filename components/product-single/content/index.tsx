@@ -12,10 +12,11 @@ import { RootState } from "store";
 const Content = (product: any) => {
   const dispatch = useDispatch();
 
-  const cartId = "b2d6946e-bad3-5d6d-ab9f-b8b71f0cc0fc";
+  var cartId:any;
   var token:any;
   if (typeof window !== 'undefined') {
     // Code running in the browser
+    cartId = localStorage.getItem("cartId")
      token = localStorage.getItem("token");
   }
   const [count, setCount] = useState<number>(1);
@@ -36,6 +37,42 @@ const Content = (product: any) => {
     setVariationIdData(product?.product?.attributeMap?.product_concrete_ids);
   }, [product]);
 
+  useEffect(()=>{
+    const handlecart = async() =>{
+    try {
+      const resp = await fetch(
+        `https://glue.de.faas-suite-prod.cloud.spryker.toys/carts`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    
+      if (resp.status === 401) {
+        alert("Please Login")
+        window.location.href = "/login";
+        return;
+      }
+      console.log(resp,"resp_+_+_+_+_+")
+      const response = await resp.json();
+    
+      if (response) {
+        setIsLoading(false);
+        localStorage.setItem("cartId",response?.data[0].id)
+       console.log(response?.data[0].id,"response_+_+_+_+_+")
+      } else {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      setIsLoading(false);
+    }}
+    handlecart();
+  },[])
+
   useEffect(() => {
     if (productData) {
       const getPrice = async () => {
@@ -49,7 +86,6 @@ const Content = (product: any) => {
           }
         );
         const response = await resp.json();
-        console.log(response, "RESPPrice_________");
         if (resp.status == 200) {
           setPrice(response?.data[0]?.attributes?.price);
           setPriceSymbole(
@@ -64,13 +100,11 @@ const Content = (product: any) => {
     }
   }, [productData]);
 
-  console.log(variationData, "variationData");
 
   useEffect(() => {
     var tempVar: any = [];
     const handlerfunction = async () => {
       if (productData) {
-        console.log(productData, "productData");
 
         Object.keys(productData?.attributeMap?.attribute_variant_map)?.map(
           (item, index) => {
@@ -148,13 +182,11 @@ const Content = (product: any) => {
         }
       
         const response = await resp.json();
-        console.log(response, "RESP_________");
       
         if (response) {
           setIsLoading(false);
           alert("Added to cart");
         } else {
-          console.log("response:---------- ", response);
           setIsLoading(false);
         }
       } catch (error) {
@@ -164,7 +196,6 @@ const Content = (product: any) => {
       
     }
   };
-console.log(productData,"productData_____________")
   const onColorSet = (e: string) => setColor(e);
   const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
     setItemSize(e.target.value);
@@ -297,8 +328,8 @@ console.log(productData,"productData_____________")
               type="submit"
               onClick={() => AddtoCartHandler()}
               className="btn btn--rounded btn--yellow"
-            >
-              Add to cart
+            >{isLoading? "Adding to cart...":
+                  "Add to cart"}
             </button>
             <button
               type="button"

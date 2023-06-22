@@ -2,8 +2,10 @@ import Layout from "../../layouts/Main";
 import CheckoutStatus from "../../components/checkout-status";
 import CheckoutItems from "../../components/checkout/items/index";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+
 const CheckoutPage = () => {
-  // const router = useRouter()
+  const router = useRouter()
   const [data, setData] = useState([]);
   const [cartData, setCartData] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -46,9 +48,9 @@ const CheckoutPage = () => {
         }
         const response = await resp.json();
         if (response) {
-          var tempArr:any = [];
+          var tempArr: any = [];
           setCartData(response);
-          await response?.included?.map((item:any)=>{
+          await response?.included?.map((item: any) => {
             tempArr.push(item.id)
           })
           setItems(tempArr)
@@ -63,7 +65,7 @@ const CheckoutPage = () => {
     handleGetCart();
   }, []);
 
-  console.log(items,"cartData")
+  console.log(items, "cartData")
 
   const getCheckoutDetails = async () => {
     const authToken = localStorage.getItem("token");
@@ -117,7 +119,7 @@ const CheckoutPage = () => {
   }, [data]);
 
   const orderConfirm = async () => {
-    
+
     const orderData = {
       data: {
         type: "checkout",
@@ -146,7 +148,7 @@ const CheckoutPage = () => {
         },
       },
     };
-    console.log(orderData,"orderData")
+    console.log(orderData, "orderData")
     try {
       const resp = await fetch(
         `https://glue.de.faas-suite-prod.cloud.spryker.toys/checkout`,
@@ -165,19 +167,20 @@ const CheckoutPage = () => {
         window.location.href = "/login";
         return;
       }
-      console.log(resp,"resp_++_+_+_+_+")
       const response = await resp.json();
-      if (response) {
-        var tempArr:any = [];
-        setCartData(response);
-        await response?.included?.map((item:any)=>{
-          tempArr.push(item.id)
-        })
-        setItems(tempArr)
-        setIsLoading(false);
-      } else {
-        setIsLoading(false);
-      }
+      console.log("first-order-placed", response)
+      router.push(`/thank-you?orderId=${response.data.attributes.orderReference}`)
+      // if (response) {
+      //   var tempArr:any = [];
+      //   setCartData(response);
+      //   await response?.included?.map((item:any)=>{
+      //     tempArr.push(item.id)
+      //   })
+      //   setItems(tempArr)
+      //   setIsLoading(false);
+      // } else {
+      //   setIsLoading(false);
+      // }
     } catch (error) {
       setIsLoading(false);
     }
@@ -185,29 +188,29 @@ const CheckoutPage = () => {
 
   // console.log(shipmentMethods,"shipmentMethods",shipments,"shipments",selectedPayment,"paymentMethods")
   // console.log(selectedAddress,"addwe")
-const handlePaymentSeclection = async(id:any)=>{
-  paymentMethods?.map((item:any,index:number)=>{
-    if(item.id == id){
-      setSelectedPayment({
-        paymentMethodName:item?.attributes?.paymentMethodName,
-        paymentProviderName:item?.attributes?.paymentProviderName,
-        paymentSelection:item?.attributes?.priority || 1,
-      })
-    }
-  })
-}
-const handleAddressSeclection = async(id:any)=>{
-  addresses?.map((item:any,index:number)=>{
-    if(item.id == id){
-      setSelectedAddress({
-        ...item?.attributes,
-        id:item.id,
-       })
-    }
-  })
-}
-const handleShipmentSeclection = async(id:any)=>{
- setSelectedShipment(id)
+  const handlePaymentSeclection = async (id: any) => {
+    paymentMethods?.map((item: any, index: number) => {
+      if (item.id == id) {
+        setSelectedPayment({
+          paymentMethodName: item?.attributes?.paymentMethodName,
+          paymentProviderName: item?.attributes?.paymentProviderName,
+          paymentSelection: item?.attributes?.priority || 1,
+        })
+      }
+    })
+  }
+  const handleAddressSeclection = async (id: any) => {
+    addresses?.map((item: any, index: number) => {
+      if (item.id == id) {
+        setSelectedAddress({
+          ...item?.attributes,
+          id: item.id,
+        })
+      }
+    })
+  }
+  const handleShipmentSeclection = async (id: any) => {
+    setSelectedShipment(id)
   }
   return (
     <Layout>
@@ -218,57 +221,57 @@ const handleShipmentSeclection = async(id:any)=>{
             <CheckoutStatus step="checkout" />
           </div>
           <div className="checkout-content">
-            {data && shipmentMethods && paymentMethods &&shipments && addresses &&
-            <div className="checkout__col-6">
-              <div className="block">
-                <h3 className="block__title">Address information</h3>
-                <form className="form">
-                  <div className="form__input-row form__input-row--two">
-                    <div className="form__col">
-                      <div className="select-wrapper select-form">
-                        <select className="form__input form__input--sm" onChange={(e)=>handleAddressSeclection(e.target.value)}>
-                          <option>Select Address</option>
-                          {addresses.map((val: any) => {
-                            return (
-                              <option value={val.id}>
-                                {val.attributes.address1},{" "}
-                                {val.attributes.address2}, {val.attributes.city}
-                                , {val.attributes.company}, Country :{" "}
-                                {val.attributes.country}, Country Code :{" "}
-                                {val.attributes.iso2Code}, Phone:{" "}
-                                {val.attributes.phone}, ZIPCODE :
-                                {val.attributes.zipCode}
-                              </option>
-                            );
-                          })}
-                        </select>
+            {data && shipmentMethods && paymentMethods && shipments && addresses &&
+              <div className="checkout__col-6">
+                <div className="block">
+                  <h3 className="block__title">Address information</h3>
+                  <form className="form">
+                    <div className="form__input-row form__input-row--two">
+                      <div className="form__col">
+                        <div className="select-wrapper select-form">
+                          <select className="form__input form__input--sm" onChange={(e) => handleAddressSeclection(e.target.value)}>
+                            <option>Select Address</option>
+                            {addresses.map((val: any) => {
+                              return (
+                                <option value={val.id}>
+                                  {val.attributes.address1},{" "}
+                                  {val.attributes.address2}, {val.attributes.city}
+                                  , {val.attributes.company}, Country :{" "}
+                                  {val.attributes.country}, Country Code :{" "}
+                                  {val.attributes.iso2Code}, Phone:{" "}
+                                  {val.attributes.phone}, ZIPCODE :
+                                  {val.attributes.zipCode}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </form>
-              </div>
-              <div className="block">
-                <h3 className="block__title">Payment method</h3>
+                  </form>
+                </div>
+                <div className="block">
+                  <h3 className="block__title">Payment method</h3>
 
-                <form className="form">
-                  <div className="form__input-row form__input-row--two">
-                    <div className="form__col">
-                      <div className="select-wrapper select-form">
-                        <select className="form__input form__input--sm" onChange={(e)=>handlePaymentSeclection(e.target.value)}>
-                          <option>Select Payment Method</option>
-                          {paymentMethods.map((val: any) => {
-                            return (
-                              <option value={val.id}>
-                                {val.attributes.paymentMethodName}
-                              </option>
-                            );
-                          })}
-                        </select>
+                  <form className="form">
+                    <div className="form__input-row form__input-row--two">
+                      <div className="form__col">
+                        <div className="select-wrapper select-form">
+                          <select className="form__input form__input--sm" onChange={(e) => handlePaymentSeclection(e.target.value)}>
+                            <option>Select Payment Method</option>
+                            {paymentMethods.map((val: any) => {
+                              return (
+                                <option value={val.id}>
+                                  {val.attributes.paymentMethodName}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </form>
-                {/* <ul className="round-options round-options--three">
+                  </form>
+                  {/* <ul className="round-options round-options--three">
                   <li className="round-item">
                     <img src="/images/logos/paypal.png" alt="Paypal" />
                   </li>
@@ -288,31 +291,31 @@ const handleShipmentSeclection = async(id:any)=>{
                     <img src="/images/logos/ideal-logo.svg" alt="Paypal" />
                   </li>
                 </ul> */}
-              </div>
+                </div>
 
-              <div className="block">
-                <h3 className="block__title">Shipment method</h3>
-                <form className="form">
-                  <div className="form__input-row form__input-row--two">
-                    <div className="form__col">
-                      <div className="select-wrapper select-form">
-                        <select className="form__input form__input--sm" onChange={(e)=>handleShipmentSeclection(e.target.value)}>
-                          <option>Select Shipment Method</option>
-                          {shipmentMethods.map((val: any) => {
-                            return (
-                              <option value={val.id}>
-                                {val.attributes.name} &#91;
-                                {val.attributes.currencyIsoCode}-
-                                {val.attributes.price} &#93;
-                              </option>
-                            );
-                          })}
-                        </select>
+                <div className="block">
+                  <h3 className="block__title">Shipment method</h3>
+                  <form className="form">
+                    <div className="form__input-row form__input-row--two">
+                      <div className="form__col">
+                        <div className="select-wrapper select-form">
+                          <select className="form__input form__input--sm" onChange={(e) => handleShipmentSeclection(e.target.value)}>
+                            <option>Select Shipment Method</option>
+                            {shipmentMethods.map((val: any) => {
+                              return (
+                                <option value={val.id}>
+                                  {val.attributes.name} &#91;
+                                  {val.attributes.currencyIsoCode}-
+                                  {val.attributes.price} &#93;
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </form>
-                {/* <ul className="round-options round-options--two">
+                  </form>
+                  {/* <ul className="round-options round-options--two">
                   <li className="round-item round-item--bg">
                     <img src="/images/logos/inpost.svg" alt="Paypal" />
                     <p>$20.00</p>
@@ -330,8 +333,8 @@ const handleShipmentSeclection = async(id:any)=>{
                     <p>$10.00</p>
                   </li>
                 </ul> */}
-              </div>
-            </div>}
+                </div>
+              </div>}
 
             <div className="checkout__col-6">
               <div className="block">
@@ -347,8 +350,8 @@ const handleShipmentSeclection = async(id:any)=>{
                   </div>
                   <div>
                     <h3 style={{ paddingBottom: "12px" }}>{cartData?.data?.attributes?.totals?.subtotal}</h3>
-                    <h3 style={{ paddingBottom: "12px" }}>+ {cartData?.data?.attributes?.totals?.taxTotal }</h3>
-                    <h3 style={{ paddingBottom: "12px",color:'green' }}>-{cartData?.data?.attributes?.totals?.discountTotal}</h3>
+                    <h3 style={{ paddingBottom: "12px" }}>+ {cartData?.data?.attributes?.totals?.taxTotal}</h3>
+                    <h3 style={{ paddingBottom: "12px", color: 'green' }}>-{cartData?.data?.attributes?.totals?.discountTotal}</h3>
                     <h3 style={{ paddingBottom: "12px" }}> = {cartData?.data?.attributes?.totals?.priceToPay}</h3>
                   </div>
                 </div>
@@ -361,10 +364,7 @@ const handleShipmentSeclection = async(id:any)=>{
               <i className="icon-left"></i> Back
             </a>
             <div className="cart-actions__items-wrapper">
-              <button type="button" className="btn btn--rounded btn--border">
-                Continue shopping
-              </button>
-              <button type="button" className="btn btn--rounded btn--yellow" onClick={(e)=>orderConfirm()}>
+              <button type="button" className="btn btn--rounded btn--yellow" onClick={(e) => orderConfirm()}>
                 Proceed to payment
               </button>
             </div>

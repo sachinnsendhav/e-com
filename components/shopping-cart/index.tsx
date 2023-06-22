@@ -247,7 +247,7 @@ const ShoppingCart = () => {
         </div>
 
         <div className="cart-actions">
-          <a href="/products" className="cart__btn-back">
+          <a href="/" className="cart__btn-back">
             <i className="icon-left"></i> Continue Shopping
           </a>
           <input

@@ -88,6 +88,19 @@ const CheckoutPage = () => {
         body: JSON.stringify(data),
       }
     );
+    if (resp.status === 401) {
+      // Redirect to "/login" route
+      alert("Please Login");
+      window.location.href = "/login";
+      return;
+    }if (resp.status === 422) {
+    const response = await resp.json();
+console.log(response,"fdfsdsdf")
+      // Redirect to "/login" route
+      alert(response?.errors[0]?.detail);
+      // window.location.href = "/login";
+      return;
+    }
     const reslut = await resp.json();
     setData(reslut?.included);
   };
@@ -166,9 +179,17 @@ const CheckoutPage = () => {
         alert("Please Login");
         window.location.href = "/login";
         return;
+      }if (resp.status === 422) {
+      const response = await resp.json();
+console.log(response,"fdfsdsdf")
+        // Redirect to "/login" route
+        alert(response?.errors[0]?.detail);
+        // window.location.href = "/login";
+        return;
       }
       const response = await resp.json();
       console.log("first-order-placed", response)
+      localStorage.removeItem("cartId")
       router.push(`/thank-you?orderId=${response.data.attributes.orderReference}`)
       // if (response) {
       //   var tempArr:any = [];

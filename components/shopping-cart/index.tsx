@@ -20,6 +20,7 @@ const ShoppingCart = () => {
   const [cartItems, setCartItems] = useState<any>();
   const [cartPrductArr, setCartPrductArr] = useState<any>([]);
   const [cartPrductImgArr, setCartPrductImgArr] = useState<any>([]);
+  const [cartPrductAvableArr, setCartPrductAvableArr] = useState<any>([]);
   const [cartUpdated, setCartUpdated] = useState<number>(0);
 
   const priceTotal = () => {
@@ -29,6 +30,41 @@ const ShoppingCart = () => {
     }
     return totalPrice;
   };
+
+  const handlecart = async() =>{
+    try {
+      const resp = await fetch(
+        `https://glue.de.faas-suite-prod.cloud.spryker.toys/carts`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    
+      if (resp.status === 401) {
+        alert("Please Login")
+        window.location.href = "/login";
+        return;
+      }
+      console.log(resp,"resp_+_+_+_+_+")
+      const response = await resp.json();
+    
+      if (response) {
+        setCartUpdated(cartUpdated+1)
+        setIsLoading(false);
+        localStorage.setItem("cartId",response?.data[0].id)
+        cartId = response?.data[0].id;
+        return response?.data[0].id;
+      } else {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      setIsLoading(false);
+    }}
 
   useEffect(() => {
     const handleGetCart = async () => {
@@ -48,6 +84,10 @@ const ShoppingCart = () => {
           alert("Please Login")
           window.location.href = "/login";
           return;
+        } else  if (resp.status === 404) {
+          alert("Cart not found: checking")
+          await handlecart();
+          return;
         }
         const response = await resp.json();
         if (response) {
@@ -64,23 +104,25 @@ const ShoppingCart = () => {
       }
     };
     handleGetCart();
-  }, [cartUpdated]);
+  }, [cartUpdated,cartId]);
 
   useEffect(() => {
     const setCartData = async () => {
       const tempData: any = [];
       const tempImgData: any = [];
+      const tempAvalbData:any = [];
   
       await Promise.all(
         cartItems?.map(async (item: any, index: number) => {
           const result = await getProductDetails(item?.attributes?.sku);
-          const imgData = await getProductImage(item?.attributes?.sku);
+          const {imgData, avalibility} = await getProductImage(item?.attributes?.sku);
   
           tempData[index] = result?.data;
-          tempImgData[index] = imgData?.data[0]?.attributes?.imageSets[0]?.images[0]?.externalUrlSmall;
+          tempImgData[index] = imgData?.attributes?.imageSets[0]?.images[0]?.externalUrlSmall;
+          tempAvalbData[index] = avalibility?.attributes
         })
       );
-  
+      setCartPrductAvableArr(tempAvalbData);
       setCartPrductImgArr(tempImgData);
       setCartPrductArr(tempData);
     };
@@ -107,7 +149,7 @@ const ShoppingCart = () => {
   
   const getProductImage = async (productId: string) => {
     const img = await fetch(
-      `https://glue.de.faas-suite-prod.cloud.spryker.toys//concrete-products/${productId}/concrete-product-image-sets`,
+      `https://glue.de.faas-suite-prod.cloud.spryker.toys//concrete-products/${productId}?include=concrete-product-image-sets%2cconcrete-product-availabilities`,
       {
         method: "GET",
         headers: {
@@ -116,7 +158,7 @@ const ShoppingCart = () => {
       }
     );
     const imgData = await img.json();
-    return imgData;
+    return {imgData:imgData?.included[0], avalibility:imgData?.included[1]};
   };
   
   const setProductCount = async(count: number,pliId:string, id:string) => {
@@ -152,6 +194,10 @@ const ShoppingCart = () => {
         alert("Please Login")
         window.location.href = "/login";
         return;
+      } else  if (resp.status === 404) {
+        alert("Cart not found: checking")
+        await handlecart();
+        return;
       }
       const response = await resp.json();
       if (response) {
@@ -186,6 +232,10 @@ const ShoppingCart = () => {
         alert("Please Login");
         setIsLoading(false);
         window.location.href = "/login";
+        return;
+      } else  if (resp.status === 404) {
+        alert("Cart not found: checking")
+        await handlecart();
         return;
       }
       if (resp.status == 204) {
@@ -230,6 +280,7 @@ const ShoppingCart = () => {
                     pliId={item.id}
                     id={cartPrductArr[Index]?.id}
                     thumb={cartPrductImgArr[Index]}
+                    avalibility={cartPrductAvableArr[Index]}
                     name={cartPrductArr[Index]?.attributes?.name}
                     color={item.color}
                     price={item.attributes?.calculations?.unitPrice}

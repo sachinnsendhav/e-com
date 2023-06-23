@@ -37,7 +37,7 @@ const Content = (product: any) => {
     setVariationIdData(product?.product?.attributeMap?.product_concrete_ids);
   }, [product]);
 
-  useEffect(()=>{
+  // useEffect(()=>{
     const handlecart = async() =>{
     try {
       const resp = await fetch(
@@ -62,6 +62,8 @@ const Content = (product: any) => {
       if (response) {
         setIsLoading(false);
         localStorage.setItem("cartId",response?.data[0].id)
+        cartId = response?.data[0].id;
+        return response?.data[0].id;
        console.log(response?.data[0].id,"response_+_+_+_+_+")
       } else {
         setIsLoading(false);
@@ -70,8 +72,8 @@ const Content = (product: any) => {
       console.error("Error adding to cart:", error);
       setIsLoading(false);
     }}
-    handlecart();
-  },[])
+    // handlecart();
+  // },[])
 
   useEffect(() => {
     if (productData) {
@@ -131,7 +133,7 @@ const Content = (product: any) => {
     handlerfunction();
   }, [productData]);
   const AddtoCartHandler = async () => {
-    if (variationData && variationData[1]) {
+    if (variationData && variationData[1] ) {
       if (selectedId) {
         var productSkuId = "";
         await variationIdData?.map((item: any, index: Number) => {
@@ -145,7 +147,9 @@ const Content = (product: any) => {
     } else {
       productSkuId = variationIdData[0];
     }
-    if (productSkuId) {
+   
+    if (productSkuId && await checkCartExist()) {
+      if(cartId){
       const productCart = {
         data: {
           type: "items",
@@ -184,8 +188,13 @@ const Content = (product: any) => {
         const response = await resp.json();
       
         if (response) {
+          console.log(response,"sdfnjksdfnsdjnfksjdnfksjn")
+          if(response.errors){
+            alert(response.errors[0]?.detail)
+          }else{
+            alert("Added to cart");
+          }
           setIsLoading(false);
-          alert("Added to cart");
         } else {
           setIsLoading(false);
         }
@@ -194,6 +203,9 @@ const Content = (product: any) => {
         setIsLoading(false);
       }
       
+    }else {
+      AddtoCartHandler()
+    }
     }
   };
   const onColorSet = (e: string) => setColor(e);
@@ -232,6 +244,50 @@ const Content = (product: any) => {
 
     dispatch(addProduct(productStore));
   };
+
+  const checkCartExist = async() =>{
+    if(localStorage.getItem('cartId')){
+      const handleGetCart = async () => {
+        try {
+          const resp = await fetch(
+            `https://glue.de.faas-suite-prod.cloud.spryker.toys/carts/${cartId}`,
+            {
+              method: "GET",
+              headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          if (resp.status === 401) {
+            // Redirect to "/login" route
+            alert("Please Login")
+            window.location.href = "/login";
+            return;
+          } else  if (resp.status === 404) {
+            const cartIdtemp = await handlecart();
+            // window.location.href = "/";
+            return cartIdtemp;
+          }
+          const response = await resp.json();
+          if (response) {
+            console.log(response,"response")
+            setIsLoading(false);
+          } else {
+            console.log(resp,"resp")
+            setIsLoading(false);
+          }
+        } catch (error) {
+          console.log(error,"err")
+          setIsLoading(false);
+        }
+      };
+      handleGetCart();
+    } else {
+      await handlecart()
+    }
+    return true;
+  }
 
   return (
     <section className="product-content">

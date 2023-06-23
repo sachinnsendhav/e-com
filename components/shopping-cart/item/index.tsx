@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ProductStoreType } from 'types';
 
-const ShoppingCart = ({ thumb, name,pliId, id, color, size, count, price,setProductCount,removeProductFromCart }: ProductStoreType) => {
+const ShoppingCart = ({ thumb, name,pliId, id, avalibility, size, count, price,setProductCount,removeProductFromCart }: ProductStoreType) => {
   var token:any;
   var cartId:any;
   if (typeof window !== 'undefined') {
@@ -21,7 +21,10 @@ const ShoppingCart = ({ thumb, name,pliId, id, color, size, count, price,setProd
           <div className="cart-product__content">
             <h3>{name}</h3>
             <p>#{id}</p>
-            {pliId}
+            <p>{pliId}</p>
+            {/* {console.log(avalibility,"avaaaa_____")} */}
+            <p>{avalibility?.availability? <span style={{color:'green'}}>In Stock</span>:<span style={{color:'red'}}>out of stock</span>}</p>
+            <p>{avalibility?.isNeverOutOfStock? '':<span style={{color:'red'}}>only {avalibility?.quantity} avalibility</span>}</p>
           </div>
         </div>
       </td>

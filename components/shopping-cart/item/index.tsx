@@ -20,11 +20,11 @@ const ShoppingCart = ({ thumb, name,pliId, id, avalibility, size, count, price,s
 
           <div className="cart-product__content">
             <h3>{name}</h3>
-            <p>#{id}</p>
-            <p>{pliId}</p>
+            {/* <p>#{id}</p> */}
+            {/* <p>{pliId}</p> */}
             {/* {console.log(avalibility,"avaaaa_____")} */}
             <p>{avalibility?.availability? <span style={{color:'green'}}>In Stock</span>:<span style={{color:'red'}}>out of stock</span>}</p>
-            <p>{avalibility?.isNeverOutOfStock? '':<span style={{color:'red'}}>only {avalibility?.quantity} avalibility</span>}</p>
+            {/* <p>{avalibility?.isNeverOutOfStock? '':<span style={{color:'red'}}>only {avalibility?.quantity} avalibility</span>}</p> */}
           </div>
         </div>
       </td>
@@ -41,7 +41,7 @@ const ShoppingCart = ({ thumb, name,pliId, id, avalibility, size, count, price,s
           </button>
         </div>
       </td>
-      <td>${price}</td>
+      <td>&euro; {price}</td>
       <td className="cart-item-cancel"><i className="icon-cancel" onClick={() => removeProductFromCart(pliId)}></i></td>
     </tr>
   )

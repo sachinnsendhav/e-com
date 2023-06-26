@@ -336,24 +336,6 @@ console.log(response,"fdfsdsdf")
                       </div>
                     </div>
                   </form>
-                  {/* <ul className="round-options round-options--two">
-                  <li className="round-item round-item--bg">
-                    <img src="/images/logos/inpost.svg" alt="Paypal" />
-                    <p>$20.00</p>
-                  </li>
-                  <li className="round-item round-item--bg">
-                    <img src="/images/logos/dpd.svg" alt="Paypal" />
-                    <p>$12.00</p>
-                  </li>
-                  <li className="round-item round-item--bg">
-                    <img src="/images/logos/dhl.svg" alt="Paypal" />
-                    <p>$15.00</p>
-                  </li>
-                  <li className="round-item round-item--bg">
-                    <img src="/images/logos/maestro.png" alt="Paypal" />
-                    <p>$10.00</p>
-                  </li>
-                </ul> */}
                 </div>
               </div>}
 
@@ -370,10 +352,10 @@ console.log(response,"fdfsdsdf")
                     <p style={{ paddingBottom: "12px" }}>Total cost</p>
                   </div>
                   <div>
-                    <h3 style={{ paddingBottom: "12px" }}>{cartData?.data?.attributes?.totals?.subtotal}</h3>
-                    <h3 style={{ paddingBottom: "12px" }}>+ {cartData?.data?.attributes?.totals?.taxTotal}</h3>
-                    <h3 style={{ paddingBottom: "12px", color: 'green' }}>-{cartData?.data?.attributes?.totals?.discountTotal}</h3>
-                    <h3 style={{ paddingBottom: "12px" }}> = {cartData?.data?.attributes?.totals?.priceToPay}</h3>
+                    <h3 style={{ paddingBottom: "12px" }}> &euro; {cartData?.data?.attributes?.totals?.subtotal}</h3>
+                    <h3 style={{ paddingBottom: "12px" }}>+ &euro;  {cartData?.data?.attributes?.totals?.taxTotal}</h3>
+                    <h3 style={{ paddingBottom: "12px", color: 'green' }}>- &euro; {cartData?.data?.attributes?.totals?.discountTotal}</h3>
+                    <h3 style={{ paddingBottom: "12px" }}> = &euro; {cartData?.data?.attributes?.totals?.priceToPay}</h3>
                   </div>
                 </div>
               </div>

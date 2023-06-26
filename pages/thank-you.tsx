@@ -22,7 +22,7 @@ function ThankYouPage() {
             <div style={{ display: "flex", textAlign: "center", margin: "auto", width: "60%" }}>
                 <h1 style={{ textAlign: "center", paddingTop: "20px", fontSize: "24px" }}>Thank You! Your order Successfull, your Order ID is :-</h1>
                 <Link href={`/order-details/${orderId}`}>
-                    <a style={{ textAlign: "center", paddingTop: "20px", fontSize: "24px" }}>{orderId}</a></Link>
+                    <a style={{ textAlign: "center", paddingTop: "20px", fontSize: "24px", paddingLeft:"5px" }}> {orderId}</a></Link>
             </div>
             <div style={{ width: "60%", margin: "auto", paddingTop: '50px' }}>
                 <a href="/" className="cart__btn-back">

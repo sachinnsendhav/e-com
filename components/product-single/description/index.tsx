@@ -5,6 +5,7 @@ type ProductDescriptionType = {
 const Description = ({ show }: ProductDescriptionType) => {
   const style = {
     display: show ? 'flex' : 'none',
+    paddingTop:"25px"
   }
 
   return (

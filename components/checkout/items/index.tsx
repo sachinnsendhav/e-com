@@ -122,7 +122,7 @@ const CheckoutItems = () => {
               <h3>{cartPrductArr[Index]?.attributes?.name}</h3>
             </div>
           </div>
-          <h3>${item.attributes?.calculations?.unitPrice*item?.attributes?.quantity}</h3>
+          <h3>&euro; {item.attributes?.calculations?.unitPrice*item?.attributes?.quantity}</h3>
         </li>
       ))}
     </ul>

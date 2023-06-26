@@ -11,7 +11,6 @@ const Orders = ({ show }: AddressType) => {
   }
   const [authToken, setAuthToken] = useState<any>()
   const [order, setOrder] = useState([]);
-  const [orderData, setOrderData] = useState<any[]>([]);
   useEffect(() => {
     setAuthToken(localStorage.getItem('token'))
   }, [])
@@ -39,30 +38,17 @@ const Orders = ({ show }: AddressType) => {
     getOrder()
   }, [authToken])
 
-  // useEffect(() => {
-  //   setOrderData([])
-  //   if (order?.length > 0) {
-  //     order?.forEach((element: any) => {
-  //       getOrderData(element.id)
-  //     });
-  //   }
-  // }, [order])
-  // console.log("final order data", orderData)
   return (
     <section style={style}>
-      <div style={{
-        display: "flex",
-        flexWrap: "wrap",
-        marginRight: "-15px"
-      }}>
+      {/* <div style={{ width: "100%" }}>
         {order.length > 0 ? order.map((item: any) => {
           return (
             <Link href={`/order-details/${item.id}`}>
               <div style={{
-                marginRight: "63px",
-                marginBottom: "85px",
-                width: "calc(33.3333333333% - 63px)",
+                marginBottom: "20px",
                 border: "1px solid #7f7f7f",
+                width: "50%",
+                margin: "auto",
                 borderRadius: "10px",
               }}>
                 <div style={{ display: "flex", justifyContent: "space-around", padding: "10px" }}>
@@ -77,6 +63,31 @@ const Orders = ({ show }: AddressType) => {
             </Link>
           )
         }) : null}
+      </div> */}
+
+
+      <div className="cart-list" style={{width:"60%", margin:"auto"}}>
+        <table>
+          <tbody >
+            <tr style={{border:"1px solid black" }}>
+              <th style={{  color: "black",paddingTop:"20px" }}>Order Id</th>
+              <th style={{ color: "black",paddingTop:"20px" }}> Status</th>
+              <th style={{ color: "black",paddingTop:"20px" }}>Create Date</th>
+              <th style={{ color: "black",paddingTop:"20px" }}>Amount</th>
+              <th style={{ color: "black",paddingTop:"20px" }}>Details</th>
+            </tr>
+            {order.length > 0 ? order.map((item: any) => {
+              return (
+                <tr style={{border:"1px solid black"}}>
+                  <td>{item.id}</td>
+                  <td>{item.attributes.itemStates[0]}</td>
+                  <td>{item.attributes.createdAt.split(' ')[0]}</td>
+                  <td> &euro; {item.attributes.totals.grandTotal}</td>
+                  <td > <Link href={`/order-details/${item.id}`}><a style={{border:"1px solid black", borderRadius:"5px", padding:"5px"}}>Show</a></Link></td>
+                </tr>)
+            }) : null}
+          </tbody>
+        </table>
       </div>
     </section>
   )

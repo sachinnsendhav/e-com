@@ -12,12 +12,12 @@ import { RootState } from "store";
 const Content = (product: any) => {
   const dispatch = useDispatch();
 
-  var cartId:any;
-  var token:any;
+  var cartId: any;
+  var token: any;
   if (typeof window !== 'undefined') {
     // Code running in the browser
     cartId = localStorage.getItem("cartId")
-     token = localStorage.getItem("token");
+    token = localStorage.getItem("token");
   }
   const [count, setCount] = useState<number>(1);
   const [color, setColor] = useState<string>("");
@@ -38,7 +38,7 @@ const Content = (product: any) => {
   }, [product]);
 
   // useEffect(()=>{
-    const handlecart = async() =>{
+  const handlecart = async () => {
     try {
       const resp = await fetch(
         `https://glue.de.faas-suite-prod.cloud.spryker.toys/carts`,
@@ -50,29 +50,30 @@ const Content = (product: any) => {
           },
         }
       );
-    
+
       if (resp.status === 401) {
         alert("Please Login")
         window.location.href = "/login";
         return;
       }
-      console.log(resp,"resp_+_+_+_+_+")
+      console.log(resp, "resp_+_+_+_+_+")
       const response = await resp.json();
-    
+
       if (response) {
         setIsLoading(false);
-        localStorage.setItem("cartId",response?.data[0].id)
+        localStorage.setItem("cartId", response?.data[0].id)
         cartId = response?.data[0].id;
         return response?.data[0].id;
-       console.log(response?.data[0].id,"response_+_+_+_+_+")
+        console.log(response?.data[0].id, "response_+_+_+_+_+")
       } else {
         setIsLoading(false);
       }
     } catch (error) {
       console.error("Error adding to cart:", error);
       setIsLoading(false);
-    }}
-    // handlecart();
+    }
+  }
+  // handlecart();
   // },[])
 
   useEffect(() => {
@@ -123,8 +124,8 @@ const Content = (product: any) => {
           }
         );
         setVariationData(tempVar);
-        Object.keys(productData?.attributeMap?.super_attributes)?.map((item1:any,index:number)=>{
-          if(index == 0){
+        Object.keys(productData?.attributeMap?.super_attributes)?.map((item1: any, index: number) => {
+          if (index == 0) {
             setVariationKey(item1)
           }
         })
@@ -133,7 +134,7 @@ const Content = (product: any) => {
     handlerfunction();
   }, [productData]);
   const AddtoCartHandler = async () => {
-    if (variationData && variationData[1] ) {
+    if (variationData && variationData[1]) {
       if (selectedId) {
         var productSkuId = "";
         await variationIdData?.map((item: any, index: Number) => {
@@ -142,70 +143,70 @@ const Content = (product: any) => {
           }
         });
       } else {
-        return alert("select Varint");
+        return alert("select Variant");
       }
     } else {
       productSkuId = variationIdData[0];
     }
-   
+
     if (productSkuId && await checkCartExist()) {
-      if(cartId){
-      const productCart = {
-        data: {
-          type: "items",
-          attributes: {
-            sku: productSkuId,
-            quantity: count,
-            salesUnit: {
-              id: 0,
-              amount: 0,
+      if (cartId) {
+        const productCart = {
+          data: {
+            type: "items",
+            attributes: {
+              sku: productSkuId,
+              quantity: count,
+              salesUnit: {
+                id: 0,
+                amount: 0,
+              },
+              productOptions: [null],
             },
-            productOptions: [null],
           },
-        },
-      };
-      setIsLoading(true);
-      try {
-        const resp = await fetch(
-          `https://glue.de.faas-suite-prod.cloud.spryker.toys/carts/${cartId}/items`,
-          {
-            method: "POST",
-            body: JSON.stringify(productCart),
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${token}`,
-            },
+        };
+        setIsLoading(true);
+        try {
+          const resp = await fetch(
+            `https://glue.de.faas-suite-prod.cloud.spryker.toys/carts/${cartId}/items`,
+            {
+              method: "POST",
+              body: JSON.stringify(productCart),
+              headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (resp.status === 401) {
+            // Redirect to login page
+            alert("Please Login")
+            window.location.href = "/login";
+            return;
           }
-        );
-      
-        if (resp.status === 401) {
-          // Redirect to login page
-          alert("Please Login")
-          window.location.href = "/login";
-          return;
-        }
-      
-        const response = await resp.json();
-      
-        if (response) {
-          console.log(response,"sdfnjksdfnsdjnfksjdnfksjn")
-          if(response.errors){
-            alert(response.errors[0]?.detail)
-          }else{
-            alert("Added to cart");
+
+          const response = await resp.json();
+
+          if (response) {
+            console.log(response, "sdfnjksdfnsdjnfksjdnfksjn")
+            if (response.errors) {
+              alert(response.errors[0]?.detail)
+            } else {
+              alert("Added to cart");
+            }
+            setIsLoading(false);
+          } else {
+            setIsLoading(false);
           }
-          setIsLoading(false);
-        } else {
+        } catch (error) {
+          console.error("Error adding to cart:", error);
           setIsLoading(false);
         }
-      } catch (error) {
-        console.error("Error adding to cart:", error);
-        setIsLoading(false);
+
+      } else {
+        AddtoCartHandler()
       }
-      
-    }else {
-      AddtoCartHandler()
-    }
     }
   };
   const onColorSet = (e: string) => setColor(e);
@@ -245,8 +246,8 @@ const Content = (product: any) => {
     dispatch(addProduct(productStore));
   };
 
-  const checkCartExist = async() =>{
-    if(localStorage.getItem('cartId')){
+  const checkCartExist = async () => {
+    if (localStorage.getItem('cartId')) {
       const handleGetCart = async () => {
         try {
           const resp = await fetch(
@@ -264,21 +265,21 @@ const Content = (product: any) => {
             alert("Please Login")
             window.location.href = "/login";
             return;
-          } else  if (resp.status === 404) {
+          } else if (resp.status === 404) {
             const cartIdtemp = await handlecart();
             // window.location.href = "/";
             return cartIdtemp;
           }
           const response = await resp.json();
           if (response) {
-            console.log(response,"response")
+            console.log(response, "response")
             setIsLoading(false);
           } else {
-            console.log(resp,"resp")
+            console.log(resp, "resp")
             setIsLoading(false);
           }
         } catch (error) {
-          console.log(error,"err")
+          console.log(error, "err")
           setIsLoading(false);
         }
       };
@@ -293,7 +294,7 @@ const Content = (product: any) => {
     <section className="product-content">
       <div className="product-content__intro">
         <h5 className="product__id">
-          Product ID:<br></br>
+          Product ID:&nbsp;
           {productData?.sku}
         </h5>
         <span className="product-on-sale">Sale</span>
@@ -323,34 +324,34 @@ const Content = (product: any) => {
             ))}
           </div>
         </div> */}
-{productData && 
-<div style={{display:"flex",marginBottom:"2rem"}}>
-        <div style={{display:"flex",flexDirection:"column"}}>
-          {Object.keys(productData?.attributes)?.map(
-            (item, index) => {
-              return <span key={index}>{item}</span>;
-            }
-          )}
-        </div>
-        <div style={{display:"flex",flexDirection:"column"}}>
-          {Object.keys(productData?.attributes)?.map(
-            (item, index) => {
-              return (
-                <span key={index}>
-                  : {productData?.attributes[item]}
-                </span>
-              );
-            }
-          )}
-        </div>
-        </div>}
+        {productData &&
+          <div style={{ display: "flex", marginBottom: "2rem" }}>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              {Object.keys(productData?.attributes)?.map(
+                (item, index) => {
+                  return <span key={index}>{item}</span>;
+                }
+              )}
+            </div>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              {Object.keys(productData?.attributes)?.map(
+                (item, index) => {
+                  return (
+                    <span key={index}>
+                      : {productData?.attributes[item]}
+                    </span>
+                  );
+                }
+              )}
+            </div>
+          </div>}
         {variationData && variationData[1] && (
           <div className="product-filter-item">
             <h5>Variants : </h5>
             <div className="checkbox-color-wrapper">
               <div className="select-wrapper">
                 <select onChange={(e) => setSelectedId(e.target.value)}>
-                  <option>Choose {variationKey? variationKey:"any option"}</option>
+                  <option>Choose {variationKey ? variationKey : "any option"}</option>
                   {variationData?.map((item: any) => (
                     <option value={item.id}>{item.title}</option>
                   ))}
@@ -384,8 +385,8 @@ const Content = (product: any) => {
               type="submit"
               onClick={() => AddtoCartHandler()}
               className="btn btn--rounded btn--yellow"
-            >{isLoading? "Adding to cart...":
-                  "Add to cart"}
+            >{isLoading ? "Adding to cart..." :
+              "Add to cart"}
             </button>
             <button
               type="button"

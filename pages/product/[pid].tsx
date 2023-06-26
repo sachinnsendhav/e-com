@@ -73,8 +73,8 @@ const Product = () => {
               <button type="button" onClick={() => setShowBlock('description')} className={`btn btn--rounded ${showBlock === 'description' ? 'btn--active' : ''}`}>Description</button>
               {/* <button type="button" onClick={() => setShowBlock('reviews')} className={`btn btn--rounded ${showBlock === 'reviews' ? 'btn--active' : ''}`}>Reviews (2)</button> */}
             </div>
-            <div>{product?.description}</div>
-            <Description show={showBlock === 'description'} />
+            <p style={{fontFamily:"inherit", letterSpacing:"1px", lineHeight:"25px"}}>{product?.description}</p>
+            {/* <Description show={showBlock === 'description'} /> */}
             {/* <Reviews product={product} show={showBlock === 'reviews'} /> */}
           </div>
         </div>

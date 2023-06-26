@@ -266,11 +266,11 @@ const ShoppingCart = () => {
             <table>
               <tbody>
                 <tr>
-                  <th style={{ textAlign: "left" }}>Product</th>
+                  <th style={{ textAlign: "left", color:"black" }}>Product</th>
                   <th> </th>
                   <th> </th>
-                  <th>Quantity</th>
-                  <th>Price</th>
+                  <th style={{color:"black"}}>Quantity</th>
+                  <th style={{color:"black"}}>Price</th>
                   <th></th>
                 </tr>
 
@@ -309,7 +309,7 @@ const ShoppingCart = () => {
 
           <div className="cart-actions__items-wrapper">
             <p className="cart-actions__total">
-              Total cost <strong>{cartData?.data?.attributes?.totals?.priceToPay}</strong>
+              Total cost <strong>&euro;  {cartData?.data?.attributes?.totals?.priceToPay}</strong>
             </p>
             <a href="/cart/checkout" className="btn btn--rounded btn--yellow">
               Checkout

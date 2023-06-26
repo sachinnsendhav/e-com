@@ -4,8 +4,16 @@ import ProductsFeatured from '../components/products-featured';
 import Footer from '../components/footer';
 import Subscribe from '../components/subscribe';
 import { useEffect, useState } from 'react'
+import Link from 'next/link';
 const IndexPage = () => {
   const [cmsData, setCmsData] = useState()
+  const [authToken, setAuthToken] = useState("");
+  const [product, setProduct] = useState<any[]>([])
+  const [productData, setProductData] = useState<any[]>([])
+  useEffect(() => {
+    setAuthToken(localStorage.getItem("token"))
+  }, [])
+
   // const getCmsData = async () => {
   //   const resp = await fetch(
   //     `https://api.contentful.com/spaces/b7hw33ucy3y5/environments/master/entries`,
@@ -23,7 +31,6 @@ const IndexPage = () => {
   //     }
   //   });
   // }
-  console.log("cms-data", cmsData)
 
   const fetchData = async () => {
     const url = 'https://graphql.contentful.com/content/v1/spaces/b7hw33ucy3y5/environments/master';
@@ -76,12 +83,52 @@ const IndexPage = () => {
     }
   };
 
-  // Call the fetchData function to make the API request
+  const getRelatedProduct = async () => {
+    const resp = await fetch('https://glue.de.faas-suite-prod.cloud.spryker.toys/abstract-products/110/related-products', {
+      method: 'GET',
+      headers: {
+        authorization: `Bearer ${authToken}`
+      }
+    });
+    const result = await resp.json();
+    setProduct(result?.data)
+  }
+
+  const getProductDetails = async (id: any) => {
+    const resp = await fetch(`https://glue.de.faas-suite-prod.cloud.spryker.toys/concrete-products/${id}?include=concrete-product-availabilities%2Cconcrete-product-image-sets%2Cconcrete-product-prices`, {
+      method: 'GET',
+      headers: {
+        authorization: `Bearer ${authToken}`
+      }
+    });
+    const result = await resp.json();
+    console.log("resultt-:", result)
+    setProductData((productData) => [...productData, {
+      name: result.data.attributes.name,
+      id: result.data.id,
+      image: result.included[0]?.attributes?.imageSets[0]?.images[0]?.externalUrlLarge,
+      price: result.included[2]?.attributes?.price
+    }])
+  }
 
   useEffect(() => {
     fetchData();
-    // getCmsData()
   }, [])
+
+  useEffect(() => {
+    getRelatedProduct();
+  }, [authToken])
+
+  useEffect(() => {
+    setProductData([])
+    if (product?.length > 0) {
+      product.forEach((element: any) => {
+        getProductDetails(element.attributes.attributeMap.product_concrete_ids[0])
+      });
+    }
+  }, [product])
+
+  console.log("concrete--->>>", productData)
 
   return (
     <Layout>
@@ -134,6 +181,26 @@ const IndexPage = () => {
           </div>
         </section>
       </> : null}
+      <h1 style={{ fontSize: "24px", fontWeight: "bold", paddingInline: "100px", color: "#7f7f7f" }}>
+        Recommended Products</h1>
+      <div style={{ display: "flex", overflowX: "scroll", marginInline: "100px", marginBottom:"20px" }}>
+        {
+          productData.map((item: any) => {
+            return (
+              <div style={{ padding: "5px" }}>
+                <Link href={`/product/${item.name}?skuId=${item.id.split('_')[0]}`}>
+                  <div style={{ padding: "5px" }}>
+                    <img src={item.image} style={{ width: "220px", height: "250px", objectFit: "contain" }} />
+                    <p style={{ paddingLeft: "10px" }}>{item.name}</p>
+                    <p style={{ fontWeight: "bold", paddingTop: "5px", paddingLeft: "10px" }}>&euro; {item.price}</p>
+                  </div>
+                </Link>
+              </div>
+            )
+          })
+        }
+      </div>
+
       {/* <ProductsFeatured /> */}
       <Subscribe />
       <Footer />

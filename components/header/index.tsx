@@ -20,6 +20,12 @@ const Header = ({ isErrorPage }: HeaderType) => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchText, setSearchText] = useState()
   const [category, setCategory] = useState([])
+  const [authStatus, setAuthStatus] = useState("false")
+  const [authToken, setAuthToken] = useState("");
+  useEffect(() => {
+    setAuthStatus(localStorage.getItem("status"));
+    setAuthToken(localStorage.getItem("token"))
+  }, [])
   const navRef = useRef(null);
   const searchRef = useRef(null);
 
@@ -69,6 +75,51 @@ const Header = ({ isErrorPage }: HeaderType) => {
     getCategory();
   }, [])
 
+  const checkTokenExpiry = async () => {
+    if (authToken) {
+      const data =
+      {
+        "data": {
+          "type": "access-tokens",
+          "attributes": {
+            "username": "sonia@spryker.com",
+            "password": "change123"
+          }
+        }
+      }
+      try {
+        const resp = await fetch(
+          `https://glue.de.faas-suite-prod.cloud.spryker.toys/access-tokens`,
+          {
+            method: 'POST',
+            headers: {
+              "Authorization": `Bearer ${authToken}`
+            },
+            body: JSON.stringify(data),
+          },
+        );
+        const result = await resp.json();
+        if (result?.data?.attributes?.accessToken) {
+          localStorage.setItem("status", "true")
+          localStorage.setItem("token", result?.data?.attributes?.accessToken)
+        } else {
+          localStorage.setItem("status", "false")
+        }
+      } catch (err) {
+        console.log("errr", err)
+        localStorage.setItem("status", "false")
+      }
+    } else {
+      localStorage.setItem("status", "false")
+    }
+
+  }
+
+
+  useEffect(() => {
+    checkTokenExpiry();
+  }, [authToken])
+  console.log("first, authStatus", authStatus)
   return (
     <header className={`site-header ${!onTop ? 'site-header--fixed' : ''}`}>
       <div className="container">
@@ -107,7 +158,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
               }
             </button>
           </Link>
-          <Link href="/login">
+          <Link href={authStatus === "true" ? "/profile" : "/login"}>
             <button className="site-header__btn-avatar"><i className="icon-avatar"></i></button>
           </Link>
           <button

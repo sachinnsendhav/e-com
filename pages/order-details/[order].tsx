@@ -36,7 +36,8 @@ function orderDetailsPage() {
     console.log("orderData", orderData)
     useEffect(() => {
         getOrderData()
-    }, [orderId])
+    }, [orderId, authToken])
+    console.log("first--->>>>>>>>>>>>orderId",orderId)
 
     return (
         <Layout>

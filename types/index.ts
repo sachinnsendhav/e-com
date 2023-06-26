@@ -43,6 +43,7 @@ export type ProductStoreType = {
   pliId:string;
   name: string;
   thumb: string;
+  avalibility:any;
   price: number;
   count: number;
   color: string;

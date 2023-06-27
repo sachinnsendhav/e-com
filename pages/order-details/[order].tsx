@@ -26,8 +26,7 @@ function orderDetailsPage() {
                     orderDetail.id = orderId
                     setOrderData((orderData) => [...orderData, orderDetail])
                 } catch {
-                    setOrderData([])
-                    // router.push("/proifle")
+                    router.push("/login")
                 }
             }
 
@@ -91,11 +90,35 @@ function orderDetailsPage() {
                                             <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Zip code</p><p>{orderData[0].billingAddress.zipCode} </p>
                                         </div>
                                         <div style={{ display: "flex" }}>
-                                            <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Phone No.</p><p>{orderData[0].billingAddress.phone} </p>
+                                            <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Phone No.</p>
+                                            <p>{orderData[0].billingAddress.phone} </p>
                                         </div>
                                         <div style={{ display: "flex" }}>
                                             <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Salutation</p><p>{orderData[0].billingAddress.salutation} </p>
                                         </div>
+                                    </div>
+
+                                    <h1 style={{ paddingTop: "10px" }}>Payment Details</h1>
+                                    <div style={{ display: "flex" }}>
+                                        <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Discount Total</p>
+                                        <p style={{ fontWeight: "bold" }}>&euro;{orderData[0].totals.discountTotal} </p>
+                                    </div>
+                                    <div style={{ display: "flex" }}>
+                                        <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Expense Total</p>
+                                        <p style={{ fontWeight: "bold" }}>&euro;{orderData[0].totals.expenseTotal} </p>
+                                    </div>
+                                    <div style={{ display: "flex" }}>
+                                        <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Tax Total</p>
+                                        <p style={{ fontWeight: "bold" }}>&euro;{orderData[0].totals.taxTotal} </p>
+                                    </div>
+
+                                    <div style={{ display: "flex" }}>
+                                        <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Sub total</p>
+                                        <p style={{ fontWeight: "bold" }}>&euro;{orderData[0].totals.subtotal} </p>
+                                    </div>
+                                    <div style={{ display: "flex" }}>
+                                        <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Grand Total</p>
+                                        <p style={{ fontWeight: "bold" }}>&euro;{orderData[0].totals.grandTotal} </p>
                                     </div>
                                 </div>
 
@@ -104,8 +127,8 @@ function orderDetailsPage() {
 
                                 </div>
                             </div>
-                            <div style={{ padding: "10px", borderTop: "1px solid #7f7f7f", display: "flex", justifyContent: "space-between" }}>
-                                <div style={{ fontWeight: "bold" }}>Item Status : {orderData[0].itemStates[0]}</div><div style={{ fontWeight: "bold" }}> Total Amount : {orderData[0]?.totals.grandTotal}</div>
+                            <div style={{ padding: "10px", display: "flex", justifyContent: "space-between" }}>
+                                <div style={{ fontWeight: "bold" }}>Item Status : {orderData[0].itemStates[0]}</div><div style={{ fontWeight: "bold" }}> Total Amount : &euro; {orderData[0]?.totals.grandTotal}</div>
                             </div>
                         </div>
                     </div>

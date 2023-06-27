@@ -10,6 +10,7 @@ import Content from '../../components/product-single/content';
 import Description from '../../components/product-single/description';
 import Reviews from '../../components/product-single/reviews';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const Product = () => {
   const router = useRouter();
@@ -18,6 +19,12 @@ const Product = () => {
   const [showBlock, setShowBlock] = useState('description');
   const [product, setProduct] = useState<any>()
   const [img, setImg] = useState()
+  const [authToken, setAuthToken] = useState("");
+  const [productIds, setProductIds] = useState<any[]>([])
+  const [productData, setProductData] = useState<any[]>([])
+  useEffect(() => {
+    setAuthToken(localStorage.getItem("token"))
+  }, [])
 
   const getProductDetails = async () => {
     try {
@@ -57,6 +64,53 @@ const Product = () => {
       getProductDetails()
     }
   }, [productId])
+
+  // related product
+
+  const getRelatedProduct = async (id: any) => {
+    const resp = await fetch(`https://glue.de.faas-suite-prod.cloud.spryker.toys/abstract-products/${id}/related-products`, {
+      method: 'GET',
+      headers: {
+        authorization: `Bearer ${authToken}`
+      }
+    });
+    const result = await resp.json();
+    setProductIds(result?.data)
+  }
+
+  const getProductData = async (id: any) => {
+    const resp = await fetch(`https://glue.de.faas-suite-prod.cloud.spryker.toys/concrete-products/${id}?include=concrete-product-availabilities%2Cconcrete-product-image-sets%2Cconcrete-product-prices`, {
+      method: 'GET',
+      headers: {
+        authorization: `Bearer ${authToken}`
+      }
+    });
+    const result = await resp.json();
+    console.log("resultt-:", result)
+    setProductData((productData) => [...productData, {
+      name: result.data.attributes.name,
+      id: result.data.id,
+      image: result.included[0]?.attributes?.imageSets[0]?.images[0]?.externalUrlLarge,
+      price: result.included[2]?.attributes?.price
+    }])
+  }
+
+  useEffect(() => {
+    if (productId) {
+      getRelatedProduct(productId);
+    }
+  }, [authToken, productId])
+
+  useEffect(() => {
+    setProductData([])
+    if (productIds?.length > 0) {
+      productIds.forEach((element: any) => {
+        getProductData(element.attributes.attributeMap.product_concrete_ids[0])
+      });
+    }
+  }, [productIds])
+
+  console.log("concrete--->>>on pdp", productData)
   return (
     <Layout>
       <Breadcrumb />
@@ -73,11 +127,34 @@ const Product = () => {
               <button type="button" onClick={() => setShowBlock('description')} className={`btn btn--rounded ${showBlock === 'description' ? 'btn--active' : ''}`}>Description</button>
               {/* <button type="button" onClick={() => setShowBlock('reviews')} className={`btn btn--rounded ${showBlock === 'reviews' ? 'btn--active' : ''}`}>Reviews (2)</button> */}
             </div>
-            <p style={{fontFamily:"inherit", letterSpacing:"1px", lineHeight:"25px"}}>{product?.description}</p>
+            <p style={{ fontFamily: "inherit", letterSpacing: "1px", lineHeight: "25px" }}>{product?.description}</p>
             {/* <Description show={showBlock === 'description'} /> */}
             {/* <Reviews product={product} show={showBlock === 'reviews'} /> */}
           </div>
         </div>
+        {productData.length > 0 ?
+          <>
+            <h1 style={{ fontSize: "24px", fontWeight: "bold", paddingInline: "50px",paddingTop:"30px", color: "#7f7f7f" }}>
+              Related Products</h1>
+            <div style={{ display: "flex", overflowX: "scroll", marginInline: "50px"}}>
+              {
+                productData.map((item: any) => {
+                  return (
+                    <div style={{ padding: "5px" }}>
+                      <Link href={`/product/${item.name}?skuId=${item.id.split('_')[0]}`}>
+                        <div style={{ padding: "5px" }}>
+                          <img src={item.image} style={{ width: "220px", height: "250px", objectFit: "contain" }} />
+                          <p style={{ paddingLeft: "10px" }}>{item.name}</p>
+                          <p style={{ fontWeight: "bold", paddingTop: "5px", paddingLeft: "10px" }}>&euro; {item.price}</p>
+                        </div>
+                      </Link>
+                    </div>
+                  )
+                })
+              }
+            </div>
+          </>
+          : null}
       </section>
 
       {/* <div className="product-single-page">

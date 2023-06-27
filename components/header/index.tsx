@@ -108,6 +108,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
       } catch (err) {
         console.log("errr", err)
         localStorage.setItem("status", "false")
+        router.push('/login')
       }
     } else {
       localStorage.setItem("status", "false")

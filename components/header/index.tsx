@@ -135,6 +135,9 @@ const Header = ({ isErrorPage }: HeaderType) => {
               </Link>
             )
           })}
+          <Link href={`/bundle`}>
+                <a>Bundle Product</a>
+              </Link>
           <button className="site-nav__btn"><p>Account</p></button>
         </nav>
 

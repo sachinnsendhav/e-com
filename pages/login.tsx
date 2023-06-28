@@ -27,9 +27,10 @@ const LoginPage = () => {
     formdata.append('grant_type', "password");
     formdata.append('username', data.email);
     formdata.append('password', data.password);
-    formdata.append('client_id', "");
+    formdata.append('client_id', "frontend");
+    formdata.append('client_secret', "qq7NRNQDJbQ8dFq91Swm3pjFmVPmQd6CMfOPtBlp5hIWytMs");
     const resp = await fetch(
-      `https://glue.de.faas-suite-prod.cloud.spryker.toys/token`,
+      `http://glue.us.spryker.local/token`,
       {
         method: 'POST',
         body: formdata,
@@ -38,7 +39,6 @@ const LoginPage = () => {
     const result = await resp.json();
     localStorage.setItem("token", result?.access_token)
     localStorage.setItem("status", "true")
-    window.location.reload()
     if (result) {
       router.push('/profile');
     }
@@ -60,7 +60,7 @@ const LoginPage = () => {
       }
       try {
         const resp = await fetch(
-          `https://glue.de.faas-suite-prod.cloud.spryker.toys/access-tokens`,
+          `http://glue.us.spryker.local/access-tokens`,
           {
             method: 'POST',
             headers: {

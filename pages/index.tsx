@@ -84,7 +84,7 @@ const IndexPage = () => {
   };
 
   const getRelatedProduct = async () => {
-    const resp = await fetch('https://glue.de.faas-suite-prod.cloud.spryker.toys/abstract-products/110/related-products', {
+    const resp = await fetch('http://glue.us.spryker.local/abstract-products/110/related-products', {
       method: 'GET',
       headers: {
         authorization: `Bearer ${authToken}`
@@ -95,7 +95,7 @@ const IndexPage = () => {
   }
 
   const getProductDetails = async (id: any) => {
-    const resp = await fetch(`https://glue.de.faas-suite-prod.cloud.spryker.toys/concrete-products/${id}?include=concrete-product-availabilities%2Cconcrete-product-image-sets%2Cconcrete-product-prices`, {
+    const resp = await fetch(`http://glue.us.spryker.local/concrete-products/${id}?include=concrete-product-availabilities%2Cconcrete-product-image-sets%2Cconcrete-product-prices`, {
       method: 'GET',
       headers: {
         authorization: `Bearer ${authToken}`

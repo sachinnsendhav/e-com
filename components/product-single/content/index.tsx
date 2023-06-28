@@ -41,7 +41,7 @@ const Content = (product: any) => {
   const handlecart = async () => {
     try {
       const resp = await fetch(
-        `https://glue.de.faas-suite-prod.cloud.spryker.toys/carts`,
+        `http://glue.us.spryker.local/carts`,
         {
           method: "GET",
           headers: {
@@ -80,11 +80,12 @@ const Content = (product: any) => {
     if (productData) {
       const getPrice = async () => {
         const resp = await fetch(
-          `https://glue.de.faas-suite-prod.cloud.spryker.toys/abstract-products/${productData?.sku}/abstract-product-prices`,
+          `http://glue.us.spryker.local/abstract-products/${productData?.sku}/abstract-product-prices`,
           {
             method: "GET",
             headers: {
               Accept: "application/json",
+              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -173,7 +174,7 @@ const Content = (product: any) => {
         setIsLoading(true);
         try {
           const resp = await fetch(
-            `https://glue.de.faas-suite-prod.cloud.spryker.toys/carts/${cartId}/items`,
+            `http://glue.us.spryker.local/carts/${cartId}/items`,
             {
               method: "POST",
               body: JSON.stringify(productCart),
@@ -256,7 +257,7 @@ const Content = (product: any) => {
       const handleGetCart = async () => {
         try {
           const resp = await fetch(
-            `https://glue.de.faas-suite-prod.cloud.spryker.toys/carts/${cartId}`,
+            `http://glue.us.spryker.local/carts/${cartId}`,
             {
               method: "GET",
               headers: {
@@ -338,7 +339,6 @@ const Content = (product: any) => {
                 .split('_')
                 .map(word => word.charAt(0).toUpperCase() + word.slice(1))
                 .join(' ');
-        
               return <span key={index}>{formattedKey}</span>;
             })}
           </div>

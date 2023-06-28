@@ -17,7 +17,7 @@ const Address = ({ show }: AddressType) => {
 
         if (authToken) {
             try {
-                const resp = await fetch('https://glue.de.faas-suite-prod.cloud.spryker.toys/customers/DE--21/addresses', {
+                const resp = await fetch('http://glue.us.spryker.local/customers/DE--21/addresses', {
                     method: "GET",
                     headers: {
                         authorization: `Bearer ${authToken}`

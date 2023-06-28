@@ -18,7 +18,7 @@ const Orders = ({ show }: AddressType) => {
 
     if (authToken) {
       try {
-        const resp = await fetch('https://glue.de.faas-suite-prod.cloud.spryker.toys/customers/DE--21/orders', {
+        const resp = await fetch('http://glue.us.spryker.local/customers/DE--21/orders', {
           method: "GET",
           headers: {
             authorization: `Bearer ${authToken}`
@@ -71,7 +71,7 @@ const Orders = ({ show }: AddressType) => {
           <tbody >
             <tr style={{border:"1px solid black" }}>
               <th style={{  color: "black",paddingTop:"20px" }}>Order Id</th>
-              <th style={{ color: "black",paddingTop:"20px" }}> Status</th>
+              {/* <th style={{ color: "black",paddingTop:"20px" }}> Status</th> */}
               <th style={{ color: "black",paddingTop:"20px" }}>Create Date</th>
               <th style={{ color: "black",paddingTop:"20px" }}>Amount</th>
               <th style={{ color: "black",paddingTop:"20px" }}>Details</th>
@@ -80,7 +80,7 @@ const Orders = ({ show }: AddressType) => {
               return (
                 <tr style={{border:"1px solid black"}}>
                   <td>{item.id}</td>
-                  <td>{item.attributes.itemStates[0]}</td>
+                  {/* <td>{item?.attributes?.itemStates[0]}</td> */}
                   <td>{item.attributes.createdAt.split(' ')[0]}</td>
                   <td> &euro; {item.attributes.totals.grandTotal}</td>
                   <td > <Link href={`/order-details/${item.id}`}><a style={{border:"1px solid black", borderRadius:"5px", padding:"5px"}}>Show</a></Link></td>

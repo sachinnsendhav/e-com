@@ -34,7 +34,7 @@ const ShoppingCart = () => {
   const handlecart = async() =>{
     try {
       const resp = await fetch(
-        `https://glue.de.faas-suite-prod.cloud.spryker.toys/carts`,
+        `http://glue.us.spryker.local/carts`,
         {
           method: "GET",
           headers: {
@@ -70,7 +70,7 @@ const ShoppingCart = () => {
     const handleGetCart = async () => {
       try {
         const resp = await fetch(
-          `https://glue.de.faas-suite-prod.cloud.spryker.toys/carts/${cartId}?include=items`,
+          `http://glue.us.spryker.local/carts/${cartId}?include=items`,
           {
             method: "GET",
             headers: {
@@ -135,7 +135,7 @@ const ShoppingCart = () => {
   
   const getProductDetails = async (productId: string) => {
     const resp = await fetch(
-      `https://glue.de.faas-suite-prod.cloud.spryker.toys/concrete-products/${productId}`,
+      `http://glue.us.spryker.local/concrete-products/${productId}`,
       {
         method: "GET",
         headers: {
@@ -149,7 +149,7 @@ const ShoppingCart = () => {
   
   const getProductImage = async (productId: string) => {
     const img = await fetch(
-      `https://glue.de.faas-suite-prod.cloud.spryker.toys//concrete-products/${productId}?include=concrete-product-image-sets%2cconcrete-product-availabilities`,
+      `http://glue.us.spryker.local//concrete-products/${productId}?include=concrete-product-image-sets%2cconcrete-product-availabilities`,
       {
         method: "GET",
         headers: {
@@ -179,7 +179,7 @@ const ShoppingCart = () => {
     setIsLoading(true);
     try {
       const resp = await fetch(
-        `https://glue.de.faas-suite-prod.cloud.spryker.toys/carts/${cartId}/items/${pliId}`,
+        `http://glue.us.spryker.local/carts/${cartId}/items/${pliId}`,
         {
           method: "PATCH",
           body: JSON.stringify(productCart),
@@ -217,7 +217,7 @@ const ShoppingCart = () => {
       setIsLoading(true);
     try {
       const resp = await fetch(
-        `https://glue.de.faas-suite-prod.cloud.spryker.toys/carts/${cartId}/items/${pliId}`,
+        `http://glue.us.spryker.local/carts/${cartId}/items/${pliId}`,
         {
           method: "DELETE",
           headers: {

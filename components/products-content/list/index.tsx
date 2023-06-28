@@ -14,7 +14,7 @@ const ProductsContent = () => {
 
   const getSearchData = async () => {
     const resp = await fetch(
-      `https://glue.de.faas-suite-prod.cloud.spryker.toys/catalog-search-suggestions?q=${searchUrl}`,
+      `http://glue.us.spryker.local/catalog-search-suggestions?q=${searchUrl}`,
       {
         method: 'GET',
         headers: {
@@ -34,7 +34,7 @@ const ProductsContent = () => {
 
   const getProductData = async () => {
     const resp = await fetch(
-      `https://glue.de.faas-suite-prod.cloud.spryker.toys/catalog-search?category=${nodeId}`,
+      `http://glue.us.spryker.local/catalog-search?category=${nodeId}`,
       {
         method: 'GET',
         headers: {

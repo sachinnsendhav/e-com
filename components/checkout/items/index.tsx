@@ -22,7 +22,7 @@ const CheckoutItems = () => {
     const handleGetCart = async () => {
       try {
         const resp = await fetch(
-          `https://glue.de.faas-suite-prod.cloud.spryker.toys/carts/${cartId}?include=items`,
+          `http://glue.us.spryker.local/carts/${cartId}?include=items`,
           {
             method: "GET",
             headers: {
@@ -81,7 +81,7 @@ const CheckoutItems = () => {
   
   const getProductDetails = async (productId: string) => {
     const resp = await fetch(
-      `https://glue.de.faas-suite-prod.cloud.spryker.toys/concrete-products/${productId}`,
+      `http://glue.us.spryker.local/concrete-products/${productId}`,
       {
         method: "GET",
         headers: {
@@ -95,7 +95,7 @@ const CheckoutItems = () => {
   
   const getProductImage = async (productId: string) => {
     const img = await fetch(
-      `https://glue.de.faas-suite-prod.cloud.spryker.toys//concrete-products/${productId}/concrete-product-image-sets`,
+      `http://glue.us.spryker.local//concrete-products/${productId}/concrete-product-image-sets`,
       {
         method: "GET",
         headers: {

@@ -15,7 +15,7 @@ function orderDetailsPage() {
         if (authToken) {
             if (orderId) {
                 try {
-                    const resp = await fetch(`https://glue.de.faas-suite-prod.cloud.spryker.toys/orders/${orderId}`, {
+                    const resp = await fetch(`http://glue.us.spryker.local/orders/${orderId}`, {
                         method: "GET",
                         headers: {
                             authorization: `Bearer ${authToken}`

@@ -31,7 +31,7 @@ const CheckoutPage = () => {
     const handleGetCart = async () => {
       try {
         const resp = await fetch(
-          `https://glue.de.faas-suite-prod.cloud.spryker.toys/carts/${cartId}?include=items`,
+          `http://glue.us.spryker.local/carts/${cartId}?include=items`,
           {
             method: "GET",
             headers: {
@@ -79,7 +79,7 @@ const CheckoutPage = () => {
       },
     };
     const resp = await fetch(
-      `https://glue.de.faas-suite-prod.cloud.spryker.toys/checkout-data?include=shipments%2Cshipment-methods%2Caddresses%2Cpayment-methods%2Citems`,
+      `http://glue.us.spryker.local/checkout-data?include=shipments%2Cshipment-methods%2Caddresses%2Cpayment-methods%2Citems`,
       {
         method: "POST",
         headers: {
@@ -164,7 +164,7 @@ console.log(response,"fdfsdsdf")
     console.log(orderData, "orderData")
     try {
       const resp = await fetch(
-        `https://glue.de.faas-suite-prod.cloud.spryker.toys/checkout`,
+        `http://glue.us.spryker.local/checkout`,
         {
           method: "POST",
           body: JSON.stringify(orderData),

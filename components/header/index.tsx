@@ -28,13 +28,13 @@ const Header = ({ isErrorPage }: HeaderType) => {
     setAuthStatus(localStorage.getItem("status"));
     setAuthToken(localStorage.getItem("token"))
   }, [])
-  useEffect(() => {
-    if (authToken) {
-      setAuthStatus("true")
-    } else {
-      setAuthStatus("false")
-    }
-  }, [authToken])
+  // useEffect(() => {
+  //   if (authToken) {
+  //     setAuthStatus("true")
+  //   } else {
+  //     setAuthStatus("false")
+  //   }
+  // }, [authToken])
 
   const navRef = useRef(null);
   const searchRef = useRef(null);
@@ -118,16 +118,16 @@ const Header = ({ isErrorPage }: HeaderType) => {
       } catch (err) {
         console.log("errr", err)
         localStorage.setItem("status", "false")
-        // router.push('/login')
+        router.push('/login')
       }
     } else {
       localStorage.setItem("status", "false")
     }
 
   }
-  // useEffect(() => {
-  //   // checkTokenExpiry();
-  // }, [authToken])
+  useEffect(() => {
+    checkTokenExpiry();
+  }, [authToken])
   console.log("first, authStatus", authStatus)
 
   const getSearchResult = async (text: any) => {

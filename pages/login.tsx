@@ -28,8 +28,9 @@ const LoginPage = () => {
     formdata.append('grant_type', "password");
     formdata.append('username', data.email);
     formdata.append('password', data.password);
-    formdata.append('client_id', "frontend");
-    formdata.append('client_secret', "qq7NRNQDJbQ8dFq91Swm3pjFmVPmQd6CMfOPtBlp5hIWytMs");
+    formdata.append('client_id', "");
+    // formdata.append('client_id', "frontend");
+    // formdata.append('client_secret', "qq7NRNQDJbQ8dFq91Swm3pjFmVPmQd6CMfOPtBlp5hIWytMs");
     const resp = await fetch(
       `${API_URL}/token`,
       {

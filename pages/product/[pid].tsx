@@ -111,7 +111,6 @@ const Product = () => {
     }
   }, [productIds])
 
-  console.log("concrete--->>>on pdp", productData)
   return (
     <Layout>
       <Breadcrumb />

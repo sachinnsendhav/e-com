@@ -128,7 +128,10 @@ function orderDetailsPage() {
                                 </div>
                             </div>
                             <div style={{ padding: "10px", display: "flex", justifyContent: "space-between" }}>
-                                <div style={{ fontWeight: "bold" }}>Item Status : {orderData[0].itemStates[0]}</div><div style={{ fontWeight: "bold" }}> Total Amount : &euro; {orderData[0]?.totals.grandTotal}</div>
+                                <div style={{ fontWeight: "bold" }}>
+                                    {/* Item Status : {orderData[0].itemStates[0]} */}
+                                    </div>
+                                <div style={{ fontWeight: "bold" }}> Total Amount : &euro; {orderData[0]?.totals.grandTotal}</div>
                             </div>
                         </div>
                     </div>

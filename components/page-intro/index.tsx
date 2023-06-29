@@ -14,8 +14,8 @@ const PageIntro = (props: any) => {
                 <div className="page-intro__slide" style={{ backgroundImage: `url(${item.heroBanner.url})` }}>
                   <div className="container">
                     <div className="page-intro__slide__content">
-                      <h2>{item.description}</h2>
-                      <a href="#" className="btn-shop"><i className="icon-right"></i>Shop now</a>
+                      {/* <h2>{item.description}</h2>
+                      <a href="#" className="btn-shop"><i className="icon-right"></i>Shop now</a> */}
                     </div>
                   </div>
                 </div>

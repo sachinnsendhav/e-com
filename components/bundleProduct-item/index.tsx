@@ -24,7 +24,7 @@ const ProductItem = ({ images, id, name, price }: ProductTypeList) => {
       <div className="product__image">
         <button type="button" onClick={toggleFav} className={`btn-heart ${isFavourite ? 'btn-heart--active' : ''}`}><i className="icon-heart"></i></button>
 
-        <Link href={`/bundleProduct/${name}?skuId=${id}`}>
+        <Link href={`/bundleProduct/${name}?skuId=${id}&image=${encodeURIComponent(images)}`}>
           <a>
             <img src={images ? images : ''} alt="product" />
           </a>

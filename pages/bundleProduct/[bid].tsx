@@ -13,7 +13,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import API_URL from 'config';
 
-const BundleProduct = () => {
+const BundleProduct = ({ image }:any) => {
   const router = useRouter();
   const productId = router.query.skuId;
 
@@ -101,7 +101,7 @@ const BundleProduct = () => {
     const resp = await fetch(`${API_URL}/abstract-products/${id}/related-products`, {
       method: 'GET',
       headers: {
-        authorization: `Bearer ${authToken}`
+        // authorization: `Bearer ${authToken}`
       }
     });
     const result = await resp.json();
@@ -140,6 +140,8 @@ const BundleProduct = () => {
     }
   }, [productIds])
 
+  console.log(image,"image")
+
   console.log("concrete--->>>on pdp", productData)
   return (
     <Layout>
@@ -148,7 +150,7 @@ const BundleProduct = () => {
       <section className="product-single">
         <div className="container">
           <div className="product-single__content">
-            <Gallery images={img} />
+            <Gallery images={[image,img]} />
             <Content product={product} />
           </div>
 
@@ -194,6 +196,10 @@ const BundleProduct = () => {
     </Layout>
   );
 }
+
+BundleProduct.getInitialProps = ({ query }:any) => {
+  return { image: query.image };
+};
 
 export default BundleProduct;
 

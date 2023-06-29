@@ -12,12 +12,12 @@ import API_URL from "config";
 
 const Content = (product: any) => {
   const dispatch = useDispatch();
-
+  console.log(product, "dnjkdskjdk");
   var cartId: any;
   var token: any;
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     // Code running in the browser
-    cartId = localStorage.getItem("cartId")
+    cartId = localStorage.getItem("cartId");
     token = localStorage.getItem("token");
   }
   const [count, setCount] = useState<number>(1);
@@ -28,6 +28,7 @@ const Content = (product: any) => {
   const [variationIdData, setVariationIdData] = useState<any>();
   const [variationKey, setVariationKey] = useState<any>();
   const [productData, setProductData] = useState<any>();
+  const [isBundle, setIsBundle] = useState<any>();
   const [price, setPrice] = useState(null);
   const [priceSymbole, setPriceSymbole] = useState(null);
   const [selectedId, setSelectedId] = useState<any>(null);
@@ -36,36 +37,35 @@ const Content = (product: any) => {
   useEffect(() => {
     setProductData(product?.product);
     setVariationIdData(product?.product?.attributeMap?.product_concrete_ids);
+    if (product?.product?.attributes?.bundled_product) {
+      setIsBundle(true);
+    }
   }, [product]);
-
   // useEffect(()=>{
   const handlecart = async () => {
     try {
-      const resp = await fetch(
-        `${API_URL}/carts`,
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const resp = await fetch(`${API_URL}/carts`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (resp.status === 401) {
-        alert("Please Login")
+        alert("Please Login");
         window.location.href = "/login";
         return;
       }
-      console.log(resp, "resp_+_+_+_+_+")
+      console.log(resp, "resp_+_+_+_+_+");
       const response = await resp.json();
 
       if (response) {
         setIsLoading(false);
-        localStorage.setItem("cartId", response?.data[0].id)
+        localStorage.setItem("cartId", response?.data[0].id);
         cartId = response?.data[0].id;
         return response?.data[0].id;
-        console.log(response?.data[0].id, "response_+_+_+_+_+")
+        console.log(response?.data[0].id, "response_+_+_+_+_+");
       } else {
         setIsLoading(false);
       }
@@ -73,7 +73,7 @@ const Content = (product: any) => {
       console.error("Error adding to cart:", error);
       setIsLoading(false);
     }
-  }
+  };
   // handlecart();
   // },[])
 
@@ -86,7 +86,7 @@ const Content = (product: any) => {
             method: "GET",
             headers: {
               Accept: "application/json",
-              Authorization: `Bearer ${token}`,
+              // Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -105,12 +105,10 @@ const Content = (product: any) => {
     }
   }, [productData]);
 
-
   useEffect(() => {
     var tempVar: any = [];
     const handlerfunction = async () => {
       if (productData) {
-
         Object.keys(productData?.attributeMap?.attribute_variant_map)?.map(
           (item, index) => {
             tempVar.push({
@@ -126,15 +124,19 @@ const Content = (product: any) => {
           }
         );
         setVariationData(tempVar);
-        Object.keys(productData?.attributeMap?.super_attributes)?.map((item1: any, index: number) => {
-          if (index === 0) {
-            const formattedKey = formatKey(item1); // Format the key
-            setVariationKey(formattedKey);
+        Object.keys(productData?.attributeMap?.super_attributes)?.map(
+          (item1: any, index: number) => {
+            if (index === 0) {
+              const formattedKey = formatKey(item1); // Format the key
+              setVariationKey(formattedKey);
+            }
           }
-        });
+        );
 
         function formatKey(key) {
-          return key.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+          return key
+            .replace(/_/g, " ")
+            .replace(/\b\w/g, (c) => c.toUpperCase());
         }
       }
     };
@@ -156,63 +158,117 @@ const Content = (product: any) => {
       productSkuId = variationIdData[0];
     }
 
-    if (productSkuId && await checkCartExist()) {
+    if (productSkuId && (await checkCartExist())) {
       if (cartId) {
-        const productCart = {
-          data: {
-            type: "items",
-            attributes: {
-              sku: productSkuId,
-              quantity: count,
-              salesUnit: {
-                id: 0,
-                amount: 0,
+        if (isBundle) {
+          const productCart = {
+            data: {
+              type: "bundle-items",
+              attributes: {
+                sku: productSkuId,
+                quantity: count,
+                salesUnit: {
+                  id: 0,
+                  amount: 0,
+                },
+                productOptions: [null],
               },
-              productOptions: [null],
             },
-          },
-        };
-        setIsLoading(true);
-        try {
-          const resp = await fetch(
-            `${API_URL}/carts/${cartId}/items`,
-            {
-              method: "POST",
-              body: JSON.stringify(productCart),
-              headers: {
-                Accept: "application/json",
-                Authorization: `Bearer ${token}`,
-              },
+          };
+          setIsLoading(true);
+          try {
+            const resp = await fetch(
+              `${API_URL}/carts/${cartId}/configured-bundles`,
+              {
+                method: "POST",
+                body: JSON.stringify(productCart),
+                headers: {
+                  Accept: "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+
+            if (resp.status === 401) {
+              // Redirect to login page
+              alert("Please Login");
+              window.location.href = "/login";
+              return;
             }
-          );
 
-          if (resp.status === 401) {
-            // Redirect to login page
-            alert("Please Login")
-            window.location.href = "/login";
-            return;
-          }
+            const response = await resp.json();
 
-          const response = await resp.json();
-
-          if (response) {
-            console.log(response, "sdfnjksdfnsdjnfksjdnfksjn")
-            if (response.errors) {
-              alert(response.errors[0]?.detail)
+            if (response) {
+              console.log(response, "sdfnjksdfnsdjnfksjdnfksjn");
+              if (response.errors) {
+                alert(response.errors[0]?.detail);
+              } else {
+                alert("Added to cart");
+              }
+              setIsLoading(false);
             } else {
-              alert("Added to cart");
+              setIsLoading(false);
             }
-            setIsLoading(false);
-          } else {
+          } catch (error) {
+            console.error("Error adding to cart:", error);
             setIsLoading(false);
           }
-        } catch (error) {
-          console.error("Error adding to cart:", error);
-          setIsLoading(false);
-        }
+        } else {
+          const productCart = {
+            data: {
+              type: "items",
+              attributes: {
+                sku: productSkuId,
+                quantity: count,
+                salesUnit: {
+                  id: 0,
+                  amount: 0,
+                },
+                productOptions: [null],
+              },
+            },
+          };
+          setIsLoading(true);
+          try {
+            const resp = await fetch(
+              `${API_URL}/carts/${cartId}/configured-bundles`,
+              {
+                method: "POST",
+                body: JSON.stringify(productCart),
+                headers: {
+                  Accept: "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
 
+            if (resp.status === 401) {
+              // Redirect to login page
+              alert("Please Login");
+              window.location.href = "/login";
+              return;
+            }
+
+            const response = await resp.json();
+
+            if (response) {
+              console.log(response, "sdfnjksdfnsdjnfksjdnfksjn");
+              if (response.errors) {
+                alert(response.errors[0]?.detail);
+              } else {
+                alert("Added to cart");
+              }
+              setIsLoading(false);
+            } else {
+              setIsLoading(false);
+            }
+          } catch (error) {
+            console.error("Error adding to cart:", error);
+            setIsLoading(false);
+          }
+        }
       } else {
-        AddtoCartHandler()
+        AddtoCartHandler();
       }
     }
   };
@@ -254,22 +310,19 @@ const Content = (product: any) => {
   };
 
   const checkCartExist = async () => {
-    if (localStorage.getItem('cartId')) {
+    if (localStorage.getItem("cartId")) {
       const handleGetCart = async () => {
         try {
-          const resp = await fetch(
-            `${API_URL}/carts/${cartId}`,
-            {
-              method: "GET",
-              headers: {
-                Accept: "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
+          const resp = await fetch(`${API_URL}/carts/${cartId}`, {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
           if (resp.status === 401) {
             // Redirect to "/login" route
-            alert("Please Login")
+            alert("Please Login");
             window.location.href = "/login";
             return;
           } else if (resp.status === 404) {
@@ -279,23 +332,23 @@ const Content = (product: any) => {
           }
           const response = await resp.json();
           if (response) {
-            console.log(response, "response")
+            console.log(response, "response");
             setIsLoading(false);
           } else {
-            console.log(resp, "resp")
+            console.log(resp, "resp");
             setIsLoading(false);
           }
         } catch (error) {
-          console.log(error, "err")
+          console.log(error, "err");
           setIsLoading(false);
         }
       };
       handleGetCart();
     } else {
-      await handlecart()
+      await handlecart();
     }
     return true;
-  }
+  };
 
   return (
     <section className="product-content">
@@ -331,35 +384,36 @@ const Content = (product: any) => {
             ))}
           </div>
         </div> */}
-        {productData &&
+        {productData && (
           <div style={{ display: "flex", marginBottom: "2rem" }}>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            {Object.keys(productData?.attributes)?.map((item, index) => {
-              // Replace underscores with spaces and capitalize each word
-              const formattedKey = item
-                .split('_')
-                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(' ');
-              return <span key={index}>{formattedKey}</span>;
-            })}
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              {Object.keys(productData?.attributes)?.map((item, index) => {
+                // Replace underscores with spaces and capitalize each word
+                const formattedKey = item
+                  .split("_")
+                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(" ");
+                return <span key={index}>{formattedKey}</span>;
+              })}
+            </div>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              {Object.keys(productData?.attributes)?.map((item, index) => {
+                return (
+                  <span key={index}>: {productData?.attributes[item]}</span>
+                );
+              })}
+            </div>
           </div>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            {Object.keys(productData?.attributes)?.map((item, index) => {
-              return (
-                <span key={index}>
-                  : {productData?.attributes[item]}
-                </span>
-              );
-            })}
-          </div>
-          </div>}
+        )}
         {variationData && variationData[1] && (
           <div className="product-filter-item">
             <h5>Variants : </h5>
             <div className="checkbox-color-wrapper">
               <div className="select-wrapper">
                 <select onChange={(e) => setSelectedId(e.target.value)}>
-                  <option>Choose {variationKey ? variationKey : "any option"}</option>
+                  <option>
+                    Choose {variationKey ? variationKey : "any option"}
+                  </option>
                   {variationData?.map((item: any) => (
                     <option value={item.id}>{item.title}</option>
                   ))}
@@ -393,8 +447,8 @@ const Content = (product: any) => {
               type="submit"
               onClick={() => AddtoCartHandler()}
               className="btn btn--rounded btn--yellow"
-            >{isLoading ? "Adding to cart..." :
-              "Add to cart"}
+            >
+              {isLoading ? "Adding to cart..." : "Add to cart"}
             </button>
             <button
               type="button"

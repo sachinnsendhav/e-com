@@ -27,6 +27,14 @@ const Header = ({ isErrorPage }: HeaderType) => {
     setAuthStatus(localStorage.getItem("status"));
     setAuthToken(localStorage.getItem("token"))
   }, [])
+  useEffect(() => {
+    if (authToken) {
+      setAuthStatus("true")
+    } else {
+      setAuthStatus("false")
+    }
+  }, [authToken])
+
   const navRef = useRef(null);
   const searchRef = useRef(null);
 
@@ -116,9 +124,9 @@ const Header = ({ isErrorPage }: HeaderType) => {
     }
 
   }
-  useEffect(() => {
-    checkTokenExpiry();
-  }, [authToken])
+  // useEffect(() => {
+  //   // checkTokenExpiry();
+  // }, [authToken])
   console.log("first, authStatus", authStatus)
 
   const getSearchResult = async (text: any) => {
@@ -200,7 +208,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
             searchResult.map((item: any) => {
               return (
                 <Link href={`/product/${item.abstractName}?skuId=${item.abstractSku}`}>
-                  <div style={{ display: "flex", padding: "5px", cursor:"pointer" }}>
+                  <div style={{ display: "flex", padding: "5px", cursor: "pointer" }}>
                     <div style={{ paddingLeft: "10px" }}>
                       <img src={item.images[0].externalUrlLarge} style={{ width: "50px", height: "50px", objectFit: "contain", border: "1px solid #7f7f7f", borderRadius: "100%" }} />
                     </div>

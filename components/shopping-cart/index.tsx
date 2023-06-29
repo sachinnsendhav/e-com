@@ -3,6 +3,7 @@ import CheckoutStatus from "../../components/checkout-status";
 import Item from "./item";
 import { RootState } from "store";
 import { useEffect, useState } from "react";
+import API_URL from "config";
 
 const ShoppingCart = () => {
   // const { cartItems } = useSelector((state: RootState)  => state.cart);
@@ -34,7 +35,7 @@ const ShoppingCart = () => {
   const handlecart = async() =>{
     try {
       const resp = await fetch(
-        `http://glue.us.spryker.local/carts`,
+        `${API_URL}/carts`,
         {
           method: "GET",
           headers: {
@@ -70,7 +71,7 @@ const ShoppingCart = () => {
     const handleGetCart = async () => {
       try {
         const resp = await fetch(
-          `http://glue.us.spryker.local/carts/${cartId}?include=items`,
+          `${API_URL}/carts/${cartId}?include=items`,
           {
             method: "GET",
             headers: {
@@ -135,7 +136,7 @@ const ShoppingCart = () => {
   
   const getProductDetails = async (productId: string) => {
     const resp = await fetch(
-      `http://glue.us.spryker.local/concrete-products/${productId}`,
+      `${API_URL}/concrete-products/${productId}`,
       {
         method: "GET",
         headers: {
@@ -149,7 +150,7 @@ const ShoppingCart = () => {
   
   const getProductImage = async (productId: string) => {
     const img = await fetch(
-      `http://glue.us.spryker.local//concrete-products/${productId}?include=concrete-product-image-sets%2cconcrete-product-availabilities`,
+      `${API_URL}/concrete-products/${productId}?include=concrete-product-image-sets%2cconcrete-product-availabilities`,
       {
         method: "GET",
         headers: {
@@ -179,7 +180,7 @@ const ShoppingCart = () => {
     setIsLoading(true);
     try {
       const resp = await fetch(
-        `http://glue.us.spryker.local/carts/${cartId}/items/${pliId}`,
+        `${API_URL}/carts/${cartId}/items/${pliId}`,
         {
           method: "PATCH",
           body: JSON.stringify(productCart),
@@ -217,7 +218,7 @@ const ShoppingCart = () => {
       setIsLoading(true);
     try {
       const resp = await fetch(
-        `http://glue.us.spryker.local/carts/${cartId}/items/${pliId}`,
+        `${API_URL}/carts/${cartId}/items/${pliId}`,
         {
           method: "DELETE",
           headers: {

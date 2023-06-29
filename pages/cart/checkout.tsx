@@ -3,6 +3,7 @@ import CheckoutStatus from "../../components/checkout-status";
 import CheckoutItems from "../../components/checkout/items/index";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import API_URL from "config";
 
 const CheckoutPage = () => {
   const router = useRouter()
@@ -31,7 +32,7 @@ const CheckoutPage = () => {
     const handleGetCart = async () => {
       try {
         const resp = await fetch(
-          `http://glue.us.spryker.local/carts/${cartId}?include=items`,
+          `${API_URL}/carts/${cartId}?include=items`,
           {
             method: "GET",
             headers: {
@@ -79,7 +80,7 @@ const CheckoutPage = () => {
       },
     };
     const resp = await fetch(
-      `http://glue.us.spryker.local/checkout-data?include=shipments%2Cshipment-methods%2Caddresses%2Cpayment-methods%2Citems`,
+      `${API_URL}/checkout-data?include=shipments%2Cshipment-methods%2Caddresses%2Cpayment-methods%2Citems`,
       {
         method: "POST",
         headers: {
@@ -164,7 +165,7 @@ console.log(response,"fdfsdsdf")
     console.log(orderData, "orderData")
     try {
       const resp = await fetch(
-        `http://glue.us.spryker.local/checkout`,
+        `${API_URL}/checkout`,
         {
           method: "POST",
           body: JSON.stringify(orderData),

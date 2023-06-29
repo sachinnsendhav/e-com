@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router';
 import Layout from '../../layouts/Main';
 import Footer from 'components/footer';
+import API_URL from 'config';
 function orderDetailsPage() {
     const router = useRouter();
     const orderId = router.query.order;
@@ -15,7 +16,7 @@ function orderDetailsPage() {
         if (authToken) {
             if (orderId) {
                 try {
-                    const resp = await fetch(`http://glue.us.spryker.local/orders/${orderId}`, {
+                    const resp = await fetch(`${API_URL}/orders/${orderId}`, {
                         method: "GET",
                         headers: {
                             authorization: `Bearer ${authToken}`

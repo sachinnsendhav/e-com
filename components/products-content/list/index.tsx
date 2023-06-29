@@ -4,6 +4,7 @@ import ProductsLoading from './loading';
 import { ProductTypeList } from 'types';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react'
+import API_URL from 'config';
 const ProductsContent = () => {
   const router = useRouter();
   const [searchResults, setSearchResults] = useState([])
@@ -14,7 +15,7 @@ const ProductsContent = () => {
 
   const getSearchData = async () => {
     const resp = await fetch(
-      `http://glue.us.spryker.local/catalog-search-suggestions?q=${searchUrl}`,
+      `${API_URL}/catalog-search-suggestions?q=${searchUrl}`,
       {
         method: 'GET',
         headers: {
@@ -34,7 +35,7 @@ const ProductsContent = () => {
 
   const getProductData = async () => {
     const resp = await fetch(
-      `http://glue.us.spryker.local/catalog-search?category=${nodeId}`,
+      `${API_URL}/catalog-search?category=${nodeId}`,
       {
         method: 'GET',
         headers: {

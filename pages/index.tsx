@@ -1,8 +1,9 @@
 import Layout from "../layouts/Main";
 import PageIntro from "../components/page-intro";
-import ProductsFeatured from "../components/products-featured";
+import ProductsFeatured from "../components/products-featured`;
 import Footer from "../components/footer";
 import Subscribe from "../components/subscribe";
+import API_URL from '../config'
 import { useEffect, useState } from "react";
 import Link from "next/link";
 const IndexPage = () => {
@@ -86,7 +87,7 @@ const IndexPage = () => {
 
   const getRelatedProduct = async () => {
     const resp = await fetch(
-      "http://glue.us.spryker.local/abstract-products/110/related-products",
+      `${API_URL}/abstract-products/110/related-products`,
       {
         method: "GET",
         headers: {
@@ -100,7 +101,7 @@ const IndexPage = () => {
 
   const getProductDetails = async (id: any) => {
     const resp = await fetch(
-      `http://glue.us.spryker.local/concrete-products/${id}?include=concrete-product-availabilities%2Cconcrete-product-image-sets%2Cconcrete-product-prices`,
+      `${API_URL}/concrete-products/${id}?include=concrete-product-availabilities%2Cconcrete-product-image-sets%2Cconcrete-product-prices`,
       {
         method: "GET",
         headers: {

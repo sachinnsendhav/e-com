@@ -8,6 +8,7 @@ import { addProduct } from "store/reducers/cart";
 import { toggleFavProduct } from "store/reducers/user";
 import { ProductType, ProductStoreType } from "types";
 import { RootState } from "store";
+import API_URL from "config";
 
 const Content = (product: any) => {
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const Content = (product: any) => {
   const handlecart = async () => {
     try {
       const resp = await fetch(
-        `http://glue.us.spryker.local/carts`,
+        `${API_URL}/carts`,
         {
           method: "GET",
           headers: {
@@ -80,7 +81,7 @@ const Content = (product: any) => {
     if (productData) {
       const getPrice = async () => {
         const resp = await fetch(
-          `http://glue.us.spryker.local/abstract-products/${productData?.sku}/abstract-product-prices`,
+          `${API_URL}/abstract-products/${productData?.sku}/abstract-product-prices`,
           {
             method: "GET",
             headers: {
@@ -174,7 +175,7 @@ const Content = (product: any) => {
         setIsLoading(true);
         try {
           const resp = await fetch(
-            `http://glue.us.spryker.local/carts/${cartId}/items`,
+            `${API_URL}/carts/${cartId}/items`,
             {
               method: "POST",
               body: JSON.stringify(productCart),
@@ -257,7 +258,7 @@ const Content = (product: any) => {
       const handleGetCart = async () => {
         try {
           const resp = await fetch(
-            `http://glue.us.spryker.local/carts/${cartId}`,
+            `${API_URL}/carts/${cartId}`,
             {
               method: "GET",
               headers: {

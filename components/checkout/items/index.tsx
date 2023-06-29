@@ -1,3 +1,4 @@
+import API_URL from 'config';
 import { useEffect, useState } from 'react';
 
 const CheckoutItems = () => {
@@ -22,7 +23,7 @@ const CheckoutItems = () => {
     const handleGetCart = async () => {
       try {
         const resp = await fetch(
-          `http://glue.us.spryker.local/carts/${cartId}?include=items`,
+          `${API_URL}/carts/${cartId}?include=items`,
           {
             method: "GET",
             headers: {
@@ -81,7 +82,7 @@ const CheckoutItems = () => {
   
   const getProductDetails = async (productId: string) => {
     const resp = await fetch(
-      `http://glue.us.spryker.local/concrete-products/${productId}`,
+      `${API_URL}/concrete-products/${productId}`,
       {
         method: "GET",
         headers: {
@@ -95,7 +96,7 @@ const CheckoutItems = () => {
   
   const getProductImage = async (productId: string) => {
     const img = await fetch(
-      `http://glue.us.spryker.local//concrete-products/${productId}/concrete-product-image-sets`,
+      `${API_URL}/concrete-products/${productId}/concrete-product-image-sets`,
       {
         method: "GET",
         headers: {

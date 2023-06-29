@@ -11,6 +11,7 @@ import Description from '../../components/product-single/description';
 import Reviews from '../../components/product-single/reviews';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import API_URL from 'config';
 
 const Product = () => {
   const router = useRouter();
@@ -29,7 +30,7 @@ const Product = () => {
   const getProductDetails = async () => {
     try {
       const resp = await fetch(
-        `http://glue.us.spryker.local/abstract-products/${productId}`,
+        `${API_URL}/abstract-products/${productId}`,
         {
           method: 'GET',
           headers: {
@@ -45,7 +46,7 @@ const Product = () => {
 
     try {
       const img = await fetch(
-        `http://glue.us.spryker.local/abstract-products/${productId}/abstract-product-image-sets`,
+        `${API_URL}/abstract-products/${productId}/abstract-product-image-sets`,
         {
           method: 'GET',
           headers: {
@@ -68,7 +69,7 @@ const Product = () => {
   // related product
 
   const getRelatedProduct = async (id: any) => {
-    const resp = await fetch(`http://glue.us.spryker.local/abstract-products/${id}/related-products`, {
+    const resp = await fetch(`${API_URL}/abstract-products/${id}/related-products`, {
       method: 'GET',
       headers: {
         authorization: `Bearer ${authToken}`
@@ -79,7 +80,7 @@ const Product = () => {
   }
 
   const getProductData = async (id: any) => {
-    const resp = await fetch(`http://glue.us.spryker.local/concrete-products/${id}?include=concrete-product-availabilities%2Cconcrete-product-image-sets%2Cconcrete-product-prices`, {
+    const resp = await fetch(`${API_URL}/concrete-products/${id}?include=concrete-product-availabilities%2Cconcrete-product-image-sets%2Cconcrete-product-prices`, {
       method: 'GET',
       headers: {
         authorization: `Bearer ${authToken}`

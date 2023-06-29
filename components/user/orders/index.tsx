@@ -1,3 +1,4 @@
+import API_URL from "config";
 import Link from "next/link";
 import React, { useEffect, useState } from "react"
 
@@ -18,7 +19,7 @@ const Orders = ({ show }: AddressType) => {
 
     if (authToken) {
       try {
-        const resp = await fetch('http://glue.us.spryker.local/customers/DE--21/orders', {
+        const resp = await fetch(`${API_URL}/customers/DE--21/orders`, {
           method: "GET",
           headers: {
             authorization: `Bearer ${authToken}`

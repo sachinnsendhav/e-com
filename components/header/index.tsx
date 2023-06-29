@@ -5,6 +5,7 @@ import Logo from '../../assets/icons/logo';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { RootState } from 'store';
+import API_URL from 'config';
 
 type HeaderType = {
   isErrorPage?: Boolean;
@@ -71,7 +72,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
 
 
   const getCategory = async () => {
-    const resp = await fetch('http://glue.us.spryker.local/category-trees', {
+    const resp = await fetch(`${API_URL}/category-trees`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -98,7 +99,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
       }
       try {
         const resp = await fetch(
-          `http://glue.us.spryker.local/access-tokens`,
+          `${API_URL}/access-tokens`,
           {
             method: 'POST',
             headers: {
@@ -130,7 +131,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
   console.log("first, authStatus", authStatus)
 
   const getSearchResult = async (text: any) => {
-    const resp = await fetch(`http://glue.us.spryker.local/catalog-search-suggestions?q=${text}`, {
+    const resp = await fetch(`${API_URL}/catalog-search-suggestions?q=${text}`, {
       method: "GET",
       headers: {
         "Accept": "application/json"

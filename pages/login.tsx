@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useForm } from "react-hook-form";
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react'
+import API_URL from 'config';
 
 type LoginMail = {
   email: string;
@@ -30,7 +31,7 @@ const LoginPage = () => {
     formdata.append('client_id', "frontend");
     formdata.append('client_secret', "qq7NRNQDJbQ8dFq91Swm3pjFmVPmQd6CMfOPtBlp5hIWytMs");
     const resp = await fetch(
-      `http://glue.us.spryker.local/token`,
+      `${API_URL}/token`,
       {
         method: 'POST',
         body: formdata,
@@ -60,7 +61,7 @@ const LoginPage = () => {
       }
       try {
         const resp = await fetch(
-          `http://glue.us.spryker.local/access-tokens`,
+          `${API_URL}/access-tokens`,
           {
             method: 'POST',
             headers: {

@@ -5,17 +5,18 @@ import { ProductTypeList } from 'types';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react'
 import API_URL from 'config';
+import { forEach } from 'lodash';
 const ProductsContent = () => {
   const router = useRouter();
-  const [searchResults, setSearchResults] = useState([])
-  const [products, setProducts] = useState([])
+  const [searchResults, setSearchResults] = useState<any[]>([])
+  const [products, setProducts] = useState<any[]>([])
   const nodeId = router.query.nodeId;
   const searchUrl = router.query.search;
 
 
   const getSearchData = async () => {
     const resp = await fetch(
-      `${API_URL}/catalog-search-suggestions?q=${searchUrl}`,
+      `${API_URL}/catalog-search-suggestions?q=${searchUrl}&include=abstract-products%2Cconcrete-products%2F`,
       {
         method: 'GET',
         headers: {
@@ -24,8 +25,20 @@ const ProductsContent = () => {
       },
     );
     const result = await resp.json();
-
-    setSearchResults(result?.data[0]?.attributes?.abstractProducts);
+    result?.data[0]?.attributes?.abstractProducts.forEach((element: any) => {
+      result?.included.forEach((item: any) => {
+        if (element.abstractSku === item.id) {
+          setSearchResults((searchResults) => [...searchResults, {
+            abstractName: element.abstractName,
+            abstractSku: element.abstractSku,
+            price: element.price,
+            image: element.images[0].externalUrlLarge,
+            concreteId: item.attributes.attributeMap.product_concrete_ids[0]
+          }])
+        }
+      });
+    });
+    // setSearchResults(result?.data[0]?.attributes?.abstractProducts);
   }
   useEffect(() => {
     if (searchUrl) {
@@ -35,7 +48,7 @@ const ProductsContent = () => {
 
   const getProductData = async () => {
     const resp = await fetch(
-      `${API_URL}/catalog-search?category=${nodeId}`,
+      `${API_URL}/catalog-search?category=${nodeId}&include=abstract-products`,
       {
         method: 'GET',
         headers: {
@@ -44,8 +57,21 @@ const ProductsContent = () => {
       },
     );
     const result = await resp.json();
-
-    setProducts(result?.data[0]?.attributes?.abstractProducts);
+    result?.data[0]?.attributes?.abstractProducts.forEach((element: any) => {
+      result?.included.forEach((item: any) => {
+        if (element.abstractSku === item.id) {
+          setProducts((products) => [...products, {
+            abstractName: element.abstractName,
+            abstractSku: element.abstractSku,
+            price: element.price,
+            image: element.images[0].externalUrlLarge,
+            concreteId: item.attributes.attributeMap.product_concrete_ids[0]
+          }])
+        }
+      });
+    });
+    // setProducts(result?.data[0]?.attributes?.abstractProducts);
+    // setProducts(result?.included)
   }
 
   useEffect(() => {
@@ -53,6 +79,7 @@ const ProductsContent = () => {
       getProductData()
     }
   }, [nodeId])
+
   return (
     <>
       {!searchResults &&
@@ -67,7 +94,7 @@ const ProductsContent = () => {
               name={item.abstractName}
               price={item.price}
               key={item.abstractSku}
-              images={item.images[0].externalUrlLarge}
+              images={item.image}
             />
           ))}
         </section>
@@ -80,7 +107,7 @@ const ProductsContent = () => {
               name={item.abstractName}
               price={item.price}
               key={item.abstractSku}
-              images={item.images[0].externalUrlLarge}
+              images={item.image}
             />
           ))}
         </section>

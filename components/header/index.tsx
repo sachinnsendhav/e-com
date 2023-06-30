@@ -114,6 +114,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
           localStorage.setItem("token", result?.data?.attributes?.accessToken)
         } else {
           localStorage.setItem("status", "false")
+        router.push('/login')
         }
       } catch (err) {
         console.log("errr", err)

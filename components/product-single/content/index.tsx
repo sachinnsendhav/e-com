@@ -216,6 +216,7 @@ const Content = (product: any) => {
       }
     }
   };
+  
   const onColorSet = (e: string) => setColor(e);
   const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
     setItemSize(e.target.value);

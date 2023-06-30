@@ -58,6 +58,8 @@ const ProductsContent = () => {
       },
     );
     const result = await resp.json();
+console.log("pppp",result)
+
     result?.data[0]?.attributes?.abstractProducts.forEach((element: any) => {
       result?.included.forEach((item: any) => {
         if (element.abstractSku === item.id) {
@@ -81,7 +83,6 @@ const ProductsContent = () => {
       getProductData()
     }
   }, [nodeId])
-
   return (
     <>
       {!searchResults &&
@@ -97,6 +98,7 @@ const ProductsContent = () => {
               price={item.price}
               key={item.abstractSku}
               images={item.image}
+              concreteId={item.concreteId}
             />
           ))}
         </section>
@@ -110,6 +112,8 @@ const ProductsContent = () => {
               price={item.price}
               key={item.abstractSku}
               images={item.image}
+              concreteId={item.concreteId}
+
             />
           ))}
         </section>

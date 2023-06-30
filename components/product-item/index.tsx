@@ -4,13 +4,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toggleFavProduct } from 'store/reducers/user';
 import { RootState } from 'store';
 import { ProductTypeList } from 'types';
+import API_URL from 'config';
+import { useState } from 'react';
 
-const ProductItem = ({ images, id, name, price }: ProductTypeList) => {
+const ProductItem = ({ images, id, name, price, concreteId }: ProductTypeList) => {
   const dispatch = useDispatch();
   const { favProducts } = useSelector((state: RootState) => state.user);
-
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const isFavourite = some(favProducts, productId => productId === id);
-
+  const token = localStorage.getItem('token');
+  var cartId = localStorage.getItem('cartId');
   const toggleFav = () => {
     dispatch(toggleFavProduct(
       {
@@ -18,6 +21,107 @@ const ProductItem = ({ images, id, name, price }: ProductTypeList) => {
       }
     ))
   }
+
+  console.log(token,concreteId,"token")
+
+  const handleAddtocart = async() => {
+    if(token){
+      if(cartId){
+        const productCart = {
+          data: {
+            type: "items",
+            attributes: {
+              sku: concreteId,
+              quantity: 1,
+              salesUnit: {
+                id: 0,
+                amount: 0,
+              },
+              productOptions: [null],
+            },
+          },
+        };
+        setIsLoading(true);
+        try {
+          const resp = await fetch(
+            `${API_URL}/carts/${cartId}/items`,
+            {
+              method: "POST",
+              body: JSON.stringify(productCart),
+              headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (resp.status === 401) {
+            // Redirect to login page
+            alert("Please Login");
+            window.location.href = "/login";
+            return;
+          }
+
+          const response = await resp.json();
+
+          if (response) {
+            console.log(response, "sdfnjksdfnsdjnfksjdnfksjn");
+            if (response.errors) {
+              alert(response.errors[0]?.detail);
+            } else {
+              alert("Added to cart");
+            }
+            setIsLoading(false);
+          } else {
+            setIsLoading(false);
+          }
+        } catch (error) {
+          console.error("Error adding to cart:", error);
+          setIsLoading(false);
+        }
+      }else{
+        await handlecart();
+      }
+    }else{
+      if(confirm("Please Login")){
+        window.location.href = '/login'
+      }
+    }
+  }
+
+  const handlecart = async () => {
+    try {
+      const resp = await fetch(`${API_URL}/carts`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (resp.status === 401) {
+        alert("Please Login");
+        window.location.href = "/login";
+        return;
+      }
+      console.log(resp, "resp_+_+_+_+_+");
+      const response = await resp.json();
+
+      if (response) {
+        setIsLoading(false);
+        localStorage.setItem("cartId", response?.data[0].id);
+        cartId = response?.data[0].id;
+        await handleAddtocart();
+        return response?.data[0].id;
+        console.log(response?.data[0].id, "response_+_+_+_+_+");
+      } else {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="product-item">
@@ -32,8 +136,9 @@ const ProductItem = ({ images, id, name, price }: ProductTypeList) => {
       </div>
       <div className="product__description">
         <h3 style={{fontFamily:"sans-serif"}}>{name}</h3>
-        <div>
+        <div style={{display:'flex',justifyContent:'space-between'}}>
           <span style={{ fontWeight: "bold", color:"black" }}>&euro; {price}</span>
+          <button style={{padding:"8px",background:"green",color:'white', borderRadius:"5px"}} onClick={()=>handleAddtocart()}>Add To Cart</button>
         </div>
       </div>
     </div>

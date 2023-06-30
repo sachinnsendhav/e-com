@@ -160,60 +160,6 @@ const Content = (product: any) => {
 
     if (productSkuId && (await checkCartExist())) {
       if (cartId) {
-        if (isBundle) {
-          const productCart = {
-            data: {
-              type: "bundle-items",
-              attributes: {
-                sku: productSkuId,
-                quantity: count,
-                salesUnit: {
-                  id: 0,
-                  amount: 0,
-                },
-                productOptions: [null],
-              },
-            },
-          };
-          setIsLoading(true);
-          try {
-            const resp = await fetch(
-              `${API_URL}/carts/${cartId}/configured-bundles`,
-              {
-                method: "POST",
-                body: JSON.stringify(productCart),
-                headers: {
-                  Accept: "application/json",
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
-
-            if (resp.status === 401) {
-              // Redirect to login page
-              alert("Please Login");
-              window.location.href = "/login";
-              return;
-            }
-
-            const response = await resp.json();
-
-            if (response) {
-              console.log(response, "sdfnjksdfnsdjnfksjdnfksjn");
-              if (response.errors) {
-                alert(response.errors[0]?.detail);
-              } else {
-                alert("Added to cart");
-              }
-              setIsLoading(false);
-            } else {
-              setIsLoading(false);
-            }
-          } catch (error) {
-            console.error("Error adding to cart:", error);
-            setIsLoading(false);
-          }
-        } else {
           const productCart = {
             data: {
               type: "items",
@@ -231,7 +177,7 @@ const Content = (product: any) => {
           setIsLoading(true);
           try {
             const resp = await fetch(
-              `${API_URL}/carts/${cartId}/configured-bundles`,
+              `${API_URL}/carts/${cartId}/items`,
               {
                 method: "POST",
                 body: JSON.stringify(productCart),
@@ -266,7 +212,6 @@ const Content = (product: any) => {
             console.error("Error adding to cart:", error);
             setIsLoading(false);
           }
-        }
       } else {
         AddtoCartHandler();
       }

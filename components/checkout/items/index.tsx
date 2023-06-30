@@ -23,7 +23,7 @@ const CheckoutItems = () => {
     const handleGetCart = async () => {
       try {
         const resp = await fetch(
-          `${API_URL}/carts/${cartId}?include=items`,
+          `${API_URL}/carts/${cartId}?include=items%2Cbundle-items`,
           {
             method: "GET",
             headers: {

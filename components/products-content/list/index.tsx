@@ -42,6 +42,7 @@ const ProductsContent = () => {
   }
   useEffect(() => {
     if (searchUrl) {
+      setSearchResults([])
       getSearchData()
     }
   }, [searchUrl])
@@ -76,6 +77,7 @@ const ProductsContent = () => {
 
   useEffect(() => {
     if (nodeId) {
+      setProducts([])
       getProductData()
     }
   }, [nodeId])

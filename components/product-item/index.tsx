@@ -138,7 +138,7 @@ const ProductItem = ({ images, id, name, price, concreteId }: ProductTypeList) =
         <h3 style={{fontFamily:"sans-serif"}}>{name}</h3>
         <div style={{display:'flex',justifyContent:'space-between'}}>
           <span style={{ fontWeight: "bold", color:"black" }}>&euro; {price}</span>
-          <button style={{padding:"8px",background:"green",color:'white', borderRadius:"5px"}} onClick={()=>handleAddtocart()}>Add To Cart</button>
+          <button style={{padding:"8px",background:"green",color:'white', borderRadius:"5px"}} onClick={()=>handleAddtocart()}> {isLoading ?"Adding to Cart":"Add To Cart"}</button>
         </div>
       </div>
     </div>

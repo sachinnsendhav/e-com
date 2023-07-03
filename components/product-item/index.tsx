@@ -22,11 +22,11 @@ const ProductItem = ({ images, id, name, price, concreteId }: ProductTypeList) =
     ))
   }
 
-  console.log(token,concreteId,"token")
+  console.log(token, concreteId, "token")
 
-  const handleAddtocart = async() => {
-    if(token){
-      if(cartId){
+  const handleAddtocart = async () => {
+    if (token) {
+      if (cartId) {
         const productCart = {
           data: {
             type: "items",
@@ -79,11 +79,11 @@ const ProductItem = ({ images, id, name, price, concreteId }: ProductTypeList) =
           console.error("Error adding to cart:", error);
           setIsLoading(false);
         }
-      }else{
+      } else {
         await handlecart();
       }
-    }else{
-      if(confirm("Please Login")){
+    } else {
+      if (confirm("Please Login")) {
         window.location.href = '/login'
       }
     }
@@ -135,10 +135,10 @@ const ProductItem = ({ images, id, name, price, concreteId }: ProductTypeList) =
         </Link>
       </div>
       <div className="product__description">
-        <h3 style={{fontFamily:"sans-serif"}}>{name}</h3>
-        <div style={{display:'flex',justifyContent:'space-between'}}>
-          <span style={{ fontWeight: "bold", color:"black" }}>&euro; {price}</span>
-          <button style={{padding:"8px",background:"green",color:'white', borderRadius:"5px"}} onClick={()=>handleAddtocart()}> {isLoading ?"Adding to Cart":"Add To Cart"}</button>
+        <h3 style={{ fontFamily: "sans-serif" }}>{name}</h3>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <span style={{ fontWeight: "bold", color: "black", paddingTop: "10px" }}>&euro; {price}</span>
+          <button style={{ padding: "8px", background: "#070707", color: 'white', borderRadius: "5px" }} onClick={() => handleAddtocart()}> {isLoading ? "Adding to Cart" : "Add To Cart"}</button>
         </div>
       </div>
     </div>

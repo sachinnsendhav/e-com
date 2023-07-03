@@ -6,11 +6,15 @@ const ProductsContent = () => {
   const router = useRouter();
   const [orderProductsOpen, setOrderProductsOpen] = useState(false);
   const category = router.query.category;
+  const convertedString = new String(category)
+  .replace(/-/g, " ")
+  .replace(/\b\w/g, c => c.toUpperCase())
+  .toString();
   return (
     <section className="products-content">
       <div className="products-content__intro">
         {category ?
-          <h2>{category}</h2>
+          <h2>{convertedString}</h2>
           : null}
         {/* <button type="button" onClick={() => setOrderProductsOpen(!orderProductsOpen)} className="products-filter-btn"><i className="icon-filters"></i></button>
         <form className={`products-content__filter ${orderProductsOpen ? 'products-order-open' : ''}`}>

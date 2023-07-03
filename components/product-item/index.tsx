@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleFavProduct } from "store/reducers/user";
 import { RootState } from "store";
 import { ProductTypeList } from "types";
-import API_URL from "config";
-import { useState } from "react";
+import  {API_URL, SHOPPING_LIST_ID} from "config";
+import { useEffect, useState } from "react";
 
 const ProductItem = ({
   images,
@@ -13,23 +13,32 @@ const ProductItem = ({
   name,
   price,
   concreteId,
+  wishlistProdId
 }: ProductTypeList) => {
   const dispatch = useDispatch();
   const { favProducts } = useSelector((state: RootState) => state.user);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [wishlisted, setWishlisted] = useState<any>();
   const isFavourite = some(favProducts, (productId) => productId === id);
   const token = localStorage.getItem("token");
   var cartId = localStorage.getItem("cartId");
-  var wishlistId = '2bf4b763-4044-5eb0-aa27-7d07ae9b8a7c';
+  var wishlistId = SHOPPING_LIST_ID;
   const toggleFav = async () => {
+    wishlisted ? 
+    await handleAddtoWishlist():
     await handleAddtoWishlist();
-    // dispatch(
-    //   toggleFavProduct({
-    //     id,
-    //   })
-    // );
   };
-  console.log(token, concreteId, "token");
+
+  useEffect(() => {
+    const matchingItem = wishlistProdId?.find((item:any) => item.sku === concreteId);
+    if (matchingItem) {
+      setWishlisted(matchingItem.wishId);
+    }else{
+      setWishlisted(null);
+    }
+  }, [wishlistProdId])
+
+  console.log(wishlistId,"eyyyy")
 
   const handleAddtocart = async () => {
     if (token) {
@@ -132,6 +141,7 @@ const ProductItem = ({
 
   const handleAddtoWishlist = async () => {
     if (token) {
+      if(!wishlisted){
       const productCart = {
         data: {
           type: "shopping-list-items",
@@ -166,7 +176,7 @@ const ProductItem = ({
           if (response.errors) {
             alert(response.errors[0]?.detail);
           } else {
-            alert("Added to Wishlist");
+            setWishlisted(response?.data?.id);
           }
           setIsLoading(false);
         } else {
@@ -175,6 +185,40 @@ const ProductItem = ({
       } catch (error) {
         console.error("Error adding to cart:", error);
         setIsLoading(false);
+      }}else{
+        try {
+          const resp = await fetch(`${API_URL}/shopping-lists/${wishlistId}/shopping-list-items/${wishlisted}`, {
+            method: "DELETE",
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
+  
+          if (resp.status === 401) {
+            // Redirect to login page
+            alert("Please Login");
+            window.location.href = "/login";
+            return;
+          }
+          if(resp.status === 204){
+            setWishlisted(null);
+          }
+          const response = await resp.json();
+  
+          if (response) {
+            if (response.errors) {
+              alert(response.errors[0]?.detail);
+            }  
+            
+            setIsLoading(false);
+          } else {
+            setIsLoading(false);
+          }
+        } catch (error) {
+          console.error("Error adding to cart:", error);
+          setIsLoading(false);
+        }
       }
     }else {
       if (confirm("Please Login")) {
@@ -189,7 +233,7 @@ const ProductItem = ({
         <button
           type="button"
           onClick={()=>toggleFav()}
-          className={`btn-heart ${isFavourite ? "btn-heart--active" : ""}`}
+          className={`btn-heart ${wishlisted ? "btn-heart--active" : ""}`}
         >
           <i className="icon-heart"></i>
         </button>

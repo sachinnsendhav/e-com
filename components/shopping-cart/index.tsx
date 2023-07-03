@@ -3,7 +3,7 @@ import CheckoutStatus from "../../components/checkout-status";
 import Item from "./item";
 import { RootState } from "store";
 import { useEffect, useState } from "react";
-import API_URL from "config";
+import {API_URL} from "config";
 
 const ShoppingCart = () => {
   // const { cartItems } = useSelector((state: RootState)  => state.cart);

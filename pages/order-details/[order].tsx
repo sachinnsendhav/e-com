@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router';
 import Layout from '../../layouts/Main';
 import Footer from 'components/footer';
-import API_URL from 'config';
+import {API_URL} from 'config';
 function orderDetailsPage() {
     const router = useRouter();
     const orderId = router.query.order;

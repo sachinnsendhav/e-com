@@ -4,7 +4,7 @@ import ProductsFeatured from "../components/products-featured";
 // import ProductsFeatured from "../components/products-featured`;
 import Footer from "../components/footer";
 import Subscribe from "../components/subscribe";
-import API_URL from '../config'
+import {API_URL} from '../config'
 import { useEffect, useState } from "react";
 import Link from "next/link";
 const IndexPage = () => {

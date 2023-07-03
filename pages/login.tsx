@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useForm } from "react-hook-form";
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react'
-import API_URL from 'config';
+import { API_URL } from 'config';
 
 type LoginMail = {
   email: string;

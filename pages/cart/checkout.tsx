@@ -3,7 +3,7 @@ import CheckoutStatus from "../../components/checkout-status";
 import CheckoutItems from "../../components/checkout/items/index";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import API_URL from "config";
+import {API_URL} from "config";
 
 const CheckoutPage = () => {
   const router = useRouter()

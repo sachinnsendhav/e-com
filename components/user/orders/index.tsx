@@ -1,4 +1,4 @@
-import API_URL from "config";
+import {API_URL} from "config";
 import Link from "next/link";
 import React, { useEffect, useState } from "react"
 

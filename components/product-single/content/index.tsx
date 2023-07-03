@@ -8,7 +8,7 @@ import { addProduct } from "store/reducers/cart";
 import { toggleFavProduct } from "store/reducers/user";
 import { ProductType, ProductStoreType } from "types";
 import { RootState } from "store";
-import API_URL from "config";
+import {API_URL} from "config";
 
 const Content = (product: any) => {
   const dispatch = useDispatch();

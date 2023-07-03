@@ -37,6 +37,7 @@ export type ProductTypeList = {
   price: string;
   images: string;
   concreteId: string;
+  wishlistProdId: any;
 }
 
 export type ProductStoreType = {

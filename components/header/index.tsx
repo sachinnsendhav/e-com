@@ -5,7 +5,7 @@ import Logo from '../../assets/icons/logo';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { RootState } from 'store';
-import API_URL from 'config';
+import {API_URL} from 'config';
 
 type HeaderType = {
   isErrorPage?: Boolean;

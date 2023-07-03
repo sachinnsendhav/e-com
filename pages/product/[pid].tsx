@@ -11,7 +11,7 @@ import Description from '../../components/product-single/description';
 import Reviews from '../../components/product-single/reviews';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import API_URL from 'config';
+import {API_URL} from 'config';
 
 const Product = () => {
   const router = useRouter();

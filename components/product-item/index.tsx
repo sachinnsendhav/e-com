@@ -202,22 +202,9 @@ const ProductItem = ({
       </div>
       <div className="product__description">
         <h3 style={{ fontFamily: "sans-serif" }}>{name}</h3>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <span style={{ fontWeight: "bold", color: "black" }}>
-            &euro; {price}
-          </span>
-          <button
-            style={{
-              padding: "8px",
-              background: "green",
-              color: "white",
-              borderRadius: "5px",
-            }}
-            onClick={() => handleAddtocart()}
-          >
-            {" "}
-            {isLoading ? "Adding to Cart" : "Add To Cart"}
-          </button>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <span style={{ fontWeight: "bold", color: "black", paddingTop: "10px" }}>&euro; {price}</span>
+          <button style={{ padding: "8px", background: "#070707", color: 'white', borderRadius: "5px" }} onClick={() => handleAddtocart()}> {isLoading ? "Adding to Cart" : "Add To Cart"}</button>
         </div>
       </div>
     </div>

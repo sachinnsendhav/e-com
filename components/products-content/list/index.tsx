@@ -42,6 +42,7 @@ const ProductsContent = () => {
   }
   useEffect(() => {
     if (searchUrl) {
+      setSearchResults([])
       getSearchData()
     }
   }, [searchUrl])
@@ -78,6 +79,7 @@ console.log("pppp",result)
 
   useEffect(() => {
     if (nodeId) {
+      setProducts([])
       getProductData()
     }
   }, [nodeId])

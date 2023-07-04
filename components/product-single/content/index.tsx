@@ -12,7 +12,6 @@ import {API_URL} from "config";
 
 const Content = (product: any) => {
   const dispatch = useDispatch();
-  console.log(product, "dnjkdskjdk");
   var cartId: any;
   var token: any;
   if (typeof window !== "undefined") {
@@ -57,7 +56,6 @@ const Content = (product: any) => {
         window.location.href = "/login";
         return;
       }
-      console.log(resp, "resp_+_+_+_+_+");
       const response = await resp.json();
 
       if (response) {
@@ -65,12 +63,10 @@ const Content = (product: any) => {
         localStorage.setItem("cartId", response?.data[0].id);
         cartId = response?.data[0].id;
         return response?.data[0].id;
-        console.log(response?.data[0].id, "response_+_+_+_+_+");
       } else {
         setIsLoading(false);
       }
     } catch (error) {
-      console.error("Error adding to cart:", error);
       setIsLoading(false);
     }
   };
@@ -198,7 +194,6 @@ const Content = (product: any) => {
             const response = await resp.json();
 
             if (response) {
-              console.log(response, "sdfnjksdfnsdjnfksjdnfksjn");
               if (response.errors) {
                 alert(response.errors[0]?.detail);
               } else {
@@ -209,7 +204,6 @@ const Content = (product: any) => {
               setIsLoading(false);
             }
           } catch (error) {
-            console.error("Error adding to cart:", error);
             setIsLoading(false);
           }
       } else {
@@ -278,14 +272,11 @@ const Content = (product: any) => {
           }
           const response = await resp.json();
           if (response) {
-            console.log(response, "response");
             setIsLoading(false);
           } else {
-            console.log(resp, "resp");
             setIsLoading(false);
           }
         } catch (error) {
-          console.log(error, "err");
           setIsLoading(false);
         }
       };

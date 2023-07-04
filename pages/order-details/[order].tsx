@@ -11,7 +11,6 @@ function orderDetailsPage() {
     useEffect(() => {
         setAuthToken(localStorage.getItem('token'))
     }, [])
-    console.log("first", orderId, authToken)
     const getOrderData = async () => {
         if (authToken) {
             if (orderId) {
@@ -33,7 +32,6 @@ function orderDetailsPage() {
 
         }
     }
-    console.log("orderData", orderData)
     useEffect(() => {
         getOrderData()
     }, [orderId, authToken])

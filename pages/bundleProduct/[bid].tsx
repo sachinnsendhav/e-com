@@ -30,7 +30,6 @@ const BundleProduct = ({ image }:any) => {
   }, [])
 
 //   const getBundleProducts = async() => {
-//     console.log(productId,"productId")
 //     try {
 //         const resp = await fetch(
 //           `${API_URL}/concrete-products/${productId}/bundled-products`,
@@ -42,7 +41,6 @@ const BundleProduct = ({ image }:any) => {
 //           }
 //         );
 //         const result = await resp.json();
-//         console.log(result.data,"resut")
 //         const tempArr:any = [];
 //         await result?.data?.map((item:any)=>{
 //             tempArr.push(item.id)
@@ -53,7 +51,6 @@ const BundleProduct = ({ image }:any) => {
 //         console.error('Error occurred while fetching product:', error);
 //       }
 //   }
-//   console.log(bundleProductIds,"bundleeee")
 
   const getProductDetails = async () => {
     try {
@@ -69,7 +66,6 @@ const BundleProduct = ({ image }:any) => {
       const result = await resp.json();
       setProduct(result.data.attributes);
     } catch (error) {
-      console.error('Error occurred while fetching product:', error);
     }
 
     try {
@@ -83,7 +79,6 @@ const BundleProduct = ({ image }:any) => {
         }
       );
       const imgData = await img.json();
-      console.log(imgData,"imgdata")
       setImg(imgData?.data? imgData?.data[0]?.attributes.imageSets[0].images[0].externalUrlLarge:"");
     } catch (error) {
       console.error('Error occurred while fetching image:', error);
@@ -116,7 +111,6 @@ const BundleProduct = ({ image }:any) => {
       }
     });
     const result = await resp.json();
-    console.log("resultt-:", result)
     setProductData((productData) => [...productData, {
       name: result.data.attributes.name,
       id: result.data.id,
@@ -140,9 +134,6 @@ const BundleProduct = ({ image }:any) => {
     }
   }, [productIds])
 
-  console.log(image,"image")
-
-  console.log("concrete--->>>on pdp", productData)
   return (
     <Layout>
       <Breadcrumb />

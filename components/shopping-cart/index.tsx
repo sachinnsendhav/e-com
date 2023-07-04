@@ -50,7 +50,6 @@ const ShoppingCart = () => {
         window.location.href = "/login";
         return;
       }
-      console.log(resp,"resp_+_+_+_+_+")
       const response = await resp.json();
     
       if (response) {

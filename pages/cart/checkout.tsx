@@ -66,7 +66,6 @@ const CheckoutPage = () => {
     handleGetCart();
   }, []);
 
-  console.log(items, "cartData")
 
   const getCheckoutDetails = async () => {
     const authToken = localStorage.getItem("token");
@@ -96,7 +95,6 @@ const CheckoutPage = () => {
       return;
     }if (resp.status === 422) {
     const response = await resp.json();
-console.log(response,"fdfsdsdf")
       // Redirect to "/login" route
       alert(response?.errors[0]?.detail);
       // window.location.href = "/login";
@@ -162,7 +160,6 @@ console.log(response,"fdfsdsdf")
         },
       },
     };
-    console.log(orderData, "orderData")
     try {
       const resp = await fetch(
         `${API_URL}/checkout`,
@@ -182,14 +179,12 @@ console.log(response,"fdfsdsdf")
         return;
       }if (resp.status === 422) {
       const response = await resp.json();
-console.log(response,"fdfsdsdf")
         // Redirect to "/login" route
         alert(response?.errors[0]?.detail);
         // window.location.href = "/login";
         return;
       }
       const response = await resp.json();
-      console.log("first-order-placed", response)
       localStorage.removeItem("cartId")
       router.push(`/thank-you?orderId=${response.data.attributes.orderReference}`)
       // if (response) {
@@ -207,9 +202,6 @@ console.log(response,"fdfsdsdf")
       setIsLoading(false);
     }
   };
-
-  // console.log(shipmentMethods,"shipmentMethods",shipments,"shipments",selectedPayment,"paymentMethods")
-  // console.log(selectedAddress,"addwe")
   const handlePaymentSeclection = async (id: any) => {
     paymentMethods?.map((item: any, index: number) => {
       if (item.id == id) {

@@ -16,8 +16,7 @@ const LoginPage = () => {
   const [authStatus, setAuthStatus] = useState("false")
   const [authToken, setAuthToken] = useState("");
   const [loading, setLoading] = useState(false)
-  // console.log("authStatus", authStatus, "token->", authToken)
-  console.log("loading--->>", loading)
+
   useEffect(() => {
     setAuthStatus(localStorage.getItem("status"));
     setAuthToken(localStorage.getItem("token"))
@@ -79,7 +78,6 @@ const LoginPage = () => {
           router.push('/profile');
         }
       } catch (err) {
-        console.log("errr", err)
         localStorage.setItem("status", "false")
       }
       setLoading(false)

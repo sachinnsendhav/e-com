@@ -39,7 +39,6 @@ const ProductItem = ({
     }
   }, [wishlistProdId]);
 
-  console.log(wishlistId, "eyyyy");
 
   const handleAddtocart = async () => {
     if (token) {
@@ -79,7 +78,6 @@ const ProductItem = ({
           const response = await resp.json();
 
           if (response) {
-            console.log(response, "sdfnjksdfnsdjnfksjdnfksjn");
             if (response.errors) {
               localStorage.removeItem("cartId");
               cartId = null;
@@ -93,7 +91,6 @@ const ProductItem = ({
             setIsLoading(false);
           }
         } catch (error) {
-          console.error("Error adding to cart:", error);
           setIsLoading(false);
         }
       } else {
@@ -121,7 +118,6 @@ const ProductItem = ({
         window.location.href = "/login";
         return;
       }
-      console.log(resp, "resp_+_+_+_+_+");
       const response = await resp.json();
 
       if (response) {
@@ -130,12 +126,10 @@ const ProductItem = ({
         cartId = response?.data[0].id;
         await handleAddtocart();
         return response?.data[0].id;
-        console.log(response?.data[0].id, "response_+_+_+_+_+");
       } else {
         setIsLoading(false);
       }
     } catch (error) {
-      console.error("Error adding to cart:", error);
       setIsLoading(false);
     }
   };
@@ -187,7 +181,6 @@ const ProductItem = ({
             setIsLoading(false);
           }
         } catch (error) {
-          console.error("Error adding to cart:", error);
           setIsLoading(false);
         }
       } else {
@@ -224,7 +217,6 @@ const ProductItem = ({
             setIsLoading(false);
           }
         } catch (error) {
-          console.error("Error adding to cart:", error);
           setIsLoading(false);
         }
       }

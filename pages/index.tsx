@@ -4,7 +4,7 @@ import ProductsFeatured from "../components/products-featured";
 // import ProductsFeatured from "../components/products-featured`;
 import Footer from "../components/footer";
 import Subscribe from "../components/subscribe";
-import {API_URL} from '../config'
+import { API_URL } from '../config'
 import { useEffect, useState } from "react";
 import Link from "next/link";
 const IndexPage = () => {
@@ -144,6 +144,23 @@ const IndexPage = () => {
     }
   }, [product]);
 
+  const getCmsData = async () => {
+    const resp = await fetch('', {
+      method: "GET",
+      headers: {
+        authorization: `Bearer han2JFRAHW29fPTXp-2tIonLLKQicrfxfH6rFW-f9oY`
+      }
+    });
+    const result = await resp.json();
+    console.log("ressssssssss---", result)
+    result.items.forEach((element:any) => {
+      console.log("jsdjfmsdjknfjdsmnjkfmndsjfmnjkdjkmnjmnjmcnkdsojfodsmnfjodsjofd", element.sys.contentType.id)
+    });
+  }
+  useEffect(() => {
+    getCmsData()
+  }, [])
+  
   return (
     <Layout>
       {cmsData ? (
@@ -227,18 +244,18 @@ const IndexPage = () => {
               <ul className="shop-data-items">
                 {cmsData.nextContentfulBottomCollection.items.length > 0
                   ? cmsData.nextContentfulBottomCollection.items.map(
-                      (item: any) => {
-                        return (
-                          <li>
-                            <i className={item.iconClass}></i>
-                            <div className="data-item__content">
-                              <h4>{item.iconTitle}</h4>
-                              <p>{item.iconDescription}</p>
-                            </div>
-                          </li>
-                        );
-                      }
-                    )
+                    (item: any) => {
+                      return (
+                        <li>
+                          <i className={item.iconClass}></i>
+                          <div className="data-item__content">
+                            <h4>{item.iconTitle}</h4>
+                            <p>{item.iconDescription}</p>
+                          </div>
+                        </li>
+                      );
+                    }
+                  )
                   : null}
               </ul>
             </div>

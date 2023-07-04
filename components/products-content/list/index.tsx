@@ -70,7 +70,6 @@ const ProductsContent = () => {
       }
     );
     const result = await resp.json();
-    console.log("shopping list item", result);
     var tempArr:any =[];
     result?.included?.map((item:any)=>{
       tempArr.push({sku:item?.attributes?.sku, wishId:item?.id});
@@ -89,7 +88,6 @@ const ProductsContent = () => {
       }
     );
     const result = await resp.json();
-    console.log("pppp", result);
 
     result?.data[0]?.attributes?.abstractProducts.forEach((element: any) => {
       result?.included.forEach((item: any) => {

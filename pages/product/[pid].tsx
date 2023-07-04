@@ -87,7 +87,6 @@ const Product = () => {
       }
     });
     const result = await resp.json();
-    console.log("resultt-:", result)
     setProductData((productData) => [...productData, {
       name: result.data.attributes.name,
       id: result.data.id,

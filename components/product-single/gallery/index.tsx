@@ -6,7 +6,6 @@ const Gallery = ( images:any) => {
   const handleThumbnailClick = (image:any) => {
     setSelectedImage(image);
   };
-console.log(typeof(images?.images),"imsmdklms")
   return (
     <section className="product-gallery">
       <div className="product-gallery__thumbs">

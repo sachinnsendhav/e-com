@@ -10,7 +10,6 @@ function ThankYouPage() {
         const id = router.query.orderId
         setOrderId(id)
     }, [])
-    console.log("first", orderId)
     return (
         <section>
             <div style={{

@@ -22,7 +22,6 @@ const ShoppingCart = ({ thumb, name,pliId, id, avalibility, size, count, price,s
             <h3>{name}</h3>
             {/* <p>#{id}</p> */}
             {/* <p>{pliId}</p> */}
-            {/* {console.log(avalibility,"avaaaa_____")} */}
             <p>{avalibility?.availability? <span style={{color:'green'}}>In Stock</span>:<span style={{color:'red'}}>out of stock</span>}</p>
             {/* <p>{avalibility?.isNeverOutOfStock? '':<span style={{color:'red'}}>only {avalibility?.quantity} avalibility</span>}</p> */}
           </div>

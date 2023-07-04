@@ -117,7 +117,6 @@ const Header = ({ isErrorPage }: HeaderType) => {
         router.push('/login')
         }
       } catch (err) {
-        console.log("errr", err)
         localStorage.setItem("status", "false")
         router.push('/login')
       }
@@ -129,7 +128,6 @@ const Header = ({ isErrorPage }: HeaderType) => {
   useEffect(() => {
     checkTokenExpiry();
   }, [authToken])
-  console.log("first, authStatus", authStatus)
 
   const getSearchResult = async (text: any) => {
     const resp = await fetch(`${API_URL}/catalog-search-suggestions?q=${text}`, {
@@ -139,14 +137,12 @@ const Header = ({ isErrorPage }: HeaderType) => {
       }
     });
     const result = await resp.json();
-    console.log("search---- result", result)
     setSearchResult(result?.data[0]?.attributes?.abstractProducts)
   }
 
   useEffect(() => {
     getSearchResult(searchText)
   }, [searchText])
-  console.log("searchResult----", searchResult)
   return (
     <header className={`site-header ${!onTop ? 'site-header--fixed' : ''}`}>
       <div className="container">

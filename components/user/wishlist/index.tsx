@@ -54,8 +54,6 @@ const Wishlist = ({ show }: WishlistType) => {
         const image: any = [];
         const quantity: any = [];
         const price: any = [];
-        console.log("quantity", quantity);
-        console.log("result-wishlist", result);
 
         if (result && result.included && result.included.length > 0) {
             result.included.forEach((element: any) => {
@@ -90,7 +88,6 @@ const Wishlist = ({ show }: WishlistType) => {
         }
 
         const shoppingItems = concreteProductData.map((concreteProduct: any) => {
-            console.log("quantity--", quantity)
             const matchingImage = image.find((img: any) => img.id === concreteProduct.id);
             const matchingQuantity = quantity.find((qty: any) => qty.id === concreteProduct.id);
             const matchingPrice = price.find((prc: any) => prc.id === concreteProduct.id);

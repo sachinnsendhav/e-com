@@ -2412,6 +2412,92 @@ h5 {
   }
 }
 
+.address-list {
+  width: 90%;
+  table {
+    width: 100%;
+  }
+  tr {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    position: relative;
+    padding-bottom: 18px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid #d8d8d8;
+    @include breakpoint(phone) {
+      display: table-row;
+      padding: 0;
+      margin: 0;
+      border: none;
+    }
+    &:last-of-type {
+      border-bottom: none;
+    }
+    &:first-of-type {
+      display: none;
+      @include breakpoint(phone) {
+        display: table-row;
+      }
+    }
+    th {
+      text-align: center;
+      font-size: 14px;
+      color: #c1c1c1;
+      padding-bottom: 30px;
+    }
+    td {
+      display: block;
+      flex-wrap: wrap;
+      padding: 10px 0;
+      color: #000;
+      @include breakpointMax(phone) {
+        width: 100% !important;
+      }
+      @include breakpoint(phone) {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+        padding: 20px 0;
+      }
+      &.cart-item-before {
+        &:before {
+          font-weight: 600;
+          margin-right: 15px;
+          content: attr(data-label) ": ";
+          @include breakpoint(phone) {
+            display: none;
+          }
+        }
+      }
+      &:nth-of-type(4) {
+        text-align: right;
+        @include breakpoint(phone) {
+          text-align: center;
+        }
+      }
+      &:nth-of-type(5) {
+        text-align: left;
+        padding-left: 15px;
+        @include breakpoint(phone) {
+          text-align: center;
+        }
+      }
+      &.cart-item-cancel {
+        top: 5px;
+        right: 0;
+        width: auto !important;
+        position: absolute;
+        @include breakpoint(phone) {
+          position: static;
+        }
+        i {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
 .cart-product {
   display: flex;
   align-items: center;

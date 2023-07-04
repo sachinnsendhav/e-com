@@ -99,6 +99,7 @@ const ProductsContent = () => {
             {
               abstractName: element.abstractName,
               abstractSku: element.abstractSku,
+              description: item.attributes.description,
               price: element.price,
               image: element.images[0].externalUrlLarge,
               concreteId: item.attributes.attributeMap.product_concrete_ids[0],
@@ -127,6 +128,7 @@ const ProductsContent = () => {
             <ProductItem
               id={item.abstractSku}
               name={item.abstractName}
+              description={item.description}
               price={item.price}
               key={item.abstractSku}
               images={item.image}
@@ -142,6 +144,7 @@ const ProductsContent = () => {
             <ProductItem
               id={item.abstractSku}
               name={item.abstractName}
+              description={item.description}
               price={item.price}
               key={item.abstractSku}
               images={item.image}

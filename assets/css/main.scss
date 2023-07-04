@@ -829,6 +829,11 @@ h5 {
 }
 
 .product-item {
+  display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 50rem;
+    width: 25rem !important;
   &.product-item--loading {
     .product__image,
     .product__description h3,
@@ -887,7 +892,7 @@ h5 {
       margin-bottom: 30px;
     }
     > a {
-      height: 100%;
+      height: 95%;
       width: 100%;
       display: block;
       padding: 18px;
@@ -909,14 +914,14 @@ h5 {
       @include breakpoint(phone) {
         height: 38px;
         width: 38px;
-        top: 19px;
-        right: 19px;
+        top: -20px;
+        right: -20px;
         font-size: 14px;
       }
       // &:hover,
       &.btn-heart--active {
         color: #fff;
-        background-color: var(--color-orange);
+        background-color: rgb(207, 18, 46);
       }
     }
     img {
@@ -1312,6 +1317,8 @@ h5 {
 }
 
 .products-page {
+  padding-top: 1rem;
+  background: rgb(236 230 216);
   .container {
     @include breakpoint(phone) {
       display: flex;
@@ -1438,9 +1445,10 @@ h5 {
       margin-bottom: 35px;
       flex-wrap: wrap;
       h2 {
+        color:rgb(207 18 46);
+        font-weight: 700;
         font-size: 18px;
         margin-right: auto;
-        font-weight: 300;
         @include breakpoint(phone) {
           font-size: 24px;
         }
@@ -1628,13 +1636,17 @@ h5 {
     width: calc(100% / 2 - 15px);
     margin-bottom: 50px;
     margin-right: 15px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,.3),0 2px 4px -2px rgba(0,0,0,.3);
+    padding: 27px;
+    border-radius: 8px;
+    background-color: #fff;
     @include breakpoint(phone) {
       margin-right: 33px;
       margin-bottom: 55px;
       width: calc(100% / 3 - 33px);
     }
     @include breakpoint(tablet-lg) {
-      margin-right: 63px;
+      margin-right: 33px;
       margin-bottom: 85px;
       width: calc(100% / 4 - 63px);
     }
@@ -1702,6 +1714,7 @@ h5 {
 
 .btn-heart {
   border-radius: 100%;
+  align-self: end;
   width: 49px;
   height: 49px;
   display: flex;
@@ -1712,7 +1725,7 @@ h5 {
   &:hover,
   &.btn-heart--active {
     color: #fff;
-    background-color: var(--color-orange);
+    background-color: rgb(207, 18, 46);
   }
 }
 

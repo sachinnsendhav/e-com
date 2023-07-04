@@ -34,6 +34,7 @@ export type ProductType = {
 export type ProductTypeList = {
   id: string;
   name: string;
+  description: string;
   price: string;
   images: string;
   concreteId: string;

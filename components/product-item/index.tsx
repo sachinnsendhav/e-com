@@ -285,7 +285,7 @@ const ProductItem = ({
         </div>
         <div className="product__description">
           <h3 style={{ fontFamily: "sans-serif" }}>Description: </h3>
-          {sentences?.slice(0, 3).map((item, index) => (
+          {sentences?.slice(0, 2).map((item, index) => (
             <li style={{ marginTop: "1rem" }} key={index}>
               {item}
             </li>

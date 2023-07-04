@@ -283,6 +283,7 @@ const ProductItem = ({
             </a>
           </Link>
         </div>
+        
         <div className="product__description">
           <h3 style={{ fontFamily: "sans-serif" }}>Description: </h3>
           {sentences?.slice(0, 2).map((item, index) => (

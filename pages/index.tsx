@@ -144,8 +144,6 @@ const IndexPage = () => {
     }
   }, [product]);
 
-  console.log("concrete--->>>", productData);
-
   return (
     <Layout>
       {cmsData ? (

@@ -10,7 +10,7 @@ import React from 'react';
 const COMPONENTS: Record<string, ComponentType<any>> = {
     Banners
 }
-
+ 
 interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sections?: Array<{ name: string; data: any }>

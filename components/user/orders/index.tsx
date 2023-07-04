@@ -34,7 +34,6 @@ const Orders = ({ show }: AddressType) => {
 
     }
   }
-  console.log("first", order)
   useEffect(() => {
     getOrder()
   }, [authToken])

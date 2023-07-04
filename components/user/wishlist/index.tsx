@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {API_URL} from "../../../config";
+import { API_URL } from "../../../config";
 import { forEach } from 'lodash';
 
 type WishlistType = {
@@ -50,12 +50,12 @@ const Wishlist = ({ show }: WishlistType) => {
             }
         );
         const result = await resp.json();
-        console.log("shopping list item", result);
-
         const concreteProductData: any = [];
         const image: any = [];
         const quantity: any = [];
         const price: any = [];
+        console.log("quantity", quantity);
+        console.log("result-wishlist", result);
 
         if (result && result.included && result.included.length > 0) {
             result.included.forEach((element: any) => {
@@ -76,6 +76,7 @@ const Wishlist = ({ show }: WishlistType) => {
                         quantity.push({
                             quantity: element.attributes.quantity,
                             id: element.attributes.sku,
+                            itemId: element.id
                         });
                         break;
                     default:
@@ -88,11 +89,8 @@ const Wishlist = ({ show }: WishlistType) => {
             });
         }
 
-        console.log("image:", image);
-
-
         const shoppingItems = concreteProductData.map((concreteProduct: any) => {
-
+            console.log("quantity--", quantity)
             const matchingImage = image.find((img: any) => img.id === concreteProduct.id);
             const matchingQuantity = quantity.find((qty: any) => qty.id === concreteProduct.id);
             const matchingPrice = price.find((prc: any) => prc.id === concreteProduct.id);
@@ -102,18 +100,28 @@ const Wishlist = ({ show }: WishlistType) => {
                 image: matchingImage?.image,
                 quantity: matchingQuantity?.quantity || 0,
                 price: matchingPrice?.price || 0,
+                itemId: matchingQuantity?.itemId
             };
         });
-
         setShoppingItems(shoppingItems);
-
     }
     useEffect(() => {
         getShoppingListItem(shppingListId)
     }, [shppingListId])
 
-    console.log("shoppingListName", shoppingListName);
-    console.log("shoppingItems", shoppingItems);
+    const deleteShoppingListItems = async (id: any) => {
+        const resp = await fetch(`${API_URL}/shopping-lists/${shppingListId}/shopping-list-items/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${authToken}`
+            }
+        });
+        if (resp.status === 204) {
+            const updatedItems = shoppingItems.filter(item => item.itemId !== id);
+            setShoppingItems(updatedItems || [])
+            alert("deleted sucessfully...!")
+        }
+    }
     return (
         <section style={style}>
             <div style={{ margin: "auto", width: "80%" }}>
@@ -147,10 +155,25 @@ const Wishlist = ({ show }: WishlistType) => {
                                         <div>
                                             <img src={item.image} style={{ height: "100px", width: "100px", objectFit: "contain" }} />
                                         </div>
-                                        <div style={{ padding: "10px" }}>
-                                            <p style={{ fontWeight: "bold" }}>{item.name}</p>
-                                            <p style={{ paddingTop: "5px", fontWeight: "bold" }}>Quantity : {item.quantity}</p>
-                                            <p style={{ paddingTop: "5px", fontWeight: "bold" }}>Price : &euro; {item.price}</p>
+                                        <div style={{ padding: "10px", width: "100%", display: "flex", justifyContent: "space-between" }}>
+                                            <div>
+                                                <p style={{ fontWeight: "bold" }}>{item.name}</p>
+                                                <p style={{ paddingTop: "5px", fontWeight: "bold" }}>Quantity : {item.quantity}</p>
+                                                <p style={{ paddingTop: "5px", fontWeight: "bold" }}>Price : &euro; {item.price}</p>
+                                            </div>
+                                            <div>
+                                                <button style={{
+                                                    backgroundColor: "black",
+                                                    borderRadius: "5px",
+                                                    borderColor: "black",
+                                                    padding: "5px",
+                                                    paddingInline: "15px",
+                                                    color: "#ffffff"
+                                                }}
+                                                    onClick={() => deleteShoppingListItems(item.itemId)}>
+                                                    Delete
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 )

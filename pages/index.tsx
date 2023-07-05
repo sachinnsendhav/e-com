@@ -8,12 +8,14 @@ import { API_URL } from '../config'
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import RenderPageSection from "../cms/renderPageSections"
+import { forEach } from "lodash";
 const IndexPage = () => {
   const [cmsData, setCmsData] = useState();
   const [authToken, setAuthToken] = useState("");
   const [product, setProduct] = useState<any[]>([]);
   const [productData, setProductData] = useState<any[]>([]);
   const [ricohCms, setRicohCms] = useState<any[]>([])
+  const [imageData, setImageData] = useState<any[]>([])
   useEffect(() => {
     setAuthToken(localStorage.getItem("token"));
   }, []);
@@ -152,7 +154,8 @@ const IndexPage = () => {
       }
     });
     const result = await resp.json();
-    console.log("ressssssssss---", result)
+    console.log("ressssssssss---", result);
+    setImageData(result.includes.Asset);
     const arr: any = []
     result.items.forEach((element: any) => {
       arr.push({
@@ -160,6 +163,20 @@ const IndexPage = () => {
         data: element.fields
       })
     });
+    console.log("arr", arr)
+    // const updatedArr: any = []
+    // arr.forEach((element: any) => {
+    //   result.includes.Asset.forEach((img: any) => {
+    //     if (element?.data?.image[0]?.sys?.id === img?.sys?.id){
+    //       updatedArr.push({
+    //         id:element.id,
+    //         data:{
+
+    //         }
+    //       })
+    //     }
+    //   });
+    // });
     const modifiedData = arr.reduce((acc: any, item: any) => {
       const { id, data } = item;
       const existingObj = acc.find((obj: any) => obj.id === id);
@@ -173,6 +190,7 @@ const IndexPage = () => {
       }
       return acc;
     }, []);
+
     setRicohCms(modifiedData)
     console.log("modifiedData", modifiedData)
   }
@@ -186,7 +204,7 @@ const IndexPage = () => {
         <>
 
           <PageIntro cmsData={cmsData} />
-          <RenderPageSection sections={ricohCms} />
+          <RenderPageSection sections={ricohCms} imageData={imageData} />
           <section className="featured">
             <div className="container">
               <article

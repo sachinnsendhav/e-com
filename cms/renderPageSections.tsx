@@ -22,9 +22,10 @@ const COMPONENTS: Record<string, ComponentType<any>> = {
 interface Props {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     sections?: Array<{ id: string; data: any }>
+    imageData : any
 }
-function RenderPageSections({ sections }: Props) {
-
+function RenderPageSections({ sections,imageData }: Props) {
+console.log("first-image data",imageData)
     return (
         <>
             {sections?.map(({ id, data }, index) => {
@@ -38,7 +39,7 @@ function RenderPageSections({ sections }: Props) {
                     return <></>
                 }
 
-                return <Component key={`cms-section-${index}`} {...data} />
+                return <Component key={`cms-section-${index}`} {...data} imageData={imageData}/>
             })}
         </>
     )

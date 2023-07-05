@@ -1,10 +1,7 @@
 import React from 'react'
 
-export interface BannerProps {
-text: string,
-image: any
-}
-function index({text, image}: BannerProps) {
+function index(data:any) {
+  console.log("industries---data", data)
 
   return (
     <div>hi</div>

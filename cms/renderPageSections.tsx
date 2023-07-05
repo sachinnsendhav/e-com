@@ -1,5 +1,9 @@
 import type { ComponentType } from 'react'
-import Banners from '../components/sections/Banners'
+import blog from '../components/sections/Blog'
+import carousel from '../components/sections/Carousel'
+import industries from '../components/sections/Industries'
+import infoTile from '../components/sections/InfoTile'
+import news from '../components/sections/News'
 import React from 'react';
 
 /**
@@ -8,32 +12,36 @@ import React from 'react';
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const COMPONENTS: Record<string, ComponentType<any>> = {
-    Banners
+    blog,
+    carousel,
+    industries,
+    infoTile,
+    news
 }
- 
+
 interface Props {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  sections?: Array<{ name: string; data: any }>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    sections?: Array<{ id: string; data: any }>
 }
 function RenderPageSections({ sections }: Props) {
 
-  return (
-    <>
-      {sections?.map(({ name, data }, index) => {
-        const Component = COMPONENTS[name]
+    return (
+        <>
+            {sections?.map(({ id, data }, index) => {
+                const Component = COMPONENTS[id]
 
-        if (!Component) {
-          console.info(
-            `Could not find component for block ${name}. Add a new component for this block or remove it from the CMS`
-          )
+                if (!Component) {
+                    console.info(
+                        `Could not find component for block ${id}. Add a new component for this block or remove it from the CMS`
+                    )
 
-          return <></>
-        }
+                    return <></>
+                }
 
-        return <Component key={`cms-section-${index}`} {...data} />
-      })}
-    </>
-  )
+                return <Component key={`cms-section-${index}`} {...data} />
+            })}
+        </>
+    )
 }
 
 export default RenderPageSections

@@ -7,11 +7,13 @@ import Subscribe from "../components/subscribe";
 import { API_URL } from '../config'
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import RenderPageSection from "../cms/renderPageSections"
 const IndexPage = () => {
   const [cmsData, setCmsData] = useState();
   const [authToken, setAuthToken] = useState("");
   const [product, setProduct] = useState<any[]>([]);
   const [productData, setProductData] = useState<any[]>([]);
+  const [ricohCms, setRicohCms] = useState<any[]>([])
   useEffect(() => {
     setAuthToken(localStorage.getItem("token"));
   }, []);
@@ -78,7 +80,6 @@ const IndexPage = () => {
     try {
       const response = await fetch(url, options);
       const data = await response.json();
-      console.log("API response:", data);
       setCmsData(data.data);
       // Process the response data as per your requirements
     } catch (error) {
@@ -111,7 +112,6 @@ const IndexPage = () => {
       }
     );
     const result = await resp.json();
-    console.log("resultt-:", result);
     setProductData((productData) => [
       ...productData,
       {
@@ -145,7 +145,7 @@ const IndexPage = () => {
   }, [product]);
 
   const getCmsData = async () => {
-    const resp = await fetch('', {
+    const resp = await fetch('https://cdn.contentful.com/spaces/cp3b8ygfr8vj/environments/master/entries', {
       method: "GET",
       headers: {
         authorization: `Bearer han2JFRAHW29fPTXp-2tIonLLKQicrfxfH6rFW-f9oY`
@@ -153,20 +153,40 @@ const IndexPage = () => {
     });
     const result = await resp.json();
     console.log("ressssssssss---", result)
-    result.items.forEach((element:any) => {
-      console.log("jsdjfmsdjknfjdsmnjkfmndsjfmnjkdjkmnjmnjmcnkdsojfodsmnfjodsjofd", element.sys.contentType.id)
+    const arr: any = []
+    result.items.forEach((element: any) => {
+      arr.push({
+        id: element.sys.contentType.sys.id,
+        data: element.fields
+      })
     });
+    const modifiedData = arr.reduce((acc: any, item: any) => {
+      const { id, data } = item;
+      const existingObj = acc.find((obj: any) => obj.id === id);
+      if (existingObj) {
+        existingObj.data.push(data);
+      } else {
+        acc.push({
+          id,
+          data: [data],
+        });
+      }
+      return acc;
+    }, []);
+    setRicohCms(modifiedData)
+    console.log("modifiedData", modifiedData)
   }
   useEffect(() => {
     getCmsData()
   }, [])
-  
+
   return (
     <Layout>
       {cmsData ? (
         <>
-          <PageIntro cmsData={cmsData} />
 
+          <PageIntro cmsData={cmsData} />
+          <RenderPageSection sections={ricohCms} />
           <section className="featured">
             <div className="container">
               <article

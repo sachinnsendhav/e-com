@@ -9,7 +9,6 @@ import { toggleFavProduct } from "store/reducers/user";
 import { ProductType, ProductStoreType } from "types";
 import { RootState } from "store";
 import {API_URL} from "config";
-
 const Content = (product: any) => {
   const dispatch = useDispatch();
   var cartId: any;
@@ -22,7 +21,7 @@ const Content = (product: any) => {
   const [count, setCount] = useState<number>(1);
   const [color, setColor] = useState<string>("");
   const [itemSize, setItemSize] = useState<string>("");
-
+  const [isWishlisted, setIsWishlisted] = useState<boolean>(false)
   const [variationData, setVariationData] = useState<any>();
   const [variationIdData, setVariationIdData] = useState<any>();
   const [variationKey, setVariationKey] = useState<any>();
@@ -30,8 +29,100 @@ const Content = (product: any) => {
   const [isBundle, setIsBundle] = useState<any>();
   const [price, setPrice] = useState(null);
   const [priceSymbole, setPriceSymbole] = useState(null);
-  const [selectedId, setSelectedId] = useState<any>(null);
+  const [selectedId, setSelectedId] = useState<any>();
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingWishlist, setIsLoadingWishlist] = useState(false);
+
+  const [wishlistOperation, setWishlistOperation] = useState<boolean>(false)
+  const [shoppingListName, setShoppingListName] = useState<any[]>()
+  const [showBlock, setShowBlock] = useState<any>("")
+  const [shppingListId, setShppingListId] = useState("")
+  const [shoppingItems, setShoppingItems] = useState<any[]>([])
+  const [wishlistedItemId, setWishlistedItemId] = useState<any>("");
+const getShoppingListName = async () => {
+    const resp = await fetch(`${API_URL}/shopping-lists`,
+        {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+    );
+    const result = await resp.json();
+    setShoppingListName(result.data);
+    setShowBlock(result.data[0]?.attributes?.name);
+    setShppingListId(result.data[0]?.id)
+}
+
+console.log(shoppingListName,"shopppingList Name")
+
+const getShoppingListItem = async (id: any) => {
+    const resp = await fetch(`${API_URL}/shopping-lists/${id}?include=shopping-list-items%2Cconcrete-products%2Cconcrete-product-image-sets%2Cconcrete-product-prices`,
+        {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+    );
+    const result = await resp.json();
+    const concreteProductData: any = [];
+    const image: any = [];
+    const quantity: any = [];
+    const price: any = [];
+
+    if (result && result.included && result.included.length > 0) {
+        result.included.forEach((element: any) => {
+            switch (element.type) {
+                case "concrete-products":
+                    concreteProductData.push({
+                        id: element.id,
+                        name: element.attributes.name,
+                    });
+                    break;
+                case "concrete-product-image-sets":
+                    image.push({
+                        id: element.id,
+                        image: element?.attributes?.imageSets[0]?.images[0]?.externalUrlLarge,
+                    });
+                    break;
+                case "shopping-list-items":
+                    quantity.push({
+                        quantity: element.attributes.quantity,
+                        id: element.attributes.sku,
+                        itemId: element.id
+                    });
+                    break;
+                default:
+                    price.push({
+                        price: element.attributes.price,
+                        id: element.id,
+                    });
+                    break;
+            }
+        });
+    }
+
+    const shoppingItems = concreteProductData.map((concreteProduct: any) => {
+        const matchingImage = image.find((img: any) => img.id === concreteProduct.id);
+        const matchingQuantity = quantity.find((qty: any) => qty.id === concreteProduct.id);
+        const matchingPrice = price.find((prc: any) => prc.id === concreteProduct.id);
+        return {
+            id: concreteProduct.id,
+            name: concreteProduct.name,
+            image: matchingImage?.image,
+            quantity: matchingQuantity?.quantity || 0,
+            price: matchingPrice?.price || 0,
+            itemId: matchingQuantity?.itemId
+        };
+    });
+    setShoppingItems(shoppingItems);
+}
+useEffect(() => {
+  setIsLoadingWishlist(true)
+  setIsWishlisted(false)
+    getShoppingListItem(shppingListId)
+}, [shppingListId])
 
   useEffect(() => {
     setProductData(product?.product);
@@ -138,15 +229,22 @@ const Content = (product: any) => {
     };
     handlerfunction();
   }, [productData]);
+  useEffect(() => {
+    shoppingItems?.map((item:any,index:number)=>{
+      console.log(item,selectedId,variationIdData,"edsj")
+      if(variationIdData[selectedId] == item?.id){
+        setIsWishlisted(true);
+        setWishlistedItemId(item?.itemId)
+      }
+    })
+    setIsLoadingWishlist(false)
+  }, [shoppingItems])
+  
   const AddtoCartHandler = async () => {
     if (variationData && variationData[1]) {
       if (selectedId) {
         var productSkuId = "";
-        await variationIdData?.map((item: any, index: Number) => {
-          if (index == selectedId) {
-            productSkuId = item;
-          }
-        });
+        productSkuId=await variationIdData[selectedId]
       } else {
         return alert("select Variant");
       }
@@ -223,11 +321,19 @@ const Content = (product: any) => {
   );
 
   const toggleFav = () => {
-    dispatch(
-      toggleFavProduct({
-        id: product.id,
-      })
-    );
+    setWishlistOperation(true)
+    if(token){
+      var id = variationIdData && variationIdData[1] ? selectedId ?variationIdData[selectedId]: "":variationIdData[0];
+      if(id){
+        getShoppingListName()
+      }else{
+        alert("select Varient to add to wishlist")
+      }
+    }else {
+      if(confirm("Please Login to add product to wishlist")){
+      window.location.href='/login';
+      };
+    }
   };
 
   const addToCart = () => {
@@ -248,6 +354,8 @@ const Content = (product: any) => {
 
     dispatch(addProduct(productStore));
   };
+
+  console.log(shoppingItems,"shoppingItems")
 
   const checkCartExist = async () => {
     if (localStorage.getItem("cartId")) {
@@ -287,6 +395,106 @@ const Content = (product: any) => {
     return true;
   };
 
+
+  console.log(isWishlisted,"isWishlisted", shppingListId,"shppingListId",isLoadingWishlist)
+  const handleAddtoWishlist = async (wishlisted:any) => {
+    if (token) {
+      if (!wishlisted) {
+        const productCart = {
+          data: {
+            type: "shopping-list-items",
+            attributes: {
+              productOfferReference: null,
+              quantity: 1,
+              sku: variationIdData[selectedId],
+            },
+          },
+        };
+        setIsLoading(true);
+        try {
+          const resp = await fetch(
+            `${API_URL}/shopping-lists/${shppingListId}/shopping-list-items`,
+            {
+              method: "POST",
+              body: JSON.stringify(productCart),
+              headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (resp.status === 401) {
+            // Redirect to login page
+            alert("Please Login");
+            window.location.href = "/login";
+            return;
+          }
+
+          const response = await resp.json();
+
+          if (response) {
+            if (response.errors) {
+              alert(response.errors[0]?.detail);
+            } else {
+              setShppingListId("");
+              getShoppingListName();
+              // setWishlisted(response?.data?.id);
+            }
+            setIsLoading(false);
+          } else {
+            setIsLoading(false);
+          }
+        } catch (error) {
+          setIsLoading(false);
+        }
+      } else {
+        try {
+          const resp = await fetch(
+            `${API_URL}/shopping-lists/${shppingListId}/shopping-list-items/${wishlistedItemId}`,
+            {
+              method: "DELETE",
+              headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (resp.status === 401) {
+            // Redirect to login page
+            alert("Please Login");
+            window.location.href = "/login";
+            return;
+          }
+          if (resp.status === 204) {
+            // setWishlisted(null);
+            setShppingListId("");
+            getShoppingListName();
+          }
+          const response = await resp.json();
+
+          if (response) {
+            if (response.errors) {
+              alert(response.errors[0]?.detail);
+            }
+
+            setIsLoading(false);
+          } else {
+            setIsLoading(false);
+          }
+        } catch (error) {
+          setIsLoading(false);
+        }
+      }
+    } else {
+      if (confirm("Please Login")) {
+        window.location.href = "/login";
+      }
+    }
+    // setWishlistOperation(false)
+    setWishlistedItemId("")
+  };
   return (
     <section className="product-content">
       <div className="product-content__intro">
@@ -359,6 +567,95 @@ const Content = (product: any) => {
             </div>
           </div>
         )}
+
+{wishlistOperation && shoppingListName && (
+  <div
+    style={{
+      marginTop: '2rem',
+      padding: '1rem',
+      border: '1px solid',
+      marginBottom: '2rem',
+      display: 'flex',
+      flexDirection: 'column',
+      backgroundColor: '#F4F6F8',
+      borderRadius: '8px',
+      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    }}
+  >
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: '1rem',
+        borderBottom: '1px solid #E4E7EB',
+        paddingBottom: '0.5rem',
+      }}
+    >
+      <span style={{ fontWeight: 'bold' }}>Select Wishlist</span>
+      <button
+        style={{
+          color: 'red',
+          border: 'none',
+          background: 'none',
+          cursor: 'pointer',
+        }}
+        onClick={() => setWishlistOperation(false)}
+      >
+        Close
+      </button>
+    </div>
+    {shoppingListName?.map((item: any, index: number) => (
+      <div key={index} style={{ marginBottom: '0.5rem' , display:"flex",justifyContent:"space-between" }}>
+        <button
+          onClick={(e) => setShppingListId(item?.id)}
+          className={`wishlistButton ${item?.id === shppingListId ? 'selected' : ''}`}
+          style={{
+            maxWidth: '15rem',
+            border: '1px solid gray',
+            borderRadius: '5px',
+            padding: '0.5rem',
+            margin: '0.5rem',
+            background: item?.id === shppingListId ? 'yellow' : '',
+            color: 'black',
+            fontWeight: item?.id === shppingListId ? 'bold' : 'normal',
+            transition: 'background 0.3s',
+          }}
+        >
+          {item?.attributes?.name}
+          {item?.id === shppingListId ? '(Default)' : ''}
+        </button>
+        <button
+          onClick={() => handleAddtoWishlist(isWishlisted)}
+          className={item?.id === shppingListId ? 'handlerbutton' : ''}
+          style={{
+            border: 'none',
+            background: 'none',
+            cursor: 'pointer',
+            marginLeft: '0.5rem',
+            color: 'black',
+            fontWeight: item?.id === shppingListId ? 'bold' : 'normal',
+            transition: 'color 0.3s',
+          }}
+        >
+          { item?.id === shppingListId ? isLoadingWishlist ? (
+            'Loading...'
+          ) :(
+            isWishlisted ? (
+              <span style={{ color: 'red' }}>--Remove From ShoppingList</span>
+            ) : (
+              <span style={{ color: 'green' }}>-- Add to this ShoppingList</span>
+            )
+          ) : (
+            ''
+          )}
+        </button>
+      </div>
+    ))}
+  </div>
+)}
+
+
         <div className="product-filter-item">
           <h5>Quantity:</h5>
           <div className="quantity-buttons">
@@ -389,12 +686,13 @@ const Content = (product: any) => {
             </button>
             <button
               type="button"
-              onClick={toggleFav}
+              onClick={()=>toggleFav()}
               className={`btn-heart ${isFavourite ? "btn-heart--active" : ""}`}
             >
               <i className="icon-heart"></i>
             </button>
           </div>
+          
         </div>
       </div>
     </section>

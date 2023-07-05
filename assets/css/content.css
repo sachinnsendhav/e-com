@@ -1,0 +1,18 @@
+.wishlistButton {
+    max-width: 15rem;
+    padding: 5px;
+    margin: 5px;
+  }
+  
+  .wishlistButton:hover {
+    background: gray;
+  }
+  
+  .selected {
+    background: yellow;
+  }
+.handlerbutton {
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 5px;
+}

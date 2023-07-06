@@ -25,7 +25,6 @@ interface Props {
     imageData : any
 }
 function RenderPageSections({ sections,imageData }: Props) {
-console.log("first-image data",imageData)
     return (
         <>
             {sections?.map(({ id, data }, index) => {

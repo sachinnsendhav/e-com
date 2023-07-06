@@ -87,17 +87,19 @@ const Wishlist = ({ show }: WishlistType) => {
             });
         }
 
-        const shoppingItems = concreteProductData.map((concreteProduct: any) => {
-            const matchingImage = image.find((img: any) => img.id === concreteProduct.id);
-            const matchingQuantity = quantity.find((qty: any) => qty.id === concreteProduct.id);
-            const matchingPrice = price.find((prc: any) => prc.id === concreteProduct.id);
+        const shoppingItems = quantity.map((qtyItem: any) => {
+            const matchingImage = image.find((img: any) => img.id === qtyItem.id);
+            // const matchingQuantity = quantity.find((qty: any) => qty.id === qtyItem.id);
+            const matchingPrice = price.find((prc: any) => prc.id === qtyItem.id);
+            const matchingConcreteProduct = concreteProductData.find((val: any) => val.id === qtyItem.id);
+            // console.log("matchingConcreteProduct", matchingConcreteProduct)
             return {
-                id: concreteProduct.id,
-                name: concreteProduct.name,
+                id: qtyItem.id,
+                name: matchingConcreteProduct?.name || "",
                 image: matchingImage?.image,
-                quantity: matchingQuantity?.quantity || 0,
+                quantity: qtyItem?.quantity || 0,
                 price: matchingPrice?.price || 0,
-                itemId: matchingQuantity?.itemId
+                itemId: qtyItem?.itemId
             };
         });
         setShoppingItems(shoppingItems);

@@ -154,7 +154,7 @@ const IndexPage = () => {
       }
     });
     const result = await resp.json();
-    console.log("ressssssssss---", result);
+    console.log("result-ricoh-cms---", result);
     setImageData(result.includes.Asset);
     const arr: any = []
     result.items.forEach((element: any) => {
@@ -163,20 +163,6 @@ const IndexPage = () => {
         data: element.fields
       })
     });
-    console.log("arr", arr)
-    // const updatedArr: any = []
-    // arr.forEach((element: any) => {
-    //   result.includes.Asset.forEach((img: any) => {
-    //     if (element?.data?.image[0]?.sys?.id === img?.sys?.id){
-    //       updatedArr.push({
-    //         id:element.id,
-    //         data:{
-
-    //         }
-    //       })
-    //     }
-    //   });
-    // });
     const modifiedData = arr.reduce((acc: any, item: any) => {
       const { id, data } = item;
       const existingObj = acc.find((obj: any) => obj.id === id);

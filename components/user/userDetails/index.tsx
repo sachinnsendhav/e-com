@@ -41,7 +41,7 @@ const UserDetails = ({ show }: AddressType) => {
   return (
     <section style={style}>
 
-      <div style={{ margin: "auto", width: "60%", padding: "20px", borderRadius: "25px", boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;" }}>
+      <div style={{ margin: "auto", width: "60%", padding: "20px", borderRadius: "25px", boxShadow: "0 0 0 0 #0000, 0 0 0 0 #0000, 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3)" }}>
         <h1 style={{ fontSize: "24px", fontWeight: "bold", color: "#7f7f7f", textAlign: "center", paddingBottom: "10px" }}>
           User Details
         </h1>

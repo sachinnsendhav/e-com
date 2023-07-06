@@ -230,13 +230,22 @@ useEffect(() => {
     handlerfunction();
   }, [productData]);
   useEffect(() => {
+    if(variationIdData && variationIdData[1]){
     shoppingItems?.map((item:any,index:number)=>{
-      console.log(item,selectedId,variationIdData,"edsj")
+      console.log(item,selectedId,"hey",variationIdData,"edsj")
       if(variationIdData[selectedId] == item?.id){
         setIsWishlisted(true);
         setWishlistedItemId(item?.itemId)
       }
     })
+  }else{
+    shoppingItems?.map((item:any,index:number)=>{
+      if(variationIdData[0] == item?.id){
+        setIsWishlisted(true);
+        setWishlistedItemId(item?.itemId)
+      }
+    })
+    }
     setIsLoadingWishlist(false)
   }, [shoppingItems])
   
@@ -406,7 +415,7 @@ useEffect(() => {
             attributes: {
               productOfferReference: null,
               quantity: 1,
-              sku: variationIdData[selectedId],
+              sku: selectedId ? variationIdData[selectedId]:variationIdData[0],
             },
           },
         };
@@ -502,11 +511,11 @@ useEffect(() => {
           Product ID:&nbsp;
           {productData?.sku}
         </h5>
-        <span className="product-on-sale">Sale</span>
+        <span className="product-on-sale" style={{background:"rgb(207, 18, 46)"}}>Sale</span>
         <h2 className="product__name">{productData?.name}</h2>
 
         <div className="product__prices">
-          <h4>
+          <h4 style={{color:"rgb(207, 18, 46)"}}>
             {priceSymbole} {price}
           </h4>
           {product.discount && <span>${product.price}</span>}
@@ -514,21 +523,7 @@ useEffect(() => {
       </div>
 
       <div className="product-content__filters">
-        {/* <div className="product-filter-item">
-          <h5>Color:</h5>
-          <div className="checkbox-color-wrapper">
-            {productsColors.map(type => (
-              <CheckboxColor 
-                key={type.id} 
-                type={'radio'} 
-                name="product-color" 
-                color={type.color}
-                valueName={type.label}
-                onChange={onColorSet} 
-              />
-            ))}
-          </div>
-        </div> */}
+
         {productData && (
           <div style={{ display: "flex", marginBottom: "2rem" }}>
             <div style={{ display: "flex", flexDirection: "column" }}>
@@ -592,10 +587,10 @@ useEffect(() => {
         paddingBottom: '0.5rem',
       }}
     >
-      <span style={{ fontWeight: 'bold' }}>Select Wishlist</span>
+      <span style={{ fontWeight: 'bold' ,color:"rgb(207, 18, 46)"}}>Select Wishlist</span>
       <button
         style={{
-          color: 'red',
+          color: 'rgb(207, 18, 46)',
           border: 'none',
           background: 'none',
           cursor: 'pointer',
@@ -611,13 +606,13 @@ useEffect(() => {
           onClick={(e) => setShppingListId(item?.id)}
           className={`wishlistButton ${item?.id === shppingListId ? 'selected' : ''}`}
           style={{
-            maxWidth: '15rem',
+            maxWidth: '20rem',
             border: '1px solid gray',
             borderRadius: '5px',
             padding: '0.5rem',
             margin: '0.5rem',
-            background: item?.id === shppingListId ? 'yellow' : '',
-            color: 'black',
+            background: item?.id === shppingListId ? 'rgb(207, 18, 46)' : '',
+            color: item?.id === shppingListId ? 'white' : 'black',
             fontWeight: item?.id === shppingListId ? 'bold' : 'normal',
             transition: 'background 0.3s',
           }}
@@ -642,7 +637,7 @@ useEffect(() => {
             'Loading...'
           ) :(
             isWishlisted ? (
-              <span style={{ color: 'red' }}>--Remove From ShoppingList</span>
+              <span style={{ color: 'rgb(207, 18, 46)' }}>--Remove From ShoppingList</span>
             ) : (
               <span style={{ color: 'green' }}>-- Add to this ShoppingList</span>
             )
@@ -678,6 +673,7 @@ useEffect(() => {
             </div>
 
             <button
+             style={{background:"rgb(207, 18, 46)"}}
               type="submit"
               onClick={() => AddtoCartHandler()}
               className="btn btn--rounded btn--yellow"

@@ -32,12 +32,12 @@ function index(data: any) {
       <Slider {...settings}>
         {newData?.map((item: any, index: number) => (
           <div className="newscard" key={index}>
-          <div >
-            <a href={item?.btnlink}>
-              <h3>{item?.description}</h3>
-              <h3 style={{paddingTop:'2rem'}}>{moment(item?.date).format("ddd, DD MMMM YYYY")}</h3>
-            </a>
-          </div>
+            <div >
+              <a href={item?.btnlink}>
+                <h3>{item?.description}</h3>
+                <h3 style={{ paddingTop: '2rem' }}>{moment(item?.date).format("ddd, DD MMMM YYYY")}</h3>
+              </a>
+            </div>
           </div>
         ))}
       </Slider>

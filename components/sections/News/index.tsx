@@ -14,8 +14,6 @@ function index(data: any) {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2000,
-    prevArrow: <button className="slick-prev">Previous</button>,
-    nextArrow: <button className="slick-next">Next</button>,
   };
   const newData = Array.from(Object.values(data));
   newData.pop();
@@ -28,6 +26,30 @@ function index(data: any) {
 
   return (
     <div className="containerParent">
+      <style>
+        {`
+          .slick-prev {
+            z-index: 22;
+            margin-left: 80px;
+          }
+  
+          .slick-next {
+            z-index: 22;
+            margin-right: 120px;
+          }
+  
+          .slick-prev:before,
+          .slick-next:before {
+            font-family: 'fantasy';
+            font-size: 22px;
+            background: #da1e48;
+            opacity: 1;
+            padding: 22px;
+            border-radius: 40px;
+            color: #ffffff; /* Added to specify the text color */
+          }
+        `}
+      </style>
       <h1 className="headingTag">Ricoh News</h1>
       <Slider {...settings}>
         {newData?.map((item: any, index: number) => (

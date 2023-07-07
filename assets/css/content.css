@@ -1,79 +1,105 @@
 .wishlistButton {
-    max-width: 15rem;
-    padding: 5px;
-    margin: 5px;
-  }
-  
-  .wishlistButton:hover {
-    background: gray;
-  }
-  
-  .selected {
-    background: yellow;
-  }
+  max-width: 15rem;
+  padding: 5px;
+  margin: 5px;
+}
+
+.wishlistButton:hover {
+  background: gray;
+}
+
+.selected {
+  background: yellow;
+}
+
 .handlerbutton {
   border: 1px solid gray;
   border-radius: 5px;
   padding: 5px;
 }
 
-.headingTag{
+.headingTag {
   font-size: 28px;
   color: white;
   align-self: center;
   /* margin-top: 4rem; */
 }
+
 .newscard {
   /* background-color: white; */
   padding: 2rem;
 }
-.newscard div{
+
+.newscard div {
   background-color: white;
   padding: 2rem 8rem;
   border-radius: 8px;
 }
 
-.slick-prev{
-  z-index: 22;
-  margin-left: 80px;
-}
-.slick-next{
-  z-index: 22;
-  margin-right: 120px;
-}
-
-.slick-prev:before{
-  font-family: 'fantasy'!important;
-  font-size: 22px !important;
-  background: #da1e48 !important;
-  opacity: 1 !important; 
-  padding: 22px !important;
-  border-radius: 40px;
-}
-
-.slick-next:before{
-  font-family: 'fantasy'!important;
-  font-size: 22px !important;
-  background: #da1e48 !important;
-  opacity: 1 !important; 
-  padding: 22px !important;
-  border-radius: 40px;
-}
-.slick-dots li button:before{
+.slick-dots li button:before {
   font-size: 22px !important;
   color: white !important;
 }
 
-.containerParent{
-  background-image: url('../images/newsBg.png');
-  background-size:cover;
+.crbackground {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.carousalContainer div button{
+  display: none !important;
+}
+
+.crbackground {
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   display: flex;
-  flex-direction: column; 
-padding:  4rem 8rem;
+  flex-direction: column;
+}
+
+.containerParent {
+  background-image: url('../images/newsBg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  padding: 4rem 8rem;
   /* justify-content: center;
   align-items: center;
   /* padding-top: 2rem; */
   /* padding: 20px; */
+}
+
+.carousalDetails {
+  position: relative;
+  bottom: 20rem;
+  left: 10rem;
+}
+.carousalDetails a{
+  background-color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-size: 12px;
+  font-weight: 700;
+  color: black;
+  cursor: pointer;
+}
+.carousalDetails h3{
+  color: white;
+  font-size: 28px;
+}
+
+.carousalDetails p{
+  color: white;
+  font-size: 12px;
+  width: 29rem;
+  line-height: 1.2rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.carousalContainer{
+  height: 35rem;
 }

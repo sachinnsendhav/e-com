@@ -5,7 +5,7 @@ import Logo from '../../assets/icons/logo';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { RootState } from 'store';
-import {API_URL} from 'config';
+import { API_URL } from 'config';
 
 type HeaderType = {
   isErrorPage?: Boolean;
@@ -23,7 +23,9 @@ const Header = ({ isErrorPage }: HeaderType) => {
   const [category, setCategory] = useState([])
   const [authStatus, setAuthStatus] = useState("false")
   const [authToken, setAuthToken] = useState("");
-  const [searchResult, setSearchResult] = useState<any[]>([])
+  const [searchResult, setSearchResult] = useState<any[]>([]);
+  const [isHovered, setIsHovered] = useState(false);
+
   useEffect(() => {
     setAuthStatus(localStorage.getItem("status"));
     setAuthToken(localStorage.getItem("token"))
@@ -114,7 +116,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
           localStorage.setItem("token", result?.data?.attributes?.accessToken)
         } else {
           localStorage.setItem("status", "false")
-        router.push('/login')
+          router.push('/login')
         }
       } catch (err) {
         localStorage.setItem("status", "false")
@@ -143,6 +145,41 @@ const Header = ({ isErrorPage }: HeaderType) => {
   useEffect(() => {
     getSearchResult(searchText)
   }, [searchText])
+
+
+
+
+  const dropdownStyle:any = {
+    position: 'relative',
+    display: 'inline-block',
+  };
+
+  const buttonStyle:any = {
+    color:"white",
+    border: 'none',
+    cursor: 'pointer',
+    fontSize:"14px"
+  };
+
+  const contentStyle:any = {
+    display: isHovered ? 'block' : 'none',
+    position: 'absolute',
+    backgroundColor: '#fff',
+    color:"#333333",
+    minWidth: '200px',
+    padding:"10px",
+    boxShadow: '0px 8px 16px 0px rgba(0, 0, 0, 0.2)',
+    zIndex: 1,
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   return (
     <header className={`site-header ${!onTop ? 'site-header--fixed' : ''}`}>
       <div className="container">
@@ -160,10 +197,19 @@ const Header = ({ isErrorPage }: HeaderType) => {
               </Link>
             )
           })}
-          <Link href={`/bundle`}>
-                <a>Bundle Product</a>
-              </Link>
-          <button className="site-nav__btn"><p>Account</p></button>
+         
+          <div style={dropdownStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+            <button style={buttonStyle}><a>More</a></button>
+            <div style={contentStyle}>
+            <Link href={`/bundle`}>
+            <a style={{color:"black", padding:"5px"}}>Bundle Product</a>
+          </Link>
+           <Link href={`/configurable-product`}>
+            <a style={{color:"black", padding:"5px"}}>Configurable Product</a>
+          </Link>
+            </div>
+          </div>
+          <button className="site-nav__btn"><p>Account</p></button> 
         </nav>
 
         <div className="site-header__actions">

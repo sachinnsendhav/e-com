@@ -199,17 +199,17 @@ const Header = ({ isErrorPage }: HeaderType) => {
           })}
          
           <div style={dropdownStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-            <button style={buttonStyle}>More</button>
+            <button style={buttonStyle}><a>More</a></button>
             <div style={contentStyle}>
             <Link href={`/bundle`}>
             <a style={{color:"black", padding:"5px"}}>Bundle Product</a>
           </Link>
-           <Link href={`/bundle`}>
+           <Link href={`/configurable-product`}>
             <a style={{color:"black", padding:"5px"}}>Configurable Product</a>
           </Link>
             </div>
           </div>
-          <button className="site-nav__btn"><p>Account</p></button>
+          <button className="site-nav__btn"><p>Account</p></button> 
         </nav>
 
         <div className="site-header__actions">

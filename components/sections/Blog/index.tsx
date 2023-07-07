@@ -1,9 +1,6 @@
 import React from 'react'
 function index(data: any) {
   const newData = Array.from(Object.values(data));
-  // const lastIndex = newData?.length - 1;
-  // const imageData = newData[lastIndex];
-  // console.log("imageData",imageData);
   const imageData: any = newData.pop();
   const updatedArr: any[] = []
   newData.forEach((element: any) => {

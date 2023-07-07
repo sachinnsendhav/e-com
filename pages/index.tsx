@@ -188,10 +188,9 @@ const IndexPage = () => {
     <Layout>
       {cmsData ? (
         <>
-
           <PageIntro cmsData={cmsData} />
           <RenderPageSection sections={ricohCms} imageData={imageData} />
-          <section className="featured">
+          {/* <section className="featured">
             <div className="container">
               <article
                 style={{
@@ -283,7 +282,7 @@ const IndexPage = () => {
                   : null}
               </ul>
             </div>
-          </section>
+          </section> */}
         </>
       ) : null}
       <h1

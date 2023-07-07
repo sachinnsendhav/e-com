@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import moment from "moment";
 
 function index(data: any) {
-  const [finalData, setFinalData]= useState<any>();
+  // const [finalData, setFinalData]= useState<any>();
   const settings = {
     dots: true,
     infinite: true,
@@ -17,22 +17,20 @@ function index(data: any) {
     prevArrow: <button className="slick-prev">Previous</button>,
     nextArrow: <button className="slick-next">Next</button>,
   };
-  console.log(data, "data");
   const newData = Array.from(Object.values(data));
-  useEffect(() => {
-    if (newData) {
-      var temp = newData.slice(0,newData.length-2);
-      setFinalData(temp)
-    }
-  }, [newData]);
-
-  console.log(newData, "new data");
+  newData.pop();
+  // useEffect(() => {
+  //   if (newData) {
+  //     var temp = newData.slice(0,newData.length-2);
+  //     setFinalData(temp)
+  //   }
+  // }, [newData]);
 
   return (
     <div className="containerParent">
       <h1 className="headingTag">Ricoh News</h1>
       <Slider {...settings}>
-        {finalData?.map((item: any, index: number) => (
+        {newData?.map((item: any, index: number) => (
           <div className="newscard" key={index}>
           <div >
             <a href={item?.btnlink}>

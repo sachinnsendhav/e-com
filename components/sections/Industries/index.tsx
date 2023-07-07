@@ -16,7 +16,6 @@ function index(data: any) {
       }
     });
   });
-  console.log("industries-updatedArr", updatedArr)
   return (
     <div style={{ backgroundColor: "#333", padding: "50px", paddingInline: "120px", color: "white" }}>
       <div style={{ display: "flex", flexWrap: "wrap", }}>

@@ -23,7 +23,6 @@ function ConfigurableBundleItems() {
                 setSlot(slot => [...slot, item])
             }
         })
-
     }
     useEffect(() => {
         if (bundleId) {
@@ -35,12 +34,43 @@ function ConfigurableBundleItems() {
     return (
         <>
             <Layout />
-            <div style={{ paddingInline: "50px" }}>
+            <div style={{ paddingInline: "100px" }}>
                 <Link href="/configurable-product">
                     <button style={{ border: "1px solid black", marginTop: "10px", padding: "5px" }}>Back To Bundles</button>
                 </Link>
-                <div style={{ border: "1px solid #dedede", marginTop:"10px" }}>
-
+                <div style={{ border: "1px solid #dedede", marginTop: "10px" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", textAlign: "center" }}>
+                        {slot.map((val: any) => {
+                            return (
+                                <div style={{
+                                    borderRight: "1px solid #dedede",
+                                    borderBottom: "1px solid #dedede",
+                                    width: "100%",
+                                    color: "#c6c6c6",
+                                    borderColor: "#dedede",
+                                    padding: "1rem",
+                                    fontWeight: 500,
+                                    fontSize: ".8125rem",
+                                    letterSpacing: ".1375rem",
+                                    textTransform: "uppercase"
+                                }}>{val.attributes.name}</div>
+                            )
+                        })}
+                        <div style={{
+                            borderBottom: "1px solid #dedede",
+                            width: "100%",
+                            color: "#c6c6c6",
+                            borderColor: "#dedede",
+                            padding: "1rem",
+                            fontWeight: 500,
+                            fontSize: ".8125rem",
+                            letterSpacing: ".1375rem",
+                            textTransform: "uppercase"
+                        }}>summary</div>
+                    </div>
+                    <div style={{padding:"2rem"}}>
+                        
+                    </div>
                 </div>
             </div>
 

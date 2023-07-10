@@ -188,7 +188,7 @@ const IndexPage = () => {
     <Layout>
       {cmsData ? (
         <>
-          <PageIntro cmsData={cmsData} />
+          {/* <PageIntro cmsData={cmsData} /> */}
           <RenderPageSection sections={ricohCms} imageData={imageData} />
           {/* <section className="featured">
             <div className="container">

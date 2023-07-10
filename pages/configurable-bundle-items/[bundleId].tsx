@@ -6,32 +6,86 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 function ConfigurableBundleItems() {
-    const [data, setData] = useState<any[]>([]);
-    const [slot, setSlot] = useState<any[]>([]);
     const router = useRouter();
-    const bundleId = router.query.bundleId;
-    console.log("routerrrrrrrrrrrrrrrr", bundleId)
+    const configurableBundleId = router.query.bundleId;
+    const [finalData, setFinalData] = useState<any>([]);
+    console.log(configurableBundleId,"configurableBundleId")
+    // const configurableBundleId = props.route.params?.configurableBundleId;
+  const [isLoading, setIsLoading] = useState(false);
+  const [configuredBundleTemplateSlots, setConfiguredBundleTemplateSlots] =useState<any>([]);
 
-    const getConfigurableBundlesItems = async (id: any) => {
-        const resp = await fetch(`${API_URL}/configurable-bundle-templates/${id}?include=configurable-bundle-template-slots%2Cconcrete-products`, {
-            method: "GET"
+    const allProductsWithSlots:any = [];
+    useEffect(()=>{
+    if (configuredBundleTemplateSlots?.included?.length > 0) {
+      const slotIds =
+        configuredBundleTemplateSlots?.data?.relationships[
+          'configurable-bundle-template-slots'
+        ]?.data;
+      slotIds?.forEach((slot:any) => {
+        configuredBundleTemplateSlots?.included.forEach((element:any) => {
+          if (
+            element.type == 'configurable-bundle-template-slots' &&
+            slot.id === element.id
+          ) {
+            allProductsWithSlots.push({
+              slotID: slot.id,
+              productSKUS: element?.relationships['concrete-products']?.data,
+              slotName: element?.attributes?.name,
+            });
+          }
         });
-        const result = await resp.json();
-        console.log("configurable-product-items", result)
-        result.included.forEach((item: any) => {
-            if (item.type === "configurable-bundle-template-slots") {
-                setSlot(slot => [...slot, item])
-            }
-        })
+      });
 
-    }
+      allProductsWithSlots?.forEach((products:any) => {
+        products?.productSKUS?.map((item:any, index:number) => {
+          configuredBundleTemplateSlots.included.forEach((includedItem:any) => {
+            if (
+              includedItem.type === 'concrete-product-image-sets' &&
+              item?.id === includedItem.id
+            ) {
+              const externalUrlLarge =
+                includedItem.attributes.imageSets[0]?.images[0]
+                  ?.externalUrlLarge;
+              item.image = externalUrlLarge;
+            }
+            if (
+              includedItem.type === 'concrete-product-prices' &&
+              item?.id === includedItem.id
+            ) {
+              const price = includedItem.attributes.price;
+              item.price = price;
+            }
+            if (
+              includedItem.type === 'concrete-products' &&
+              item?.id === includedItem.id
+            ) {
+              const name = includedItem.attributes.name;
+              item.name = name;
+            }
+          });
+        });
+      });
+      setFinalData(allProductsWithSlots);    }
+},[configuredBundleTemplateSlots])
+
     useEffect(() => {
-        if (bundleId) {
-            setSlot([])
-            getConfigurableBundlesItems(bundleId)
-        }
-    }, [bundleId]);
-    console.log("slots", slot)
+        const getConfiguredBundleSlotsByID = async (configurableBundleId:any) => {
+          setIsLoading(true);
+          const resp = await fetch(
+            `${API_URL}/configurable-bundle-templates/${configurableBundleId}?include=configurable-bundle-template-slots%2Cconcrete-products%2Cconcrete-product-image-sets%2Cconcrete-product-prices`,
+          {
+            method: 'GET',
+           })
+           const response = await resp.json();
+          console.log(response,"resp")
+          setConfiguredBundleTemplateSlots(response);
+          setIsLoading(false);
+        };
+        getConfiguredBundleSlotsByID(configurableBundleId);
+      }, [configurableBundleId]);
+
+      console.log(finalData,"allProductsWithSlots")
+
     return (
         <>
             <Layout />
@@ -49,4 +103,4 @@ function ConfigurableBundleItems() {
     )
 }
 
-export default ConfigurableBundleItems
+export default ConfigurableBundleItems;

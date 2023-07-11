@@ -91,9 +91,12 @@ const ShoppingCart = () => {
         }
         const response = await resp.json();
         if (response) {
-          
           setCartData(response);
-          setCartItems(response?.included);
+          const configurableItems = response?.included.filter((item:any) => item.attributes.configuredBundle !== null);
+          const filteredItems = response?.included.filter((item:any) => item.attributes.configuredBundle === null);
+         console.log("filteredItems",filteredItems)
+         console.log("configurableItems",configurableItems)
+          setCartItems(filteredItems);
           setIsLoading(false);
         } else {
           setIsLoading(false);

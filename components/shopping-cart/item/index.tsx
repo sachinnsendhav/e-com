@@ -14,7 +14,7 @@ const ShoppingCart = ({ thumb, name,pliId, id, avalibility, size, count, price,s
     <tr>
       <td>
         <div className="cart-product">
-          <div className="cart-product__img">
+          <div className="cart-9g">
             <img src={thumb} alt="" />
           </div>
 

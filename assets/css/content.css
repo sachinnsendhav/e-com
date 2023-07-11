@@ -103,3 +103,36 @@
 .carousalContainer{
   height: 35rem;
 }
+
+.bundleSelectButton{
+  padding: 12px 48px;
+  margin-top: 10px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+}
+
+.bundleSelectButtonSelected{
+  padding: 12px 48px;
+  margin-top: 10px;
+  background-color: #ff4859;
+  color: #fff;
+}
+
+.bundleSelectButton:hover{
+  background-color: #ff4859;
+}
+
+.summeryParent{
+  display: flex;
+  justify-content: space-between;
+}
+
+.summeryTotalParent{
+  background-color: #dedede;
+  width:28%;
+  margin-top: 1.7rem;
+  padding: 1rem;
+  color: black;
+  max-height: 8rem;
+}

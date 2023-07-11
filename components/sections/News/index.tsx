@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import moment from "moment";
+import {IS_LOGGEDIN} from '../../../config'
 
 function index(data: any) {
   // const [finalData, setFinalData]= useState<any>();
@@ -23,7 +24,7 @@ function index(data: any) {
   //     setFinalData(temp)
   //   }
   // }, [newData]);
-
+console.log(newData,"newData")
   return (
     <div className="containerParent">
       <style>
@@ -53,14 +54,15 @@ function index(data: any) {
       <h1 className="headingTag">Ricoh News</h1>
       <Slider {...settings}>
         {newData?.map((item: any, index: number) => (
+          IS_LOGGEDIN == item?.isLoggedIn ?
           <div className="newscard" key={index}>
             <div >
               <a href={item?.btnlink}>
-                <h3>{item?.description}</h3>
+                <h3>{item?.description} {IS_LOGGEDIN}</h3>
                 <h3 style={{ paddingTop: '2rem' }}>{moment(item?.date).format("ddd, DD MMMM YYYY")}</h3>
               </a>
             </div>
-          </div>
+          </div>:""
         ))}
       </Slider>
     </div>

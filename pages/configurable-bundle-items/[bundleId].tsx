@@ -19,6 +19,7 @@ function ConfigurableBundleItems() {
 
   const [slotData, setSlotData] = useState<any>([]);
   const [showBlock, setShowBlock] = useState("");
+  const [totalPrice, setTotalPrice] = useState(0);
   const [selectedProduct, setselectedProduct] = useState("");
   const [productData, setProductData] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -163,6 +164,20 @@ function ConfigurableBundleItems() {
     setSlotData(tempArr);
   };
 
+  useEffect(() => {
+    const totalHandler = async () => {
+      var total = 0;
+      await slotData?.map((item: any) => {
+        if(item.selected){
+            total = total + Number(item?.selectedProduct?.price)
+        }
+      });
+      console.log(total)
+      setTotalPrice(total);
+    };
+    totalHandler();
+  }, [slotData]);
+
   const handlecart = async () => {
     try {
       const resp = await fetch(`${API_URL}/carts`, {
@@ -233,62 +248,71 @@ function ConfigurableBundleItems() {
 
   const addtoCartHandler = async () => {
     console.log(slotData, "slotData");
-    const tempItem:any = [];
-    slotData?.map((item:any)=>{
-        if(item?.selectedProduct?.id){ 
-        tempItem.push({slotUuid:item?.slotID,sku:item?.selectedProduct?.id,quantity: 1,})
-  }});
-  if(tempItem && tempItem[0]){
-    if (await checkCartExist()) {
-      if (cartId) {
-        const productCart = {
-          data: {
-            type: "configured-bundles",
-            attributes: {
-              quantity: 1,
-              templateUuid: configurableBundleId,
-              items:tempItem,
-            },
-          },
-        };
-        setIsLoading(true);
-        try {
-          const resp = await fetch(`${API_URL}/carts/${cartId}/configured-bundles`, {
-            method: "POST",
-            body: JSON.stringify(productCart),
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          });
-
-          if (resp.status === 401) {
-            // Redirect to login page
-            alert("Please Login");
-            window.location.href = "/login";
-            return;
-          }
-
-          const response = await resp.json();
-
-          if (response) {
-            if (response.errors) {
-              alert(response.errors[0]?.detail);
-            } else {
-              alert("Added to cart");
-            }
-            setIsLoading(false);
-          } else {
-            setIsLoading(false);
-          }
-        } catch (error) {
-          setIsLoading(false);
-        }
-      } else {
-        addtoCartHandler();
+    const tempItem: any = [];
+    slotData?.map((item: any) => {
+      if (item?.selectedProduct?.id) {
+        tempItem.push({
+          slotUuid: item?.slotID,
+          sku: item?.selectedProduct?.id,
+          quantity: 1,
+        });
       }
-    }}else{
-        alert('Please configure atleast one slot')
+    });
+    if (tempItem && tempItem[0]) {
+      if (await checkCartExist()) {
+        if (cartId) {
+          const productCart = {
+            data: {
+              type: "configured-bundles",
+              attributes: {
+                quantity: 1,
+                templateUuid: configurableBundleId,
+                items: tempItem,
+              },
+            },
+          };
+          setIsLoading(true);
+          try {
+            const resp = await fetch(
+              `${API_URL}/carts/${cartId}/configured-bundles`,
+              {
+                method: "POST",
+                body: JSON.stringify(productCart),
+                headers: {
+                  Accept: "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+
+            if (resp.status === 401) {
+              // Redirect to login page
+              alert("Please Login");
+              window.location.href = "/login";
+              return;
+            }
+
+            const response = await resp.json();
+
+            if (response) {
+              if (response.errors) {
+                alert(response.errors[0]?.detail);
+              } else {
+                alert("Added to cart");
+              }
+              setIsLoading(false);
+            } else {
+              setIsLoading(false);
+            }
+          } catch (error) {
+            setIsLoading(false);
+          }
+        } else {
+          addtoCartHandler();
+        }
+      }
+    } else {
+      alert("Please configure atleast one slot");
     }
   };
 
@@ -410,7 +434,8 @@ function ConfigurableBundleItems() {
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
                     <p>Total</p>
-                    <p>€ 121121</p>
+
+                    <p>€ {totalPrice}</p>
                   </div>
                   <button
                     className="bundleSelectButton"

@@ -99,20 +99,25 @@ const ShoppingCart = () => {
           console.log("filteredItems", filteredItems)
           console.log("configurableItems", configurableItems)
           const formattedData: any[] = [];
+
           configurableItems.forEach((item: any) => {
             if (item.attributes.configuredBundle !== null) {
               const uuid = item.attributes.configuredBundle.template.uuid;
               const groupKey = item.attributes.configuredBundle.groupKey;
               const existingItem = formattedData.find(dataItem => dataItem.uuid === uuid && dataItem.groupKey === groupKey);
 
+              const unitPrice = item.attributes.calculations.unitPrice; // Get the unitPrice from calculations
+
               if (existingItem) {
                 existingItem.data.push(item);
+                existingItem.total += unitPrice; // Add the unitPrice to the total
               } else {
                 formattedData.push({
                   uuid: uuid,
                   groupKey: groupKey,
                   name: item.attributes.configuredBundle.template.name,
-                  data: [item]
+                  data: [item],
+                  total: unitPrice, // Include the unitPrice as the initial total
                 });
               }
             }
@@ -233,7 +238,6 @@ const ShoppingCart = () => {
         setIsLoading(false);
       }
     } catch (error) {
-
       setIsLoading(false);
     }
   }
@@ -279,7 +283,7 @@ const ShoppingCart = () => {
   const deleteConfigureBundle = async (groupKey: any) => {
     const resp = await fetch(`${API_URL}/carts/${cartId}/configured-bundles/${groupKey}`, {
       method: "DELETE",
-      headers:{
+      headers: {
         Authorization: `Bearer ${token}`,
       }
     });
@@ -338,8 +342,8 @@ const ShoppingCart = () => {
                     <h1>{item.name}</h1>
                   </div>
                   <div style={{ display: "flex" }}>
-                    <p style={{ paddingRight: "10px" }}>quantity -{item.data[0].attributes.quantity} </p>
-                    <p style={{ paddingRight: "10px" }}>total</p>
+                    <p style={{ padding: "10px" }}>quantity -{item.data[0].attributes.quantity} </p>
+                    <p style={{ padding: "10px", fontWeight: "bold" }}>&euro; {item.total}</p>
                     <button style={{
                       background: "black",
                       padding: "5px",
@@ -351,7 +355,10 @@ const ShoppingCart = () => {
                 <div style={{ padding: "20px" }}>
                   {item.data.map((val: any) => {
                     return (
-                      <p style={{ padding: "10px", color: "black" }}>{val.attributes.sku}</p>
+                      <>
+                        <p style={{ padding: "10px", color: "black" }}>{val.attributes.sku}</p>
+                        <p style={{ padding: "10px", color: "black" }}>Price - &euro;{val.attributes.calculations.unitPrice}</p>
+                      </>
                     )
                   })}
                 </div>

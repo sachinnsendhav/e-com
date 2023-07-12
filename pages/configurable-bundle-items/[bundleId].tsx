@@ -197,9 +197,55 @@ function ConfigurableBundleItems() {
 
       if (response) {
         setIsLoading(false);
+        if(response?.data[0]?.id){
         localStorage.setItem("cartId", response?.data[0].id);
         cartId = response?.data[0].id;
         return response?.data[0].id;
+        }else{
+            await createCart();
+        }
+      } else {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setIsLoading(false);
+    }
+  };
+
+  const createCart = async () => {
+    const data = {
+      data: {
+        type: "carts",
+        attributes: {
+          priceMode: "NET_MODE",
+          currency: "EUR",
+          store: "DE",
+          name: "cart",
+        },
+      },
+    };
+    try {
+      const resp = await fetch(`${API_URL}/carts`, {
+        method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+      });
+
+      if (resp.status === 401) {
+        alert("Please Login");
+        window.location.href = "/login";
+        return;
+      }
+      const response = await resp.json();
+
+      if (response) {
+        setIsLoading(false);
+        localStorage.setItem("cartId", response?.data?.id);
+        cartId = response?.data?.id;
+        return response?.data?.id;
       } else {
         setIsLoading(false);
       }

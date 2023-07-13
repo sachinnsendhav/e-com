@@ -8,7 +8,7 @@ import { addProduct } from "store/reducers/cart";
 import { toggleFavProduct } from "store/reducers/user";
 import { ProductType, ProductStoreType } from "types";
 import { RootState } from "store";
-import {API_URL} from "config";
+import { API_URL } from "config";
 const Content = (product: any) => {
   const dispatch = useDispatch();
   var cartId: any;
@@ -21,7 +21,7 @@ const Content = (product: any) => {
   const [count, setCount] = useState<number>(1);
   const [color, setColor] = useState<string>("");
   const [itemSize, setItemSize] = useState<string>("");
-  const [isWishlisted, setIsWishlisted] = useState<boolean>(false)
+  const [isWishlisted, setIsWishlisted] = useState<boolean>(false);
   const [variationData, setVariationData] = useState<any>();
   const [variationIdData, setVariationIdData] = useState<any>();
   const [variationKey, setVariationKey] = useState<any>();
@@ -33,37 +33,36 @@ const Content = (product: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingWishlist, setIsLoadingWishlist] = useState(false);
 
-  const [wishlistOperation, setWishlistOperation] = useState<boolean>(false)
-  const [shoppingListName, setShoppingListName] = useState<any[]>()
-  const [showBlock, setShowBlock] = useState<any>("")
-  const [shppingListId, setShppingListId] = useState("")
-  const [shoppingItems, setShoppingItems] = useState<any[]>([])
+  const [wishlistOperation, setWishlistOperation] = useState<boolean>(false);
+  const [shoppingListName, setShoppingListName] = useState<any[]>();
+  const [showBlock, setShowBlock] = useState<any>("");
+  const [shppingListId, setShppingListId] = useState("");
+  const [shoppingItems, setShoppingItems] = useState<any[]>([]);
   const [wishlistedItemId, setWishlistedItemId] = useState<any>("");
-const getShoppingListName = async () => {
-    const resp = await fetch(`${API_URL}/shopping-lists`,
-        {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        }
-    );
+  const getShoppingListName = async () => {
+    const resp = await fetch(`${API_URL}/shopping-lists`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     const result = await resp.json();
     setShoppingListName(result.data);
     setShowBlock(result.data[0]?.attributes?.name);
-    setShppingListId(result.data[0]?.id)
-}
+    setShppingListId(result.data[0]?.id);
+  };
 
-console.log(shoppingListName,"shopppingList Name")
+  console.log(shoppingListName, "shopppingList Name");
 
-const getShoppingListItem = async (id: any) => {
-    const resp = await fetch(`${API_URL}/shopping-lists/${id}?include=shopping-list-items%2Cconcrete-products%2Cconcrete-product-image-sets%2Cconcrete-product-prices`,
-        {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        }
+  const getShoppingListItem = async (id: any) => {
+    const resp = await fetch(
+      `${API_URL}/shopping-lists/${id}?include=shopping-list-items%2Cconcrete-products%2Cconcrete-product-image-sets%2Cconcrete-product-prices`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     const result = await resp.json();
     const concreteProductData: any = [];
@@ -72,57 +71,107 @@ const getShoppingListItem = async (id: any) => {
     const price: any = [];
 
     if (result && result.included && result.included.length > 0) {
-        result.included.forEach((element: any) => {
-            switch (element.type) {
-                case "concrete-products":
-                    concreteProductData.push({
-                        id: element.id,
-                        name: element.attributes.name,
-                    });
-                    break;
-                case "concrete-product-image-sets":
-                    image.push({
-                        id: element.id,
-                        image: element?.attributes?.imageSets[0]?.images[0]?.externalUrlLarge,
-                    });
-                    break;
-                case "shopping-list-items":
-                    quantity.push({
-                        quantity: element.attributes.quantity,
-                        id: element.attributes.sku,
-                        itemId: element.id
-                    });
-                    break;
-                default:
-                    price.push({
-                        price: element.attributes.price,
-                        id: element.id,
-                    });
-                    break;
-            }
-        });
+      result.included.forEach((element: any) => {
+        switch (element.type) {
+          case "concrete-products":
+            concreteProductData.push({
+              id: element.id,
+              name: element.attributes.name,
+            });
+            break;
+          case "concrete-product-image-sets":
+            image.push({
+              id: element.id,
+              image:
+                element?.attributes?.imageSets[0]?.images[0]?.externalUrlLarge,
+            });
+            break;
+          case "shopping-list-items":
+            quantity.push({
+              quantity: element.attributes.quantity,
+              id: element.attributes.sku,
+              itemId: element.id,
+            });
+            break;
+          default:
+            price.push({
+              price: element.attributes.price,
+              id: element.id,
+            });
+            break;
+        }
+      });
     }
 
     const shoppingItems = concreteProductData.map((concreteProduct: any) => {
-        const matchingImage = image.find((img: any) => img.id === concreteProduct.id);
-        const matchingQuantity = quantity.find((qty: any) => qty.id === concreteProduct.id);
-        const matchingPrice = price.find((prc: any) => prc.id === concreteProduct.id);
-        return {
-            id: concreteProduct.id,
-            name: concreteProduct.name,
-            image: matchingImage?.image,
-            quantity: matchingQuantity?.quantity || 0,
-            price: matchingPrice?.price || 0,
-            itemId: matchingQuantity?.itemId
-        };
+      const matchingImage = image.find(
+        (img: any) => img.id === concreteProduct.id
+      );
+      const matchingQuantity = quantity.find(
+        (qty: any) => qty.id === concreteProduct.id
+      );
+      const matchingPrice = price.find(
+        (prc: any) => prc.id === concreteProduct.id
+      );
+      return {
+        id: concreteProduct.id,
+        name: concreteProduct.name,
+        image: matchingImage?.image,
+        quantity: matchingQuantity?.quantity || 0,
+        price: matchingPrice?.price || 0,
+        itemId: matchingQuantity?.itemId,
+      };
     });
     setShoppingItems(shoppingItems);
-}
-useEffect(() => {
-  setIsLoadingWishlist(true)
-  setIsWishlisted(false)
-    getShoppingListItem(shppingListId)
-}, [shppingListId])
+  };
+  useEffect(() => {
+    setIsLoadingWishlist(true);
+    setIsWishlisted(false);
+    getShoppingListItem(shppingListId);
+  }, [shppingListId]);
+
+  const createCart = async () => {
+    const data = {
+      data: {
+        type: "carts",
+        attributes: {
+          priceMode: "NET_MODE",
+          currency: "EUR",
+          store: "DE",
+          name: "cart",
+        },
+      },
+    };
+    try {
+      const resp = await fetch(`${API_URL}/carts`, {
+        method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+      });
+
+      if (resp.status === 401) {
+        alert("Please Login");
+        window.location.href = "/login";
+        return;
+      }
+      const response = await resp.json();
+
+      if (response) {
+        setIsLoading(false);
+        localStorage.setItem("cartId", response?.data?.id);
+        cartId = response?.data?.id;
+        return response?.data?.id;
+      } else {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setIsLoading(false);
+    }
+  };
+
 
   useEffect(() => {
     setProductData(product?.product);
@@ -151,9 +200,13 @@ useEffect(() => {
 
       if (response) {
         setIsLoading(false);
+        if(response?.data[0]?.id){
         localStorage.setItem("cartId", response?.data[0].id);
         cartId = response?.data[0].id;
         return response?.data[0].id;
+        }else{
+          await createCart();
+        }
       } else {
         setIsLoading(false);
       }
@@ -230,30 +283,30 @@ useEffect(() => {
     handlerfunction();
   }, [productData]);
   useEffect(() => {
-    if(variationIdData && variationIdData[1]){
-    shoppingItems?.map((item:any,index:number)=>{
-      console.log(item,selectedId,"hey",variationIdData,"edsj")
-      if(variationIdData[selectedId] == item?.id){
-        setIsWishlisted(true);
-        setWishlistedItemId(item?.itemId)
-      }
-    })
-  }else{
-    shoppingItems?.map((item:any,index:number)=>{
-      if(variationIdData[0] == item?.id){
-        setIsWishlisted(true);
-        setWishlistedItemId(item?.itemId)
-      }
-    })
+    if (variationIdData && variationIdData[1]) {
+      shoppingItems?.map((item: any, index: number) => {
+        console.log(item, selectedId, "hey", variationIdData, "edsj");
+        if (variationIdData[selectedId] == item?.id) {
+          setIsWishlisted(true);
+          setWishlistedItemId(item?.itemId);
+        }
+      });
+    } else {
+      shoppingItems?.map((item: any, index: number) => {
+        if (variationIdData[0] == item?.id) {
+          setIsWishlisted(true);
+          setWishlistedItemId(item?.itemId);
+        }
+      });
     }
-    setIsLoadingWishlist(false)
-  }, [shoppingItems])
-  
+    setIsLoadingWishlist(false);
+  }, [shoppingItems]);
+
   const AddtoCartHandler = async () => {
     if (variationData && variationData[1]) {
       if (selectedId) {
         var productSkuId = "";
-        productSkuId=await variationIdData[selectedId]
+        productSkuId = await variationIdData[selectedId];
       } else {
         return alert("select Variant");
       }
@@ -263,62 +316,59 @@ useEffect(() => {
 
     if (productSkuId && (await checkCartExist())) {
       if (cartId) {
-          const productCart = {
-            data: {
-              type: "items",
-              attributes: {
-                sku: productSkuId,
-                quantity: count,
-                salesUnit: {
-                  id: 0,
-                  amount: 0,
-                },
-                productOptions: [null],
+        const productCart = {
+          data: {
+            type: "items",
+            attributes: {
+              sku: productSkuId,
+              quantity: count,
+              salesUnit: {
+                id: 0,
+                amount: 0,
               },
+              productOptions: [null],
             },
-          };
-          setIsLoading(true);
-          try {
-            const resp = await fetch(
-              `${API_URL}/carts/${cartId}/items`,
-              {
-                method: "POST",
-                body: JSON.stringify(productCart),
-                headers: {
-                  Accept: "application/json",
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
+          },
+        };
+        setIsLoading(true);
+        try {
+          const resp = await fetch(`${API_URL}/carts/${cartId}/items`, {
+            method: "POST",
+            body: JSON.stringify(productCart),
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
 
-            if (resp.status === 401) {
-              // Redirect to login page
-              alert("Please Login");
-              window.location.href = "/login";
-              return;
-            }
+          if (resp.status === 401) {
+            // Redirect to login page
+            alert("Please Login");
+            window.location.href = "/login";
+            return;
+          }
 
-            const response = await resp.json();
+          const response = await resp.json();
 
-            if (response) {
-              if (response.errors) {
-                alert(response.errors[0]?.detail);
-              } else {
-                alert("Added to cart");
-              }
-              setIsLoading(false);
+          if (response) {
+            if (response.errors) {
+              alert(response.errors[0]?.detail);
             } else {
-              setIsLoading(false);
+              alert("Added to cart");
             }
-          } catch (error) {
+            setIsLoading(false);
+          } else {
             setIsLoading(false);
           }
+        } catch (error) {
+          setIsLoading(false);
+        }
       } else {
         AddtoCartHandler();
       }
     }
   };
-  
+
   const onColorSet = (e: string) => setColor(e);
   const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
     setItemSize(e.target.value);
@@ -330,18 +380,23 @@ useEffect(() => {
   );
 
   const toggleFav = () => {
-    setWishlistOperation(true)
-    if(token){
-      var id = variationIdData && variationIdData[1] ? selectedId ?variationIdData[selectedId]: "":variationIdData[0];
-      if(id){
-        getShoppingListName()
-      }else{
-        alert("select Varient to add to wishlist")
+    setWishlistOperation(true);
+    if (token) {
+      var id =
+        variationIdData && variationIdData[1]
+          ? selectedId
+            ? variationIdData[selectedId]
+            : ""
+          : variationIdData[0];
+      if (id) {
+        getShoppingListName();
+      } else {
+        alert("select Varient to add to wishlist");
       }
-    }else {
-      if(confirm("Please Login to add product to wishlist")){
-      window.location.href='/login';
-      };
+    } else {
+      if (confirm("Please Login to add product to wishlist")) {
+        window.location.href = "/login";
+      }
     }
   };
 
@@ -364,7 +419,7 @@ useEffect(() => {
     dispatch(addProduct(productStore));
   };
 
-  console.log(shoppingItems,"shoppingItems")
+  console.log(shoppingItems, "shoppingItems");
 
   const checkCartExist = async () => {
     if (localStorage.getItem("cartId")) {
@@ -404,9 +459,14 @@ useEffect(() => {
     return true;
   };
 
-
-  console.log(isWishlisted,"isWishlisted", shppingListId,"shppingListId",isLoadingWishlist)
-  const handleAddtoWishlist = async (wishlisted:any) => {
+  console.log(
+    isWishlisted,
+    "isWishlisted",
+    shppingListId,
+    "shppingListId",
+    isLoadingWishlist
+  );
+  const handleAddtoWishlist = async (wishlisted: any) => {
     if (token) {
       if (!wishlisted) {
         const productCart = {
@@ -415,7 +475,9 @@ useEffect(() => {
             attributes: {
               productOfferReference: null,
               quantity: 1,
-              sku: selectedId ? variationIdData[selectedId]:variationIdData[0],
+              sku: selectedId
+                ? variationIdData[selectedId]
+                : variationIdData[0],
             },
           },
         };
@@ -502,7 +564,7 @@ useEffect(() => {
       }
     }
     // setWishlistOperation(false)
-    setWishlistedItemId("")
+    setWishlistedItemId("");
   };
   return (
     <section className="product-content">
@@ -511,11 +573,16 @@ useEffect(() => {
           Product ID:&nbsp;
           {productData?.sku}
         </h5>
-        <span className="product-on-sale" style={{background:"rgb(207, 18, 46)"}}>Sale</span>
+        <span
+          className="product-on-sale"
+          style={{ background: "rgb(207, 18, 46)" }}
+        >
+          Sale
+        </span>
         <h2 className="product__name">{productData?.name}</h2>
 
         <div className="product__prices">
-          <h4 style={{color:"rgb(207, 18, 46)"}}>
+          <h4 style={{ color: "rgb(207, 18, 46)" }}>
             {priceSymbole} {price}
           </h4>
           {product.discount && <span>${product.price}</span>}
@@ -523,7 +590,6 @@ useEffect(() => {
       </div>
 
       <div className="product-content__filters">
-
         {productData && (
           <div style={{ display: "flex", marginBottom: "2rem" }}>
             <div style={{ display: "flex", flexDirection: "column" }}>
@@ -563,93 +629,108 @@ useEffect(() => {
           </div>
         )}
 
-{wishlistOperation && shoppingListName && (
-  <div
-    style={{
-      marginTop: '2rem',
-      padding: '1rem',
-      border: '1px solid',
-      marginBottom: '2rem',
-      display: 'flex',
-      flexDirection: 'column',
-      backgroundColor: '#F4F6F8',
-      borderRadius: '8px',
-      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-    }}
-  >
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        marginBottom: '1rem',
-        borderBottom: '1px solid #E4E7EB',
-        paddingBottom: '0.5rem',
-      }}
-    >
-      <span style={{ fontWeight: 'bold' ,color:"rgb(207, 18, 46)"}}>Select Wishlist</span>
-      <button
-        style={{
-          color: 'rgb(207, 18, 46)',
-          border: 'none',
-          background: 'none',
-          cursor: 'pointer',
-        }}
-        onClick={() => setWishlistOperation(false)}
-      >
-        Close
-      </button>
-    </div>
-    {shoppingListName?.map((item: any, index: number) => (
-      <div key={index} style={{ marginBottom: '0.5rem' , display:"flex",justifyContent:"space-between" }}>
-        <button
-          onClick={(e) => setShppingListId(item?.id)}
-          className={`wishlistButton ${item?.id === shppingListId ? 'selected' : ''}`}
-          style={{
-            maxWidth: '20rem',
-            border: '1px solid gray',
-            borderRadius: '5px',
-            padding: '0.5rem',
-            margin: '0.5rem',
-            background: item?.id === shppingListId ? 'rgb(207, 18, 46)' : '',
-            color: item?.id === shppingListId ? 'white' : 'black',
-            fontWeight: item?.id === shppingListId ? 'bold' : 'normal',
-            transition: 'background 0.3s',
-          }}
-        >
-          {item?.attributes?.name}
-          {item?.id === shppingListId ? '(Default)' : ''}
-        </button>
-        <button
-          onClick={() => handleAddtoWishlist(isWishlisted)}
-          className={item?.id === shppingListId ? 'handlerbutton' : ''}
-          style={{
-            border: 'none',
-            background: 'none',
-            cursor: 'pointer',
-            marginLeft: '0.5rem',
-            color: 'black',
-            fontWeight: item?.id === shppingListId ? 'bold' : 'normal',
-            transition: 'color 0.3s',
-          }}
-        >
-          { item?.id === shppingListId ? isLoadingWishlist ? (
-            'Loading...'
-          ) :(
-            isWishlisted ? (
-              <span style={{ color: 'rgb(207, 18, 46)' }}>--Remove From ShoppingList</span>
-            ) : (
-              <span style={{ color: 'green' }}>-- Add to this ShoppingList</span>
-            )
-          ) : (
-            ''
-          )}
-        </button>
-      </div>
-    ))}
-  </div>
-)}
-
+        {wishlistOperation && shoppingListName && (
+          <div
+            style={{
+              marginTop: "2rem",
+              padding: "1rem",
+              border: "1px solid",
+              marginBottom: "2rem",
+              display: "flex",
+              flexDirection: "column",
+              backgroundColor: "#F4F6F8",
+              borderRadius: "8px",
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: "1rem",
+                borderBottom: "1px solid #E4E7EB",
+                paddingBottom: "0.5rem",
+              }}
+            >
+              <span style={{ fontWeight: "bold", color: "rgb(207, 18, 46)" }}>
+                Select Wishlist
+              </span>
+              <button
+                style={{
+                  color: "rgb(207, 18, 46)",
+                  border: "none",
+                  background: "none",
+                  cursor: "pointer",
+                }}
+                onClick={() => setWishlistOperation(false)}
+              >
+                Close
+              </button>
+            </div>
+            {shoppingListName?.map((item: any, index: number) => (
+              <div
+                key={index}
+                style={{
+                  marginBottom: "0.5rem",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <button
+                  onClick={(e) => setShppingListId(item?.id)}
+                  className={`wishlistButton ${
+                    item?.id === shppingListId ? "selected" : ""
+                  }`}
+                  style={{
+                    maxWidth: "20rem",
+                    border: "1px solid gray",
+                    borderRadius: "5px",
+                    padding: "0.5rem",
+                    margin: "0.5rem",
+                    background:
+                      item?.id === shppingListId ? "rgb(207, 18, 46)" : "",
+                    color: item?.id === shppingListId ? "white" : "black",
+                    fontWeight: item?.id === shppingListId ? "bold" : "normal",
+                    transition: "background 0.3s",
+                  }}
+                >
+                  {item?.attributes?.name}
+                  {item?.id === shppingListId ? "(Default)" : ""}
+                </button>
+                <button
+                  onClick={() => handleAddtoWishlist(isWishlisted)}
+                  className={item?.id === shppingListId ? "handlerbutton" : ""}
+                  style={{
+                    border: "none",
+                    background: "none",
+                    cursor: "pointer",
+                    marginLeft: "0.5rem",
+                    color: "black",
+                    fontWeight: item?.id === shppingListId ? "bold" : "normal",
+                    transition: "color 0.3s",
+                  }}
+                >
+                  {item?.id === shppingListId ? (
+                    isLoadingWishlist ? (
+                      "Loading..."
+                    ) : isWishlisted ? (
+                      <span style={{ color: "rgb(207, 18, 46)" }}>
+                        --Remove From ShoppingList
+                      </span>
+                    ) : (
+                      <span style={{ color: "green" }}>
+                        -- Add to this ShoppingList
+                      </span>
+                    )
+                  ) : (
+                    ""
+                  )}
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
 
         <div className="product-filter-item">
           <h5>Quantity:</h5>
@@ -673,7 +754,7 @@ useEffect(() => {
             </div>
 
             <button
-             style={{background:"rgb(207, 18, 46)"}}
+              style={{ background: "rgb(207, 18, 46)" }}
               type="submit"
               onClick={() => AddtoCartHandler()}
               className="btn btn--rounded btn--yellow"
@@ -682,13 +763,12 @@ useEffect(() => {
             </button>
             <button
               type="button"
-              onClick={()=>toggleFav()}
+              onClick={() => toggleFav()}
               className={`btn-heart ${isFavourite ? "btn-heart--active" : ""}`}
             >
               <i className="icon-heart"></i>
             </button>
           </div>
-          
         </div>
       </div>
     </section>

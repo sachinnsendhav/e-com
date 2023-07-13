@@ -11,7 +11,7 @@ const ShoppingCart = ({ thumb, name, pliId, id, avalibility, size, count, price,
   }
 
   return (
-    <tr>
+    <tr style={{border:"8px solid #f5f5f5", background:"#fff"}}>
       <td>
         <div className="cart-product">
           <div className="cart-9g">
@@ -19,6 +19,7 @@ const ShoppingCart = ({ thumb, name, pliId, id, avalibility, size, count, price,
               width: "150px",
               objectFit: "cover",
               height: "150px",
+              margin:"1rem"
             }} />
           </div>
 
@@ -45,7 +46,7 @@ const ShoppingCart = ({ thumb, name, pliId, id, avalibility, size, count, price,
         </div>
       </td>
       <td>&euro; {price}</td>
-      <td className="cart-item-cancel"><i className="icon-cancel" onClick={() => removeProductFromCart(pliId)}></i></td>
+      <td className="cart-item-cancel" style={{paddingRight:"1rem"}}><i className="icon-cancel" onClick={() => removeProductFromCart(pliId)}></i></td>
     </tr>
   )
 };

@@ -182,35 +182,15 @@ const Header = ({ isErrorPage }: HeaderType) => {
 
   return (
     <header className={`site-header ${!onTop ? 'site-header--fixed' : ''}`}>
-      <div className="container">
+      <div className="container" style={{flexDirection:"column", padding:"1.5rem"}}>
+        <div style={{display:"flex",justifyContent:"space-between", width:"100%"}}>
         <Link href="/">
           <a><h1 className="site-logo">
             {/* <Logo /> */}
             <img src="https://www.ricoh.com/-/Media/Ricoh/Common/cmn_g_header_footer/img/logo/logo.svg" />
           </h1></a>
         </Link>
-        <nav ref={navRef} className={`site-nav ${menuOpen ? 'site-nav--open' : ''}`}>
-          {category.map((item: any) => {
-            return (
-              <Link href={`/productList/${item?.url?.split('/')[2]}?nodeId=${item.nodeId}`}>
-                <a>{item.name}</a>
-              </Link>
-            )
-          })}
-         
-          <div style={dropdownStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-            <button style={buttonStyle}><a>More</a></button>
-            <div style={contentStyle}>
-            <Link href={`/bundle`}>
-            <a style={{color:"black", padding:"5px"}}>Bundle Product</a>
-          </Link>
-           <Link href={`/configurable-product`}>
-            <a style={{color:"black", padding:"5px"}}>Configurable Product</a>
-          </Link>
-            </div>
-          </div>
-          <button className="site-nav__btn"><p>Account</p></button> 
-        </nav>
+      
 
         <div className="site-header__actions">
           <button ref={searchRef} className={`search-form-wrapper ${searchOpen ? 'search-form--active' : ''}`}>
@@ -244,6 +224,29 @@ const Header = ({ isErrorPage }: HeaderType) => {
         </div>
 
       </div>
+      <nav ref={navRef} className={`site-nav ${menuOpen ? 'site-nav--open' : ''}`}>
+          {category.map((item: any) => {
+            return (
+              <Link href={`/productList/${item?.url?.split('/')[2]}?nodeId=${item.nodeId}`}>
+                <a>{item.name}</a>
+              </Link>
+            )
+          })}
+         
+          <div style={dropdownStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+            <button style={buttonStyle}><a>More</a></button>
+            <div style={contentStyle}>
+            <Link href={`/bundle`}>
+            <a style={{color:"black", padding:"5px"}}>Bundle Product</a>
+          </Link>
+           <Link href={`/configurable-product`}>
+            <a style={{color:"black", padding:"5px"}}>Configurable Product</a>
+          </Link>
+            </div>
+          </div>
+          <button className="site-nav__btn"><p>Account</p></button> 
+        </nav>
+      </div>
       {searchResult.length >
         0
         ?
@@ -270,6 +273,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
         :
         null
       }
+      
     </header>
   )
 };

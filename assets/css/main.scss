@@ -263,7 +263,7 @@ h5 {
     font-size: 12px;
     background: #fff;
     display: inline-block;
-    border-radius: 50px;
+    border-radius: 8px;
     padding: 11px 20px;
     font-weight: 500;
     text-transform: uppercase;
@@ -2283,8 +2283,8 @@ h5 {
     height: 40px;
     width: 100%;
     margin-bottom: 18px;
-    border: 1px solid #d8d8d8;
-    border-radius: 30px;
+    border: 1px solid black;
+    border-radius: 8px;
     @include breakpoint(phone) {
       height: 49px;
       width: auto;
@@ -2295,7 +2295,7 @@ h5 {
       margin-right: 70px;
     }
     @include placeholder {
-      color: #ababab;
+      color: black;
     }
   }
   .cart-actions__total {
@@ -2621,7 +2621,7 @@ h5 {
     font-weight: 500;
     color: #808080;
     padding: 0 22px;
-    border-radius: 40px;
+    border-radius: 8px;
     border: 1px solid #d8d8d8;
     @include breakpoint(phone) {
       height: 56px;
@@ -2943,7 +2943,7 @@ h5 {
 .checkout-total {
   width: 344px;
   background: #f1f1f1;
-  border-radius: 40px;
+  border-radius: 8px;
   align-items: center;
   // height: 49px;
   display: flex;

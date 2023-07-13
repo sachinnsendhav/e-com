@@ -8,7 +8,7 @@ import { API_URL } from "config";
 const ShoppingCart = () => {
   var token: any;
   var cartId: any;
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     token = localStorage.getItem("token");
     cartId = localStorage.getItem("cartId");
   }
@@ -32,28 +32,25 @@ const ShoppingCart = () => {
 
   const handlecart = async () => {
     try {
-      const resp = await fetch(
-        `${API_URL}/carts`,
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const resp = await fetch(`${API_URL}/carts`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (resp.status === 401) {
-        alert("Please Login")
+        alert("Please Login");
         window.location.href = "/login";
         return;
       }
       const response = await resp.json();
 
       if (response) {
-        setCartUpdated(cartUpdated + 1)
+        setCartUpdated(cartUpdated + 1);
         setIsLoading(false);
-        localStorage.setItem("cartId", response?.data[0].id)
+        localStorage.setItem("cartId", response?.data[0].id);
         cartId = response?.data[0].id;
         return response?.data[0].id;
       } else {
@@ -63,7 +60,7 @@ const ShoppingCart = () => {
       console.error("Error adding to cart:", error);
       setIsLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
     const handleGetCart = async () => {
@@ -80,25 +77,32 @@ const ShoppingCart = () => {
         );
         if (resp.status === 401) {
           // Redirect to "/login" route
-          alert("Please Login")
+          alert("Please Login");
           window.location.href = "/login";
           return;
         } else if (resp.status === 404) {
-          alert("Cart not found: checking")
+          alert("Cart not found: checking");
           await handlecart();
           return;
         }
         const response = await resp.json();
         if (response) {
           setCartData(response);
-          const configurableItems = response?.included.filter((item: any) => item.attributes.configuredBundle !== null);
-          const filteredItems = response?.included.filter((item: any) => item.attributes.configuredBundle === null);
+          const configurableItems = response?.included.filter(
+            (item: any) => item.attributes.configuredBundle !== null
+          );
+          const filteredItems = response?.included.filter(
+            (item: any) => item.attributes.configuredBundle === null
+          );
           const formattedData: any[] = [];
           configurableItems.forEach((item: any) => {
             if (item.attributes.configuredBundle !== null) {
               const uuid = item.attributes.configuredBundle.template.uuid;
               const groupKey = item.attributes.configuredBundle.groupKey;
-              const existingItem = formattedData.find(dataItem => dataItem.uuid === uuid && dataItem.groupKey === groupKey);
+              const existingItem = formattedData.find(
+                (dataItem) =>
+                  dataItem.uuid === uuid && dataItem.groupKey === groupKey
+              );
               const unitPrice = item.attributes.calculations.unitPrice;
               if (existingItem) {
                 existingItem.data.push(item);
@@ -114,7 +118,7 @@ const ShoppingCart = () => {
               }
             }
           });
-          setConfiguredBundleData(formattedData)
+          await handleImage(formattedData);
           setCartItems(filteredItems);
           setIsLoading(false);
         } else {
@@ -136,11 +140,13 @@ const ShoppingCart = () => {
       await Promise.all(
         cartItems?.map(async (item: any, index: number) => {
           const result = await getProductDetails(item?.attributes?.sku);
-          const { imgData, avalibility } = await getProductImage(item?.attributes?.sku);
-
+          const { imgData, avalibility } = await getProductImage(
+            item?.attributes?.sku
+          );
           tempData[index] = result?.data;
-          tempImgData[index] = imgData?.attributes?.imageSets[0]?.images[0]?.externalUrlSmall;
-          tempAvalbData[index] = avalibility?.attributes
+          tempImgData[index] =
+            imgData?.attributes?.imageSets[0]?.images[0]?.externalUrlSmall;
+          tempAvalbData[index] = avalibility?.attributes;
         })
       );
       setCartPrductAvableArr(tempAvalbData);
@@ -151,19 +157,15 @@ const ShoppingCart = () => {
     if (cartItems && cartItems.length > 0) {
       setCartData();
     }
-
   }, [cartItems]);
 
   const getProductDetails = async (productId: string) => {
-    const resp = await fetch(
-      `${API_URL}/concrete-products/${productId}`,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-        },
-      }
-    );
+    const resp = await fetch(`${API_URL}/concrete-products/${productId}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+    });
     const result = await resp.json();
     return result;
   };
@@ -199,30 +201,27 @@ const ShoppingCart = () => {
     };
     setIsLoading(true);
     try {
-      const resp = await fetch(
-        `${API_URL}/carts/${cartId}/items/${pliId}`,
-        {
-          method: "PATCH",
-          body: JSON.stringify(productCart),
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const resp = await fetch(`${API_URL}/carts/${cartId}/items/${pliId}`, {
+        method: "PATCH",
+        body: JSON.stringify(productCart),
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (resp.status === 401) {
         // Redirect to "/login" route
-        alert("Please Login")
+        alert("Please Login");
         window.location.href = "/login";
         return;
       } else if (resp.status === 404) {
-        alert("Cart not found: checking")
+        alert("Cart not found: checking");
         await handlecart();
         return;
       }
       const response = await resp.json();
       if (response) {
-        setCartUpdated(cartUpdated + 1)
+        setCartUpdated(cartUpdated + 1);
         setIsLoading(false);
       } else {
         setIsLoading(false);
@@ -230,22 +229,19 @@ const ShoppingCart = () => {
     } catch (error) {
       setIsLoading(false);
     }
-  }
+  };
 
   const removeProductFromCart = async (pliId: string) => {
     if (confirm("Do you want to remove this product")) {
       setIsLoading(true);
       try {
-        const resp = await fetch(
-          `${API_URL}/carts/${cartId}/items/${pliId}`,
-          {
-            method: "DELETE",
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const resp = await fetch(`${API_URL}/carts/${cartId}/items/${pliId}`, {
+          method: "DELETE",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         if (resp.status === 401) {
           // Redirect to "/login" route
@@ -254,7 +250,7 @@ const ShoppingCart = () => {
           window.location.href = "/login";
           return;
         } else if (resp.status === 404) {
-          alert("Cart not found: checking")
+          alert("Cart not found: checking");
           await handlecart();
           return;
         }
@@ -271,49 +267,130 @@ const ShoppingCart = () => {
   };
 
   const deleteConfigureBundle = async (groupKey: any) => {
-    const resp = await fetch(`${API_URL}/carts/${cartId}/configured-bundles/${groupKey}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const resp = await fetch(
+      `${API_URL}/carts/${cartId}/configured-bundles/${groupKey}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
-    });
+    );
     if (resp.status === 204) {
-      const updatedItems = configuredBundleData.filter((item: any) => item.groupKey !== groupKey);
-      setConfiguredBundleData(updatedItems || [])
-      alert("Configurable Item deleted sucessfully...!")
+      const updatedItems = configuredBundleData.filter(
+        (item: any) => item.groupKey !== groupKey
+      );
+      setConfiguredBundleData(updatedItems || []);
+      alert("Configurable Item deleted sucessfully...!");
     }
-  }
+  };
 
-  useEffect(() => {
-    configuredBundleData.length ?
-      configuredBundleData.forEach((element: any) => {
-        element.data.forEach(async (item: any) => {
-          const resp = await fetch(`${API_URL}/concrete-products/${item.attributes.sku}?include=concrete-product-image-sets`, {
-            method: "GET"
+  const changeConfigBundleQuantity = async (quantity: number, item: any) => {
+
+    const groupKey = item?.groupKey;
+    const templateUUID = item?.uuid;
+    const items = item?.data.map((items:any) => {
+      return {
+        sku: items?.attributes?.sku,
+        quantity: quantity,
+        slotUuid: items?.attributes?.configuredBundleItem?.slot?.uuid,
+      };
+    });
+    const productCart = {
+      data: {
+        type: 'configured-bundles',
+        attributes: {
+          quantity: quantity,
+          templateUuid: templateUUID,
+          items: items,
+        },
+      },
+    };
+    setIsLoading(true);
+    try {
+      const resp = await fetch(`${API_URL}/carts/${cartId}/configured-bundles/${groupKey}`, {
+        method: "PATCH",
+        body: JSON.stringify(productCart),
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (resp.status === 401) {
+        // Redirect to "/login" route
+        alert("Please Login");
+        window.location.href = "/login";
+        return;
+      } else if (resp.status === 404) {
+        alert("Cart not found: checking");
+        await handlecart();
+        return;
+      }
+      const response = await resp.json();
+      if (response) {
+        setCartUpdated(cartUpdated + 1);
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setIsLoading(false);
+    }
+  };
+
+  // useEffect(() => {
+    const handleImage = async(formattedData:any)=>{
+    const data = await formattedData.length
+      ? await formattedData.forEach(async(element: any) => {
+          await element.data.forEach(async (item: any) => {
+            const resp = await fetch(
+              `${API_URL}/concrete-products/${item.attributes.sku}?include=concrete-product-image-sets`,
+              {
+                method: "GET",
+              }
+            );
+            const result = await resp.json();
+            item.attributes.image =
+              await result.included[0].attributes.imageSets[0].images[0].externalUrlLarge;
+            item.attributes.name = result.data.attributes.name;
           });
-          const result = await resp.json();
-          item.attributes.image = result.included[0].attributes.imageSets[0].images[0].externalUrlLarge
-          item.attributes.name = result.data.attributes.name;
-        });
-      })
-      : null
-  }, [configuredBundleData])
+        })
+      : null;
+      await setConfiguredBundleData(formattedData);
+    }
+  // }, [configuredBundleDataTemp]);
+
+  console.log(configuredBundleData,"configBundleData")
   return (
-    <section className="cart" style={{ paddingInline: "75px" }}>
-      {isLoading ? <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>Loading...</div> :
+    <section className="cart" style={{ paddingInline: "75px" , background:'#FFFBED', color:'black' }}>
+      {isLoading ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          Loading...
+        </div>
+      ) : (
         <div className="container">
-          {cartPrductArr && cartPrductArr && cartItems ?
+          {cartPrductArr && cartPrductArr && cartItems ? (
             <div className="cart__intro">
               <h3 className="cart__title">Shopping Cart</h3>
               <CheckoutStatus step="cart" />
             </div>
-            : <div></div>}
+          ) : (
+            <div></div>
+          )}
           <div className="cart-list">
             {cartItems && cartItems?.length > 0 && (
               <table>
                 <tbody>
                   <tr>
-                    <th style={{ textAlign: "left", color: "black" }}>Product</th>
+                    <th style={{ textAlign: "left", color: "black" }}>
+                      Product
+                    </th>
                     <th> </th>
                     <th> </th>
                     <th style={{ color: "black" }}>Quantity</th>
@@ -343,45 +420,96 @@ const ShoppingCart = () => {
 
             {!cartItems && <p>Nothing in the cart</p>}
           </div>
-          {configuredBundleData.map((item: any) => {
+          {configuredBundleData?.length && configuredBundleData?.map((item: any, index: number) => {
             return (
-              <div style={{ marginInline: "100px", margin: "10px", border: "1px solid #f5f5f5" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", background: "#f5f5f5", padding: "20px" }}>
+              <div
+                key={index}
+                style={{
+                  marginTop:"10px",
+                  background:"#fff",
+                  border: "8px solid #f5f5f5",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    background: "#f5f5f5",
+                    padding: "20px",
+                  }}
+                >
                   <div>
-                    <h1>{item.name}</h1>
+                    <h1>{item?.name}</h1>
                   </div>
                   <div style={{ display: "flex" }}>
-                    <p style={{ padding: "10px" }}>quantity -{item.data[0].attributes.quantity} </p>
-                    <p style={{ padding: "10px", fontWeight: "bold" }}>&euro; {item.total}</p>
-                    <button style={{
-                      background: "black",
-                      padding: "5px",
-                      color: "white",
-                      borderRadius: "5px"
-                    }} onClick={() => deleteConfigureBundle(item.groupKey)}>Delete</button>
+                    <div className="quantity-button">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          changeConfigBundleQuantity(
+                            item.data[0].attributes.quantity - 1,
+                            item
+                          )
+                        }
+                        className="quantity-button__btn"
+                      >
+                        -
+                      </button>
+                      <span>{item.data[0].attributes.quantity}</span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          changeConfigBundleQuantity(
+                            item.data[0].attributes.quantity + 1,
+                            item
+                          )
+                        }
+                        className="quantity-button__btn"
+                      >
+                        +
+                      </button>
+                    </div>
+                    <p style={{ padding: "10px" }}>
+                      quantity = {item.data[0].attributes.quantity}{" "}
+                    </p>
+                    <p style={{ padding: "10px", fontWeight: "bold" }}>
+                     Total  &euro;  {(item.total)*(item.data[0].attributes.quantity)}
+                    </p>
+                    <button
+                      style={{
+                        background: "black",
+                        padding: "5px",
+                        color: "white",
+                        borderRadius: "5px",
+                      }}
+                      onClick={() => deleteConfigureBundle(item.groupKey)}
+                    >
+                      Delete
+                    </button>
                   </div>
                 </div>
                 <div style={{ padding: "20px" }}>
-                  {item.data.map((val: any) => {
+                  {item?.data?.map((val: any) => {
                     return (
-
-                      <div style={{
-                        margin: "auto",
-                        width: "70%"
-                      }}>
+                      <div
+                        style={{
+                          margin: "auto",
+                          width: "70%",
+                        }}
+                      >
                         <div
                           style={{
                             padding: "1rem",
                             display: "flex",
                             justifyContent: "space-between",
                             background: "#dedede",
-                            margin: "1rem"
+                            margin: "1rem",
                           }}
                         >
                           <div style={{ display: "flex" }}>
                             <div style={{ width: "70px" }}>
                               <img
-                                src={val.attributes.image}
+                                src={val?.attributes?.image}
                                 style={{
                                   width: "100%",
                                   background: "#dedede",
@@ -392,21 +520,37 @@ const ShoppingCart = () => {
 
                             <div style={{ padding: "20px", color: "black" }}>
                               {val.attributes.name}
-                              <p style={{ color: "black", fontWeight: "bold" }}> SKU : {val.attributes.sku}</p>
-
+                              <p style={{ color: "black", fontWeight: "bold" }}>
+                                {" "}
+                                SKU : {val.attributes.sku}
+                              </p>
                             </div>
                           </div>
-                          <p style={{ color: "black", paddingTop: "20px", fontWeight: "bold" }}>{val.attributes.quantity}</p>
-                          <div style={{ paddingTop: "20px", color: "black", fontWeight: "bold" }}>
-                            &euro;{val.attributes.calculations.unitPrice}
+                          <p
+                            style={{
+                              color: "black",
+                              paddingTop: "20px",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            {val.attributes.quantity} X        {val.attributes.calculations.unitPrice}
+                          </p>
+                          <div
+                            style={{
+                              paddingTop: "20px",
+                              color: "black",
+                              fontWeight: "bold",
+                            }}
+                          >
+                           = &euro;{(val.attributes.quantity)*(val.attributes.calculations.unitPrice)}
                           </div>
                         </div>
                       </div>
-                    )
+                    );
                   })}
                 </div>
               </div>
-            )
+            );
           })}
           <div className="cart-actions">
             <a href="/" className="cart__btn-back">
@@ -420,7 +564,10 @@ const ShoppingCart = () => {
 
             <div className="cart-actions__items-wrapper">
               <p className="cart-actions__total">
-                Total cost <strong>&euro;  {cartData?.data?.attributes?.totals?.priceToPay}</strong>
+                Total cost{" "}
+                <strong>
+                  &euro; {cartData?.data?.attributes?.totals?.priceToPay}
+                </strong>
               </p>
               <a href="/cart/checkout" className="btn btn--rounded btn--yellow">
                 Checkout
@@ -428,7 +575,7 @@ const ShoppingCart = () => {
             </div>
           </div>
         </div>
-      }
+      )}
     </section>
   );
 };

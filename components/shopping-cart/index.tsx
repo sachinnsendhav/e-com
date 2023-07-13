@@ -6,17 +6,14 @@ import { useEffect, useState } from "react";
 import { API_URL } from "config";
 
 const ShoppingCart = () => {
-  // const { cartItems } = useSelector((state: RootState)  => state.cart);
   var token: any;
   var cartId: any;
   if (typeof window !== 'undefined') {
-    // Code running in the browser
     token = localStorage.getItem("token");
     cartId = localStorage.getItem("cartId");
   }
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
   const [cartData, setCartData] = useState<any>();
   const [cartItems, setCartItems] = useState<any>();
   const [configuredBundleData, setConfiguredBundleData] = useState<any[]>([]);
@@ -96,41 +93,34 @@ const ShoppingCart = () => {
           setCartData(response);
           const configurableItems = response?.included.filter((item: any) => item.attributes.configuredBundle !== null);
           const filteredItems = response?.included.filter((item: any) => item.attributes.configuredBundle === null);
-          console.log("filteredItems", filteredItems)
-          console.log("configurableItems", configurableItems)
           const formattedData: any[] = [];
-
           configurableItems.forEach((item: any) => {
             if (item.attributes.configuredBundle !== null) {
               const uuid = item.attributes.configuredBundle.template.uuid;
               const groupKey = item.attributes.configuredBundle.groupKey;
               const existingItem = formattedData.find(dataItem => dataItem.uuid === uuid && dataItem.groupKey === groupKey);
-
-              const unitPrice = item.attributes.calculations.unitPrice; // Get the unitPrice from calculations
-
+              const unitPrice = item.attributes.calculations.unitPrice;
               if (existingItem) {
                 existingItem.data.push(item);
-                existingItem.total += unitPrice; // Add the unitPrice to the total
+                existingItem.total += unitPrice;
               } else {
                 formattedData.push({
                   uuid: uuid,
                   groupKey: groupKey,
                   name: item.attributes.configuredBundle.template.name,
                   data: [item],
-                  total: unitPrice, // Include the unitPrice as the initial total
+                  total: unitPrice,
                 });
               }
             }
           });
           setConfiguredBundleData(formattedData)
-          console.log("formattedData", formattedData)
           setCartItems(filteredItems);
           setIsLoading(false);
         } else {
           setIsLoading(false);
         }
       } catch (error) {
-
         setIsLoading(false);
       }
     };
@@ -287,10 +277,29 @@ const ShoppingCart = () => {
         Authorization: `Bearer ${token}`,
       }
     });
-    console.log("delete- configure bundle--", resp)
+    if (resp.status === 204) {
+      const updatedItems = configuredBundleData.filter((item: any) => item.groupKey !== groupKey);
+      setConfiguredBundleData(updatedItems || [])
+      alert("Configurable Item deleted sucessfully...!")
+    }
   }
+
+  useEffect(() => {
+    configuredBundleData.length ?
+      configuredBundleData.forEach((element: any) => {
+        element.data.forEach(async (item: any) => {
+          const resp = await fetch(`${API_URL}/concrete-products/${item.attributes.sku}?include=concrete-product-image-sets`, {
+            method: "GET"
+          });
+          const result = await resp.json();
+          item.attributes.image = result.included[0].attributes.imageSets[0].images[0].externalUrlLarge
+          item.attributes.name = result.data.attributes.name;
+        });
+      })
+      : null
+  }, [configuredBundleData])
   return (
-    <section className="cart">
+    <section className="cart" style={{ paddingInline: "75px" }}>
       {isLoading ? <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>Loading...</div> :
         <div className="container">
           {cartPrductArr && cartPrductArr && cartItems ?
@@ -355,10 +364,44 @@ const ShoppingCart = () => {
                 <div style={{ padding: "20px" }}>
                   {item.data.map((val: any) => {
                     return (
-                      <>
-                        <p style={{ padding: "10px", color: "black" }}>{val.attributes.sku}</p>
-                        <p style={{ padding: "10px", color: "black" }}>Price - &euro;{val.attributes.calculations.unitPrice}</p>
-                      </>
+
+                      <div style={{
+                        margin: "auto",
+                        width: "70%"
+                      }}>
+                        <div
+                          style={{
+                            padding: "1rem",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            background: "#dedede",
+                            margin: "1rem"
+                          }}
+                        >
+                          <div style={{ display: "flex" }}>
+                            <div style={{ width: "70px" }}>
+                              <img
+                                src={val.attributes.image}
+                                style={{
+                                  width: "100%",
+                                  background: "#dedede",
+                                  objectFit: "cover",
+                                }}
+                              />
+                            </div>
+
+                            <div style={{ padding: "20px", color: "black" }}>
+                              {val.attributes.name}
+                              <p style={{ color: "black", fontWeight: "bold" }}> SKU : {val.attributes.sku}</p>
+
+                            </div>
+                          </div>
+                          <p style={{ color: "black", paddingTop: "20px", fontWeight: "bold" }}>{val.attributes.quantity}</p>
+                          <div style={{ paddingTop: "20px", color: "black", fontWeight: "bold" }}>
+                            &euro;{val.attributes.calculations.unitPrice}
+                          </div>
+                        </div>
+                      </div>
                     )
                   })}
                 </div>

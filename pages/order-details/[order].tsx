@@ -27,8 +27,41 @@ function orderDetailsPage() {
                     const products = result.data.attributes.items.filter((item: any) => item.salesOrderConfiguredBundle === null);
                     const configureProducts = result.data.attributes.items.filter((item: any) => item.salesOrderConfiguredBundle !== null);
                     console.log("products", products);
-                    setProductData(products)
-                    console.log("configureProducts", configureProducts)
+                    const skuSet = new Set();
+                    const uniqueArray: any = [];
+                    products.forEach((item: any) => {
+                        const { sku } = item;
+                        if (!skuSet.has(sku)) {
+                            skuSet.add(sku);
+                            uniqueArray.push(item);
+                        } else {
+                            const existingItem = uniqueArray.find((item: any) => item.sku === sku);
+                            if (existingItem) {
+                                existingItem.quantity += item.quantity;
+                            }
+                        }
+                    });
+                    setProductData(uniqueArray);
+
+                    const modifiedArray: any[] = [];
+                    const tempMap: any = {};
+                    configureProducts.forEach((item: any) => {
+                        const { configurableBundleTemplateUuid, salesOrderConfiguredBundle: { idSalesOrderConfiguredBundle } } = item;
+                        const key = `${configurableBundleTemplateUuid}_${idSalesOrderConfiguredBundle}`;
+                        if (!tempMap[key]) {
+                            const newObj = {
+                                name: item.salesOrderConfiguredBundle.name,
+                                idSalesOrderConfiguredBundle,
+                                configurableBundleTemplateUuid,
+                                data: [item]
+                            };
+                            modifiedArray.push(newObj);
+                            tempMap[key] = newObj;
+                        } else {
+                            tempMap[key].data.push(item);
+                        }
+                    });
+                    setConfigurableProduct(modifiedArray)
                     const orderDetail = result.data.attributes
                     orderDetail.id = orderId
                     setOrderData((orderData) => [...orderData, orderDetail])
@@ -36,7 +69,6 @@ function orderDetailsPage() {
                     router.push("/login")
                 }
             }
-
         }
     }
     useEffect(() => {
@@ -72,6 +104,83 @@ function orderDetailsPage() {
                                                 </div>
                                             </div>
                                         )
+                                    })}
+                                    {configurableProduct?.length && configurableProduct?.map((item: any, index: number) => {
+                                        return (
+                                            <div
+                                                key={index}
+                                                style={{
+                                                    marginTop: "10px",
+                                                    background: "#fff",
+                                                    border: "8px solid #f5f5f5",
+                                                }}
+                                            >
+                                                <div
+                                                    style={{
+                                                        display: "flex",
+                                                        justifyContent: "space-between",
+                                                        background: "#f5f5f5",
+                                                        padding: "20px",
+                                                    }}
+                                                >
+                                                    <div>
+                                                        <h1>{item?.name}</h1>
+                                                    </div>
+                                                </div>
+                                                <div style={{ padding: "5px" }}>
+                                                    {item?.data?.map((val: any) => {
+                                                        return (
+                                                            <div
+                                                                style={{
+                                                                    margin: "auto",
+                                                                    width: "100%",
+                                                                }}
+                                                            >
+                                                                <div
+                                                                    style={{
+                                                                        padding: "1rem",
+                                                                        display: "flex",
+                                                                        justifyContent: "space-between",
+                                                                        background: "#dedede",
+                                                                        margin: "1rem",
+                                                                    }}
+                                                                >
+                                                                    <div style={{ display: "flex" }}>
+                                                                        <div style={{ width: "70px" }}>
+                                                                            <img
+                                                                                src={val?.metadata?.image}
+                                                                                style={{
+                                                                                    width: "100%",
+                                                                                    background: "#dedede",
+                                                                                    objectFit: "cover",
+                                                                                }}
+                                                                            />
+                                                                        </div>
+
+                                                                        <div style={{ padding: "20px", color: "black" }}>
+                                                                            {val.name}
+                                                                            <p style={{ color: "black", fontWeight: "bold" }}>
+                                                                                {" "}
+                                                                                SKU : {val.sku}
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        style={{
+                                                                            paddingTop: "20px",
+                                                                            color: "black",
+                                                                            fontWeight: "bold",
+                                                                        }}
+                                                                    >
+                                                                        &euro;{(val.quantity) * (val.sumNetPrice)}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </div>
+                                        );
                                     })}
                                 </div>
                                 <div style={{ width: "50%", padding: "10px" }}>

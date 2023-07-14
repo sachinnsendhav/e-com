@@ -145,11 +145,11 @@ const Content = (product: any) => {
     try {
       const resp = await fetch(`${API_URL}/carts`, {
         method: "POST",
-            body: JSON.stringify(data),
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${token}`,
-            },
+        body: JSON.stringify(data),
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (resp.status === 401) {
@@ -171,7 +171,6 @@ const Content = (product: any) => {
       setIsLoading(false);
     }
   };
-
 
   useEffect(() => {
     setProductData(product?.product);
@@ -200,11 +199,11 @@ const Content = (product: any) => {
 
       if (response) {
         setIsLoading(false);
-        if(response?.data[0]?.id){
-        localStorage.setItem("cartId", response?.data[0].id);
-        cartId = response?.data[0].id;
-        return response?.data[0].id;
-        }else{
+        if (response?.data[0]?.id) {
+          localStorage.setItem("cartId", response?.data[0].id);
+          cartId = response?.data[0].id;
+          return response?.data[0].id;
+        } else {
           await createCart();
         }
       } else {
@@ -733,12 +732,36 @@ const Content = (product: any) => {
         )}
 
         <div>
-          <h3>Sold By</h3>
-          <div>
-            <div><input type="radio" name="merchant"/><label>CSQT</label></div>
-            <div><input type="radio" name="merchant"/><label>CSQT1</label></div>
-            <div><input type="radio" name="merchant"/><label>CSQT2</label></div>
-            <div><input type="radio" name="merchant"/><label>CSQT3</label></div>
+          <h2 style={{padding:"1rem", fontSize:"2rem"}}>Sold By</h2>
+          <div style={{padding:"1rem"}}>
+            <div style={{border:"1px solid",background:"#f0f0f0", width:"20rem", padding:"2rem 2rem", display:"flex", justifyContent:"space-between"}}>
+              <div>
+              <input style={{marginTop:"0px", marginRight:"10px"}} type="radio" name="merchant" id="merchant1" value="CSQT"/>
+              <span style={{fontWeight:"600"}}>CSQT</span>
+              </div>
+              <p>Price : € 1234</p>
+            </div>
+            <div style={{border:"1px solid",background:"#f0f0f0", width:"20rem", padding:"2rem 2rem", display:"flex", justifyContent:"space-between"}}>
+              <div>
+              <input style={{marginTop:"0px", marginRight:"10px"}} type="radio" name="merchant" id="merchant1" value="CSQT"/>
+              <span style={{fontWeight:"600"}}>CSQT1</span>
+              </div>
+              <p>Price : € 1210</p>
+            </div>
+            <div style={{border:"1px solid",background:"#f0f0f0", width:"20rem", padding:"2rem 2rem", display:"flex", justifyContent:"space-between"}}>
+              <div>
+              <input style={{marginTop:"0px", marginRight:"10px"}} type="radio" name="merchant" id="merchant1" value="CSQT"/>
+              <span style={{fontWeight:"600"}}>CSQT2</span>
+              </div>
+              <p>Price : € 1220</p>
+            </div>
+            <div style={{border:"1px solid",background:"#f0f0f0", width:"20rem", padding:"2rem 2rem", display:"flex", justifyContent:"space-between"}}>
+              <div>
+              <input style={{marginTop:"0px", marginRight:"10px"}} type="radio" name="merchant" id="merchant1" value="CSQT"/>
+              <span style={{fontWeight:"600"}}>CSQT3</span>
+              </div>
+              <p>Price : € 1230</p>
+            </div>
           </div>
         </div>
 

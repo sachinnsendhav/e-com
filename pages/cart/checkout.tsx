@@ -227,7 +227,7 @@ const CheckoutPage = () => {
   };
   return (
     <Layout>
-      <section className="cart" style={{ background:'#FFFBED', color:'black'}}>
+      <section className="cart" style={{ background:'#FFFBED', color:'black', padding:"80px"}}>
         <div className="container">
           <div className="cart__intro">
             <h3 className="cart__title">Shipping and Payment</h3>
@@ -361,7 +361,7 @@ const CheckoutPage = () => {
               <div className="cart-actions__items-wrapper">
               <button
                 type="button"
-                style={{width:'100%',marginLeft:'1rem'}}
+                style={{width:'100%'}}
                 className="btn btn--rounded btn--yellow"
                 onClick={(e) => orderConfirm()}
               >

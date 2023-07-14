@@ -166,7 +166,7 @@ const CheckoutItems = () => {
                 <img src={cartPrductImgArr[Index]} />
               </div>
 
-              <div className="checkout-item__data">
+              <div className="">
                 <h3>{cartPrductArr[Index]?.attributes?.name}</h3>
               </div>
             </div>
@@ -177,7 +177,7 @@ const CheckoutItems = () => {
             </h3>
           </li>
         ))}
-      {configuredBundleData?.length &&
+      {configuredBundleData?.length > 0 &&
         configuredBundleData?.map((item: any, index: number) => {
           return (
             <div

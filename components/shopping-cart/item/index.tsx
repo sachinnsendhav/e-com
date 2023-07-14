@@ -16,9 +16,9 @@ const ShoppingCart = ({ thumb, name, pliId, id, avalibility, size, count, price,
         <div className="cart-product">
           <div className="cart-9g">
             <img src={thumb} alt="" style={{
-              width: "150px",
+              width: "80px",
               objectFit: "cover",
-              height: "150px",
+              height: "80px",
               margin:"1rem"
             }} />
           </div>

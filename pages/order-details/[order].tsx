@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router';
 import Layout from '../../layouts/Main';
 import Footer from 'components/footer';
-import {API_URL} from 'config';
+import { API_URL } from 'config';
 function orderDetailsPage() {
     const router = useRouter();
     const orderId = router.query.order;
     const [authToken, setAuthToken] = useState<any>()
     const [orderData, setOrderData] = useState<any[]>([]);
+    const [productData, setProductData] = useState<any[]>([]);
+    const [configurableProduct, setConfigurableProduct] = useState<any[]>([]);
     useEffect(() => {
         setAuthToken(localStorage.getItem('token'))
     }, [])
@@ -22,6 +24,11 @@ function orderDetailsPage() {
                         }
                     });
                     const result = await resp.json();
+                    const products = result.data.attributes.items.filter((item: any) => item.salesOrderConfiguredBundle === null);
+                    const configureProducts = result.data.attributes.items.filter((item: any) => item.salesOrderConfiguredBundle !== null);
+                    console.log("products", products);
+                    setProductData(products)
+                    console.log("configureProducts", configureProducts)
                     const orderDetail = result.data.attributes
                     orderDetail.id = orderId
                     setOrderData((orderData) => [...orderData, orderDetail])
@@ -50,7 +57,7 @@ function orderDetailsPage() {
                             <div style={{ padding: "10px", display: "flex", justifyContent: "space-around" }}>
                                 <div style={{ width: "50%", padding: "10px" }}>
                                     <h1>Items </h1>
-                                    {orderData[0].items.map((item: any) => {
+                                    {productData.map((item: any) => {
                                         return (
                                             <div style={{ display: "flex", border: "1px solid #7f7f7f", marginTop: "5px" }}>
                                                 <div>
@@ -129,7 +136,7 @@ function orderDetailsPage() {
                             <div style={{ padding: "10px", display: "flex", justifyContent: "space-between" }}>
                                 <div style={{ fontWeight: "bold" }}>
                                     {/* Item Status : {orderData[0].itemStates[0]} */}
-                                    </div>
+                                </div>
                                 <div style={{ fontWeight: "bold" }}> Total Amount : &euro; {orderData[0]?.totals.grandTotal}</div>
                             </div>
                         </div>

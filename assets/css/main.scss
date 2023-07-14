@@ -199,12 +199,12 @@ h5 {
   }
 }
 
-.main-page {
-  padding-top: 65px;
-  @include breakpoint(phone) {
-    padding-top: 100px;
-  }
-}
+// .main-page {
+//   padding-top: 65px;
+//   @include breakpoint(phone) {
+//     padding-top: 100px;
+//   }
+// }
 
 .block {
   .block__title {
@@ -323,17 +323,17 @@ h5 {
 }
 
 .site-header {
-  position: fixed;
+  position: sticky;
   width: 100%;
   top: 0;
   left: 0;
   z-index: 999;
-  height: 130px;
+  height: 100px;
   color: #fff;
   box-shadow: none;
   transition: all 0.3s ease;
   @include breakpoint(phone) {
-    height: 130px;
+    height: 100px;
   }
   .btn-hamburger {
     &:before,
@@ -2942,10 +2942,10 @@ h5 {
 }
 
 .checkout-total {
-  width: 344px;
   background: #f1f1f1;
   border-radius: 8px;
   align-items: center;
+  font-size: 12px;
   // height: 49px;
   display: flex;
   padding: 10px 36px;

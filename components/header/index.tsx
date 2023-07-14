@@ -181,8 +181,8 @@ const Header = ({ isErrorPage }: HeaderType) => {
   };
 
   return (
-    <header className={`site-header ${!onTop ? 'site-header--fixed' : ''}`}>
-      <div className="container" style={{flexDirection:"column", padding:"1.5rem"}}>
+    <header style={{padding:"15px 80px"}} className={`site-header site-header--fixed`}>
+      <div className="container" style={{flexDirection:"column",}}>
         <div style={{display:"flex",justifyContent:"space-between", width:"100%"}}>
         <Link href="/">
           <a><h1 className="site-logo">
@@ -250,7 +250,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
       {searchResult.length >
         0
         ?
-        <div style={{ right: "0", marginRight: "170px", borderRadius: "25px", position: "absolute", width: "300px", height: "350px", overflowY: "scroll", backgroundColor: "white" }}>
+        <div style={{ right: "0", marginRight: "170px" , borderRadius: "25px", position: "absolute", width: "300px", height: "350px", overflowY: "scroll", backgroundColor: "white" }}>
           {
             searchResult.map((item: any) => {
               return (

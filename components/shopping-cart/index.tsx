@@ -95,7 +95,7 @@ const ShoppingCart = () => {
             (item: any) => item.attributes.configuredBundle === null
           );
           const formattedData: any[] = [];
-          configurableItems.forEach((item: any) => {
+          await configurableItems.forEach((item: any) => {
             if (item.attributes.configuredBundle !== null) {
               const uuid = item.attributes.configuredBundle.template.uuid;
               const groupKey = item.attributes.configuredBundle.groupKey;
@@ -340,9 +340,10 @@ const ShoppingCart = () => {
 
   // useEffect(() => {
     const handleImage = async(formattedData:any)=>{
-    const data = await formattedData.length
-      ? await formattedData.forEach(async(element: any) => {
-          await element.data.forEach(async (item: any) => {
+      console.log(formattedData,"formattedData")
+      var data1:any =formattedData
+     await formattedData?.forEach(async(element: any,index:number) => {
+          await element.data.forEach(async (item: any, inde:number) => {
             const resp = await fetch(
               `${API_URL}/concrete-products/${item.attributes.sku}?include=concrete-product-image-sets`,
               {
@@ -350,13 +351,16 @@ const ShoppingCart = () => {
               }
             );
             const result = await resp.json();
-            item.attributes.image =
+            item.attributes.image = 
               await result.included[0].attributes.imageSets[0].images[0].externalUrlLarge;
-            item.attributes.name = result.data.attributes.name;
+            item.attributes.name = await result.data.attributes.name;
           });
+      // await data1.push(element);
         })
-      : null;
+        setTimeout(async() => {
       await setConfiguredBundleData(formattedData);
+          
+        }, 2000);
     }
   // }, [configuredBundleDataTemp]);
 
@@ -420,7 +424,7 @@ const ShoppingCart = () => {
 
             {!cartItems && <p>Nothing in the cart</p>}
           </div>
-          {configuredBundleData?.length && configuredBundleData?.map((item: any, index: number) => {
+          {configuredBundleData && configuredBundleData?.map((item: any, index: number) => {
             return (
               <div
                 key={index}

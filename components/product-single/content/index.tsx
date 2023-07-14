@@ -226,7 +226,7 @@ const Content = (product: any) => {
             method: "GET",
             headers: {
               Accept: "application/json",
-              // Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -731,6 +731,16 @@ const Content = (product: any) => {
             ))}
           </div>
         )}
+
+        <div>
+          <h3>Sold By</h3>
+          <div>
+            <div><input type="radio" name="merchant"/><label>CSQT</label></div>
+            <div><input type="radio" name="merchant"/><label>CSQT1</label></div>
+            <div><input type="radio" name="merchant"/><label>CSQT2</label></div>
+            <div><input type="radio" name="merchant"/><label>CSQT3</label></div>
+          </div>
+        </div>
 
         <div className="product-filter-item">
           <h5>Quantity:</h5>

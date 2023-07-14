@@ -87,49 +87,49 @@ const Header = ({ isErrorPage }: HeaderType) => {
     getCategory();
   }, [])
 
-  const checkTokenExpiry = async () => {
-    if (authToken) {
-      const data =
-      {
-        "data": {
-          "type": "access-tokens",
-          "attributes": {
-            "username": "sonia@spryker.com",
-            "password": "change123"
-          }
-        }
-      }
-      try {
-        const resp = await fetch(
-          `${API_URL}/access-tokens`,
-          {
-            method: 'POST',
-            headers: {
-              "Authorization": `Bearer ${authToken}`
-            },
-            body: JSON.stringify(data),
-          },
-        );
-        const result = await resp.json();
-        if (result?.data?.attributes?.accessToken) {
-          localStorage.setItem("status", "true")
-          localStorage.setItem("token", result?.data?.attributes?.accessToken)
-        } else {
-          localStorage.setItem("status", "false")
-          router.push('/login')
-        }
-      } catch (err) {
-        localStorage.setItem("status", "false")
-        router.push('/login')
-      }
-    } else {
-      localStorage.setItem("status", "false")
-    }
+  // const checkTokenExpiry = async () => {
+  //   if (authToken) {
+  //     const data =
+  //     {
+  //       "data": {
+  //         "type": "access-tokens",
+  //         "attributes": {
+  //           "username": "sonia@spryker.com",
+  //           "password": "change123"
+  //         }
+  //       }
+  //     }
+  //     try {
+  //       const resp = await fetch(
+  //         `${API_URL}/access-tokens`,
+  //         {
+  //           method: 'POST',
+  //           headers: {
+  //             "Authorization": `Bearer ${authToken}`
+  //           },
+  //           body: JSON.stringify(data),
+  //         },
+  //       );
+  //       const result = await resp.json();
+  //       if (result?.data?.attributes?.accessToken) {
+  //         localStorage.setItem("status", "true")
+  //         localStorage.setItem("token", result?.data?.attributes?.accessToken)
+  //       } else {
+  //         localStorage.setItem("status", "false")
+  //         router.push('/login')
+  //       }
+  //     } catch (err) {
+  //       localStorage.setItem("status", "false")
+  //       router.push('/login')
+  //     }
+  //   } else {
+  //     localStorage.setItem("status", "false")
+  //   }
 
-  }
-  useEffect(() => {
-    checkTokenExpiry();
-  }, [authToken])
+  // }
+  // useEffect(() => {
+  //   checkTokenExpiry();
+  // }, [authToken])
 
   const getSearchResult = async (text: any) => {
     const resp = await fetch(`${API_URL}/catalog-search-suggestions?q=${text}`, {

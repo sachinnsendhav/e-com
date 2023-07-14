@@ -47,43 +47,43 @@ const LoginPage = () => {
   const checkTokenExpiry = async () => {
 
 
-    if (authToken) {
-      setLoading(true)
-      const data =
-      {
-        "data": {
-          "type": "access-tokens",
-          "attributes": {
-            "username": "sonia@spryker.com",
-            "password": "change123"
-          }
-        }
-      }
-      try {
-        const resp = await fetch(
-          `${API_URL}/access-tokens`,
-          {
-            method: 'POST',
-            headers: {
-              "Authorization": `Bearer ${authToken}`
-            },
-            body: JSON.stringify(data),
-          },
-        );
-        const result = await resp.json();
+    // if (authToken) {
+    //   setLoading(true)
+    //   const data =
+    //   {
+    //     "data": {
+    //       "type": "access-tokens",
+    //       "attributes": {
+    //         "username": "sonia@spryker.com",
+    //         "password": "change123"
+    //       }
+    //     }
+    //   }
+    //   try {
+    //     const resp = await fetch(
+    //       `${API_URL}/access-tokens`,
+    //       {
+    //         method: 'POST',
+    //         headers: {
+    //           "Authorization": `Bearer ${authToken}`
+    //         },
+    //         body: JSON.stringify(data),
+    //       },
+    //     );
+    //     const result = await resp.json();
 
-        localStorage.setItem("status", "true")
-        localStorage.setItem("token", result?.data?.attributes?.accessToken)
-        if (result?.data?.attributes?.accessToken) {
-          router.push('/profile');
-        }
-      } catch (err) {
-        localStorage.setItem("status", "false")
-      }
-      setLoading(false)
-    } else {
-      localStorage.setItem("status", "false")
-    }
+    //     localStorage.setItem("status", "true")
+    //     localStorage.setItem("token", result?.data?.attributes?.accessToken)
+    //     if (result?.data?.attributes?.accessToken) {
+    //       router.push('/profile');
+    //     }
+    //   } catch (err) {
+    //     localStorage.setItem("status", "false")
+    //   }
+    //   setLoading(false)
+    // } else {
+    //   localStorage.setItem("status", "false")
+    // }
 
   }
 

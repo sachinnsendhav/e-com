@@ -273,7 +273,7 @@ const ProductItem = ({
     }
   };
 
-  const sentences = description.split(".");
+  const sentences = description?.split(".");
 
   return (
     <div className="product-item">

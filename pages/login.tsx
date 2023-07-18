@@ -29,7 +29,7 @@ const LoginPage = () => {
     formdata.append('password', data.password);
     // formdata.append('client_id', "");
     formdata.append('client_id', "frontend");
-    formdata.append('client_secret', "UodXi9ODNGet1sg1Y6NXeUI0IqTc3ybmpFEYJTlm06ggsbEq");
+    formdata.append('client_secret', "ODZJ57z0dlLj1UStVaQ26j2oMaLlokJOQyOwuCBXT5e4ppnA");
     const resp = await fetch(
       `${API_URL}/token`,
       {

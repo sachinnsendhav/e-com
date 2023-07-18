@@ -328,32 +328,32 @@ const Content = (product: any) => {
             attributes: {
               sku: productSkuId,
               quantity: count,
-              salesUnit: {
-                id: 0,
-                amount: 0,
-              },
-              productOptions: [null],
+              // salesUnit: {
+              //   id: 0,
+              //   amount: 0,
+              // },
+              // productOptions: [null],
             },
           },
         };
-        if (selectedMerchantOffer) {
-          productCart = {
-            data: {
-              type: "items",
-              attributes: {
-                sku: productSkuId,
-                quantity: count,
-                productOfferReference: selectedMerchantOffer?.id,
-                merchantReference: selectedMerchantOffer?.attributes?.merchantReference,
-                salesUnit: {
-                  id: 0,
-                  amount: 0,
-                },
-                productOptions: [null],
-              },
-            },
-          };
-        }
+        // if (selectedMerchantOffer) {
+        //   productCart = {
+        //     data: {
+        //       type: "items",
+        //       attributes: {
+        //         sku: productSkuId,
+        //         quantity: count,
+        //         productOfferReference: selectedMerchantOffer?.id,
+        //         merchantReference: selectedMerchantOffer?.attributes?.merchantReference,
+        //         salesUnit: {
+        //           id: 0,
+        //           amount: 0,
+        //         },
+        //         productOptions: [null],
+        //       },
+        //     },
+        //   };
+        // }
         setIsLoading(true);
         try {
           const resp = await fetch(`${API_URL}/carts/${cartId}/items`, {

@@ -89,10 +89,10 @@ function orderDetailsPage() {
         getOrderData()
     }, [orderId, authToken])
 
-    const getTextArticle =async(id:any)=>{
-        const resp = await fetch(`${API_URL}/TestArticle/${id}`,{
-            method:"GET",
-            headers:{
+    const getTextArticle = async (id: any) => {
+        const resp = await fetch(`${API_URL}/TestArticle/${id}`, {
+            method: "GET",
+            headers: {
                 authorization: `Bearer ${authToken}`
             }
         });
@@ -100,20 +100,33 @@ function orderDetailsPage() {
         console.log('text-article-----', result)
     }
 
-    const addTextArticle = async(id:any)=>{
-        const resp = await fetch(`${API_URL}/TestArticle/${id}`,{
-            method:"POST",
-            headers:{
+    const addTextArticle = async (id: any) => {
+        const data: any = {
+            id: 1,
+            materialName: "patch-----Material",
+            quantity: " patch----Quantity",
+            batchNumber: "post--Batch",
+            concentration: "postConcentration",
+            storage: "postStorage",
+            orderId: 1,
+            date: "patch--Date"
+        }
+        const resp = await fetch(`${API_URL}/TestArticle/${id}`, {
+            method: "POST",
+            headers: {
                 authorization: `Bearer ${authToken}`
-            }
-        })
+            },
+            body: data
+        });
+        const result = await resp.json();
+        console.log("result--", result)
     }
     useEffect(() => {
-        if(orderId){
+        if (orderId) {
             getTextArticle(orderId);
         }
     }, [orderId])
-    
+
 
     //for madal implementation
     let subtitle: any;
@@ -149,7 +162,7 @@ function orderDetailsPage() {
                                     <h1>Items </h1>
                                     {productData.map((item: any) => {
                                         return (
-                                            <div style={{ display: "flex", border: "1px solid #7f7f7f", marginTop: "5px", padding:"5px" }}>
+                                            <div style={{ display: "flex", border: "1px solid #7f7f7f", marginTop: "5px", padding: "5px" }}>
                                                 <div>
                                                     <img src={item.metadata.image} style={{ height: "100px", width: "100px", objectFit: "contain" }} />
                                                 </div>
@@ -322,29 +335,29 @@ function orderDetailsPage() {
                         <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Text Article</h2>
                         <button onClick={closeModal} style={{ background: "black", borderRadius: "5px", color: "white", paddingInline: "10px" }}>X</button>
                     </div>
-                    <form style={{paddingTop:"10px"}}>
+                    <form style={{ paddingTop: "10px" }}>
                         <div style={{ display: "flex", flexDirection: "column", padding: "5px" }}>
-                            <label style={{color:"black"}}>Material Name</label>
+                            <label style={{ color: "black" }}>Material Name</label>
                             <input type='text' placeholder='Enter material name' style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
                         </div>
                         <div style={{ display: "flex", flexDirection: "column", padding: "5px" }}>
-                            <label style={{color:"black"}}>Quantity</label>
+                            <label style={{ color: "black" }}>Quantity</label>
                             <input type='text' placeholder='Enter quantity' style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
                         </div>
                         <div style={{ display: "flex", flexDirection: "column", padding: "5px" }}>
-                            <label style={{color:"black"}}>Batch Number</label>
+                            <label style={{ color: "black" }}>Batch Number</label>
                             <input type='text' placeholder='Enter batch number' style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
                         </div>
                         <div style={{ display: "flex", flexDirection: "column", padding: "5px" }}>
-                            <label style={{color:"black"}}>Concentration</label>
+                            <label style={{ color: "black" }}>Concentration</label>
                             <input type='text' placeholder='Enter concentration' style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
                         </div>
                         <div style={{ display: "flex", flexDirection: "column", padding: "5px" }}>
-                            <label style={{color:"black"}}>Storage</label>
+                            <label style={{ color: "black" }}>Storage</label>
                             <input type='text' placeholder='Enter storage' style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
                         </div>
-                        <div style={{display:"flex", justifyContent:"center", marginTop:"10px"}}>
-                            <button style={{ width: "75px", borderRadius: "5px", color: "white", background: "#333333",padding:"5px" }}>Submit</button>
+                        <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
+                            <button style={{ width: "75px", borderRadius: "5px", color: "white", background: "#333333", padding: "5px" }}>Submit</button>
                         </div>
                     </form>
                 </Modal>

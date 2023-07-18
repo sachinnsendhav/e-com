@@ -30,13 +30,13 @@ const Header = ({ isErrorPage }: HeaderType) => {
     setAuthStatus(localStorage.getItem("status"));
     setAuthToken(localStorage.getItem("token"))
   }, [])
-  // useEffect(() => {
-  //   if (authToken) {
-  //     setAuthStatus("true")
-  //   } else {
-  //     setAuthStatus("false")
-  //   }
-  // }, [authToken])
+  useEffect(() => {
+    if (authToken) {
+      setAuthStatus("true")
+    } else {
+      setAuthStatus("false")
+    }
+  }, [authToken])
 
   const navRef = useRef(null);
   const searchRef = useRef(null);
@@ -149,25 +149,25 @@ const Header = ({ isErrorPage }: HeaderType) => {
 
 
 
-  const dropdownStyle:any = {
+  const dropdownStyle: any = {
     position: 'relative',
     display: 'inline-block',
   };
 
-  const buttonStyle:any = {
-    color:"white",
+  const buttonStyle: any = {
+    color: "white",
     border: 'none',
     cursor: 'pointer',
-    fontSize:"14px"
+    fontSize: "14px"
   };
 
-  const contentStyle:any = {
+  const contentStyle: any = {
     display: isHovered ? 'block' : 'none',
     position: 'absolute',
     backgroundColor: '#fff',
-    color:"#333333",
+    color: "#333333",
     minWidth: '200px',
-    padding:"10px",
+    padding: "10px",
     boxShadow: '0px 8px 16px 0px rgba(0, 0, 0, 0.2)',
     zIndex: 1,
   };
@@ -180,51 +180,70 @@ const Header = ({ isErrorPage }: HeaderType) => {
     setIsHovered(false);
   };
 
+
+  //logout
+
+  const logout = () => {
+    localStorage.clear();
+    setAuthStatus("false")
+  }
   return (
-    <header style={{padding:"15px 80px"}} className={`site-header site-header--fixed`}>
-      <div className="container" style={{flexDirection:"column",}}>
-        <div style={{display:"flex",justifyContent:"space-between", width:"100%"}}>
-        <Link href="/">
-          <a><h1 className="site-logo">
-            {/* <Logo /> */}
-            <img src="https://www.ricoh.com/-/Media/Ricoh/Common/cmn_g_header_footer/img/logo/logo.svg" />
-          </h1></a>
-        </Link>
-      
+    <header style={{ padding: "15px 80px" }} className={`site-header site-header--fixed`}>
+      <div className="container" style={{ flexDirection: "column", }}>
+        <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+          <Link href="/">
+            <a><h1 className="site-logo">
+              {/* <Logo /> */}
+              <img src="https://www.ricoh.com/-/Media/Ricoh/Common/cmn_g_header_footer/img/logo/logo.svg" />
+            </h1></a>
+          </Link>
 
-        <div className="site-header__actions">
-          <button ref={searchRef} className={`search-form-wrapper ${searchOpen ? 'search-form--active' : ''}`}>
-            <form className={`search-form`}>
-              <i className="icon-cancel" onClick={() => setSearchOpen(!searchOpen)}></i>
-              <input type="text" name="search" onChange={(e: any) => { setSearchText(e.target.value) }} placeholder="Enter the product you are looking for" />
-            </form>
-            {searchText ? <Link href={`/search/${searchText}`}>
-              <i onClick={() => setSearchOpen(!searchOpen)} className="icon-search"></i>
-            </Link> :
-              <i onClick={() => setSearchOpen(!searchOpen)} className="icon-search"></i>
-            }
 
-          </button>
-          <Link href="/cart">
-            <button className="btn-cart">
-              <i className="icon-cart"></i>
-              {cartItems.length > 0 &&
-                <span className="btn-cart__count">{cartItems.length}</span>
+          <div className="site-header__actions">
+            <button ref={searchRef} className={`search-form-wrapper ${searchOpen ? 'search-form--active' : ''}`}>
+              <form className={`search-form`}>
+                <i className="icon-cancel" onClick={() => setSearchOpen(!searchOpen)}></i>
+                <input type="text" name="search" onChange={(e: any) => { setSearchText(e.target.value) }} placeholder="Enter the product you are looking for" />
+              </form>
+              {searchText ? <Link href={`/search/${searchText}`}>
+                <i onClick={() => setSearchOpen(!searchOpen)} className="icon-search"></i>
+              </Link> :
+                <i onClick={() => setSearchOpen(!searchOpen)} className="icon-search"></i>
               }
-            </button>
-          </Link>
-          <Link href={authStatus === "true" ? "/profile" : "/login"}>
-            <button className="site-header__btn-avatar"><i className="icon-avatar"></i></button>
-          </Link>
-          <button
-            onClick={() => setMenuOpen(true)}
-            className="site-header__btn-menu">
-            <i className="btn-hamburger"><span></span></i>
-          </button>
-        </div>
 
-      </div>
-      <nav ref={navRef} className={`site-nav ${menuOpen ? 'site-nav--open' : ''}`}>
+            </button>
+            <Link href="/cart">
+              <button className="btn-cart">
+                <i className="icon-cart"></i>
+                {cartItems.length > 0 &&
+                  <span className="btn-cart__count">{cartItems.length}</span>
+                }
+              </button>
+            </Link>
+            <Link href={authStatus === "true" ? "/profile" : "/login"}>
+              <button className="site-header__btn-avatar"><i className="icon-avatar"></i></button>
+            </Link>
+            <div>
+              {authStatus === "false" ?
+                <Link href="/login">
+                  <button>
+                    Login
+                  </button>
+                </Link>
+                :
+                <button onClick={() => logout()}>
+                  Logout
+                </button>}
+            </div>
+            <button
+              onClick={() => setMenuOpen(true)}
+              className="site-header__btn-menu">
+              <i className="btn-hamburger"><span></span></i>
+            </button>
+          </div>
+
+        </div>
+        <nav ref={navRef} className={`site-nav ${menuOpen ? 'site-nav--open' : ''}`}>
           {category.map((item: any) => {
             return (
               <Link href={`/productList/${item?.url?.split('/')[2]}?nodeId=${item.nodeId}`}>
@@ -232,25 +251,25 @@ const Header = ({ isErrorPage }: HeaderType) => {
               </Link>
             )
           })}
-         
+
           <div style={dropdownStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <button style={buttonStyle}><a>More</a></button>
             <div style={contentStyle}>
-            <Link href={`/bundle`}>
-            <a style={{color:"black", padding:"5px"}}>Bundle Product</a>
-          </Link>
-           <Link href={`/configurable-product`}>
-            <a style={{color:"black", padding:"5px"}}>Configurable Product</a>
-          </Link>
+              <Link href={`/bundle`}>
+                <a style={{ color: "black", padding: "5px" }}>Bundle Product</a>
+              </Link>
+              <Link href={`/configurable-product`}>
+                <a style={{ color: "black", padding: "5px" }}>Configurable Product</a>
+              </Link>
             </div>
           </div>
-          <button className="site-nav__btn"><p>Account</p></button> 
+          <button className="site-nav__btn"><p>Account</p></button>
         </nav>
       </div>
       {searchResult.length >
         0
         ?
-        <div style={{ right: "0", marginRight: "170px" , borderRadius: "25px", position: "absolute", width: "300px", height: "350px", overflowY: "scroll", backgroundColor: "white" }}>
+        <div style={{ right: "0", marginRight: "170px", borderRadius: "25px", position: "absolute", width: "300px", height: "350px", overflowY: "scroll", backgroundColor: "white" }}>
           {
             searchResult.map((item: any) => {
               return (
@@ -273,7 +292,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
         :
         null
       }
-      
+
     </header>
   )
 };

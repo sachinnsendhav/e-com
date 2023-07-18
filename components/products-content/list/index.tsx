@@ -55,8 +55,10 @@ const ProductsContent = () => {
     }
   }, [searchUrl]);
   useEffect(() => {
-    getShoppingListItem();
-  }, [])
+    if(token){
+      getShoppingListItem();
+    }
+  }, [token])
 
 
   const getShoppingListItem = async() => {

@@ -1,4 +1,8 @@
 export const API_URL = "http://glue.us.spryker.local";
+
+// for toys production url
 // export const SHOPPING_LIST_ID = "2bf4b763-4044-5eb0-aa27-7d07ae9b8a7c";
+
+// for us development local url
 export const SHOPPING_LIST_ID = "adb17f85-953f-565a-a4ce-e5cb02405f83";
 export const IS_LOGGEDIN = false;

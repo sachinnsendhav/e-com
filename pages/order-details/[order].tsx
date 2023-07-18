@@ -3,6 +3,18 @@ import { useRouter } from 'next/router';
 import Layout from '../../layouts/Main';
 import Footer from 'components/footer';
 import { API_URL } from 'config';
+import Modal from 'react-modal';
+
+const customStyles: any = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+    },
+};
 function orderDetailsPage() {
     const router = useRouter();
     const orderId = router.query.order;
@@ -10,6 +22,8 @@ function orderDetailsPage() {
     const [orderData, setOrderData] = useState<any[]>([]);
     const [productData, setProductData] = useState<any[]>([]);
     const [configurableProduct, setConfigurableProduct] = useState<any[]>([]);
+    const [modalIsOpen, setIsOpen] = React.useState(false);
+
     useEffect(() => {
         setAuthToken(localStorage.getItem('token'))
     }, [])
@@ -75,6 +89,23 @@ function orderDetailsPage() {
         getOrderData()
     }, [orderId, authToken])
 
+
+
+    let subtitle: any;
+
+    function openModal() {
+        setIsOpen(true);
+    }
+
+    function afterOpenModal() {
+        // references are now sync'd and can be accessed.
+        subtitle.style.color = '#f00';
+    }
+
+    function closeModal() {
+        setIsOpen(false);
+    }
+
     return (
         <Layout>
             <div>
@@ -84,14 +115,16 @@ function orderDetailsPage() {
                         <h1 style={{ textAlign: "center", fontSize: "20px", fontWeight: "bold", paddingTop: "10px" }}>Oder Details</h1>
                         <div style={{ width: "80%", border: "1px solid #7f7f7f", margin: "auto", borderRadius: "5px", marginTop: "10px" }}>
                             <div style={{ padding: "10px", borderBottom: "1px solid #7f7f7f", display: "flex", justifyContent: "space-between" }}>
-                                <div style={{ fontWeight: "bold" }}>Order Id : {orderId}</div><div style={{ fontWeight: "bold" }}> Total Item : {orderData[0]?.items.length}</div>
+                                <div style={{ fontWeight: "bold" }}>Order Id : {orderId}</div><div style={{ fontWeight: "bold" }}> Total Item : {orderData[0]?.items.length}
+                                    <button style={{ padding: "5px", background: "#333", borderRadius: "5px", color: "white", marginLeft: "10px" }} onClick={() => openModal()}>Text Article</button>
+                                </div>
                             </div>
                             <div style={{ padding: "10px", display: "flex", justifyContent: "space-around" }}>
                                 <div style={{ width: "50%", padding: "10px" }}>
                                     <h1>Items </h1>
                                     {productData.map((item: any) => {
                                         return (
-                                            <div style={{ display: "flex", border: "1px solid #7f7f7f", marginTop: "5px" }}>
+                                            <div style={{ display: "flex", border: "1px solid #7f7f7f", marginTop: "5px", padding:"5px" }}>
                                                 <div>
                                                     <img src={item.metadata.image} style={{ height: "100px", width: "100px", objectFit: "contain" }} />
                                                 </div>
@@ -208,9 +241,9 @@ function orderDetailsPage() {
                                             <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Phone No.</p>
                                             <p>{orderData[0].billingAddress.phone} </p>
                                         </div>
-                                        <div style={{ display: "flex" }}>
+                                        {/* <div style={{ display: "flex" }}>
                                             <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Salutation</p><p>{orderData[0].billingAddress.salutation} </p>
-                                        </div>
+                                        </div> */}
                                     </div>
 
                                     <h1 style={{ paddingTop: "10px" }}>Payment Details</h1>
@@ -253,6 +286,43 @@ function orderDetailsPage() {
                     :
                     <div>Loading....</div>
                 }
+                <Modal
+                    isOpen={modalIsOpen}
+                    onAfterOpen={afterOpenModal}
+                    onRequestClose={closeModal}
+                    style={customStyles}
+                    contentLabel="Example Modal"
+                >
+                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Text Article</h2>
+                        <button onClick={closeModal} style={{ background: "black", borderRadius: "5px", color: "white", paddingInline: "10px" }}>X</button>
+                    </div>
+                    <form style={{paddingTop:"10px"}}>
+                        <div style={{ display: "flex", flexDirection: "column", padding: "5px" }}>
+                            <label style={{color:"black"}}>Material Name</label>
+                            <input type='text' placeholder='Enter material name' style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "column", padding: "5px" }}>
+                            <label style={{color:"black"}}>Quantity</label>
+                            <input type='text' placeholder='Enter quantity' style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "column", padding: "5px" }}>
+                            <label style={{color:"black"}}>Batch Number</label>
+                            <input type='text' placeholder='Enter batch number' style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "column", padding: "5px" }}>
+                            <label style={{color:"black"}}>Concentration</label>
+                            <input type='text' placeholder='Enter concentration' style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "column", padding: "5px" }}>
+                            <label style={{color:"black"}}>Storage</label>
+                            <input type='text' placeholder='Enter storage' style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
+                        </div>
+                        <div style={{display:"flex", justifyContent:"center", marginTop:"10px"}}>
+                            <button style={{ width: "75px", borderRadius: "5px", color: "white", background: "#333333",padding:"5px" }}>Submit</button>
+                        </div>
+                    </form>
+                </Modal>
             </div>
             <Footer />
         </Layout>

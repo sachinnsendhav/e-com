@@ -148,11 +148,14 @@ const CheckoutPage = () => {
               ...selectedPayment,
             },
           ],
+          // shipment: {
+          //   idShipmentMethod: 1,
+          // },
           shipments: [
             {
               shippingAddress: selectedAddress,
               items: items,
-              idShipmentMethod: 1,
+              idShipmentMethod: 7,
               requestedDeliveryDate: "2023-06-23",
             },
           ],
@@ -205,9 +208,9 @@ const CheckoutPage = () => {
     paymentMethods?.map((item: any, index: number) => {
       if (item.id == id) {
         setSelectedPayment({
-          paymentMethodName: item?.attributes?.paymentMethodName,
-          paymentProviderName: item?.attributes?.paymentProviderName,
-          paymentSelection: item?.attributes?.priority || 1,
+          paymentMethodName: "Dummy Marketplace Payment" ||item?.attributes?.paymentMethodName,
+          paymentProviderName:"Dummy Marketplace Payment" ||item?.attributes?.paymentProviderName,
+          paymentSelection: "dummyMarketplacePaymentInvoice"||(item?.attributes?.priority)?.toString() || "1",
         });
       }
     });
@@ -227,14 +230,17 @@ const CheckoutPage = () => {
   };
   return (
     <Layout>
-      <section className="cart" style={{ background:'#FFFBED', color:'black', padding:"80px"}}>
+      <section
+        className="cart"
+        style={{ background: "#FFFBED", color: "black", padding: "80px" }}
+      >
         <div className="container">
           <div className="cart__intro">
             <h3 className="cart__title">Shipping and Payment</h3>
             <CheckoutStatus step="checkout" />
           </div>
           <div className="checkout-content">
-            <div className="checkout__col-8" style={{width:"60%"}}>
+            <div className="checkout__col-8" style={{ width: "60%" }}>
               <div className="block">
                 <h3 className="block__title">Your cart</h3>
                 <CheckoutItems />
@@ -242,16 +248,19 @@ const CheckoutPage = () => {
             </div>
             <div className="checkout__col-4">
               <div className="block">
-              {data &&
-              shipmentMethods &&
-              paymentMethods &&
-              shipments &&
-              addresses && (
-                  <div className="block">
-                    <h3 className="block__title">Address information</h3>
-                    <form className="form">
-                      <div className="form__input-row form__input-row--two">
-                          <div className="select-wrapper select-form" style={{width:'100%'}}>
+                {data &&
+                  shipmentMethods &&
+                  paymentMethods &&
+                  shipments &&
+                  addresses && (
+                    <div className="block">
+                      <h3 className="block__title">Address information</h3>
+                      <form className="form">
+                        <div className="form__input-row form__input-row--two">
+                          <div
+                            className="select-wrapper select-form"
+                            style={{ width: "100%" }}
+                          >
                             <select
                               className="form__input form__input--sm"
                               onChange={(e) =>
@@ -275,13 +284,16 @@ const CheckoutPage = () => {
                               })}
                             </select>
                           </div>
-                      </div>
-                    </form>
-                    <h3 className="block__title">Payment method</h3>
+                        </div>
+                      </form>
+                      <h3 className="block__title">Payment method</h3>
 
-                    <form className="form">
-                      <div className="form__input-row form__input-row--two">
-                          <div className="select-wrapper select-form" style={{width:'100%'}}>
+                      <form className="form">
+                        <div className="form__input-row form__input-row--two">
+                          <div
+                            className="select-wrapper select-form"
+                            style={{ width: "100%" }}
+                          >
                             <select
                               className="form__input form__input--sm"
                               onChange={(e) =>
@@ -298,13 +310,16 @@ const CheckoutPage = () => {
                               })}
                             </select>
                           </div>
-                      </div>
-                    </form>
+                        </div>
+                      </form>
 
-                    <h3 className="block__title">Shipment method</h3>
-                    <form className="form">
-                      <div className="form__input-row form__input-row--two">
-                          <div className="select-wrapper select-form" style={{width:'100%'}}>
+                      <h3 className="block__title">Shipment method</h3>
+                      <form className="form">
+                        <div className="form__input-row form__input-row--two">
+                          <div
+                            className="select-wrapper select-form"
+                            style={{ width: "100%" }}
+                          >
                             <select
                               className="form__input form__input--sm"
                               onChange={(e) =>
@@ -323,18 +338,22 @@ const CheckoutPage = () => {
                               })}
                             </select>
                           </div>
-                      </div>
-                    </form>
-                </div>
-              )}
+                        </div>
+                      </form>
+                    </div>
+                  )}
                 <div className="checkout-total">
                   <div>
                     <p style={{ paddingBottom: "12px" }}>Sub Total cost</p>
                     <p style={{ paddingBottom: "12px" }}>Tax</p>
-                    <p style={{ paddingBottom: "12px" , color:"green"}}>Discount Total cost</p>
+                    <p style={{ paddingBottom: "12px", color: "green" }}>
+                      Discount Total cost
+                    </p>
                     <hr></hr>
 
-                    <p style={{ paddingBottom: "12px" , color:"#800000"}}>Total cost</p>
+                    <p style={{ paddingBottom: "12px", color: "#800000" }}>
+                      Total cost
+                    </p>
                   </div>
                   <div>
                     <h3 style={{ paddingBottom: "12px" }}>
@@ -349,25 +368,23 @@ const CheckoutPage = () => {
                       {cartData?.data?.attributes?.totals?.discountTotal}
                     </h3>
                     <hr></hr>
-                    <h3 style={{ paddingBottom: "12px",color:"#800000" }}>
+                    <h3 style={{ paddingBottom: "12px", color: "#800000" }}>
                       {" "}
                       = &euro; {cartData?.data?.attributes?.totals?.priceToPay}
                     </h3>
                   </div>
-                  
                 </div>
-                
               </div>
               <div className="cart-actions__items-wrapper">
-              <button
-                type="button"
-                style={{width:'100%'}}
-                className="btn btn--rounded btn--yellow"
-                onClick={(e) => orderConfirm()}
-              >
-                Proceed to payment
-              </button>
-            </div>
+                <button
+                  type="button"
+                  style={{ width: "100%" }}
+                  className="btn btn--rounded btn--yellow"
+                  onClick={(e) => orderConfirm()}
+                >
+                  Proceed to payment
+                </button>
+              </div>
             </div>
           </div>
 

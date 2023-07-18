@@ -117,7 +117,7 @@ const LoginPage = () => {
                       placeholder="sonia@spryker.com"
                       type="text"
                       name="email"
-                      value={"sonia@spryker.com"}//just for development testing please remove it after development
+                      // value={"sonia@spryker.com"}//just for development testing please remove it after development
                       ref={register({
                         required: true,
                         pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,

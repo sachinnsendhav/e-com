@@ -23,13 +23,15 @@ const Header = ({ isErrorPage }: HeaderType) => {
   const [category, setCategory] = useState([])
   const [authStatus, setAuthStatus] = useState("false")
   const [authToken, setAuthToken] = useState("");
+  const [customerGroup, setCustomerGroup] = useState<any>();
   const [searchResult, setSearchResult] = useState<any[]>([]);
   const [isHovered, setIsHovered] = useState(false);
   const [isHovered1, setIsHovered1] = useState(false);
 
   useEffect(() => {
     setAuthStatus(localStorage.getItem("status"));
-    setAuthToken(localStorage.getItem("token"))
+    setAuthToken(localStorage.getItem("token"));
+    setCustomerGroup(localStorage.getItem("customerGroup"))
   }, [])
   useEffect(() => {
     if (authToken) {
@@ -280,12 +282,22 @@ const Header = ({ isErrorPage }: HeaderType) => {
            <div style={dropdownStyle} onMouseEnter={handleMouseEnter1} onMouseLeave={handleMouseLeave1}>
             <button style={buttonStyle}><a>Printers & Products</a></button>
             <div style={contentStyle1}>
-              <Link href={`/productList/ink-&-toner?nodeId=43`}>
+              {!customerGroup? <>
+                <Link href={`/productList/ink-&-toner?nodeId=43`}>
                 <a style={{ color: "black", padding: "5px" }}>Ink & Toner</a>
               </Link>
               <Link href={`/productList/ricoh?nodeId=39`}>
                 <a style={{ color: "black", padding: "5px" }}>Printers</a>
               </Link>
+              </> :""}
+              {customerGroup == "3" &&
+              <Link href={`/productList/ink-&-toner?nodeId=43`}>
+                <a style={{ color: "black", padding: "5px" }}>Ink & Toner</a>
+              </Link>}
+              {customerGroup == "2" &&
+              <Link href={`/productList/ricoh?nodeId=39`}>
+                <a style={{ color: "black", padding: "5px" }}>Printers</a>
+              </Link>}
             </div>
           </div>
           {authStatus === "false"?"":
@@ -318,32 +330,63 @@ const Header = ({ isErrorPage }: HeaderType) => {
           <button className="site-nav__btn"><p>Account</p></button>
         </nav>
       </div>
-      {searchResult.length >
-        0
-        ?
-        <div style={{ right: "0", marginRight: "170px", borderRadius: "25px", position: "absolute", width: "300px", height: "350px", overflowY: "scroll", backgroundColor: "white" }}>
-          {
-            searchResult.map((item: any) => {
-              return (
-                <Link href={`/product/${item.abstractName}?skuId=${item.abstractSku}`}>
-                  <div style={{ display: "flex", padding: "5px", cursor: "pointer" }}>
-                    <div style={{ paddingLeft: "10px" }}>
-                      <img src={item.images[0].externalUrlLarge} style={{ width: "50px", height: "50px", objectFit: "contain", border: "1px solid #7f7f7f", borderRadius: "100%" }} />
-                    </div>
-                    <div style={{ paddingTop: "8px", paddingLeft: "5px" }}>
-                      <p style={{ color: "black" }}>{item.abstractName}</p>
-                      <p style={{ color: "black", fontWeight: "bold" }}>{item.price}</p>
-
-                    </div>
-                  </div>
-                </Link>
-              )
-            })
-          }
+      {searchResult.length > 0 ? (
+  <div
+    style={{
+      right: "0",
+      marginRight: "300px",
+      marginTop: "-10px",
+      borderRadius: "25px",
+      position: "absolute",
+      width: "40rem",
+      height: "400px",
+      overflowY: "scroll",
+      scrollbarWidth: "none",
+      backgroundColor: "white",
+      boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+      padding: "10px",
+      zIndex: "9999",
+    }}
+  >
+    {searchResult.map((item: any) => (
+      <Link
+        href={`/product/${item.abstractName}?skuId=${item.abstractSku}`}
+        key={item.abstractSku}
+      >
+        <div
+          style={{
+            display: "flex",
+            padding: "5px",
+            cursor: "pointer",
+          }}
+        >
+          <div style={{ paddingLeft: "10px" }}>
+            <img
+              src={item.images[0].externalUrlLarge}
+              style={{
+                width: "92px",
+                height: "83px",
+                objectFit: "contain",
+                border: "1px solid #7f7f7f",
+                borderRadius: "100%",
+              }}
+              alt="product"
+            />
+          </div>
+          <div style={{ paddingTop: "8px", paddingLeft: "10px" }}>
+            <p style={{ color: "black", marginBottom: "5px" }}>
+              {item.abstractName}
+            </p>
+            <p style={{ color: "black", fontWeight: "bold" }}>
+              {item.price}
+            </p>
+          </div>
         </div>
-        :
-        null
-      }
+      </Link>
+    ))}
+  </div>
+) : null}
+
 
     </header>
   )

@@ -89,8 +89,33 @@ function orderDetailsPage() {
         getOrderData()
     }, [orderId, authToken])
 
+    const getTextArticle =async(id:any)=>{
+        const resp = await fetch(`${API_URL}/TestArticle/${id}`,{
+            method:"GET",
+            headers:{
+                authorization: `Bearer ${authToken}`
+            }
+        });
+        const result = await resp.json();
+        console.log('text-article-----', result)
+    }
 
+    const addTextArticle = async(id:any)=>{
+        const resp = await fetch(`${API_URL}/TestArticle/${id}`,{
+            method:"POST",
+            headers:{
+                authorization: `Bearer ${authToken}`
+            }
+        })
+    }
+    useEffect(() => {
+        if(orderId){
+            getTextArticle(orderId);
+        }
+    }, [orderId])
+    
 
+    //for madal implementation
     let subtitle: any;
 
     function openModal() {

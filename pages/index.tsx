@@ -92,7 +92,7 @@ const IndexPage = () => {
 
   const getRelatedProduct = async () => {
     const resp = await fetch(
-      `${API_URL}/abstract-products/110/related-products`,
+      `${API_URL}/abstract-products/408244/related-products`,
       {
         method: "GET",
         headers: {

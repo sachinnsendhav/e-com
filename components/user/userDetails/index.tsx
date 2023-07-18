@@ -29,6 +29,9 @@ const UserDetails = ({ show }: AddressType) => {
         );
         const result = await resp.json();
         setUserDetails(result.data[0].attributes)
+        console.log(result,"result")
+        localStorage.setItem("userId",result?.data[0]?.id)
+        localStorage.setItem("customerGroup",result?.data[0]?.attributes?.fkCustomerGroup)
       } catch {
         localStorage.setItem("status", "false")
       }

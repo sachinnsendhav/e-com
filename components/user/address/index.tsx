@@ -65,7 +65,7 @@ const Address = ({ show }: AddressType) => {
                             <th style={{ color: "black", paddingTop: "20px" }}>Action</th>
 
                         </tr>
-                        {address.length > 0 ? address.map((item: any) => {
+                        {address?.length > 0 ? address.map((item: any) => {
                             return (
                                 <tr style={{ border: "1px solid black" }}>
                                     <td>{`${item.attributes.salutation} ${item.attributes.firstName} ${item.attributes.lastName}`} </td>

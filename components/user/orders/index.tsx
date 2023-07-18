@@ -76,7 +76,7 @@ const Orders = ({ show }: AddressType) => {
               <th style={{ color: "black",paddingTop:"20px" }}>Amount</th>
               <th style={{ color: "black",paddingTop:"20px" }}>Details</th>
             </tr>
-            {order.length > 0 ? order.map((item: any) => {
+            {order?.length > 0 ? order.map((item: any) => {
               return (
                 <tr style={{border:"1px solid black"}}>
                   <td>{item.id}</td>

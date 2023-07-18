@@ -156,7 +156,7 @@ const LoginPage = () => {
                           id="check-signed-in"
                           ref={register({ required: false })}
                         />
-                        <span className="checkbox__check"></span>
+                        {/* <span className="checkbox__check"></span> //removed because 2 checkboxes were showing */}
                         <p>Keep me signed in</p>
                       </label>
                     </div>
@@ -164,9 +164,9 @@ const LoginPage = () => {
                   </div>
 
                   {/* <div className="form__btns">
-    <button type="button" className="btn-social fb-btn"><i className="icon-facebook"></i>Facebook</button>
-    <button type="button" className="btn-social google-btn"><img src="/images/icons/gmail.svg" alt="gmail" /> Gmail</button>
-  </div> */}
+                    <button type="button" className="btn-social fb-btn"><i className="icon-facebook"></i>Facebook</button>
+                    <button type="button" className="btn-social google-btn"><img src="/images/icons/gmail.svg" alt="gmail" /> Gmail</button>
+                  </div> */}
 
                   <button type="submit" className="btn btn--rounded btn--yellow btn-submit">Sign in</button>
 

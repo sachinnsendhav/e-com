@@ -273,7 +273,10 @@ const ProductItem = ({
     }
   };
 
-  const sentences = description?.split(".");
+  const sentences = description?.split(/\.|<B>/)
+  .map((sentence) => sentence.replace(/-/g, ' ').replace(/<br\/?>/g, '').replace(/<\/?b>/g, ''));
+console.log(description);
+
 
   return (
     <div className="product-item">
@@ -299,7 +302,7 @@ const ProductItem = ({
           style={{
             fontFamily: "sans-serif",
             marginTop: "1rem",
-            marginBottom: "1rem",
+            marginBottom: "1rem"
           }}
         >
           {name}

@@ -186,6 +186,8 @@ const Header = ({ isErrorPage }: HeaderType) => {
   const logout = () => {
     localStorage.clear();
     setAuthStatus("false")
+    localStorage.setItem("status","false")
+    window.location.reload();
   }
   return (
     <header style={{ padding: "15px 80px" }} className={`site-header site-header--fixed`}>

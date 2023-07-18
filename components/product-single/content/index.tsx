@@ -56,7 +56,7 @@ const Content = (product: any) => {
     setShppingListId(result.data[0]?.id);
   };
 
-  console.log(selectedMerchantOffer,"selectedMerchantOffer")
+  console.log(selectedMerchantOffer, "selectedMerchantOffer");
 
   const getShoppingListItem = async (id: any) => {
     const resp = await fetch(
@@ -73,8 +73,6 @@ const Content = (product: any) => {
     const image: any = [];
     const quantity: any = [];
     const price: any = [];
-
-   
 
     if (result && result.included && result.included.length > 0) {
       result.included.forEach((element: any) => {
@@ -278,10 +276,10 @@ const Content = (product: any) => {
           }
         );
 
-        function formatKey(key:any) {
+        function formatKey(key: any) {
           return key
             .replace(/_/g, " ")
-            .replace(/\b\w/g, (c:any) => c.toUpperCase());
+            .replace(/\b\w/g, (c: any) => c.toUpperCase());
         }
       }
     };
@@ -322,17 +320,18 @@ const Content = (product: any) => {
 
     if (productSkuId && (await checkCartExist())) {
       if (cartId) {
-        var productCart:any = {
+        var productCart: any = {
           data: {
             type: "items",
             attributes: {
-              sku: productSkuId,
+              sku: productSkuId.toString(),
               quantity: count,
-              // salesUnit: {
-              //   id: 0,
-              //   amount: 0,
-              // },
-              // productOptions: [null],
+              // merchantReference: "MER000008",
+              salesUnit: {
+                id: 0,
+                amount: 0,
+              },
+              productOptions: [null],
             },
           },
         };
@@ -418,19 +417,18 @@ const Content = (product: any) => {
             } else {
               console.log(response, "offer response");
               var modifiedData = response?.data;
-              await modifiedData?.map(async(item:any,index:number)=>{
-                item.price = await response.included[index]?.attributes?.price
-              })
+              await modifiedData?.map(async (item: any, index: number) => {
+                item.price = await response.included[index]?.attributes?.price;
+              });
 
               await setMerchantOffer(modifiedData);
               var tempselected = await modifiedData?.find(
                 (offer: any) =>
-                  offer?.attributes?.fkCustomerGroup == customerGroup ||  offer?.attributes?.fkCustomerGroup == null
+                  offer?.attributes?.fkCustomerGroup == customerGroup ||
+                  offer?.attributes?.fkCustomerGroup == null
               );
-              console.log(tempselected,"temp")
+              console.log(tempselected, "temp");
               setSelectedMerchantOffer(tempselected);
-
-              
             }
           }
         } catch (error) {
@@ -657,8 +655,13 @@ const Content = (product: any) => {
           <h4 style={{ color: "rgb(207, 18, 46)" }}>
             {priceSymbole} {price}
           </h4>
-          
-         <span>${selectedMerchantOffer ? selectedMerchantOffer?.price : product?.price}</span>
+
+          <span>
+            $
+            {selectedMerchantOffer
+              ? selectedMerchantOffer?.price
+              : product?.price}
+          </span>
         </div>
       </div>
 
@@ -805,39 +808,46 @@ const Content = (product: any) => {
           </div>
         )}
 
-        <div>
+        {/* <div>
           <h2 style={{ padding: "1rem", fontSize: "2rem" }}>Sold By</h2>
-          <div style={{ padding: "1rem" }}>
-            {merchantOffer?.map((item: any, index: any) =>
-              (customerGroup == item?.attributes?.fkCustomerGroup) || (item?.attributes?.fkCustomerGroup ==null) ? (
-                <div
-                  style={{
-                    border: "1px solid",
-                    background: "#f0f0f0",
-                    width: "20rem",
-                    padding: "2rem 2rem",
-                    display: "flex",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <div>
-                    <input
-                      style={{ marginTop: "0px", marginRight: "10px" }}
-                      type="radio"
-                      name="merchant"
-                      id={item?.id}
-                      checked ={selectedMerchantOffer?.attributes?.merchantReference ==item?.attributes?.merchantReference}
-                      value={item?.attributes?.merchantReference}
-                      onClick={(e) => setSelectedMerchantOffer(item)}
-                    />
-                    <span style={{ fontWeight: "600" }}>{item?.id}</span>
+          <div style={{ padding: "1rem" }}> */}
+            {/* {merchantOffer?.map(
+              (item: any, index: any) =>
+                customerGroup == item?.attributes?.fkCustomerGroup ||
+                item?.attributes?.fkCustomerGroup == null ? (
+                  <div
+                    style={{
+                      border: "1px solid",
+                      background: "#f0f0f0",
+                      width: "20rem",
+                      padding: "2rem 2rem",
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <div>
+                      <input
+                        style={{ marginTop: "0px", marginRight: "10px" }}
+                        type="radio"
+                        name="merchant"
+                        id={item?.id}
+                        checked={
+                          selectedMerchantOffer?.attributes
+                            ?.merchantReference ==
+                          item?.attributes?.merchantReference
+                        }
+                        value={item?.attributes?.merchantReference}
+                        onClick={(e) => setSelectedMerchantOffer(item)}
+                      />
+                      <span style={{ fontWeight: "600" }}>{item?.id}</span>
+                    </div>
+                    <p>Price : € {item?.price}</p>
                   </div>
-                  <p>Price : € {item?.price}</p>
-                </div>
-              ) : 
-                ""
+                ) : (
+                  ""
+                )
               // item?.attributes?.fkCustomerGroup == null ? ():"";
-            )}
+            )} */}
 
             {/* <div style={{border:"1px solid",background:"#f0f0f0", width:"20rem", padding:"2rem 2rem", display:"flex", justifyContent:"space-between"}}>
               <div>
@@ -860,8 +870,8 @@ const Content = (product: any) => {
               </div>
               <p>Price : € 1230</p>
             </div> */}
-          </div>
-        </div>
+          {/* </div>
+        </div> */}
 
         <div className="product-filter-item">
           <h5>Quantity:</h5>

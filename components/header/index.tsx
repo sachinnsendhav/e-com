@@ -31,7 +31,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
   useEffect(() => {
     setAuthStatus(localStorage.getItem("status"));
     setAuthToken(localStorage.getItem("token"));
-    setCustomerGroup(localStorage.getItem("customerGroup"))
+    setCustomerGroup(localStorage.getItem("userId"))
   }, [])
   useEffect(() => {
     if (authToken) {
@@ -290,11 +290,19 @@ const Header = ({ isErrorPage }: HeaderType) => {
                 <a style={{ color: "black", padding: "5px" }}>Printers</a>
               </Link>
               </> :""}
-              {customerGroup == "3" &&
+              {customerGroup == "DE--5" &&
               <Link href={`/productList/ink-&-toner?nodeId=43`}>
                 <a style={{ color: "black", padding: "5px" }}>Ink & Toner</a>
               </Link>}
-              {customerGroup == "2" &&
+              {customerGroup == "DE--6" &&
+              <Link href={`/productList/ink-&-toner?nodeId=43`}>
+                <a style={{ color: "black", padding: "5px" }}>Ink & Toner</a>
+              </Link>}
+              {customerGroup == "DE--7" &&
+              <Link href={`/productList/ricoh?nodeId=39`}>
+                <a style={{ color: "black", padding: "5px" }}>Printers</a>
+              </Link>}
+              {customerGroup == "DE--21" &&
               <Link href={`/productList/ricoh?nodeId=39`}>
                 <a style={{ color: "black", padding: "5px" }}>Printers</a>
               </Link>}

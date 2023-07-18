@@ -427,7 +427,7 @@ h5 {
       padding: 15px 18px;
       @include breakpoint(tablet-lg) {
         width: auto;
-        padding: 0;
+        padding: 1rem;
         color: #fff;
         margin-right: 15px;
         display: inline-block;

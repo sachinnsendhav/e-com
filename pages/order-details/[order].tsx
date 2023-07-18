@@ -17,7 +17,7 @@ const customStyles: any = {
 };
 function orderDetailsPage() {
     const router = useRouter();
-    const orderId = router.query.order;
+    const orderId: string = router.query.order;
     const [authToken, setAuthToken] = useState<any>()
     const [orderData, setOrderData] = useState<any[]>([]);
     const [productData, setProductData] = useState<any[]>([]);
@@ -28,6 +28,7 @@ function orderDetailsPage() {
     const [batchNumber, setBatchNumber] = useState<any>("")
     const [concentration, setConcentration] = useState<any>("")
     const [storage, setStorage] = useState<any>("");
+    const [postOrderStatus, setPostOrderStatus] = useState<any>(false);
 
     useEffect(() => {
         setAuthToken(localStorage.getItem('token'))
@@ -101,19 +102,34 @@ function orderDetailsPage() {
                 "content-type": 'application/json'
             }
         });
-        const result = await resp.json();
-        console.log('text-article-----', result)
+        const result = await resp.json()
+        if (result?.error) {
+            console.log("sdfds")
+            setPostOrderStatus(false)
+        } else {
+            setBatchNumber(result?.batch_number)
+            setQuantity(result?.quantity);
+            setConcentration(result?.concentration);
+            setMaterialName(result?.material_name);
+            setStorage(result?.storage)
+            setPostOrderStatus(true)
+            console.log('text-article-----', result)
+
+        }
+
     }
 
-    const addTextArticle = async (id: any) => {
+    const addTextArticle = async (orderId: any) => {
+        const str: string = orderId;
+        const id = parseInt((str as string).split("--")[1]);
         const data: any = {
-            id:"",
-            materialName: materialName,
+            id: id,
+            material_name: materialName,
             quantity: quantity,
-            batchNumber: batchNumber,
+            batch_number: batchNumber,
             concentration: concentration,
             storage: storage,
-            orderId: id,
+            order_id: id,
             date: "01-01-0001"
         }
         const resp = await fetch(`${API_URL}/TestArticle`, {
@@ -124,11 +140,41 @@ function orderDetailsPage() {
             body: JSON.stringify(data)
         });
         const result = await resp.json();
+        alert(result.success_message)
+        closeModal()
+        console.log("result--", result)
+    }
+
+    const updatePostOrderForm = async (orderId: any) => {
+        const str: string = orderId;
+        const id = parseInt((str as string).split("--")[1]);
+        const data: any = {
+            id: id,
+            material_name: materialName,
+            quantity: quantity,
+            batch_number: batchNumber,
+            concentration: concentration,
+            storage: storage,
+            order_id: id,
+            date: "01-01-0001"
+        }
+        const resp = await fetch(`${API_URL}/TestArticle`, {
+            method: "PATCH",
+            headers: {
+                "content-type": 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        const result = await resp.json();
+        alert(result.success_message)
+        closeModal()
         console.log("result--", result)
     }
     useEffect(() => {
         if (orderId) {
-            getTextArticle(orderId);
+            const str: string = orderId;
+            const id = parseInt((str as string).split("--")[1]);
+            getTextArticle(id);
         }
     }, [orderId])
 
@@ -159,7 +205,7 @@ function orderDetailsPage() {
                         <div style={{ width: "80%", border: "1px solid #7f7f7f", margin: "auto", borderRadius: "5px", marginTop: "10px" }}>
                             <div style={{ padding: "10px", borderBottom: "1px solid #7f7f7f", display: "flex", justifyContent: "space-between" }}>
                                 <div style={{ fontWeight: "bold" }}>Order Id : {orderId}</div><div style={{ fontWeight: "bold" }}> Total Item : {orderData[0]?.items.length}
-                                    <button style={{ padding: "5px", background: "#333", borderRadius: "5px", color: "white", marginLeft: "10px" }} onClick={() => openModal()}>Text Article</button>
+                                    <button style={{ padding: "5px", background: "#333", borderRadius: "5px", color: "white", marginLeft: "10px" }} onClick={() => openModal()}>Post Order Form</button>
                                 </div>
                             </div>
                             <div style={{ padding: "10px", display: "flex", justifyContent: "space-around" }}>
@@ -337,32 +383,32 @@ function orderDetailsPage() {
                     contentLabel="Example Modal"
                 >
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
-                        <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Text Article</h2>
+                        <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Post Order Form</h2>
                         <button onClick={closeModal} style={{ background: "black", borderRadius: "5px", color: "white", paddingInline: "10px" }}>X</button>
                     </div>
                     <div style={{ paddingTop: "10px" }}>
                         <div style={{ display: "flex", flexDirection: "column", padding: "5px" }}>
                             <label style={{ color: "black" }}>Material Name</label>
-                            <input type='text' placeholder='Enter material name' onChange={(e) => setMaterialName(e.target.value)} style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
+                            <input type='text' placeholder='Enter material name' value={materialName} onChange={(e) => setMaterialName(e.target.value)} style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
                         </div>
                         <div style={{ display: "flex", flexDirection: "column", padding: "5px" }}>
                             <label style={{ color: "black" }}>Quantity</label>
-                            <input type='text' placeholder='Enter quantity' onChange={(e) => setQuantity(e.target.value)} style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
+                            <input type='text' placeholder='Enter quantity' value={quantity} onChange={(e) => setQuantity(e.target.value)} style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
                         </div>
                         <div style={{ display: "flex", flexDirection: "column", padding: "5px" }}>
                             <label style={{ color: "black" }}>Batch Number</label>
-                            <input type='text' placeholder='Enter batch number' onChange={(e) => setBatchNumber(e.target.value)} style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
+                            <input type='text' placeholder='Enter batch number' value={batchNumber} onChange={(e) => setBatchNumber(e.target.value)} style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
                         </div>
                         <div style={{ display: "flex", flexDirection: "column", padding: "5px" }}>
                             <label style={{ color: "black" }}>Concentration</label>
-                            <input type='text' placeholder='Enter concentration' onChange={(e) => setConcentration(e.target.value)} style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
+                            <input type='text' placeholder='Enter concentration' value={concentration} onChange={(e) => setConcentration(e.target.value)} style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
                         </div>
                         <div style={{ display: "flex", flexDirection: "column", padding: "5px" }}>
                             <label style={{ color: "black" }}>Storage</label>
-                            <input type='text' placeholder='Enter storage' onChange={(e) => setStorage(e.target.value)} style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
+                            <input type='text' placeholder='Enter storage' value={storage} onChange={(e) => setStorage(e.target.value)} style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
                         </div>
                         <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
-                            <button style={{ width: "75px", borderRadius: "5px", color: "white", background: "#333333", padding: "5px" }} onClick={() => addTextArticle(orderId)}>Submit</button>
+                            <button style={{ width: "75px", borderRadius: "5px", color: "white", background: "#333333", padding: "5px" }} onClick={() =>postOrderStatus? updatePostOrderForm(orderId): addTextArticle(orderId)}>Submit</button>
                         </div>
                     </div>
                 </Modal>

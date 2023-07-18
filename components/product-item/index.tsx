@@ -302,7 +302,7 @@ console.log(description);
           style={{
             fontFamily: "sans-serif",
             marginTop: "1rem",
-            marginBottom: "1rem",
+            marginBottom: "1rem"
           }}
         >
           {name}

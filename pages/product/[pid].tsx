@@ -126,7 +126,17 @@ const Product = () => {
               <button type="button" onClick={() => setShowBlock('description')} className={`btn btn--rounded ${showBlock === 'description' ? 'btn--active' : ''}`}>Description</button>
               {/* <button type="button" onClick={() => setShowBlock('reviews')} className={`btn btn--rounded ${showBlock === 'reviews' ? 'btn--active' : ''}`}>Reviews (2)</button> */}
             </div>
-            <p style={{ fontFamily: "inherit", letterSpacing: "1px", lineHeight: "25px" }}>{product?.description}</p>
+            {/* // updated the code because it was showing html tags aas texts, added bullet points to the description to make it look appealing */}
+            <p
+              style={{
+                fontFamily: "inherit",
+                letterSpacing: "1px",
+                lineHeight: "25px",
+              }}
+              dangerouslySetInnerHTML={{
+                __html: `<ul style="list-style-type: disc; margin-left: 1.5em; padding-left: 1em;">${product?.description?.replace(/<br\/?>/g, "<br/>").split("<br/>").map(item => `<li>${item}</li>`).join("")}</ul>`,
+              }}
+            ></p>
             {/* <Description show={showBlock === 'description'} /> */}
             {/* <Reviews product={product} show={showBlock === 'reviews'} /> */}
           </div>

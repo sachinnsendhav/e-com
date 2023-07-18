@@ -25,6 +25,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
   const [authToken, setAuthToken] = useState("");
   const [searchResult, setSearchResult] = useState<any[]>([]);
   const [isHovered, setIsHovered] = useState(false);
+  const [isHovered1, setIsHovered1] = useState(false);
 
   useEffect(() => {
     setAuthStatus(localStorage.getItem("status"));
@@ -172,12 +173,31 @@ const Header = ({ isErrorPage }: HeaderType) => {
     zIndex: 1,
   };
 
+  const contentStyle1: any = {
+    display: isHovered1 ? 'block' : 'none',
+    position: 'absolute',
+    backgroundColor: '#fff',
+    color: "#333333",
+    minWidth: '200px',
+    padding: "10px",
+    boxShadow: '0px 8px 16px 0px rgba(0, 0, 0, 0.2)',
+    zIndex: 1,
+  };
+
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
+  };
+
+  const handleMouseEnter1 = () => {
+    setIsHovered1(true);
+  };
+
+  const handleMouseLeave1 = () => {
+    setIsHovered1(false);
   };
 
 
@@ -246,16 +266,31 @@ const Header = ({ isErrorPage }: HeaderType) => {
 
         </div>
         <nav ref={navRef} className={`site-nav ${menuOpen ? 'site-nav--open' : ''}`}>
-          {category.map((item: any) => {
+          {/* {category.map((item: any) => {
             return (
               <Link href={`/productList/${item?.url?.split('/')[2]}?nodeId=${item.nodeId}`}>
                 <a>{item.name}</a>
               </Link>
             )
-          })}
-
+          })} */}
+          <Link href='#'>
+                <a>Solutions</a>
+              </Link>
+              
+           <div style={dropdownStyle} onMouseEnter={handleMouseEnter1} onMouseLeave={handleMouseLeave1}>
+            <button style={buttonStyle}><a>Printers & Products</a></button>
+            <div style={contentStyle1}>
+              <Link href={`/productList/ink-&-toner?nodeId=43`}>
+                <a style={{ color: "black", padding: "5px" }}>Ink & Toner</a>
+              </Link>
+              <Link href={`/productList/ricoh?nodeId=39`}>
+                <a style={{ color: "black", padding: "5px" }}>Printers</a>
+              </Link>
+            </div>
+          </div>
+          {authStatus === "false"?"":
           <div style={dropdownStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-            <button style={buttonStyle}><a>More</a></button>
+            <button style={buttonStyle}><a>Bundles</a></button>
             <div style={contentStyle}>
               <Link href={`/bundle`}>
                 <a style={{ color: "black", padding: "5px" }}>Bundle Product</a>
@@ -264,7 +299,22 @@ const Header = ({ isErrorPage }: HeaderType) => {
                 <a style={{ color: "black", padding: "5px" }}>Configurable Product</a>
               </Link>
             </div>
-          </div>
+          </div>}
+
+          <Link href='#'>
+                <a>Software & Services</a>
+              </Link>
+              <Link href='#'>
+                <a>Resources</a>
+              </Link>
+              <Link href='#'>
+                <a>Support & Downloads</a>
+              </Link>
+              <Link href='#'>
+                <a>About us</a>
+              </Link>
+
+      
           <button className="site-nav__btn"><p>Account</p></button>
         </nav>
       </div>

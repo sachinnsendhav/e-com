@@ -13,10 +13,12 @@ const Content = (product: any) => {
   const dispatch = useDispatch();
   var cartId: any;
   var token: any;
+  var customerGroup: any = "";
   if (typeof window !== "undefined") {
     // Code running in the browser
     cartId = localStorage.getItem("cartId");
     token = localStorage.getItem("token");
+    customerGroup = localStorage.getItem("customerGroup");
   }
   const [count, setCount] = useState<number>(1);
   const [color, setColor] = useState<string>("");
@@ -38,6 +40,8 @@ const Content = (product: any) => {
   const [showBlock, setShowBlock] = useState<any>("");
   const [shppingListId, setShppingListId] = useState("");
   const [shoppingItems, setShoppingItems] = useState<any[]>([]);
+  const [merchantOffer, setMerchantOffer] = useState<any>();
+  const [selectedMerchantOffer, setSelectedMerchantOffer] = useState<any>();
   const [wishlistedItemId, setWishlistedItemId] = useState<any>("");
   const getShoppingListName = async () => {
     const resp = await fetch(`${API_URL}/shopping-lists`, {
@@ -312,10 +316,11 @@ const Content = (product: any) => {
     } else {
       productSkuId = variationIdData[0];
     }
+    var applicableOffer: any;
 
     if (productSkuId && (await checkCartExist())) {
       if (cartId) {
-        const productCart = {
+        var productCart:any = {
           data: {
             type: "items",
             attributes: {
@@ -329,6 +334,24 @@ const Content = (product: any) => {
             },
           },
         };
+        if (selectedMerchantOffer) {
+          productCart = {
+            data: {
+              type: "items",
+              attributes: {
+                sku: productSkuId,
+                quantity: count,
+                productOfferReference: selectedMerchantOffer?.id,
+                merchantReference: selectedMerchantOffer?.attributes?.merchantReference,
+                salesUnit: {
+                  id: 0,
+                  amount: 0,
+                },
+                productOptions: [null],
+              },
+            },
+          };
+        }
         setIsLoading(true);
         try {
           const resp = await fetch(`${API_URL}/carts/${cartId}/items`, {
@@ -367,6 +390,46 @@ const Content = (product: any) => {
       }
     }
   };
+
+  useEffect(() => {
+    if (variationIdData && variationIdData[1]) {
+      console.log(variationIdData, "variationData");
+    } else if (variationIdData && variationIdData[0]) {
+      var skuId = variationIdData[0]; //use this Id Currently its static
+      console.log(skuId, "skuIdIdIdIdID");
+      const handleMerchant = async () => {
+        try {
+          const resp = await fetch(
+            `${API_URL}/concrete-products/421479/product-offers`,
+            {
+              method: "GET",
+              headers: {
+                Accept: "application/json",
+              },
+            }
+          );
+          const response = await resp.json();
+
+          if (response) {
+            if (response.errors) {
+              alert(response.errors[0]?.detail);
+            } else {
+              console.log(response, "offer response");
+              setMerchantOffer(response?.data);
+              var tempselected = await response?.data?.find(
+                (offer: any) =>
+                  offer?.attributes?.fkCustomerGroup == customerGroup
+              );
+              setSelectedMerchantOffer(tempselected);
+            }
+          }
+        } catch (error) {
+          setIsLoading(false);
+        }
+      };
+      handleMerchant();
+    }
+  }, [variationIdData, selectedId]);
 
   const onColorSet = (e: string) => setColor(e);
   const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
@@ -732,16 +795,40 @@ const Content = (product: any) => {
         )}
 
         <div>
-          <h2 style={{padding:"1rem", fontSize:"2rem"}}>Sold By</h2>
-          <div style={{padding:"1rem"}}>
-            <div style={{border:"1px solid",background:"#f0f0f0", width:"20rem", padding:"2rem 2rem", display:"flex", justifyContent:"space-between"}}>
-              <div>
-              <input style={{marginTop:"0px", marginRight:"10px"}} type="radio" name="merchant" id="merchant1" value="CSQT"/>
-              <span style={{fontWeight:"600"}}>CSQT</span>
-              </div>
-              <p>Price : € 1234</p>
-            </div>
-            <div style={{border:"1px solid",background:"#f0f0f0", width:"20rem", padding:"2rem 2rem", display:"flex", justifyContent:"space-between"}}>
+          <h2 style={{ padding: "1rem", fontSize: "2rem" }}>Sold By</h2>
+          <div style={{ padding: "1rem" }}>
+            {merchantOffer?.map((item: any, index: any) =>
+              customerGroup == item?.attributes?.fkCustomerGroup ? (
+                <div
+                  style={{
+                    border: "1px solid",
+                    background: "#f0f0f0",
+                    width: "20rem",
+                    padding: "2rem 2rem",
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <div>
+                    <input
+                      style={{ marginTop: "0px", marginRight: "10px" }}
+                      type="radio"
+                      name="merchant"
+                      id={item?.id}
+                      checked ={selectedMerchantOffer?.attributes?.merchantReference ==item?.attributes?.merchantReference}
+                      value={item?.attributes?.merchantReference}
+                      onClick={(e) => setSelectedMerchantOffer(item)}
+                    />
+                    <span style={{ fontWeight: "600" }}>{item?.id}</span>
+                  </div>
+                  <p>Price : € {1234*(index+1)}</p>
+                </div>
+              ) : (
+                ""
+              )
+            )}
+
+            {/* <div style={{border:"1px solid",background:"#f0f0f0", width:"20rem", padding:"2rem 2rem", display:"flex", justifyContent:"space-between"}}>
               <div>
               <input style={{marginTop:"0px", marginRight:"10px"}} type="radio" name="merchant" id="merchant1" value="CSQT"/>
               <span style={{fontWeight:"600"}}>CSQT1</span>
@@ -761,7 +848,7 @@ const Content = (product: any) => {
               <span style={{fontWeight:"600"}}>CSQT3</span>
               </div>
               <p>Price : € 1230</p>
-            </div>
+            </div> */}
           </div>
         </div>
 

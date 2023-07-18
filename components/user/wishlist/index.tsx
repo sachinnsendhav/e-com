@@ -30,8 +30,8 @@ const Wishlist = ({ show }: WishlistType) => {
         );
         const result = await resp.json();
         setShoppingListName(result.data);
-        setShowBlock(result.data[0]?.attributes?.name);
-        setShppingListId(result.data[0]?.id)
+        setShowBlock(result?.data ? result?.data[0]?.attributes?.name: '');
+        setShppingListId(result?.data ? result.data[0]?.id: "")
     }
 
     useEffect(() => {
@@ -56,7 +56,7 @@ const Wishlist = ({ show }: WishlistType) => {
         const price: any = [];
 
         if (result && result.included && result.included.length > 0) {
-            result.included.forEach((element: any) => {
+            result?.included.forEach((element: any) => {
                 switch (element.type) {
                     case "concrete-products":
                         concreteProductData.push({

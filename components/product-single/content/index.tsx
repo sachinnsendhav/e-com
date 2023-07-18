@@ -401,11 +401,12 @@ const Content = (product: any) => {
       const handleMerchant = async () => {
         try {
           const resp = await fetch(
-            `${API_URL}/concrete-products/421479/product-offers?include=product-offer-prices`,
+            `${API_URL}/concrete-products/${skuId}/product-offers?include=product-offer-prices`,
             {
               method: "GET",
               headers: {
                 Accept: "application/json",
+                // Authorization: `Bearer ${token}`,
               },
             }
           );
@@ -424,8 +425,7 @@ const Content = (product: any) => {
               await setMerchantOffer(modifiedData);
               var tempselected = await modifiedData?.find(
                 (offer: any) =>
-                  offer?.attributes?.fkCustomerGroup == customerGroup ||
-                  offer?.attributes?.fkCustomerGroup == null
+                  offer?.attributes?.fkCustomerGroup == customerGroup
               );
               console.log(tempselected, "temp");
               setSelectedMerchantOffer(tempselected);
@@ -652,16 +652,20 @@ const Content = (product: any) => {
         <h2 className="product__name">{productData?.name}</h2>
 
         <div className="product__prices">
-          <h4 style={{ color: "rgb(207, 18, 46)" }}>
+          {/* <h4 style={{ color: "rgb(207, 18, 46)" }}>
             {priceSymbole} {price}
-          </h4>
-
-          <span>
-            $
-            {selectedMerchantOffer
-              ? selectedMerchantOffer?.price
-              : product?.price}
-          </span>
+          </h4> */}
+          {/* <span> */}
+            {selectedMerchantOffer ? (
+              <h4 style={{ color: "rgb(207, 18, 46)" }}>
+                {priceSymbole}  {selectedMerchantOffer?.price}
+              </h4>
+            ) : (
+              <h4 style={{ color: "rgb(207, 18, 46)" }}>
+                {priceSymbole} {price}
+              </h4>
+            )}
+          {/* </span> */}
         </div>
       </div>
 
@@ -811,7 +815,7 @@ const Content = (product: any) => {
         {/* <div>
           <h2 style={{ padding: "1rem", fontSize: "2rem" }}>Sold By</h2>
           <div style={{ padding: "1rem" }}> */}
-            {/* {merchantOffer?.map(
+        {/* {merchantOffer?.map(
               (item: any, index: any) =>
                 customerGroup == item?.attributes?.fkCustomerGroup ||
                 item?.attributes?.fkCustomerGroup == null ? (
@@ -849,7 +853,7 @@ const Content = (product: any) => {
               // item?.attributes?.fkCustomerGroup == null ? ():"";
             )} */}
 
-            {/* <div style={{border:"1px solid",background:"#f0f0f0", width:"20rem", padding:"2rem 2rem", display:"flex", justifyContent:"space-between"}}>
+        {/* <div style={{border:"1px solid",background:"#f0f0f0", width:"20rem", padding:"2rem 2rem", display:"flex", justifyContent:"space-between"}}>
               <div>
               <input style={{marginTop:"0px", marginRight:"10px"}} type="radio" name="merchant" id="merchant1" value="CSQT"/>
               <span style={{fontWeight:"600"}}>CSQT1</span>
@@ -870,7 +874,7 @@ const Content = (product: any) => {
               </div>
               <p>Price : € 1230</p>
             </div> */}
-          {/* </div>
+        {/* </div>
         </div> */}
 
         <div className="product-filter-item">

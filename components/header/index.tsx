@@ -23,13 +23,15 @@ const Header = ({ isErrorPage }: HeaderType) => {
   const [category, setCategory] = useState([])
   const [authStatus, setAuthStatus] = useState("false")
   const [authToken, setAuthToken] = useState("");
+  const [customerGroup, setCustomerGroup] = useState<any>();
   const [searchResult, setSearchResult] = useState<any[]>([]);
   const [isHovered, setIsHovered] = useState(false);
   const [isHovered1, setIsHovered1] = useState(false);
 
   useEffect(() => {
     setAuthStatus(localStorage.getItem("status"));
-    setAuthToken(localStorage.getItem("token"))
+    setAuthToken(localStorage.getItem("token"));
+    setCustomerGroup(localStorage.getItem("customerGroup"))
   }, [])
   useEffect(() => {
     if (authToken) {
@@ -280,12 +282,22 @@ const Header = ({ isErrorPage }: HeaderType) => {
            <div style={dropdownStyle} onMouseEnter={handleMouseEnter1} onMouseLeave={handleMouseLeave1}>
             <button style={buttonStyle}><a>Printers & Products</a></button>
             <div style={contentStyle1}>
-              <Link href={`/productList/ink-&-toner?nodeId=43`}>
+              {!customerGroup? <>
+                <Link href={`/productList/ink-&-toner?nodeId=43`}>
                 <a style={{ color: "black", padding: "5px" }}>Ink & Toner</a>
               </Link>
               <Link href={`/productList/ricoh?nodeId=39`}>
                 <a style={{ color: "black", padding: "5px" }}>Printers</a>
               </Link>
+              </> :""}
+              {customerGroup == "3" &&
+              <Link href={`/productList/ink-&-toner?nodeId=43`}>
+                <a style={{ color: "black", padding: "5px" }}>Ink & Toner</a>
+              </Link>}
+              {customerGroup == "2" &&
+              <Link href={`/productList/ricoh?nodeId=39`}>
+                <a style={{ color: "black", padding: "5px" }}>Printers</a>
+              </Link>}
             </div>
           </div>
           {authStatus === "false"?"":

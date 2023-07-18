@@ -1,4 +1,4 @@
-import {API_URL} from "config";
+import { API_URL } from "config";
 import React, { useState, useEffect } from "react"
 
 type AddressType = {
@@ -50,7 +50,7 @@ const UserDetails = ({ show }: AddressType) => {
         </h1>
         {loading ? <>Loading...</> : <>
           <div style={{ display: "flex" }}>
-            <p style={{ paddingTop: "15px", fontWeight: "bold", width: "100px" }}>Name  </p><p style={{ height: "40px", width: "250px", backgroundColor: "white", border: "1px solid #7f7f7f", borderRadius: "10px", padding: "10px" }}>{userDetails?.firstName + " " + userDetails?.lastName}</p>
+            <p style={{ paddingTop: "15px", fontWeight: "bold", width: "100px" }}>Name  </p><p style={{ height: "40px", width: "250px", backgroundColor: "white", border: "1px solid #7f7f7f", borderRadius: "10px", padding: "10px" }}>{userDetails?.salutation + ". " + userDetails?.firstName + " " + userDetails?.lastName}</p>
           </div>
           <div style={{ display: "flex", paddingTop: "10px" }}>
             <p style={{ paddingTop: "15px", fontWeight: "bold", width: "100px" }}>Email </p><p style={{ height: "40px", width: "250px", backgroundColor: "white", border: "1px solid #7f7f7f", borderRadius: "10px", padding: "10px" }}>{userDetails?.email}</p>
@@ -58,9 +58,10 @@ const UserDetails = ({ show }: AddressType) => {
           <div style={{ display: "flex", paddingTop: "10px" }}>
             <p style={{ paddingTop: "15px", fontWeight: "bold", width: "100px" }}>Gender </p><p style={{ height: "40px", width: "250px", backgroundColor: "white", border: "1px solid #7f7f7f", borderRadius: "10px", padding: "10px" }}>{userDetails?.gender}</p>
           </div>
-          <div style={{ display: "flex", paddingTop: "10px" }}>
+          {/* <div style={{ display: "flex", paddingTop: "10px" }}>
             <p style={{ paddingTop: "15px", fontWeight: "bold", width: "100px" }}>Salutation </p><p style={{ height: "40px", width: "250px", backgroundColor: "white", border: "1px solid #7f7f7f", borderRadius: "10px", padding: "10px" }}>{userDetails?.salutation}</p>
-          </div></>}
+          </div> */}
+        </>}
       </div>
     </section>
   )

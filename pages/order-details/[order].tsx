@@ -23,6 +23,11 @@ function orderDetailsPage() {
     const [productData, setProductData] = useState<any[]>([]);
     const [configurableProduct, setConfigurableProduct] = useState<any[]>([]);
     const [modalIsOpen, setIsOpen] = React.useState(false);
+    const [materialName, setMaterialName] = useState<any>("")
+    const [quantity, setQuantity] = useState<any>("")
+    const [batchNumber, setBatchNumber] = useState<any>("")
+    const [concentration, setConcentration] = useState<any>("")
+    const [storage, setStorage] = useState<any>("");
 
     useEffect(() => {
         setAuthToken(localStorage.getItem('token'))
@@ -90,10 +95,10 @@ function orderDetailsPage() {
     }, [orderId, authToken])
 
     const getTextArticle = async (id: any) => {
-        const resp = await fetch(`${API_URL}/TestArticle/${id}`, {
+        const resp = await fetch(`${API_URL}/TestArticle?q=${id}`, {
             method: "GET",
             headers: {
-                authorization: `Bearer ${authToken}`
+                "content-type": 'application/json'
             }
         });
         const result = await resp.json();
@@ -102,21 +107,21 @@ function orderDetailsPage() {
 
     const addTextArticle = async (id: any) => {
         const data: any = {
-            id: 1,
-            materialName: "patch-----Material",
-            quantity: " patch----Quantity",
-            batchNumber: "post--Batch",
-            concentration: "postConcentration",
-            storage: "postStorage",
-            orderId: 1,
-            date: "patch--Date"
+            id:"",
+            materialName: materialName,
+            quantity: quantity,
+            batchNumber: batchNumber,
+            concentration: concentration,
+            storage: storage,
+            orderId: id,
+            date: "01-01-0001"
         }
-        const resp = await fetch(`${API_URL}/TestArticle/${id}`, {
+        const resp = await fetch(`${API_URL}/TestArticle`, {
             method: "POST",
             headers: {
-                authorization: `Bearer ${authToken}`
+                "content-type": 'application/json'
             },
-            body: data
+            body: JSON.stringify(data)
         });
         const result = await resp.json();
         console.log("result--", result)
@@ -335,31 +340,31 @@ function orderDetailsPage() {
                         <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Text Article</h2>
                         <button onClick={closeModal} style={{ background: "black", borderRadius: "5px", color: "white", paddingInline: "10px" }}>X</button>
                     </div>
-                    <form style={{ paddingTop: "10px" }}>
+                    <div style={{ paddingTop: "10px" }}>
                         <div style={{ display: "flex", flexDirection: "column", padding: "5px" }}>
                             <label style={{ color: "black" }}>Material Name</label>
-                            <input type='text' placeholder='Enter material name' style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
+                            <input type='text' placeholder='Enter material name' onChange={(e) => setMaterialName(e.target.value)} style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
                         </div>
                         <div style={{ display: "flex", flexDirection: "column", padding: "5px" }}>
                             <label style={{ color: "black" }}>Quantity</label>
-                            <input type='text' placeholder='Enter quantity' style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
+                            <input type='text' placeholder='Enter quantity' onChange={(e) => setQuantity(e.target.value)} style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
                         </div>
                         <div style={{ display: "flex", flexDirection: "column", padding: "5px" }}>
                             <label style={{ color: "black" }}>Batch Number</label>
-                            <input type='text' placeholder='Enter batch number' style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
+                            <input type='text' placeholder='Enter batch number' onChange={(e) => setBatchNumber(e.target.value)} style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
                         </div>
                         <div style={{ display: "flex", flexDirection: "column", padding: "5px" }}>
                             <label style={{ color: "black" }}>Concentration</label>
-                            <input type='text' placeholder='Enter concentration' style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
+                            <input type='text' placeholder='Enter concentration' onChange={(e) => setConcentration(e.target.value)} style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
                         </div>
                         <div style={{ display: "flex", flexDirection: "column", padding: "5px" }}>
                             <label style={{ color: "black" }}>Storage</label>
-                            <input type='text' placeholder='Enter storage' style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
+                            <input type='text' placeholder='Enter storage' onChange={(e) => setStorage(e.target.value)} style={{ width: "300px", border: "1px solid #7f7f7f", height: "30px", borderRadius: "5px", padding: "5px" }} />
                         </div>
                         <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
-                            <button style={{ width: "75px", borderRadius: "5px", color: "white", background: "#333333", padding: "5px" }}>Submit</button>
+                            <button style={{ width: "75px", borderRadius: "5px", color: "white", background: "#333333", padding: "5px" }} onClick={() => addTextArticle(orderId)}>Submit</button>
                         </div>
-                    </form>
+                    </div>
                 </Modal>
             </div>
             <Footer />

@@ -276,10 +276,10 @@ const Content = (product: any) => {
           }
         );
 
-        function formatKey(key) {
+        function formatKey(key:any) {
           return key
             .replace(/_/g, " ")
-            .replace(/\b\w/g, (c) => c.toUpperCase());
+            .replace(/\b\w/g, (c:any) => c.toUpperCase());
         }
       }
     };
@@ -798,33 +798,33 @@ const Content = (product: any) => {
           <h2 style={{ padding: "1rem", fontSize: "2rem" }}>Sold By</h2>
           <div style={{ padding: "1rem" }}>
             {merchantOffer?.map((item: any, index: any) =>
-              customerGroup == item?.attributes?.fkCustomerGroup ? (
-                <div
-                  style={{
-                    border: "1px solid",
-                    background: "#f0f0f0",
-                    width: "20rem",
-                    padding: "2rem 2rem",
-                    display: "flex",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <div>
-                    <input
-                      style={{ marginTop: "0px", marginRight: "10px" }}
-                      type="radio"
-                      name="merchant"
-                      id={item?.id}
-                      checked ={selectedMerchantOffer?.attributes?.merchantReference ==item?.attributes?.merchantReference}
-                      value={item?.attributes?.merchantReference}
-                      onClick={(e) => setSelectedMerchantOffer(item)}
-                    />
-                    <span style={{ fontWeight: "600" }}>{item?.id}</span>
-                  </div>
-                  <p>Price : € {1234*(index+1)}</p>
-                </div>
+              customerGroup != item?.attributes?.fkCustomerGroup ? (
+              ""
               ) : (
-                ""
+                <div
+                style={{
+                  border: "1px solid",
+                  background: "#f0f0f0",
+                  width: "20rem",
+                  padding: "2rem 2rem",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div>
+                  <input
+                    style={{ marginTop: "0px", marginRight: "10px" }}
+                    type="radio"
+                    name="merchant"
+                    id={item?.id}
+                    checked ={selectedMerchantOffer?.attributes?.merchantReference ==item?.attributes?.merchantReference}
+                    value={item?.attributes?.merchantReference}
+                    onClick={(e) => setSelectedMerchantOffer(item)}
+                  />
+                  <span style={{ fontWeight: "600" }}>{item?.id}</span>
+                </div>
+                <p>Price : € {1234*(index+1)}</p>
+              </div>
               )
             )}
 

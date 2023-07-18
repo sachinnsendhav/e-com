@@ -20,7 +20,7 @@ const ProductItem = ({ images, id, name, price }: ProductTypeList) => {
   }
 
   return (
-    <div className="product-item">
+    <div className="product-item" style={{height:"auto"}}>
       <div className="product__image">
         <button type="button" onClick={toggleFav} className={`btn-heart ${isFavourite ? 'btn-heart--active' : ''}`}><i className="icon-heart"></i></button>
 

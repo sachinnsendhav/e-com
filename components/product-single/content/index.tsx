@@ -56,7 +56,7 @@ const Content = (product: any) => {
     setShppingListId(result.data[0]?.id);
   };
 
-  console.log(shoppingListName, "shopppingList Name");
+  console.log(selectedMerchantOffer,"selectedMerchantOffer")
 
   const getShoppingListItem = async (id: any) => {
     const resp = await fetch(
@@ -73,6 +73,8 @@ const Content = (product: any) => {
     const image: any = [];
     const quantity: any = [];
     const price: any = [];
+
+   
 
     if (result && result.included && result.included.length > 0) {
       result.included.forEach((element: any) => {
@@ -400,7 +402,7 @@ const Content = (product: any) => {
       const handleMerchant = async () => {
         try {
           const resp = await fetch(
-            `${API_URL}/concrete-products/421479/product-offers`,
+            `${API_URL}/concrete-products/421479/product-offers?include=product-offer-prices`,
             {
               method: "GET",
               headers: {
@@ -415,12 +417,20 @@ const Content = (product: any) => {
               alert(response.errors[0]?.detail);
             } else {
               console.log(response, "offer response");
-              setMerchantOffer(response?.data);
-              var tempselected = await response?.data?.find(
+              var modifiedData = response?.data;
+              await modifiedData?.map(async(item:any,index:number)=>{
+                item.price = await response.included[index]?.attributes?.price
+              })
+
+              await setMerchantOffer(modifiedData);
+              var tempselected = await modifiedData?.find(
                 (offer: any) =>
-                  offer?.attributes?.fkCustomerGroup == customerGroup
+                  offer?.attributes?.fkCustomerGroup == customerGroup ||  offer?.attributes?.fkCustomerGroup == null
               );
+              console.log(tempselected,"temp")
               setSelectedMerchantOffer(tempselected);
+
+              
             }
           }
         } catch (error) {
@@ -647,7 +657,8 @@ const Content = (product: any) => {
           <h4 style={{ color: "rgb(207, 18, 46)" }}>
             {priceSymbole} {price}
           </h4>
-          {product.discount && <span>${product.price}</span>}
+          
+         <span>${selectedMerchantOffer ? selectedMerchantOffer?.price : product?.price}</span>
         </div>
       </div>
 
@@ -798,34 +809,34 @@ const Content = (product: any) => {
           <h2 style={{ padding: "1rem", fontSize: "2rem" }}>Sold By</h2>
           <div style={{ padding: "1rem" }}>
             {merchantOffer?.map((item: any, index: any) =>
-              customerGroup != item?.attributes?.fkCustomerGroup ? (
-              ""
-              ) : (
+              (customerGroup == item?.attributes?.fkCustomerGroup) || (item?.attributes?.fkCustomerGroup ==null) ? (
                 <div
-                style={{
-                  border: "1px solid",
-                  background: "#f0f0f0",
-                  width: "20rem",
-                  padding: "2rem 2rem",
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-              >
-                <div>
-                  <input
-                    style={{ marginTop: "0px", marginRight: "10px" }}
-                    type="radio"
-                    name="merchant"
-                    id={item?.id}
-                    checked ={selectedMerchantOffer?.attributes?.merchantReference ==item?.attributes?.merchantReference}
-                    value={item?.attributes?.merchantReference}
-                    onClick={(e) => setSelectedMerchantOffer(item)}
-                  />
-                  <span style={{ fontWeight: "600" }}>{item?.id}</span>
+                  style={{
+                    border: "1px solid",
+                    background: "#f0f0f0",
+                    width: "20rem",
+                    padding: "2rem 2rem",
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <div>
+                    <input
+                      style={{ marginTop: "0px", marginRight: "10px" }}
+                      type="radio"
+                      name="merchant"
+                      id={item?.id}
+                      checked ={selectedMerchantOffer?.attributes?.merchantReference ==item?.attributes?.merchantReference}
+                      value={item?.attributes?.merchantReference}
+                      onClick={(e) => setSelectedMerchantOffer(item)}
+                    />
+                    <span style={{ fontWeight: "600" }}>{item?.id}</span>
+                  </div>
+                  <p>Price : € {item?.price}</p>
                 </div>
-                <p>Price : € {1234*(index+1)}</p>
-              </div>
-              )
+              ) : 
+                ""
+              // item?.attributes?.fkCustomerGroup == null ? ():"";
             )}
 
             {/* <div style={{border:"1px solid",background:"#f0f0f0", width:"20rem", padding:"2rem 2rem", display:"flex", justifyContent:"space-between"}}>

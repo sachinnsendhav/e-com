@@ -3,6 +3,8 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import moment from "moment";
+import {IS_LOGGEDIN} from '../../../config'
+
 
 function index(data: any) {
   console.log(data, "data for carousal");
@@ -40,11 +42,13 @@ function index(data: any) {
       <div className="carousalContainer">
         <Slider {...settings}>
           {updatedArr?.map((item: any, index: number) => (
+          IS_LOGGEDIN == item?.isLoggedIn ?
+
             <>
-              <div className="carousalItem" key={index}>
+              <div className="carousalItem" style={{width:"100%"}} key={index}>
                 <img
                   alt="carousalImg"
-                  style={{ height: "35rem" }}
+                  style={{ height: "35rem",width:"100%" }}
                   src={item?.image}
                 />
                 <div className="carousalDetails">
@@ -53,7 +57,7 @@ function index(data: any) {
                   <a onClick={()=>(window.location.href=item?.btnlink)}>{item?.btntext}</a>
                 </div>
               </div>
-            </>
+            </>:""
           ))}
         </Slider>
       </div>

@@ -3,10 +3,12 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import moment from "moment";
-import {IS_LOGGEDIN} from '../../../config'
+// import {IS_LOGGEDIN} from '../../../config'
 
 
 function index(data: any) {
+  const [authStatus, setAuthStatus]= useState("");
+
   console.log(data, "data for carousal");
   const settings = {
     dots: false,
@@ -35,14 +37,19 @@ function index(data: any) {
     });
   });
 
+
+
   console.log(updatedArr, "updatedArr");
+  useEffect(() => {
+    setAuthStatus(localStorage.getItem("status"));
+  }, [newData])
 
   return (
     <>
       <div className="carousalContainer">
         <Slider {...settings}>
           {updatedArr?.map((item: any, index: number) => (
-          IS_LOGGEDIN == item?.isLoggedIn ?
+           authStatus == (item?.isLoggedIn).toString() ?
 
             <>
               <div className="carousalItem" style={{width:"100%"}} key={index}>

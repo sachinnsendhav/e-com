@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { API_URL } from "../../../config";
 import { forEach } from 'lodash';
+import { CURRENCY_SYMBOLE } from 'config';
+
 
 type WishlistType = {
     show: boolean;
@@ -158,7 +160,7 @@ const Wishlist = ({ show }: WishlistType) => {
                                             <div>
                                                 <p style={{ fontWeight: "bold" }}>{item.name}</p>
                                                 <p style={{ paddingTop: "5px", fontWeight: "bold" }}>Quantity : {item.quantity}</p>
-                                                <p style={{ paddingTop: "5px", fontWeight: "bold" }}>Price : $ {item.price}</p>
+                                                <p style={{ paddingTop: "5px", fontWeight: "bold" }}>Price : {CURRENCY_SYMBOLE} {item.price}</p>
                                             </div>
                                             <div>
                                                 <button style={{

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { RootState } from 'store';
 import { API_URL } from 'config';
+import { CURRENCY_SYMBOLE } from 'config';
 
 type HeaderType = {
   isErrorPage?: Boolean;

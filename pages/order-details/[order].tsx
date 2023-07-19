@@ -294,7 +294,7 @@ function orderDetailsPage() {
                                                                             fontWeight: "bold",
                                                                         }}
                                                                     >
-                                                                        &euro;{(val.quantity) * (val.sumNetPrice)}
+                                                                        ${(val.quantity) * (val.sumNetPrice)}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -338,24 +338,24 @@ function orderDetailsPage() {
                                     <h1 style={{ paddingTop: "10px" }}>Payment Details</h1>
                                     <div style={{ display: "flex" }}>
                                         <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Discount Total</p>
-                                        <p style={{ fontWeight: "bold" }}>&euro;{orderData[0].totals.discountTotal} </p>
+                                        <p style={{ fontWeight: "bold" }}>${orderData[0].totals.discountTotal} </p>
                                     </div>
                                     <div style={{ display: "flex" }}>
                                         <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Expense Total</p>
-                                        <p style={{ fontWeight: "bold" }}>&euro;{orderData[0].totals.expenseTotal} </p>
+                                        <p style={{ fontWeight: "bold" }}>${orderData[0].totals.expenseTotal} </p>
                                     </div>
                                     <div style={{ display: "flex" }}>
                                         <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Tax Total</p>
-                                        <p style={{ fontWeight: "bold" }}>&euro;{orderData[0].totals.taxTotal} </p>
+                                        <p style={{ fontWeight: "bold" }}>${orderData[0].totals.taxTotal} </p>
                                     </div>
 
                                     <div style={{ display: "flex" }}>
                                         <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Sub total</p>
-                                        <p style={{ fontWeight: "bold" }}>&euro;{orderData[0].totals.subtotal} </p>
+                                        <p style={{ fontWeight: "bold" }}>${orderData[0].totals.subtotal} </p>
                                     </div>
                                     <div style={{ display: "flex" }}>
                                         <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Grand Total</p>
-                                        <p style={{ fontWeight: "bold" }}>&euro;{orderData[0].totals.grandTotal} </p>
+                                        <p style={{ fontWeight: "bold" }}>${orderData[0].totals.grandTotal} </p>
                                     </div>
                                 </div>
 
@@ -368,7 +368,7 @@ function orderDetailsPage() {
                                 <div style={{ fontWeight: "bold" }}>
                                     {/* Item Status : {orderData[0].itemStates[0]} */}
                                 </div>
-                                <div style={{ fontWeight: "bold" }}> Total Amount : &euro; {orderData[0]?.totals.grandTotal}</div>
+                                <div style={{ fontWeight: "bold" }}> Total Amount : $ {orderData[0]?.totals.grandTotal}</div>
                             </div>
                         </div>
                     </div>

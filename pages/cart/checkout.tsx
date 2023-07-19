@@ -358,19 +358,19 @@ const CheckoutPage = () => {
                   <div>
                     <h3 style={{ paddingBottom: "12px" }}>
                       {" "}
-                      &euro; {cartData?.data?.attributes?.totals?.subtotal}
+                      $ {cartData?.data?.attributes?.totals?.subtotal}
                     </h3>
                     <h3 style={{ paddingBottom: "12px" }}>
-                      + &euro; {cartData?.data?.attributes?.totals?.taxTotal}
+                      + $ {cartData?.data?.attributes?.totals?.taxTotal}
                     </h3>
                     <h3 style={{ paddingBottom: "12px", color: "green" }}>
-                      - &euro;{" "}
+                      - ${" "}
                       {cartData?.data?.attributes?.totals?.discountTotal}
                     </h3>
                     <hr></hr>
                     <h3 style={{ paddingBottom: "12px", color: "#800000" }}>
                       {" "}
-                      = &euro; {cartData?.data?.attributes?.totals?.priceToPay}
+                      = $ {cartData?.data?.attributes?.totals?.priceToPay}
                     </h3>
                   </div>
                 </div>

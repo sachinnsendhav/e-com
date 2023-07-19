@@ -17,28 +17,28 @@ const Bundle = () => (
             <ProductItem
               id="212"
               name="ASUS Bundle"
-              price="€95.00"
+              price="$95.00"
               key="212"
               images="https://d2s0ynfc62ej12.cloudfront.net/b2c/product-bundle-asus.jpg"
             />
             <ProductItem
               id="211"
               name="HP Bundle"
-              price="€705.00"
+              price="$705.00"
               key="211"
               images="https://d2s0ynfc62ej12.cloudfront.net/b2c/product-bundle-hp.jpg"
             />
             <ProductItem
               id="214"
               name="Samsung Bundle"
-              price="€950.00"
+              price="$950.00"
               key="214"
               images="https://d2s0ynfc62ej12.cloudfront.net/b2c/product-bundle-samsung.jpg"
             />
             <ProductItem
               id="210"
               name="Sony Bundle"
-              price="€1,000.00"
+              price="$1,000.00"
               key="210"
               images="https://d2s0ynfc62ej12.cloudfront.net/b2c/product-bundle-sony.jpg"
             />

@@ -158,7 +158,7 @@ const Wishlist = ({ show }: WishlistType) => {
                                             <div>
                                                 <p style={{ fontWeight: "bold" }}>{item.name}</p>
                                                 <p style={{ paddingTop: "5px", fontWeight: "bold" }}>Quantity : {item.quantity}</p>
-                                                <p style={{ paddingTop: "5px", fontWeight: "bold" }}>Price : &euro; {item.price}</p>
+                                                <p style={{ paddingTop: "5px", fontWeight: "bold" }}>Price : $ {item.price}</p>
                                             </div>
                                             <div>
                                                 <button style={{

@@ -477,7 +477,7 @@ const ShoppingCart = () => {
                       quantity = {item.data[0].attributes.quantity}{" "}
                     </p>
                     <p style={{ padding: "10px", fontWeight: "bold" }}>
-                     Total  &euro;  {(item.total)*(item.data[0].attributes.quantity)}
+                     Total  $  {(item.total)*(item.data[0].attributes.quantity)}
                     </p>
                     <button
                       style={{
@@ -546,7 +546,7 @@ const ShoppingCart = () => {
                               fontWeight: "bold",
                             }}
                           >
-                           = &euro;{(val.attributes.quantity)*(val.attributes.calculations.unitPrice)}
+                           = ${(val.attributes.quantity)*(val.attributes.calculations.unitPrice)}
                           </div>
                         </div>
                       </div>
@@ -570,7 +570,7 @@ const ShoppingCart = () => {
               <p className="cart-actions__total">
                 Total cost{" "}
                 <strong>
-                  &euro; {cartData?.data?.attributes?.totals?.priceToPay}
+                  $ {cartData?.data?.attributes?.totals?.priceToPay}
                 </strong>
               </p>
               <a href="/cart/checkout" className="btn btn--rounded btn--yellow">

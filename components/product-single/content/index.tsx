@@ -1,16 +1,10 @@
 import { useState, useEffect } from "react";
-import productsColors from "./../../../utils/data/products-colors";
-import productsSizes from "./../../../utils/data/products-sizes";
-import CheckboxColor from "./../../products-filter/form-builder/checkbox-color";
-import { useDispatch, useSelector } from "react-redux";
 import { some } from "lodash";
 import { addProduct } from "store/reducers/cart";
-import { toggleFavProduct } from "store/reducers/user";
-import { ProductType, ProductStoreType } from "types";
+import { ProductStoreType } from "types";
 import { RootState } from "store";
 import { API_URL } from "config";
 const Content = (product: any) => {
-  const dispatch = useDispatch();
   var cartId: any;
   var token: any;
   var customerGroup: any = "";
@@ -183,7 +177,6 @@ const Content = (product: any) => {
       setIsBundle(true);
     }
   }, [product]);
-  // useEffect(()=>{
   const handlecart = async () => {
     try {
       const resp = await fetch(`${API_URL}/carts`, {
@@ -217,8 +210,7 @@ const Content = (product: any) => {
       setIsLoading(false);
     }
   };
-  // handlecart();
-  // },[])
+
 
   useEffect(() => {
     if (productData) {
@@ -270,7 +262,7 @@ const Content = (product: any) => {
         Object.keys(productData?.attributeMap?.super_attributes)?.map(
           (item1: any, index: number) => {
             if (index === 0) {
-              const formattedKey = formatKey(item1); // Format the key
+              const formattedKey = formatKey(item1);
               setVariationKey(formattedKey);
             }
           }
@@ -316,7 +308,6 @@ const Content = (product: any) => {
     } else {
       productSkuId = variationIdData[0];
     }
-    var applicableOffer: any;
 
     if (productSkuId && (await checkCartExist())) {
       if (cartId) {
@@ -326,7 +317,6 @@ const Content = (product: any) => {
             attributes: {
               sku: productSkuId.toString(),
               quantity: count,
-              // merchantReference: "MER000008",
               salesUnit: {
                 id: 0,
                 amount: 0,
@@ -335,24 +325,6 @@ const Content = (product: any) => {
             },
           },
         };
-        // if (selectedMerchantOffer) {
-        //   productCart = {
-        //     data: {
-        //       type: "items",
-        //       attributes: {
-        //         sku: productSkuId,
-        //         quantity: count,
-        //         productOfferReference: selectedMerchantOffer?.id,
-        //         merchantReference: selectedMerchantOffer?.attributes?.merchantReference,
-        //         salesUnit: {
-        //           id: 0,
-        //           amount: 0,
-        //         },
-        //         productOptions: [null],
-        //       },
-        //     },
-        //   };
-        // }
         setIsLoading(true);
         try {
           const resp = await fetch(`${API_URL}/carts/${cartId}/items`, {
@@ -365,7 +337,6 @@ const Content = (product: any) => {
           });
 
           if (resp.status === 401) {
-            // Redirect to login page
             alert("Please Login");
             window.location.href = "/login";
             return;
@@ -396,7 +367,7 @@ const Content = (product: any) => {
     if (variationIdData && variationIdData[1]) {
       console.log(variationIdData, "variationData");
     } else if (variationIdData && variationIdData[0]) {
-      var skuId = variationIdData[0]; //use this Id Currently its static
+      var skuId = variationIdData[0];
       console.log(skuId, "skuIdIdIdIdID");
       const handleMerchant = async () => {
         try {
@@ -443,12 +414,6 @@ const Content = (product: any) => {
   const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
     setItemSize(e.target.value);
 
-  const { favProducts } = useSelector((state: RootState) => state.user);
-  const isFavourite = some(
-    favProducts,
-    (productId) => productId === product.id
-  );
-
   const toggleFav = () => {
     setWishlistOperation(true);
     if (token) {
@@ -469,26 +434,6 @@ const Content = (product: any) => {
       }
     }
   };
-
-  const addToCart = () => {
-    const productToSave: ProductStoreType = {
-      id: product.id,
-      name: product.name,
-      thumb: product.images ? product.images[0] : "",
-      price: product.currentPrice,
-      count: count,
-      color: color,
-      size: itemSize,
-    };
-
-    const productStore = {
-      count,
-      product: productToSave,
-    };
-
-    dispatch(addProduct(productStore));
-  };
-
   console.log(shoppingItems, "shoppingItems");
 
   const checkCartExist = async () => {
@@ -571,9 +516,7 @@ const Content = (product: any) => {
             window.location.href = "/login";
             return;
           }
-
           const response = await resp.json();
-
           if (response) {
             if (response.errors) {
               alert(response.errors[0]?.detail);
@@ -633,39 +576,33 @@ const Content = (product: any) => {
         window.location.href = "/login";
       }
     }
-    // setWishlistOperation(false)
     setWishlistedItemId("");
   };
   return (
     <section className="product-content">
       <div className="product-content__intro">
-        <h5 className="product__id">
-          Product ID:&nbsp;
-          {productData?.sku}
-        </h5>
+        <h2 className="product__name">{productData?.name}</h2>
         <span
           className="product-on-sale"
           style={{ background: "rgb(207, 18, 46)" }}
         >
           Sale
         </span>
-        <h2 className="product__name">{productData?.name}</h2>
+        <h5 className="product__id">
+          Product ID:&nbsp;
+          {productData?.sku}
+        </h5>
 
         <div className="product__prices">
-          {/* <h4 style={{ color: "rgb(207, 18, 46)" }}>
-            {priceSymbole} {price}
-          </h4> */}
-          {/* <span> */}
-            {selectedMerchantOffer ? (
-              <h4 style={{ color: "rgb(207, 18, 46)" }}>
-                {priceSymbole}  {selectedMerchantOffer?.price}
-              </h4>
-            ) : (
-              <h4 style={{ color: "rgb(207, 18, 46)" }}>
-                {priceSymbole} {price}
-              </h4>
-            )}
-          {/* </span> */}
+          {selectedMerchantOffer ? (
+            <h4 style={{ color: "rgb(207, 18, 46)" }}>
+              $ {selectedMerchantOffer?.price}
+            </h4>
+          ) : (
+            <h4 style={{ color: "rgb(207, 18, 46)" }}>
+              {priceSymbole} {price}
+            </h4>
+          )}
         </div>
       </div>
 
@@ -674,7 +611,6 @@ const Content = (product: any) => {
           <div style={{ display: "flex", marginBottom: "2rem" }}>
             <div style={{ display: "flex", flexDirection: "column" }}>
               {Object.keys(productData?.attributes)?.map((item, index) => {
-                // Replace underscores with spaces and capitalize each word
                 const formattedKey = item
                   .split("_")
                   .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
@@ -811,72 +747,6 @@ const Content = (product: any) => {
             ))}
           </div>
         )}
-
-        {/* <div>
-          <h2 style={{ padding: "1rem", fontSize: "2rem" }}>Sold By</h2>
-          <div style={{ padding: "1rem" }}> */}
-        {/* {merchantOffer?.map(
-              (item: any, index: any) =>
-                customerGroup == item?.attributes?.fkCustomerGroup ||
-                item?.attributes?.fkCustomerGroup == null ? (
-                  <div
-                    style={{
-                      border: "1px solid",
-                      background: "#f0f0f0",
-                      width: "20rem",
-                      padding: "2rem 2rem",
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <div>
-                      <input
-                        style={{ marginTop: "0px", marginRight: "10px" }}
-                        type="radio"
-                        name="merchant"
-                        id={item?.id}
-                        checked={
-                          selectedMerchantOffer?.attributes
-                            ?.merchantReference ==
-                          item?.attributes?.merchantReference
-                        }
-                        value={item?.attributes?.merchantReference}
-                        onClick={(e) => setSelectedMerchantOffer(item)}
-                      />
-                      <span style={{ fontWeight: "600" }}>{item?.id}</span>
-                    </div>
-                    <p>Price : € {item?.price}</p>
-                  </div>
-                ) : (
-                  ""
-                )
-              // item?.attributes?.fkCustomerGroup == null ? ():"";
-            )} */}
-
-        {/* <div style={{border:"1px solid",background:"#f0f0f0", width:"20rem", padding:"2rem 2rem", display:"flex", justifyContent:"space-between"}}>
-              <div>
-              <input style={{marginTop:"0px", marginRight:"10px"}} type="radio" name="merchant" id="merchant1" value="CSQT"/>
-              <span style={{fontWeight:"600"}}>CSQT1</span>
-              </div>
-              <p>Price : € 1210</p>
-            </div>
-            <div style={{border:"1px solid",background:"#f0f0f0", width:"20rem", padding:"2rem 2rem", display:"flex", justifyContent:"space-between"}}>
-              <div>
-              <input style={{marginTop:"0px", marginRight:"10px"}} type="radio" name="merchant" id="merchant1" value="CSQT"/>
-              <span style={{fontWeight:"600"}}>CSQT2</span>
-              </div>
-              <p>Price : € 1220</p>
-            </div>
-            <div style={{border:"1px solid",background:"#f0f0f0", width:"20rem", padding:"2rem 2rem", display:"flex", justifyContent:"space-between"}}>
-              <div>
-              <input style={{marginTop:"0px", marginRight:"10px"}} type="radio" name="merchant" id="merchant1" value="CSQT"/>
-              <span style={{fontWeight:"600"}}>CSQT3</span>
-              </div>
-              <p>Price : € 1230</p>
-            </div> */}
-        {/* </div>
-        </div> */}
-
         <div className="product-filter-item">
           <h5>Quantity:</h5>
           <div className="quantity-buttons">
@@ -909,7 +779,7 @@ const Content = (product: any) => {
             <button
               type="button"
               onClick={() => toggleFav()}
-              className={`btn-heart ${isFavourite ? "btn-heart--active" : ""}`}
+              className='btn-heart'
             >
               <i className="icon-heart"></i>
             </button>

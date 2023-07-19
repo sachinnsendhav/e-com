@@ -327,7 +327,7 @@ const IndexPage = () => {
                       paddingLeft: "10px",
                     }}
                   >
-                    &euro; {item.price}
+                    $ {item.price}
                   </p>
                 </div>
               </Link>

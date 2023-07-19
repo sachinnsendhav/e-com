@@ -33,7 +33,7 @@ const ProductItem = ({ images, id, name, price }: ProductTypeList) => {
       <div className="product__description">
         <h3 style={{fontFamily:"sans-serif"}}>{name}</h3>
         <div>
-          <span style={{ fontWeight: "bold", color:"black" }}>&euro; {price}</span>
+          <span style={{ fontWeight: "bold", color:"black" }}>$ {price}</span>
         </div>
       </div>
     </div>

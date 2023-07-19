@@ -466,7 +466,7 @@ function ConfigurableBundleItems() {
                             </div>
                           </div>
                           <div style={{ paddingTop: "20px", color: "black" }}>
-                            € {item?.selectedProduct?.price}
+                            $ {item?.selectedProduct?.price}
                           </div>
                         </div>
                       </>
@@ -481,7 +481,7 @@ function ConfigurableBundleItems() {
                   >
                     <p>Total</p>
 
-                    <p>€ {totalPrice}</p>
+                    <p>$ {totalPrice}</p>
                   </div>
                   <button
                     className="bundleSelectButton"
@@ -521,7 +521,7 @@ function ConfigurableBundleItems() {
                     </div>
                     <div>
                       <div style={{ paddingTop: "50px", color: "black" }}>
-                        € {item.price}
+                        $ {item.price}
                       </div>
                       {selectedProduct == item.id ? (
                         <button

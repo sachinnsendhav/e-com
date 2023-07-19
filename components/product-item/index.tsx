@@ -338,7 +338,7 @@ console.log(description);
         <span
           style={{ fontWeight: "bold", color: "rgb(207 18 46)", paddingTop: "10px" }}
         >
-          &euro; {price}
+          $ {price}
         </span>
         <button
           style={{

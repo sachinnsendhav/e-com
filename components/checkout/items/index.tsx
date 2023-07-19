@@ -171,7 +171,7 @@ const CheckoutItems = () => {
               </div>
             </div>
             <h3>
-              &euro;{" "}
+              ${" "}
               {item.attributes?.calculations?.unitPrice *
                 item?.attributes?.quantity}
             </h3>
@@ -199,7 +199,7 @@ const CheckoutItems = () => {
                 </div>
                 <div style={{ display: "flex" }}>
                   <p style={{ padding: "10px", fontWeight: "bold" }}>
-                    Total &euro; {item.total} X {item.data[0].attributes.quantity}
+                    Total $ {item.total} X {item.data[0].attributes.quantity}
                   </p>
                 </div>
               </div>
@@ -258,7 +258,7 @@ const CheckoutItems = () => {
                             fontWeight: "bold",
                           }}
                         >
-                          = &euro;
+                          = $
                           {val.attributes.quantity *
                             val.attributes.calculations.unitPrice}
                         </div> */}

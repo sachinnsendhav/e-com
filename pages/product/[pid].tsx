@@ -154,7 +154,7 @@ const Product = () => {
                         <div style={{ padding: "5px" }}>
                           <img src={item.image} style={{ width: "220px", height: "250px", objectFit: "contain" }} />
                           <p style={{ paddingLeft: "10px" }}>{item.name}</p>
-                          <p style={{ fontWeight: "bold", paddingTop: "5px", paddingLeft: "10px" }}>&euro; {item.price}</p>
+                          <p style={{ fontWeight: "bold", paddingTop: "5px", paddingLeft: "10px" }}>$ {item.price}</p>
                         </div>
                       </Link>
                     </div>

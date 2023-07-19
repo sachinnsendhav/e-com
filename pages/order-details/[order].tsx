@@ -197,185 +197,122 @@ function orderDetailsPage() {
 
     return (
         <Layout>
+  <div>
+    {orderData.length > 0 ? (
+      <div>
+        <h1 style={{ textAlign: "center", fontSize: "20px", fontWeight: "bold", paddingTop: "10px" }}>Order Details</h1>
+        <div style={{ width: "80%", border: "1px solid #7f7f7f", margin: "auto", borderRadius: "5px", marginTop: "10px" }}>
+          <div style={{ padding: "10px", borderBottom: "1px solid #7f7f7f", display: "flex", justifyContent: "space-between" }}>
+            <div style={{ fontWeight: "bold" }}>Order Id: {orderId}</div>
+            <div style={{ fontWeight: "bold" }}>
+              Total Item: {orderData[0]?.items.length}
+              <button style={{ padding: "5px", background: "#333", borderRadius: "5px", color: "white", marginLeft: "10px" }} onClick={() => openModal()}>Post Order Form</button>
+            </div>
+          </div>
+          <div style={{ padding: "10px" }}>
+            <div style={{ width: "100%", padding: "10px" }}>
+              <h1></h1>
+              <table style={{ width: "100%" }}>
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Discount</th>
+                    <th>Tax</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {productData.map((item: any) => (
+                    <tr key={item.id}>
+                      <td>
+                        <img src={item.metadata.image} style={{ height: "130px", width: "130px", objectFit: "contain" }} alt="product" />
+                      </td>
+                    <td style={{ padding: "0 80px" }}>{item.name}</td>
+                    <td style={{ padding: "0 80px" }}>{item.quantity}</td>
+                    <td style={{ padding: "0 80px" }}>{item.unitDiscountAmountAggregation}</td>
+                    <td style={{ padding: "0 80px" }}>{item.taxRate}</td>
+                    <td style={{ padding: "0 80px" }}>{item.unitPrice}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div style={{ width: "100%", padding: "10px" }}>
+              <h1></h1>
+              <div style={{ display: "flex", justifyContent: "flex-end", margin: "0 30px 0 0" }}>
+                <div>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
+                    <p style={{ fontWeight: "bold" }}>Discount Total:</p>
+                    <p>&euro;{orderData[0].totals.discountTotal}</p>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
+                    <p style={{ fontWeight: "bold" }}>Expense Total:</p>
+                    <p>&euro;{orderData[0].totals.expenseTotal}</p>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
+                    <p style={{ fontWeight: "bold" }}>Tax Total:</p>
+                    <p>&euro;{orderData[0].totals.taxTotal}</p>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
+                    <p style={{ fontWeight: "bold" }}>Sub total:</p>
+                    <p>&euro;{orderData[0].totals.subtotal}</p>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
+                    <p style={{ fontWeight: "bold" }}>Grand Total:</p>
+                    <p>&euro;{orderData[0].totals.grandTotal}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr style={{ margin: "20px 0" }} />
+          <div style={{ padding: "10px" }}>
+            <h1 style={{ margin: '0 0 15px 5px' }} >Billing Address</h1>
             <div>
-                {orderData.length > 0
-                    ?
-                    <div>
-                        <h1 style={{ textAlign: "center", fontSize: "20px", fontWeight: "bold", paddingTop: "10px" }}>Oder Details</h1>
-                        <div style={{ width: "80%", border: "1px solid #7f7f7f", margin: "auto", borderRadius: "5px", marginTop: "10px" }}>
-                            <div style={{ padding: "10px", borderBottom: "1px solid #7f7f7f", display: "flex", justifyContent: "space-between" }}>
-                                <div style={{ fontWeight: "bold" }}>Order Id : {orderId}</div><div style={{ fontWeight: "bold" }}> Total Item : {orderData[0]?.items.length}
-                                    <button style={{ padding: "5px", background: "#333", borderRadius: "5px", color: "white", marginLeft: "10px" }} onClick={() => openModal()}>Post Order Form</button>
-                                </div>
-                            </div>
-                            <div style={{ padding: "10px", display: "flex", justifyContent: "space-around" }}>
-                                <div style={{ width: "50%", padding: "10px" }}>
-                                    <h1>Items </h1>
-                                    {productData.map((item: any) => {
-                                        return (
-                                            <div style={{ display: "flex", border: "1px solid #7f7f7f", marginTop: "5px", padding: "5px" }}>
-                                                <div>
-                                                    <img src={item.metadata.image} style={{ height: "100px", width: "100px", objectFit: "contain" }} />
-                                                </div>
-                                                <div style={{ padding: "10px" }}>
-                                                    <p>{item.name}</p>
-                                                    <p style={{ paddingTop: "5px" }}>Quantity : {item.quantity}</p>
-                                                    <p style={{ paddingTop: "5px" }}>Price : {item.unitPrice}</p>
-                                                    <p style={{ paddingTop: "5px" }}>Discount : {item.unitDiscountAmountAggregation}</p>
-
-                                                </div>
-                                            </div>
-                                        )
-                                    })}
-                                    {configurableProduct?.length && configurableProduct?.map((item: any, index: number) => {
-                                        return (
-                                            <div
-                                                key={index}
-                                                style={{
-                                                    marginTop: "10px",
-                                                    background: "#fff",
-                                                    border: "8px solid #f5f5f5",
-                                                }}
-                                            >
-                                                <div
-                                                    style={{
-                                                        display: "flex",
-                                                        justifyContent: "space-between",
-                                                        background: "#f5f5f5",
-                                                        padding: "20px",
-                                                    }}
-                                                >
-                                                    <div>
-                                                        <h1>{item?.name}</h1>
-                                                    </div>
-                                                </div>
-                                                <div style={{ padding: "5px" }}>
-                                                    {item?.data?.map((val: any) => {
-                                                        return (
-                                                            <div
-                                                                style={{
-                                                                    margin: "auto",
-                                                                    width: "100%",
-                                                                }}
-                                                            >
-                                                                <div
-                                                                    style={{
-                                                                        padding: "1rem",
-                                                                        display: "flex",
-                                                                        justifyContent: "space-between",
-                                                                        background: "#dedede",
-                                                                        margin: "1rem",
-                                                                    }}
-                                                                >
-                                                                    <div style={{ display: "flex" }}>
-                                                                        <div style={{ width: "70px" }}>
-                                                                            <img
-                                                                                src={val?.metadata?.image}
-                                                                                style={{
-                                                                                    width: "100%",
-                                                                                    background: "#dedede",
-                                                                                    objectFit: "cover",
-                                                                                }}
-                                                                            />
-                                                                        </div>
-
-                                                                        <div style={{ padding: "20px", color: "black" }}>
-                                                                            {val.name}
-                                                                            <p style={{ color: "black", fontWeight: "bold" }}>
-                                                                                {" "}
-                                                                                SKU : {val.sku}
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div
-                                                                        style={{
-                                                                            paddingTop: "20px",
-                                                                            color: "black",
-                                                                            fontWeight: "bold",
-                                                                        }}
-                                                                    >
-                                                                        ${(val.quantity) * (val.sumNetPrice)}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        );
-                                                    })}
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                                <div style={{ width: "50%", padding: "10px" }}>
-                                    <h1> Billing Address</h1>
-                                    <div>
-                                        <div style={{ display: "flex" }}>
-                                            <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Address </p><p>{orderData[0].billingAddress.address1 + " " + orderData[0].billingAddress.address2} </p>
-                                        </div>
-                                        <div style={{ display: "flex" }}>
-                                            <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>City </p><p>{orderData[0].billingAddress.city} </p>
-                                        </div>
-                                        <div style={{ display: "flex" }}>
-                                            <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Country </p><p>{orderData[0].billingAddress.country} </p>
-                                        </div>
-                                        <div style={{ display: "flex" }}>
-                                            <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Company </p><p>{orderData[0].billingAddress.company} </p>
-                                        </div>
-                                        <div style={{ display: "flex" }}>
-                                            <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>iso2Code</p><p>{orderData[0].billingAddress.iso2Code} </p>
-                                        </div>
-                                        <div style={{ display: "flex" }}>
-                                            <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Zip code</p><p>{orderData[0].billingAddress.zipCode} </p>
-                                        </div>
-                                        <div style={{ display: "flex" }}>
-                                            <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Phone No.</p>
-                                            <p>{orderData[0].billingAddress.phone} </p>
-                                        </div>
-                                        {/* <div style={{ display: "flex" }}>
-                                            <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Salutation</p><p>{orderData[0].billingAddress.salutation} </p>
-                                        </div> */}
-                                    </div>
-
-                                    <h1 style={{ paddingTop: "10px" }}>Payment Details</h1>
-                                    <div style={{ display: "flex" }}>
-                                        <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Discount Total</p>
-                                        <p style={{ fontWeight: "bold" }}>${orderData[0].totals.discountTotal} </p>
-                                    </div>
-                                    <div style={{ display: "flex" }}>
-                                        <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Expense Total</p>
-                                        <p style={{ fontWeight: "bold" }}>${orderData[0].totals.expenseTotal} </p>
-                                    </div>
-                                    <div style={{ display: "flex" }}>
-                                        <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Tax Total</p>
-                                        <p style={{ fontWeight: "bold" }}>${orderData[0].totals.taxTotal} </p>
-                                    </div>
-
-                                    <div style={{ display: "flex" }}>
-                                        <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Sub total</p>
-                                        <p style={{ fontWeight: "bold" }}>${orderData[0].totals.subtotal} </p>
-                                    </div>
-                                    <div style={{ display: "flex" }}>
-                                        <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Grand Total</p>
-                                        <p style={{ fontWeight: "bold" }}>${orderData[0].totals.grandTotal} </p>
-                                    </div>
-                                </div>
-
-                                {/* <h1 style={{ paddingTop: "10px" }}> Payment Details</h1> */}
-                                <div>
-
-                                </div>
-                            </div>
-                            <div style={{ padding: "10px", display: "flex", justifyContent: "space-between" }}>
-                                <div style={{ fontWeight: "bold" }}>
-                                    {/* Item Status : {orderData[0].itemStates[0]} */}
-                                </div>
-                                <div style={{ fontWeight: "bold" }}> Total Amount : $ {orderData[0]?.totals.grandTotal}</div>
-                            </div>
-                        </div>
-                    </div>
-                    :
-                    <div>Loading....</div>
-                }
-                <Modal
+              <div style={{ display: "flex" }}>
+                <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Address</p>
+                <p>{orderData[0].billingAddress.address1 + " " + orderData[0].billingAddress.address2}</p>
+              </div>
+              <div style={{ display: "flex" }}>
+                <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>City</p>
+                <p>{orderData[0].billingAddress.city}</p>
+              </div>
+              <div style={{ display: "flex" }}>
+                <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Country</p>
+                <p>{orderData[0].billingAddress.country}</p>
+              </div>
+              <div style={{ display: "flex" }}>
+                <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Company</p>
+                <p>{orderData[0].billingAddress.company}</p>
+              </div>
+              <div style={{ display: "flex" }}>
+                <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>iso2Code</p>
+                <p>{orderData[0].billingAddress.iso2Code}</p>
+              </div>
+              <div style={{ display: "flex" }}>
+                <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Zip code</p>
+                <p>{orderData[0].billingAddress.zipCode}</p>
+              </div>
+              <div style={{ display: "flex" }}>
+                <p style={{ padding: "5px", fontWeight: "bold", width: "150px" }}>Phone No.</p>
+                <p>{orderData[0].billingAddress.phone}</p>
+              </div>
+            </div>
+          </div>
+          {/* <div style={{ padding: "10px", display: "flex", justifyContent: "space-between" }}> */}
+            {/* <div style={{ fontWeight: "bold" }}> */}
+              {/* Item Status : {orderData[0].itemStates[0]} */}
+            {/* </div> */}
+            {/* <div style={{ fontWeight: "bold" }}>Total Amount: &euro; {orderData[0]?.totals.grandTotal}</div> */}
+          {/* </div> */}
+        </div>
+      </div>
+    ) : (
+      <div>Loading....</div>
+    )}
+    <Modal
                     isOpen={modalIsOpen}
                     onAfterOpen={afterOpenModal}
                     onRequestClose={closeModal}
@@ -415,6 +352,7 @@ function orderDetailsPage() {
             </div>
             <Footer />
         </Layout>
+
     )
 }
 

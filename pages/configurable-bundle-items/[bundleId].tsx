@@ -1,7 +1,7 @@
 import Footer from "components/footer";
 import React, { useState, useEffect } from "react";
 import Layout from "../../layouts/Main";
-import { API_URL } from "../../config";
+import { API_URL , CURRENCY_SYMBOLE} from "../../config";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -466,7 +466,7 @@ function ConfigurableBundleItems() {
                             </div>
                           </div>
                           <div style={{ paddingTop: "20px", color: "black" }}>
-                            $ {item?.selectedProduct?.price}
+                            {CURRENCY_SYMBOLE} {item?.selectedProduct?.price}
                           </div>
                         </div>
                       </>
@@ -481,7 +481,7 @@ function ConfigurableBundleItems() {
                   >
                     <p>Total</p>
 
-                    <p>$ {totalPrice}</p>
+                    <p>{CURRENCY_SYMBOLE} {totalPrice}</p>
                   </div>
                   <button
                     className="bundleSelectButton"
@@ -521,7 +521,7 @@ function ConfigurableBundleItems() {
                     </div>
                     <div>
                       <div style={{ paddingTop: "50px", color: "black" }}>
-                        $ {item.price}
+                        {CURRENCY_SYMBOLE} {item.price}
                       </div>
                       {selectedProduct == item.id ? (
                         <button

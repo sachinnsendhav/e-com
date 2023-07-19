@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import {CURRENCY_SYMBOLE} from '../../../config';
+
 import { some } from "lodash";
 import { addProduct } from "store/reducers/cart";
 import { ProductStoreType } from "types";
@@ -596,7 +598,7 @@ const Content = (product: any) => {
         <div className="product__prices">
           {selectedMerchantOffer ? (
             <h4 style={{ color: "rgb(207, 18, 46)" }}>
-              $ {selectedMerchantOffer?.price}
+              {CURRENCY_SYMBOLE} {selectedMerchantOffer?.price}
             </h4>
           ) : (
             <h4 style={{ color: "rgb(207, 18, 46)" }}>

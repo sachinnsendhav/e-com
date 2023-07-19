@@ -3,7 +3,7 @@ import CheckoutStatus from "../../components/checkout-status";
 import CheckoutItems from "../../components/checkout/items/index";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { API_URL } from "config";
+import { API_URL , CURRENCY_SYMBOLE} from "config";
 
 const CheckoutPage = () => {
   const router = useRouter();
@@ -358,19 +358,19 @@ const CheckoutPage = () => {
                   <div>
                     <h3 style={{ paddingBottom: "12px" }}>
                       {" "}
-                      $ {cartData?.data?.attributes?.totals?.subtotal}
+                      {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.subtotal}
                     </h3>
                     <h3 style={{ paddingBottom: "12px" }}>
-                      + $ {cartData?.data?.attributes?.totals?.taxTotal}
+                      + {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.taxTotal}
                     </h3>
                     <h3 style={{ paddingBottom: "12px", color: "green" }}>
-                      - ${" "}
+                      - {CURRENCY_SYMBOLE} {" "}
                       {cartData?.data?.attributes?.totals?.discountTotal}
                     </h3>
                     <hr></hr>
                     <h3 style={{ paddingBottom: "12px", color: "#800000" }}>
                       {" "}
-                      = $ {cartData?.data?.attributes?.totals?.priceToPay}
+                      = {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.priceToPay}
                     </h3>
                   </div>
                 </div>

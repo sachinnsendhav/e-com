@@ -39,11 +39,30 @@ const LoginPage = () => {
     );
     const result = await resp.json();
     localStorage.setItem("token", result?.access_token)
+    await HandleUserDetails(result?.access_token)
     localStorage.setItem("status", "true")
     if (result) {
       router.push('/profile');
     }
   };
+
+  const HandleUserDetails = async(userToken:any)=>{
+    try {
+      const resp = await fetch(`${API_URL}/customers`,
+        {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${userToken}`
+          }
+        }
+      );
+      const result = await resp.json();
+      localStorage.setItem("userId",result?.data[0]?.id)
+      localStorage.setItem("customerGroup",result?.data[0]?.attributes?.fkCustomerGroup)
+    } catch {
+      localStorage.setItem("status", "false")
+    }
+  }
   const checkTokenExpiry = async () => {
 
 

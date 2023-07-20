@@ -121,8 +121,10 @@ body {
 body {
   box-sizing: border-box;
   background-color: white;
-  font-family: var(--main-font);
-  color: var(--color-text);
+  // font-family: var(--main-font);
+  // font-family: Akkurat, AkkuratLLWeb-Regular,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+  // color: var(--color-text);
+  font-family: Frutiger LT W01_55 Roma1475738,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
   font-size: 16px;
   &.body--with-footer {
     .main {
@@ -323,17 +325,18 @@ h5 {
 }
 
 .site-header {
+  border-top: 2px solid #CF122E;
   position: sticky;
   width: 100%;
   top: 0;
   left: 0;
   z-index: 999;
-  height: 100px;
+  // height: 100px;
   color: #fff;
   box-shadow: none;
   transition: all 0.3s ease;
   @include breakpoint(phone) {
-    height: 100px;
+    // height: 100px;
   }
   .btn-hamburger {
     &:before,
@@ -387,19 +390,21 @@ h5 {
     top: 0;
     right: -250px;
     width: 250px;
+    margin-top: 1rem;
     z-index: 9999;
     height: 100vh;
-    margin:auto;
+    align-self: baseline;
+    // margin:auto;
     // margin-left: 25px;
-    margin-right: auto;
-    position: fixed;
+    // margin-right: auto;
+    // position: fixed;
     background-color: #fff;
     transition: all 0.3s ease;
     border-left: 1px solid #e5e5e5;
     @include breakpoint(tablet-lg) {
-      position: relative;
+      // position: relative;
       height: auto;
-      right: 0;
+      // right: 0;
       width: auto;
       border: none;
       background-color: transparent;
@@ -424,10 +429,10 @@ h5 {
       color: #000;
       display: block;
       text-align: left;
-      padding: 15px 18px;
+      padding: 15px 18px 15px 0px;
       @include breakpoint(tablet-lg) {
         width: auto;
-        padding: 1rem;
+        // padding: 1rem;
         color: #fff;
         margin-right: 15px;
         display: inline-block;
@@ -524,7 +529,7 @@ h5 {
         left: auto;
         right: -9px;
         border: none;
-        border-radius: 50px;
+        border-radius: 5px;
         margin-top: -21px;
         transform: none;
       }
@@ -832,10 +837,11 @@ h5 {
 
 .product-item {
   display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 50rem;
-    width: 25rem !important;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 50rem;
+  width: 20rem !important;
+  color: var(--color-black);
   &.product-item--loading {
     .product__image,
     .product__description h3,
@@ -980,6 +986,34 @@ h5 {
         }
       }
     }
+  }
+}
+
+.product__description{
+  font-size: .875rem;
+  line-height: 1.25rem;
+}
+.product-price{
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-top: 2px solid transparent;
+}
+.product-item:hover{
+  h3{
+    color: rgb(207, 18, 46);
+  }
+  .pid{
+    color: rgb(207, 18, 46);
+  }
+  .product-price{
+    border-top: 2px solid rgb(207, 18, 46);
+    width: 116%;
+    position: relative;
+    left: -28px;
+    padding-left: 27px;
+    padding-right: 27px;
   }
 }
 
@@ -1625,9 +1659,14 @@ h5 {
 }
 
 .products-list {
-  display: flex;
-  flex-wrap: wrap;
+  // display: flex;
+  // flex-wrap: wrap;
+  // margin-right: -15px;
   margin-right: -15px;
+  display: grid;
+  grid-template-columns: 30% 30% 30%;
+  margin: auto;
+  width: 100%;
   @include breakpoint(phone) {
     margin-right: -33px;
   }
@@ -2582,7 +2621,7 @@ h5 {
   width: 100%;
   margin: 0 auto;
   @include breakpoint(phone) {
-    width: 448px;
+    width: 48%;
   }
   .form-block__title {
     font-size: 22px;
@@ -2622,8 +2661,8 @@ h5 {
     border-radius: 8px;
     border: 1px solid #d8d8d8;
     @include breakpoint(phone) {
-      height: 56px;
-      padding: 0 40px;
+      border: 1px ;
+      padding: -1 40px;
     }
     &.form__input--sm {
       height: 49px;

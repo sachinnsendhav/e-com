@@ -1,114 +1,118 @@
-import { GetServerSideProps } from 'next'
-
-import { useState, useEffect } from 'react';
-import Footer from '../../components/footer';
-import Layout from '../../layouts/Main';
-import Breadcrumb from '../../components/breadcrumb';
-import ProductsFeatured from '../../components/products-featured';
-import Gallery from '../../components/product-single/gallery';
-import Content from '../../components/product-single/content';
-import Description from '../../components/product-single/description';
-import Reviews from '../../components/product-single/reviews';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import {API_URL} from 'config';
+import { useState, useEffect } from "react";
+import Footer from "../../components/footer";
+import Layout from "../../layouts/Main";
+import Breadcrumb from "../../components/breadcrumb";
+import Gallery from "../../components/product-single/gallery";
+import Content from "../../components/product-single/content";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import { API_URL, CURRENCY_SYMBOLE } from "config";
 
 const Product = () => {
   const router = useRouter();
   const productId = router.query.skuId;
-
-  const [showBlock, setShowBlock] = useState('description');
-  const [product, setProduct] = useState<any>()
-  const [img, setImg] = useState()
+  const [showBlock, setShowBlock] = useState("description");
+  const [product, setProduct] = useState<any>();
+  const [img, setImg] = useState();
   const [authToken, setAuthToken] = useState("");
-  const [productIds, setProductIds] = useState<any[]>([])
-  const [productData, setProductData] = useState<any[]>([])
+  const [productIds, setProductIds] = useState<any[]>([]);
+  const [productData, setProductData] = useState<any[]>([]);
   useEffect(() => {
-    setAuthToken(localStorage.getItem("token"))
-  }, [])
+    setAuthToken(localStorage.getItem('token'));
+  }, []);
 
   const getProductDetails = async () => {
     try {
-      const resp = await fetch(
-        `${API_URL}/abstract-products/${productId}`,
-        {
-          method: 'GET',
-          headers: {
-            Accept: 'application/json',
-          },
-        }
-      );
+      const resp = await fetch(`${API_URL}/abstract-products/${productId}`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+      });
       const result = await resp.json();
       setProduct(result.data.attributes);
     } catch (error) {
-      console.error('Error occurred while fetching product:', error);
+      console.error("Error occurred while fetching product:", error);
     }
 
     try {
       const img = await fetch(
         `${API_URL}/abstract-products/${productId}/abstract-product-image-sets`,
         {
-          method: 'GET',
+          method: "GET",
           headers: {
-            Accept: 'application/json',
+            Accept: "application/json",
           },
         }
       );
       const imgData = await img.json();
-      setImg(imgData.data[0]?.attributes.imageSets[0].images[0].externalUrlLarge);
+      setImg(
+        imgData.data[0]?.attributes.imageSets[0].images[0].externalUrlLarge
+      );
     } catch (error) {
-      console.error('Error occurred while fetching image:', error);
+      console.error("Error occurred while fetching image:", error);
     }
-  }
+  };
   useEffect(() => {
     if (productId) {
-      getProductDetails()
+      getProductDetails();
     }
-  }, [productId])
+  }, [productId]);
 
   // related product
 
   const getRelatedProduct = async (id: any) => {
-    const resp = await fetch(`${API_URL}/abstract-products/${id}/related-products`, {
-      method: 'GET',
-      headers: {
-        authorization: `Bearer ${authToken}`
+    const resp = await fetch(
+      `${API_URL}/abstract-products/${id}/related-products`,
+      {
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${authToken}`,
+        },
       }
-    });
+    );
     const result = await resp.json();
-    setProductIds(result?.data)
-  }
+    setProductIds(result?.data);
+  };
 
   const getProductData = async (id: any) => {
-    const resp = await fetch(`${API_URL}/concrete-products/${id}?include=concrete-product-availabilities%2Cconcrete-product-image-sets%2Cconcrete-product-prices`, {
-      method: 'GET',
-      headers: {
-        authorization: `Bearer ${authToken}`
+    const resp = await fetch(
+      `${API_URL}/concrete-products/${id}?include=concrete-product-availabilities%2Cconcrete-product-image-sets%2Cconcrete-product-prices`,
+      {
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${authToken}`,
+        },
       }
-    });
+    );
     const result = await resp.json();
-    setProductData((productData) => [...productData, {
-      name: result.data.attributes.name,
-      id: result.data.id,
-      image: result.included[0]?.attributes?.imageSets[0]?.images[0]?.externalUrlLarge,
-      price: result.included[2]?.attributes?.price
-    }])
-  }
+    setProductData((productData) => [
+      ...productData,
+      {
+        name: result.data.attributes.name,
+        id: result.data.id,
+        image:
+          result.included[0]?.attributes?.imageSets[0]?.images[0]
+            ?.externalUrlLarge,
+        price: result.included[2]?.attributes?.price,
+      },
+    ]);
+  };
 
   useEffect(() => {
     if (productId) {
       getRelatedProduct(productId);
     }
-  }, [authToken, productId])
+  }, [authToken, productId]);
 
   useEffect(() => {
-    setProductData([])
+    setProductData([]);
     if (productIds?.length > 0) {
       productIds.forEach((element: any) => {
-        getProductData(element.attributes.attributeMap.product_concrete_ids[0])
+        getProductData(element.attributes.attributeMap.product_concrete_ids[0]);
       });
     }
-  }, [productIds])
+  }, [productIds]);
 
   return (
     <Layout>
@@ -123,7 +127,15 @@ const Product = () => {
 
           <div className="product-single__info">
             <div className="product-single__info-btns">
-              <button type="button" onClick={() => setShowBlock('description')} className={`btn btn--rounded ${showBlock === 'description' ? 'btn--active' : ''}`}>Description</button>
+              <button
+                type="button"
+                onClick={() => setShowBlock("description")}
+                className={`btn btn--rounded ${
+                  showBlock === "description" ? "btn--active" : ""
+                }`}
+              >
+                Description
+              </button>
               {/* <button type="button" onClick={() => setShowBlock('reviews')} className={`btn btn--rounded ${showBlock === 'reviews' ? 'btn--active' : ''}`}>Reviews (2)</button> */}
             </div>
             {/* // updated the code because it was showing html tags aas texts, added bullet points to the description to make it look appealing */}
@@ -134,117 +146,74 @@ const Product = () => {
                 lineHeight: "25px",
               }}
               dangerouslySetInnerHTML={{
-                __html: `<ul style="list-style-type: disc; margin-left: 1.5em; padding-left: 1em;">${product?.description?.replace(/<br\/?>/g, "<br/>").split("<br/>").map(item => `<li>${item}</li>`).join("")}</ul>`,
+                __html: `<ul style="list-style-type: disc; margin-left: 1.5em; padding-left: 1em;">${product?.description
+                  ?.replace(/<br\/?>/g, "<br/>")
+                  .split("<br/>")
+                  .map((item:any) => `<li>${item}</li>`)
+                  .join("")}</ul>`,
               }}
             ></p>
-            {/* <Description show={showBlock === 'description'} /> */}
-            {/* <Reviews product={product} show={showBlock === 'reviews'} /> */}
           </div>
         </div>
-        {productData.length > 0 ?
+        {productData.length > 0 ? (
           <>
-            <h1 style={{ fontSize: "24px", fontWeight: "bold", paddingInline: "50px",paddingTop:"30px", color: "#7f7f7f" }}>
-              Related Products</h1>
-            <div style={{ display: "flex", overflowX: "scroll", marginInline: "50px"}}>
-              {
-                productData.map((item: any) => {
-                  return (
-                    <div style={{ padding: "5px" }}>
-                      <Link href={`/product/${item.name}?skuId=${item.id.split('_')[0]}`}>
-                        <div style={{ padding: "5px" }}>
-                          <img src={item.image} style={{ width: "220px", height: "250px", objectFit: "contain" }} />
-                          <p style={{ paddingLeft: "10px" }}>{item.name}</p>
-                          <p style={{ fontWeight: "bold", paddingTop: "5px", paddingLeft: "10px" }}>$ {item.price}</p>
-                        </div>
-                      </Link>
-                    </div>
-                  )
-                })
-              }
+            <h1
+              style={{
+                fontSize: "24px",
+                fontWeight: "bold",
+                paddingInline: "50px",
+                paddingTop: "30px",
+                color: "#7f7f7f",
+              }}
+            >
+              Related Products
+            </h1>
+            <div
+              style={{
+                display: "flex",
+                overflowX: "scroll",
+                marginInline: "50px",
+              }}
+            >
+              {productData.map((item: any) => {
+                return (
+                  <div style={{ padding: "5px" }}>
+                    <Link
+                      href={`/product/${item.name}?skuId=${
+                        item.id.split("_")[0]
+                      }`}
+                    >
+                      <div style={{ padding: "5px" }}>
+                        <img
+                          src={item.image}
+                          style={{
+                            width: "220px",
+                            height: "250px",
+                            objectFit: "contain",
+                          }}
+                        />
+                        <p style={{ paddingLeft: "10px" }}>{item.name}</p>
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            paddingTop: "5px",
+                            paddingLeft: "10px",
+                          }}
+                        >
+                          {CURRENCY_SYMBOLE} {item.price}
+                        </p>
+                      </div>
+                    </Link>
+                  </div>
+                );
+              })}
             </div>
           </>
-          : null}
+        ) : null}
       </section>
-
-      {/* <div className="product-single-page">
-        <ProductsFeatured />
-      </div> */}
       <Footer />
     </Layout>
   );
-}
+};
 
-export default Product
-
-
-
-
-
-
-// import { GetServerSideProps } from 'next'
-
-// import { useState } from 'react';
-// import Footer from '../../components/footer';
-// import Layout from '../../layouts/Main';
-// import Breadcrumb from '../../components/breadcrumb';
-// import ProductsFeatured from '../../components/products-featured';
-// import Gallery from '../../components/product-single/gallery';
-// import Content from '../../components/product-single/content';
-// import Description from '../../components/product-single/description';
-// import Reviews from '../../components/product-single/reviews';
-// import { server } from '../../utils/server';
-
-// // types
-// import { ProductType } from 'types';
-
-// type ProductPageType = {
-//   product: ProductType;
-// }
-
-// export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-//   const pid = query.pid;
-//   const res = await fetch(`${server}/api/product/${pid}`);
-//   const product = await res.json();
-
-//   return {
-//     props: {
-//       product,
-//     },
-//   }
-// }
-
-// const Product = ({ product }: ProductPageType) => {
-//   const [showBlock, setShowBlock] = useState('description');
-
-//   return (
-//     <Layout>
-//       <Breadcrumb />
-
-//       <section className="product-single">
-//         <div className="container">
-//           <div className="product-single__content">
-//             <Gallery images={product.images} />
-//             <Content product={product} />
-//           </div>
-
-//           <div className="product-single__info">
-//             <div className="product-single__info-btns">
-//               <button type="button" onClick={() => setShowBlock('description')} className={`btn btn--rounded ${showBlock === 'description' ? 'btn--active' : ''}`}>Description</button>
-//               <button type="button" onClick={() => setShowBlock('reviews')} className={`btn btn--rounded ${showBlock === 'reviews' ? 'btn--active' : ''}`}>Reviews (2)</button>
-//             </div>
-
-//             <Description show={showBlock === 'description'} />
-//             <Reviews product={product} show={showBlock === 'reviews'} />
-//           </div>
-//         </div>
-//       </section>
-
-//       <div className="product-single-page">
-//         <ProductsFeatured />
-//       </div>
-//       <Footer />
-//     </Layout>
-//   );
-// }
-
-// export default Product
+export default Product;

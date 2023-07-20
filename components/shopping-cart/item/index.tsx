@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { ProductStoreType } from 'types';
+import { CURRENCY_SYMBOLE } from 'config';
+
 
 const ShoppingCart = ({ thumb, name, pliId, id, avalibility, size, count, price, setProductCount, removeProductFromCart }: ProductStoreType) => {
   var token: any;
@@ -45,7 +47,7 @@ const ShoppingCart = ({ thumb, name, pliId, id, avalibility, size, count, price,
           </button>
         </div>
       </td>
-      <td>$ {price}</td>
+      <td>{CURRENCY_SYMBOLE} {price}</td>
       <td className="cart-item-cancel" style={{paddingRight:"1rem"}}><i className="icon-cancel" onClick={() => removeProductFromCart(pliId)}></i></td>
     </tr>
   )

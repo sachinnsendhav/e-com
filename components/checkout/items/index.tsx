@@ -1,5 +1,6 @@
 import { API_URL } from "config";
 import { useEffect, useState } from "react";
+import {CURRENCY_SYMBOLE} from '../../../config'
 
 const CheckoutItems = () => {
   var token: any;
@@ -171,7 +172,7 @@ const CheckoutItems = () => {
               </div>
             </div>
             <h3>
-              ${" "}
+              {CURRENCY_SYMBOLE}{" "}
               {item.attributes?.calculations?.unitPrice *
                 item?.attributes?.quantity}
             </h3>
@@ -199,7 +200,7 @@ const CheckoutItems = () => {
                 </div>
                 <div style={{ display: "flex" }}>
                   <p style={{ padding: "10px", fontWeight: "bold" }}>
-                    Total $ {item.total} X {item.data[0].attributes.quantity}
+                    Total {CURRENCY_SYMBOLE} {item.total} X {item.data[0].attributes.quantity}
                   </p>
                 </div>
               </div>
@@ -258,7 +259,7 @@ const CheckoutItems = () => {
                             fontWeight: "bold",
                           }}
                         >
-                          = $
+                          = {CURRENCY_SYMBOLE}
                           {val.attributes.quantity *
                             val.attributes.calculations.unitPrice}
                         </div> */}

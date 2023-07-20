@@ -6,6 +6,8 @@ import { RootState } from "store";
 import { ProductTypeList } from "types";
 import { API_URL, SHOPPING_LIST_ID } from "config";
 import { useEffect, useState } from "react";
+import {CURRENCY_SYMBOLE} from '../../config';
+
 
 const ProductItem = ({
   images,
@@ -296,7 +298,7 @@ console.log(description);
             fontSize: "1.3rem",
           }}
         >
-          P {id}
+          {name}
         </h3>
         <p
           style={{
@@ -305,9 +307,9 @@ console.log(description);
             marginBottom: "1rem"
           }}
         >
-          {name}
+          Model : MX-COPIER
         </p>
-        <p style={{ fontFamily: "sans-serif", marginBottom: "1rem" }}>
+        <p style={{ fontFamily: "sans-serif", marginBottom: "1rem" }} className="pid">
           ID: {concreteId}
         </p>
         <div className="product__image" style={{ background: "#fff" }}>
@@ -326,7 +328,7 @@ console.log(description);
         </div>
         
         <div className="product__description">
-          <h3 style={{ fontFamily: "sans-serif" }}>Description: </h3>
+          {/* <h3 style={{ fontFamily: "sans-serif" }}>Description: </h3> */}
           {sentences?.slice(0, 2).map((item, index) => (
             <li style={{ marginTop: "1rem" }} key={index}>
               {item}
@@ -334,11 +336,11 @@ console.log(description);
           ))}
         </div>
       </div>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div style={{ display: "flex", justifyContent: "space-between" }} className="product-price">
         <span
           style={{ fontWeight: "bold", color: "rgb(207 18 46)", paddingTop: "10px" }}
         >
-          $ {price}
+          {CURRENCY_SYMBOLE} {price}
         </span>
         <button
           style={{

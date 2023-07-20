@@ -581,7 +581,7 @@ const Content = (product: any) => {
   return (
     <section className="product-content">
       <div className="product-content__intro">
-        <h2 className="product__name">{productData?.name}</h2>
+        <h1 className="product__name">{productData?.name}</h1>
         <span
           className="product-on-sale"
           style={{ background: "rgb(207, 18, 46)" }}

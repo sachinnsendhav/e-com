@@ -307,7 +307,7 @@ console.log(description);
         >
           {name}
         </p>
-        <p style={{ fontFamily: "sans-serif", marginBottom: "1rem" }}>
+        <p style={{ fontFamily: "sans-serif", marginBottom: "1rem" }} className="pid">
           ID: {concreteId}
         </p>
         <div className="product__image" style={{ background: "#fff" }}>
@@ -326,7 +326,7 @@ console.log(description);
         </div>
         
         <div className="product__description">
-          <h3 style={{ fontFamily: "sans-serif" }}>Description: </h3>
+          {/* <h3 style={{ fontFamily: "sans-serif" }}>Description: </h3> */}
           {sentences?.slice(0, 2).map((item, index) => (
             <li style={{ marginTop: "1rem" }} key={index}>
               {item}
@@ -334,7 +334,7 @@ console.log(description);
           ))}
         </div>
       </div>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div style={{ display: "flex", justifyContent: "space-between" }} className="product-price">
         <span
           style={{ fontWeight: "bold", color: "rgb(207 18 46)", paddingTop: "10px" }}
         >

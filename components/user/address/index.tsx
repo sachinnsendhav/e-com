@@ -2,6 +2,8 @@ import { API_URL } from "config";
 import React, { useState, useEffect } from "react"
 //@ts-ignore
 import deleteIcon from '../../../assets/images/delete.png'
+import Loader from '../../loader'
+
 type AddressType = {
     show: boolean;
 }
@@ -12,11 +14,13 @@ const Address = ({ show }: AddressType) => {
     }
     const [authToken, setAuthToken] = useState<any>()
     const [address, setAddress] = useState([]);
+  const [loading, setLoading] = useState(false)
+
     useEffect(() => {
         setAuthToken(localStorage.getItem('token'))
     }, [])
     const getAddresses = async () => {
-
+        setLoading(true)
         if (authToken) {
             try {
                 const resp = await fetch(`${API_URL}/customers/DE--21/addresses`, {
@@ -32,6 +36,7 @@ const Address = ({ show }: AddressType) => {
                 localStorage.setItem("status", "false")
             }
         }
+        setLoading(false)
     }
     useEffect(() => {
         getAddresses()
@@ -52,6 +57,10 @@ const Address = ({ show }: AddressType) => {
     }
     return (
         <div style={style}>
+             {loading
+        ? <div style={{width:"100%", display:"flex", justifyContent:"center", paddingTop:"20px"}}>
+          <Loader />
+          </div> :<>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1rem" }}>
                 <h1 style={{
                     fontWeight: "500",
@@ -108,7 +117,7 @@ const Address = ({ show }: AddressType) => {
                         </div>
                     )
                 }) : ""}
-            </div>
+            </div></>}
         </div>
     )
 }

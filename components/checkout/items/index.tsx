@@ -1,7 +1,7 @@
 import { API_URL } from "config";
 import { useEffect, useState } from "react";
 import { CURRENCY_SYMBOLE } from '../../../config'
-import { CLIENT_RENEG_LIMIT } from "tls";
+import Loader from '../../loader'
 
 const CheckoutItems = () => {
   var token: any;
@@ -160,14 +160,16 @@ const CheckoutItems = () => {
   return (
     <div className="checkout-items">
       {
-        isLoading ? "loading..." :
+        isLoading ? <div style={{display:"flex", justifyContent:"center", paddingTop:"50px"}}>
+          <Loader />
+          </div>:
           cartPrductArr &&
           cartPrductArr &&
           cartItems &&
           cartItems?.map((item: any, Index: number) => (
             <div className="checkout-item" style={{ background: "#fff", border: "3px solid rgba(0, 0, 0, 0.05)", paddingRight: "5rem", marginBottom: "10px", display: "flex", alignItems: "center" }}>
               <div className="image_adjustment" style={{ backgroundColor: "rgba(0, 0, 0, 0.05)", height: "14rem", padding: "28px" }}>
-                <div className="checkout-item__img" style={{ width: "7rem", height: "7rem", borderRadius: "50%", overflow: "hidden", marginTop: "8vh", marginRight: "10px" }}>
+                <div className="checkout-item__img" style={{ width: "7rem", height: "7rem", overflow: "hidden", marginTop: "8vh", marginRight: "10px" }}>
                   <img src={cartPrductImgArr[Index]} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 </div>
               </div>

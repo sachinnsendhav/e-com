@@ -287,7 +287,7 @@ const IndexPage = () => {
           </section> */}
         </>
       ) : null}
-      <h1
+      {/* <h1
         style={{
           fontSize: "24px",
           fontWeight: "bold",
@@ -335,7 +335,7 @@ const IndexPage = () => {
             </div>
           );
         })}
-      </div>
+      </div> */}
 
       {/* <ProductsFeatured /> */}
       {/* <Subscribe /> */}

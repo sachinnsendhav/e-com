@@ -6,7 +6,7 @@ import moment from "moment";
 // import {IS_LOGGEDIN} from '../../../config'
 
 function index(data: any) {
-  const [authStatus, setAuthStatus]= useState<any>("false");
+  const [authStatus, setAuthStatus] = useState<any>("false");
 
   // const [finalData, setFinalData]= useState<any>();
   const settings = {
@@ -26,11 +26,11 @@ function index(data: any) {
   //     setFinalData(temp)
   //   }
   // }, [newData]);
-console.log(newData,"newData",authStatus)
+  console.log(newData, "newData", authStatus)
 
-useEffect(() => {
-  setAuthStatus(localStorage.getItem("status"));
-}, [newData])
+  useEffect(() => {
+    setAuthStatus(localStorage.getItem("status"));
+  }, [newData])
   return (
     <div className="containerParent">
       <style>
@@ -61,22 +61,15 @@ useEffect(() => {
       <Slider {...settings}>
         {newData?.map((item: any, index: number) => (
           authStatus == (item?.isLoggedIn).toString() ?
-          <div className="newscard" key={index}>
-            <div >
-              <a href={item?.btnlink}>
-                <h3>{item?.description}</h3>
-                <h3 style={{ paddingTop: '2rem' }}>{moment(item?.date).format("ddd, DD MMMM YYYY")}</h3>
-              </a>
+            <div className="newscard" key={index}>
+              <div >
+                <a href={item?.btnlink}>
+                  <h3>{item?.description}</h3>
+                  <h3 style={{ paddingTop: '2rem' }}>{moment(item?.date).format("ddd, DD MMMM YYYY")}</h3>
+                </a>
+              </div>
             </div>
-          </div>
-          :<div className="newscard" key={index}>
-          <div >
-            <a href={item?.btnlink}>
-              <h3>{item?.description}</h3>
-              <h3 style={{ paddingTop: '2rem' }}>{moment(item?.date).format("ddd, DD MMMM YYYY")}</h3>
-            </a>
-          </div>
-        </div>
+            : null
         ))}
       </Slider>
     </div>

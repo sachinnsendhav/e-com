@@ -127,15 +127,15 @@ const Product = () => {
 
           <div className="product-single__info">
             <div className="product-single__info-btns">
-              <button
+              {/* <button
                 type="button"
                 onClick={() => setShowBlock("description")}
                 className={`btn btn--rounded ${
                   showBlock === "description" ? "btn--active" : ""
                 }`}
-              >
-                Description
-              </button>
+              > */}
+               <h2>Description</h2> 
+              {/* </button> */}
               {/* <button type="button" onClick={() => setShowBlock('reviews')} className={`btn btn--rounded ${showBlock === 'reviews' ? 'btn--active' : ''}`}>Reviews (2)</button> */}
             </div>
             {/* // updated the code because it was showing html tags aas texts, added bullet points to the description to make it look appealing */}

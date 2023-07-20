@@ -59,7 +59,7 @@ const Footer = () => {
         width:"100%"
       }}>
         <div style={{ width: "80%",margin: "auto" }}>
-          <div style={{ display: "flex", margin:"auto", textAlign:"center" }}>
+          <div style={{ display: "flex", margin:"auto", textAlign:"center",fontWeight: "500" }}>
             <ul style={{display:"flex", fontSize:"14px"}}>
               <li style={{padding:"5px", color:"white"}}>Contact</li>
               <li style={{padding:"5px", color:"white"}}>Privacy</li>
@@ -69,14 +69,14 @@ const Footer = () => {
             </ul>
             <ul style={{display:"flex", fontSize:"14px", textAlign:"center"}}>
               <li style={{padding:"5px", color:"white"}}>Careers</li>
-              <li style={{padding:"5px", color:"white"}}>Location</li>
-              <li style={{padding:"5px", color:"white"}}>Access Recoh.com (global)</li>
+              <li style={{padding:"5px", color:"white"}}>Locations</li>
+              <li style={{padding:"5px", color:"white"}}>Access ricoh.com (global)</li>
               <li style={{padding:"5px", color:"white"}}>Cookie Settings</li>
             </ul>
           </div>
         </div>
         <div style={{textAlign:"center", padding:"2.5rem"}}>
-          <p style={{color:"white", fontSize:"14px"}}>© 2023 Ricoh USA, Inc. All Rights Reserved.</p>
+          <p style={{color:"white", fontSize:"14px", fontWeight: "500"}}>© 2023 Ricoh USA, Inc. All Rights Reserved.</p>
         </div>
       </div>
     </>

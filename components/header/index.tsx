@@ -302,7 +302,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
                 <a style={{ color: "black", padding: "5px" }}>Ink & Toner</a>
               </Link>
               <Link href={`/productList/ricoh?nodeId=39`}>
-                <a style={{ color: "black", padding: "5px" }}>Printers</a>
+                <a className="printer" style={{ color: "black", padding: "5px" }}>Printers</a>
               </Link>
               </> :""}
               {customerGroup == "DE--5" &&

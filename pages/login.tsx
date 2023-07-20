@@ -182,7 +182,7 @@ const LoginPage = () => {
                   <input
                  
                     className="form__input"
-                    // type="password"
+                    type="password"
                     style={{ borderRadius: "0px",  padding:"0.875rem 1.25rem 0.8125rem", boxSizing:"border-box"}}
                     id='password'
                     placeholder="Password"

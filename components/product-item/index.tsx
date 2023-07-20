@@ -1,9 +1,7 @@
 import Link from "next/link";
 import { API_URL, SHOPPING_LIST_ID } from "config";
 import { useEffect, useState } from "react";
-import {CURRENCY_SYMBOLE} from '../../config';
-
-
+import { CURRENCY_SYMBOLE } from '../../config';
 const ProductItem = ({
   images,
   id,
@@ -113,11 +111,11 @@ const ProductItem = ({
     try {
       const resp = await fetch(`${API_URL}/carts`, {
         method: "POST",
-            body: JSON.stringify(data),
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${token}`,
-            },
+        body: JSON.stringify(data),
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (resp.status === 401) {
@@ -159,12 +157,12 @@ const ProductItem = ({
 
       if (response) {
         setIsLoading(false);
-        if(response?.data?.id){
-        localStorage.setItem("cartId", response?.data[0].id);
-        cartId = response?.data[0].id;
-        await handleAddtocart();
-        return response?.data[0].id;
-        }else{
+        if (response?.data?.id) {
+          localStorage.setItem("cartId", response?.data[0].id);
+          cartId = response?.data[0].id;
+          await handleAddtocart();
+          return response?.data[0].id;
+        } else {
           await createCart();
         }
       } else {
@@ -269,14 +267,13 @@ const ProductItem = ({
   };
 
   const sentences = description?.split(/\.|<B>/)
-  .map((sentence:any) => sentence.replace(/-/g, ' ').replace(/<br\/?>/g, '').replace(/<\/?b>/g, ''));
-console.log(description);
+    .map((sentence: any) => sentence.replace(/-/g, ' ').replace(/<br\/?>/g, '').replace(/<\/?b>/g, ''));
+  console.log(description);
 
 
   return (
     <div className="product-item">
-      <div style={{display:"flex",flexDirection:'column'}}>
-        
+      <div style={{ display: "flex", flexDirection: 'column' }}>
         <button
           type="button"
           onClick={() => toggleFav()}
@@ -284,34 +281,34 @@ console.log(description);
         >
           <i className="icon-heart"></i>
         </button>
-        <div style={{height:"100px"}}>
-        <h3
-          style={{
-            fontFamily: "sans-serif",
-            marginTop: "1rem",
-            marginBottom: "1rem",
-            fontSize: "1.3rem",
-          }}
-        >
-          {name}
-        </h3>
-        <p
-          style={{
-            fontFamily: "sans-serif",
-            marginTop: "1rem",
-            marginBottom: "1rem"
-          }}
-        >
-          Model : MX-COPIER
-        </p>
-        <p style={{ fontFamily: "sans-serif", marginBottom: "1rem" }} className="pid">
-          ID: {concreteId}
-        </p>
+        <div style={{ height: "100px" }}>
+          <h3
+            style={{
+              fontFamily: "sans-serif",
+              marginTop: "1rem",
+              marginBottom: "1rem",
+              fontSize: "1.3rem",
+            }}
+          >
+            {name}
+          </h3>
+          <p
+            style={{
+              fontFamily: "sans-serif",
+              marginTop: "1rem",
+              marginBottom: "1rem"
+            }}
+          >
+            Model : MX-COPIER
+          </p>
+          <p style={{ fontFamily: "sans-serif", marginBottom: "1rem" }} className="pid">
+            ID: {concreteId}
+          </p>
         </div>
         <div className="product__image" style={{ background: "#fff" }} >
           <Link href={`/product/${name}?skuId=${id}`} >
             <a
-            className="product__link"
+              className="product__link"
               style={{
                 borderBottom: "1px solid",
                 width: "121%",
@@ -323,13 +320,14 @@ console.log(description);
             </a>
           </Link>
         </div>
-        
+
         <div className="product__description">
           {/* <h3 style={{ fontFamily: "sans-serif" }}>Description: </h3> */}
-          {sentences?.slice(0, 2).map((item:any, index:number) => (
-            <li style={{ marginTop: "1rem" }} key={index}>
-              {item}
-            </li>
+          {sentences?.slice(0, 2).map((item: any, index: number) => (
+            <ul>
+              <li style={{ marginTop: "1rem" }} key={index}>
+                {item}
+              </li>
             </ul>
           ))}
         </div>
@@ -347,7 +345,7 @@ console.log(description);
             color: "rgb(207 18 46)",
             borderRadius: "33px",
             border: "1px solid rgb(207 18 46)",
-            fontWeight:"900"
+            fontWeight: "900"
           }}
           onClick={() => handleAddtocart()}
         >
@@ -355,7 +353,8 @@ console.log(description);
           {isLoading ? "Adding to Cart" : "Add To Cart"}
         </button>
       </div>
-    </div>
+    </div >
+
   );
 };
 

@@ -41,32 +41,7 @@ const Orders = ({ show }: AddressType) => {
 
   return (
     <section style={style}>
-      {/* <div style={{ width: "100%" }}>
-        {order.length > 0 ? order.map((item: any) => {
-          return (
-            <Link href={`/order-details/${item.id}`}>
-              <div style={{
-                marginBottom: "20px",
-                border: "1px solid #7f7f7f",
-                width: "50%",
-                margin: "auto",
-                borderRadius: "10px",
-              }}>
-                <div style={{ display: "flex", justifyContent: "space-around", padding: "10px" }}>
-                  <p>Order Id :</p>
-                  <p>{item.id}</p>
-                </div>
-                <div style={{ display: "flex", justifyContent: "space-around", padding: "10px" }}>
-                  <p>Total Amount :</p>
-                  <p>{item.attributes.totals.grandTotal}</p>
-                </div>
-              </div>
-            </Link>
-          )
-        }) : null}
-      </div> */}
-
-
+      
       <div className="cart-list" style={{width:"60%", margin:"auto"}}>
         <table>
           <tbody >

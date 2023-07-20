@@ -231,7 +231,7 @@ const UserDetails = ({ show }: AddressType) => {
               textOverflow: "ellipsis",
             }} placeholder="Enter confirm password" type="text" />
           </div>
-          <button>
+          <button  style={{ width: "75px",marginTop:"20px",padding:"10px",fontWeight:"bold",color:"white", background: "rgb(207, 18, 46)", borderRadius: "1px" }}>
             Submit
           </button>
         </div>

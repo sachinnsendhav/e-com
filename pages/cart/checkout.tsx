@@ -137,9 +137,9 @@ const CheckoutPage = () => {
         attributes: {
           customer: {
             email: "sonia@spryker.com",
-            salutation: "sonia",
-            firstName: "string",
-            lastName: "string",
+            salutation: "Ms",
+            firstName: "sonia",
+            lastName: " Wagner",
           },
           idCart: cartId,
           billingAddress: selectedAddress,
@@ -208,9 +208,9 @@ const CheckoutPage = () => {
     paymentMethods?.map((item: any, index: number) => {
       if (item.id == id) {
         setSelectedPayment({
-          paymentMethodName: "Dummy Marketplace Payment" ||item?.attributes?.paymentMethodName,
-          paymentProviderName:"Dummy Marketplace Payment" ||item?.attributes?.paymentProviderName,
-          paymentSelection: "dummyMarketplacePaymentInvoice"||(item?.attributes?.priority)?.toString() || "1",
+          paymentMethodName: item?.attributes?.paymentMethodName,
+          paymentProviderName:item?.attributes?.paymentProviderName,
+          paymentSelection: (item?.attributes?.priority)?.toString() || "1",
         });
       }
     });

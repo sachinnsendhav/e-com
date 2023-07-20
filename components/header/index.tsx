@@ -236,8 +236,8 @@ const Header = ({ isErrorPage }: HeaderType) => {
 
             </button>
             {/* contact */}
-            <Link href='#'>
-                <a className='headerDummyTags'>Contact</a>
+            <Link href='#' >
+                <a style={{paddingLeft:"1rem"}} className='headerDummyTags'>Contact</a>
               </Link>
               <Link href='#'>
                 <a className='headerDummyTags'>Locations</a>
@@ -358,7 +358,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
   className='searchParent'
     style={{
       top:"4.5rem",
-      left:"16.7rem",
+      left:"16.2rem",
       borderRadius: "5px",
       position: "absolute",
       maxWidth: "30rem",

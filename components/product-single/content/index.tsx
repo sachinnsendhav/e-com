@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import {CURRENCY_SYMBOLE} from '../../../config';
+import { CURRENCY_SYMBOLE } from "../../../config";
 
 import { some } from "lodash";
 import { addProduct } from "store/reducers/cart";
@@ -136,8 +136,8 @@ const Content = (product: any) => {
         type: "carts",
         attributes: {
           priceMode: "NET_MODE",
-          currency: "EUR",
-          store: "DE",
+          currency: "USD",
+          store: "US",
           name: "cart",
         },
       },
@@ -212,7 +212,6 @@ const Content = (product: any) => {
       setIsLoading(false);
     }
   };
-
 
   useEffect(() => {
     if (productData) {
@@ -327,6 +326,24 @@ const Content = (product: any) => {
             },
           },
         };
+        await selectedMerchantOffer
+          ? (productCart = {
+              data: {
+                type: "items",
+                attributes: {
+                  sku: productSkuId.toString(),
+                  productOfferReference: selectedMerchantOffer?.id,
+                  merchantReference: selectedMerchantOffer?.attributes?.merchantReference,
+                  quantity: count,
+                  salesUnit: {
+                    id: 0,
+                    amount: 0,
+                  },
+                  productOptions: [null],
+                },
+              },
+            })
+          : "";
         setIsLoading(true);
         try {
           const resp = await fetch(`${API_URL}/carts/${cartId}/items`, {
@@ -602,7 +619,7 @@ const Content = (product: any) => {
             </h4>
           ) : (
             <h4 style={{ color: "rgb(207, 18, 46)" }}>
-              {priceSymbole} {price}
+              {priceSymbole} {price} <span style={{fontSize:"8px"}}>without offer</span>
             </h4>
           )}
         </div>
@@ -781,7 +798,7 @@ const Content = (product: any) => {
             <button
               type="button"
               onClick={() => toggleFav()}
-              className='btn-heart'
+              className="btn-heart"
             >
               <i className="icon-heart"></i>
             </button>

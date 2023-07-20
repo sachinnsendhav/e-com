@@ -274,7 +274,7 @@ h5 {
     font-size: 12px;
     background: #fff;
     display: inline-block;
-    border-radius: 8px;
+   
     padding: 11px 20px;
     font-weight: 500;
     text-transform: uppercase;
@@ -2883,7 +2883,7 @@ h5 {
   flex-wrap: wrap;
   justify-content: space-between;
   .block {
-    margin-bottom: 48px;
+    margin-bottom: 21px;
     &:last-of-type {
       margin-bottom: 0;
     }
@@ -3018,8 +3018,7 @@ h5 {
   font-size: 13px;
   // height: 49px;
   display: flex;
-  padding: 10px 36px;
-  margin: 34px auto 0 auto;
+
   justify-content: space-between;
   p {
     font-weight: 300;

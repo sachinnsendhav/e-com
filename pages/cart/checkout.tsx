@@ -3,7 +3,7 @@ import CheckoutStatus from "../../components/checkout-status";
 import CheckoutItems from "../../components/checkout/items/index";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { API_URL , CURRENCY_SYMBOLE} from "config";
+import { API_URL, CURRENCY_SYMBOLE } from "config";
 
 const CheckoutPage = () => {
   const router = useRouter();
@@ -115,14 +115,14 @@ const CheckoutPage = () => {
     if (data?.length > 0) {
       data.forEach((element: any) => {
         if (element.type === "shipment-methods") {
-          setShipmentMethods((shipmentMethods:any) => [
+          setShipmentMethods((shipmentMethods: any) => [
             ...shipmentMethods,
             element,
           ]);
         } else if (element.type === "payment-methods") {
           setPaymentMethods((paymentMethods) => [...paymentMethods, element]);
         } else if (element.type === "shipments") {
-          setShipments((shipments:any) => [...shipments, element]);
+          setShipments((shipments: any) => [...shipments, element]);
         } else if (element.type === "addresses") {
           setAddresses((addresses) => [...addresses, element]);
         }
@@ -209,7 +209,7 @@ const CheckoutPage = () => {
       if (item.id == id) {
         setSelectedPayment({
           paymentMethodName: item?.attributes?.paymentMethodName,
-          paymentProviderName:item?.attributes?.paymentProviderName,
+          paymentProviderName: item?.attributes?.paymentProviderName,
           paymentSelection: (item?.attributes?.priority)?.toString() || "1",
         });
       }
@@ -225,7 +225,7 @@ const CheckoutPage = () => {
       }
     });
   };
-  const handleShipmentSeclection = async (e:any) => {
+  const handleShipmentSeclection = async (e: any) => {
     // setSelectedShipment(id);
     console.log(e)
   };
@@ -234,7 +234,7 @@ const CheckoutPage = () => {
     <Layout>
       <section
         className="cart"
-        style={{ background: "#FFFBED", color: "black", padding: "80px" }}
+        style={{ color: "black", padding: "80px" }}
       >
         <div className="container">
           <div className="cart__intro">
@@ -256,131 +256,184 @@ const CheckoutPage = () => {
                   shipments &&
                   addresses && (
                     <div className="block">
-                      <h3 className="block__title">Address information</h3>
-                      <form className="form">
-                        <div className="form__input-row form__input-row--two">
-                          <div
-                            className="select-wrapper select-form"
-                            style={{ width: "100%" }}
-                          >
-                            <select
-                              className="form__input form__input--sm"
-                              onChange={(e) =>
-                                handleAddressSeclection(e.target.value)
-                              }
+                      <div style={{ background: "#f0f0f0", padding: "1rem 1.25rem", height: "114px", width: "18rem", marginBottom: "0.5rem" }}>
+                        <h3 className="block__title" style={{ fontWeight: "500", fontSize: "0.875rem", lineHeight: "1.4", display: "block", color: "#333", fontFamily: "'Circular', sans-serif" }}>Address information</h3>
+                        <hr style={{ borderTop: "1px solid #ccc", margin: "0.9375rem -1.05rem" }} />
+                        <form className="form">
+                          <div className="form__input-row form__input-row--two">
+                            <div
+                              className="select-wrapper select-form"
+                              style={{ width: "100%", right: "0px" }}
                             >
-                              <option>Select Address</option>
-                              {addresses.map((val: any) => {
-                                return (
-                                  <option value={val.id}>
-                                    {val.attributes.address1},{" "}
-                                    {val.attributes.address2},{" "}
-                                    {val.attributes.city},{" "}
-                                    {val.attributes.company}, Country :{" "}
-                                    {val.attributes.country}, Country Code :{" "}
-                                    {val.attributes.iso2Code}, Phone:{" "}
-                                    {val.attributes.phone}, ZIPCODE :
-                                    {val.attributes.zipCode}
-                                  </option>
-                                );
-                              })}
-                            </select>
+                              <select
+                                className="form__input form__input--sm" style={{ marginTop: "-12px", marginLeft: "-25px", fontSize: '0.75rem', color: "#8f8f8f", fontWeight: "400", fontFamily: "'Circular', sans-serif" }}
+                                onChange={(e) => handleAddressSeclection(e.target.value)}
+                              >
+                                <option style={{ color: "#8f8f8f", fontSize: '0.75rem' }}>Select Address</option>
+                                {addresses.map((val: any) => {
+                                  return (
+                                    <option value={val.id}>
+                                      {val.attributes.address1}, {val.attributes.address2}, {val.attributes.city}
+                                    </option>
+                                  );
+                                })}
+                              </select>
+                            </div>
                           </div>
-                        </div>
-                      </form>
-                      <h3 className="block__title">Payment method</h3>
-
-                      <form className="form">
-                        <div className="form__input-row form__input-row--two">
-                          <div
-                            className="select-wrapper select-form"
-                            style={{ width: "100%" }}
-                          >
-                            <select
-                              className="form__input form__input--sm"
-                              onChange={(e) =>
-                                handlePaymentSeclection(e.target.value)
-                              }
+                        </form>
+                      </div>
+                      <div style={{ background: "#f0f0f0", padding: "1rem 1.25rem", height: "114px", width: "18rem", marginBottom: "0.5rem" }}>
+                        <h3 className="block__title" style={{ fontWeight: "500", fontSize: "0.875rem", lineHeight: "1.4", display: "block", color: "#333", fontFamily: "'Circular', sans-serif" }}>Payment method</h3>
+                        <hr style={{ borderTop: "1px solid #ccc", margin: "0.9375rem -1.05rem" }} />
+                        <form className="form">
+                          <div className="form__input-row form__input-row--two">
+                            <div
+                              className="select-wrapper select-form"
+                              style={{ width: "100%" }}
                             >
-                              <option>Select Payment Method</option>
-                              {paymentMethods.map((val: any) => {
-                                return (
-                                  <option value={val.id}>
-                                    {val.attributes.paymentMethodName}
-                                  </option>
-                                );
-                              })}
-                            </select>
+                              <select
+                                className="form__input form__input--sm" style={{ marginTop: "-12px", marginLeft: "-25px", fontSize: '0.75rem', color: "#8f8f8f", fontWeight: "400", fontFamily: "'Circular', sans-serif" }}
+                                onChange={(e) =>
+                                  handlePaymentSeclection(e.target.value)
+                                }
+                              >
+                                <option style={{ color: "#8f8f8f", fontSize: '0.75rem' }}>Select Payment Method</option>
+                                {paymentMethods.map((val: any) => {
+                                  return (
+                                    <option value={val.id}>
+                                      {val.attributes.paymentMethodName}
+                                    </option>
+                                  );
+                                })}
+                              </select>
+                            </div>
                           </div>
-                        </div>
-                      </form>
-
-                      <h3 className="block__title">Shipment method</h3>
-                      <form className="form">
-                        <div className="form__input-row form__input-row--two">
-                          <div
-                            className="select-wrapper select-form"
-                            style={{ width: "100%" }}
-                          >
-                            <select
-                              className="form__input form__input--sm"
-                              onChange={(e) =>
-                                handleShipmentSeclection(e.target.value)
-                              }
+                        </form>
+                      </div>
+                      <div style={{ background: "#f0f0f0", padding: "1rem 1.25rem", height: "114px", width: "18rem", marginBottom: "0.5rem" }}>
+                        <h3 className="block__title" style={{ fontWeight: "500", fontSize: "0.875rem", lineHeight: "1.4", display: "block", color: "#333", fontFamily: "'Circular', sans-serif" }}>Shipment method</h3>
+                        <hr style={{ borderTop: "1px solid #ccc", margin: "0.2rem -1rem" }} />
+                        <form className="form">
+                          <div className="form__input-row form__input-row--two">
+                            <div
+                              className="select-wrapper select-form"
+                              style={{ width: "100%" }}
                             >
-                              <option>Select Shipment Method</option>
-                              {shipmentMethods.map((val: any) => {
-                                return (
-                                  <option value={val.id}>
-                                    {val.attributes.name} &#91;
-                                    {val.attributes.currencyIsoCode}-
-                                    {val.attributes.price} &#93;
-                                  </option>
-                                );
-                              })}
-                            </select>
+                              <select
+                                className="form__input form__input--sm" style={{ marginTop: "-12px", marginLeft: "-25px", fontSize: '0.75rem', color: "#8f8f8f", fontWeight: "400", fontFamily: "'Circular', sans-serif" }}
+                                onChange={(e) =>
+                                  handleShipmentSeclection(e.target.value)
+                                }
+                              >
+                                <option style={{ color: "#8f8f8f", fontSize: '0.75rem' }}>Select Shipment Method</option>
+                                {shipmentMethods.map((val: any) => {
+                                  return (
+                                    <option value={val.id}>
+                                      {val.attributes.name} &#91;
+                                      {val.attributes.currencyIsoCode}-
+                                      {val.attributes.price} &#93;
+                                    </option>
+                                  );
+                                })}
+                              </select>
+                            </div>
                           </div>
-                        </div>
-                      </form>
+                        </form>
+                      </div>
                     </div>
                   )}
-                <div className="checkout-total">
-                  <div>
-                    <p style={{ paddingBottom: "12px" }}>Sub Total cost</p>
-                    <p style={{ paddingBottom: "12px" }}>Tax</p>
-                    <p style={{ paddingBottom: "12px", color: "green" }}>
-                      Discount Total cost
-                    </p>
-                    <hr></hr>
+                {/* <div style={{ background: "#f0f0f0", padding: "1rem 1.25rem", height: "364px", width: "17rem", marginBottom: "0.5rem" }}>
+                  <div className="checkout-total" style={{ background: "#f0f0f0", display: "flex", justifyContent: "space-between" }}>
+                    <div style={{ flex: 1 }}>
+                      <p style={{ padding: "1rem 1.25rem", margin: "0" }}>Sub Total cost</p>
+                      <hr style={{ borderTop: "1px solid #ccc", margin: "0.9375rem -1.05rem" }} />
+                      <p style={{ padding: "1rem 1.25rem", margin: "0" }}>Tax</p>
+                      <hr style={{ borderTop: "1px solid #ccc", margin: "0.9375rem -1.05rem" }} />
+                      <p style={{ padding: "1rem 1.25rem", margin: "0", color: "green" }}>Discount Total cost</p>
+                      <hr style={{ borderTop: "1px solid #ccc", margin: "0.9375rem -1.05rem" }} />
+                      <p style={{ padding: "1rem 1.25rem", margin: "0", color: "#800000" }}>Total cost</p>
+                    </div>
 
-                    <p style={{ paddingBottom: "12px", color: "#800000" }}>
-                      Total cost
-                    </p>
+                    <div style={{ flex: 1, textAlign: "right" }}>
+                      <h3 style={{ padding: "1rem 1.25rem", margin: "0" }}>
+                        {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.subtotal}
+                      </h3>
+                      <hr style={{ borderTop: "1px solid #ccc", margin: "0.9375rem -1.05rem" }} />
+                      <h3 style={{ padding: "1rem 1.25rem", margin: "0" }}>
+
+                        + {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.taxTotal}
+                      </h3>
+                      <hr style={{ borderTop: "1px solid #ccc", margin: "0.9375rem -1.05rem" }} />
+                      <h3 style={{ color: "green", padding: "1rem 1.25rem", margin: "0" }}>
+                        - {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.discountTotal}
+                      </h3>
+                      <hr style={{ borderTop: "1px solid #ccc", margin: "0.9375rem -1.05rem" }} />
+                      <h3 style={{ color: "#800000", padding: "1rem 1.25rem", margin: "0" }}>
+                        = {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.priceToPay}
+                      </h3>
+                    </div>
                   </div>
-                  <div>
-                    <h3 style={{ paddingBottom: "12px" }}>
-                      {" "}
-                      {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.subtotal}
-                    </h3>
-                    <h3 style={{ paddingBottom: "12px" }}>
-                      + {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.taxTotal}
-                    </h3>
-                    <h3 style={{ paddingBottom: "12px", color: "green" }}>
-                      - {CURRENCY_SYMBOLE} {" "}
-                      {cartData?.data?.attributes?.totals?.discountTotal}
-                    </h3>
-                    <hr></hr>
-                    <h3 style={{ paddingBottom: "12px", color: "#800000" }}>
-                      {" "}
-                      = {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.priceToPay}
-                    </h3>
+                </div> */}
+
+                {/* new */}
+                <div style={{ background: "#f0f0f0", display: "flex", flexDirection: "column", padding: "1rem", height: "269px", width: "18rem", marginBottom: "0.5rem" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
+                    <div style={{ flex: 1, marginRight: "0.5rem", display: "flex", justifyContent: "space-between" }}>
+                      <p style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", fontWeight: "300", whiteSpace: "nowrap", display: "flex", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Sub Total cost</p>
+
+
+                      <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
+                        {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.subtotal}
+                      </h3>
+                    </div>
                   </div>
+                  <hr style={{ borderTop: "1px solid #ccc", margin: "0.2rem -1rem" }} />
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
+                    <div style={{ flex: 1, marginRight: "0.5rem", fontSize: "0.875rem", fontWeight: "300", display: "flex", justifyContent: "space-between" }}>
+                      <p style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", fontWeight: "300", display: "flex", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Tax</p>
+                      <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
+
+                        + {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.taxTotal}
+                      </h3>
+                    </div>
+
+                  </div>
+                  <hr style={{ borderTop: "1px solid #ccc", margin: "0.2rem -1rem" }} />
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
+                    <div style={{ flex: 1, marginRight: "0.5rem", display: "flex", justifyContent: "space-between" }}>
+                      <p style={{ padding: "1rem 1.25rem", margin: "0", color: "green", fontSize: "0.875rem", fontWeight: "300", display: "flex", fontFamily: "'Circular', sans-serif", justifyContent: "space-between" }}>Discount Total</p>
+
+
+                      <h3 style={{ color: "green", padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", overflow: "auto", display: "flex", justifyContent: "space-between" }}>
+                        - {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.discountTotal}
+                      </h3>
+                    </div>
+
+                  </div>
+                  <hr style={{ borderTop: "1px solid #ccc", margin: "0.2rem -1rem" }} />
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
+                    <div style={{ flex: 1, marginRight: "0.5rem", fontSize: "0.875rem", fontWeight: "300", display: "flex", justifyContent: "space-between" }}>
+                      <p style={{ padding: "1rem 1.25rem", margin: "0", color: "#800000", fontFamily: "'Circular', sans-serif" }}>Total cost</p>
+
+
+                      <h3 style={{ color: "#800000", padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", }}>
+                        = {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.priceToPay}
+                      </h3>
+                    </div>
+                  </div>
+                  <hr style={{ borderTop: "1px solid #ccc", margin: "0.9375rem -1.05rem" }} />
                 </div>
+
+                {/*  */}
+
               </div>
+
+
+
               <div className="cart-actions__items-wrapper">
                 <button
                   type="button"
-                  style={{ width: "100%" }}
+                  style={{ width: "107%", background: "rgb(207, 18, 46" }}
                   className="btn btn--rounded btn--yellow"
                   onClick={() => orderConfirm()}
                 >

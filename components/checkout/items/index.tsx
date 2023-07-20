@@ -1,6 +1,7 @@
 import { API_URL } from "config";
 import { useEffect, useState } from "react";
-import {CURRENCY_SYMBOLE} from '../../../config'
+import { CURRENCY_SYMBOLE } from '../../../config'
+import { CLIENT_RENEG_LIMIT } from "tls";
 
 const CheckoutItems = () => {
   var token: any;
@@ -87,21 +88,21 @@ const CheckoutItems = () => {
   }, []);
 
   const handleImage = async (formattedData: any) => {
-     (await formattedData.length)
+    (await formattedData.length)
       ? await formattedData.forEach(async (element: any) => {
-          await element.data.forEach(async (item: any) => {
-            const resp = await fetch(
-              `${API_URL}/concrete-products/${item.attributes.sku}?include=concrete-product-image-sets`,
-              {
-                method: "GET",
-              }
-            );
-            const result = await resp.json();
-            item.attributes.image = await result.included[0].attributes
-              .imageSets[0].images[0].externalUrlLarge;
-            item.attributes.name = result.data.attributes.name;
-          });
-        })
+        await element.data.forEach(async (item: any) => {
+          const resp = await fetch(
+            `${API_URL}/concrete-products/${item.attributes.sku}?include=concrete-product-image-sets`,
+            {
+              method: "GET",
+            }
+          );
+          const result = await resp.json();
+          item.attributes.image = await result.included[0].attributes
+            .imageSets[0].images[0].externalUrlLarge;
+          item.attributes.name = result.data.attributes.name;
+        });
+      })
       : null;
     await setConfiguredBundleData(formattedData);
   };
@@ -157,46 +158,46 @@ const CheckoutItems = () => {
   };
 
   return (
-    <ul className="checkout-items">
-      {isLoading ? "loading...":
-      cartPrductArr &&
-        cartPrductArr &&
-        cartItems &&
-        cartItems?.map((item: any, Index: number) => (
-          <li className="checkout-item" style={{background:"#fff", border:"8px solid rgb(245, 245, 245)", padding:"8px"}}>
-            <div className="checkout-item__content">
-              <div className="checkout-item__img">
-                <img src={cartPrductImgArr[Index]} />
+    <div className="checkout-items">
+      {
+        isLoading ? "loading..." :
+          cartPrductArr &&
+          cartPrductArr &&
+          cartItems &&
+          cartItems?.map((item: any, Index: number) => (
+            <div className="checkout-item" style={{ background: "#fff", border: "3px solid rgba(0, 0, 0, 0.05)", paddingRight: "5rem", marginBottom: "10px", display: "flex", alignItems: "center" }}>
+              <div className="image_adjustment" style={{ backgroundColor: "rgba(0, 0, 0, 0.05)", height: "14rem", padding: "28px" }}>
+                <div className="checkout-item__img" style={{ width: "7rem", height: "7rem", borderRadius: "50%", overflow: "hidden", marginTop: "8vh", marginRight: "10px" }}>
+                  <img src={cartPrductImgArr[Index]} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                </div>
               </div>
-
-              <div className="">
-                <h3>{cartPrductArr[Index]?.attributes?.name}</h3>
+              <div style={{ flex: 1, marginLeft: "2rem" }}>
+                <h3 style={{
+                  fontWeight: "500",
+                  fontSize: "0.875rem",
+                  lineHeight: 1.4,
+                  display: "block",
+                  color: "#333"
+                }}>{cartPrductArr[Index]?.attributes?.name}</h3>
+                <p>{/* Add any other description elements here */}</p>
               </div>
+              <h3 style={{
+                marginLeft: "auto", fontWeight: "800",
+                fontSize: "0.875rem",
+                lineHeight: 1.4,
+                display: "block",
+                color: "#333", background: "rgba(0, 0, 0, 0.05)", padding: "12px", marginRight: "-75px"
+              }}>
+                Item Total :        {CURRENCY_SYMBOLE} {item.attributes?.calculations?.unitPrice * item?.attributes?.quantity}
+              </h3>
             </div>
-            <h3>
-              {CURRENCY_SYMBOLE}{" "}
-              {item.attributes?.calculations?.unitPrice *
-                item?.attributes?.quantity}
-            </h3>
-          </li>
-        ))}
+          ))}
+
       {configuredBundleData?.length > 0 &&
         configuredBundleData?.map((item: any, index: number) => {
           return (
-            <div
-              key={index}
-              style={{
-                border:"8px solid rgb(245, 245, 245)",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  background: "#f5f5f5",
-                  padding: "20px",
-                }}
-              >
+            <div key={index} style={{ border: "8px solid rgb(245, 245, 245)", marginBottom: "10px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", background: "#f5f5f5", padding: "20px" }}>
                 <div>
                   <h1>{item?.name}</h1>
                 </div>
@@ -206,65 +207,26 @@ const CheckoutItems = () => {
                   </p>
                 </div>
               </div>
-              <div style={{ padding: "20px" , background:"#fff" }}>
+              <div style={{ padding: "20px", background: "#fff" }}>
                 {item?.data?.map((val: any) => {
                   return (
-                    <div
-                      style={{
-                        margin: "auto",
-                        width: "95%",
-                      }}
-                    >
-                      <div
-                        style={{
-                          padding: "1rem",
-                          display: "flex",
-                          justifyContent: "space-between",
-                          background: "#dedede",
-                          margin: "1rem",
-                        }}
-                      >
+                    <div style={{ margin: "auto", width: "95%", marginBottom: "10px" }}>
+                      <div style={{ padding: "1rem", display: "flex", justifyContent: "space-between", background: "#dedede" }}>
                         <div style={{ display: "flex" }}>
-                          <div style={{ width: "70px" }}>
-                            <img
-                              src={val?.attributes?.image}
-                              style={{
-                                width: "100%",
-                                background: "#dedede",
-                                objectFit: "cover",
-                              }}
-                            />
+                          <div style={{ width: "70px", height: "70px", borderRadius: "50%", overflow: "hidden", marginRight: "10px", backgroundColor: "red" }}>
+                            <img src={val?.attributes?.image} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                           </div>
-
-                          <div style={{ padding: "20px", color: "black" }}>
+                          <div style={{ flex: 1, padding: "20px", color: "black" }}>
                             {val.attributes.name}
                             <p style={{ color: "black", fontWeight: "bold" }}>
-                              {" "}
-                              SKU : {val.attributes.sku}
+                              SKU: {val.attributes.abstractSku}
                             </p>
+                            {/* Add any other description elements here */}
                           </div>
                         </div>
-                        <p
-                          style={{
-                            color: "black",
-                            paddingTop: "20px",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          {val.attributes.quantity} X{" "}
-                          {val.attributes.calculations.unitPrice}
+                        <p style={{ color: "black", paddingTop: "20px", fontWeight: "bold" }}>
+                          {val.attributes.quantity} X {val.attributes.calculations.unitPrice}
                         </p>
-                        {/* <div
-                          style={{
-                            paddingTop: "20px",
-                            color: "black",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          = {CURRENCY_SYMBOLE}
-                          {val.attributes.quantity *
-                            val.attributes.calculations.unitPrice}
-                        </div> */}
                       </div>
                     </div>
                   );
@@ -272,8 +234,11 @@ const CheckoutItems = () => {
               </div>
             </div>
           );
+
         })}
-    </ul>
+    </div>
+
+
   );
 };
 

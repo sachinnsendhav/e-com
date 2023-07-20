@@ -14,7 +14,7 @@ const Product = () => {
   const [showBlock, setShowBlock] = useState("description");
   const [product, setProduct] = useState<any>();
   const [img, setImg] = useState();
-  const [authToken, setAuthToken] = useState("");
+  const [authToken, setAuthToken] = useState<any>("");
   const [productIds, setProductIds] = useState<any[]>([]);
   const [productData, setProductData] = useState<any[]>([]);
   useEffect(() => {

@@ -124,7 +124,10 @@ body {
   // font-family: var(--main-font);
   // font-family: Akkurat, AkkuratLLWeb-Regular,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
   // color: var(--color-text);
-  font-family: Frutiger LT W01_55 Roma1475738,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+  font-family: Frutiger LT W01_55 Roma1475738, ui-sans-serif, system-ui,
+    -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial,
+    Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol,
+    Noto Color Emoji;
   font-size: 16px;
   &.body--with-footer {
     .main {
@@ -132,7 +135,12 @@ body {
     }
   }
 }
-
+p {
+  font-family: Frutiger LT W01_55 Roma1475738, ui-sans-serif, system-ui,
+    -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial,
+    Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol,
+    Noto Color Emoji;
+}
 span {
   // font-weight: 300;
   text-transform: capitalize;
@@ -326,7 +334,7 @@ h5 {
 }
 
 .site-header {
-  border-top: 2px solid #CF122E;
+  border-top: 2px solid #cf122e;
   position: sticky;
   width: 100%;
   top: 0;
@@ -376,7 +384,7 @@ h5 {
     button {
       margin-left: 15px;
       @include breakpoint(tablet-lg) {
-        margin-left: 25px;
+        // margin-left: 25px;
       }
     }
     i {
@@ -1000,30 +1008,26 @@ h5 {
     }
   }
 }
-.product-description{
-  list-style-type: disc;
-  padding-left: 1em;
-  text-align: justify;
-}
+
 .product__description{
   font-size: .875rem;
   line-height: 1.25rem;
 }
-.product-price{
+.product-price {
   display: flex;
   justify-content: space-between;
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
   border-top: 2px solid transparent;
 }
-.product-item:hover{
-  h3{
+.product-item:hover {
+  h3 {
     color: rgb(207, 18, 46);
   }
-  .pid{
+  .pid {
     color: rgb(207, 18, 46);
   }
-  .product-price{
+  .product-price {
     border-top: 2px solid rgb(207, 18, 46);
     width: 120%;
     position: relative;
@@ -1499,7 +1503,7 @@ h5 {
       margin-bottom: 35px;
       flex-wrap: wrap;
       h2 {
-        color:rgb(207 18 46);
+        color: rgb(207 18 46);
         font-weight: 700;
         font-size: 18px;
         width: 90%;
@@ -1703,7 +1707,8 @@ h5 {
     width: calc(100% / 2 - 15px);
     margin-bottom: 50px;
     margin-right: 15px;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,.3),0 2px 4px -2px rgba(0,0,0,.3);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3),
+      0 2px 4px -2px rgba(0, 0, 0, 0.3);
     padding: 27px;
     border-radius: 8px;
     background-color: #fff;
@@ -2690,7 +2695,7 @@ h5 {
     border-radius: 8px;
     border: 1px solid #d8d8d8;
     @include breakpoint(phone) {
-      border: 1px ;
+      border: 1px;
       padding: -1 40px;
     }
     &.form__input--sm {

@@ -17,10 +17,11 @@ const CheckoutItems = () => {
   const [cartItems, setCartItems] = useState<any>();
   const [cartPrductArr, setCartPrductArr] = useState<any>([]);
   const [cartPrductImgArr, setCartPrductImgArr] = useState<any>([]);
-  const [cartUpdated, setCartUpdated] = useState<number>(0);
   const [configuredBundleData, setConfiguredBundleData] = useState<any[]>([]);
+  console.log(cartData)
 
   useEffect(() => {
+    setIsLoading(true);
     const handleGetCart = async () => {
       try {
         const resp = await fetch(
@@ -83,10 +84,10 @@ const CheckoutItems = () => {
       }
     };
     handleGetCart();
-  }, [cartUpdated]);
+  }, []);
 
   const handleImage = async (formattedData: any) => {
-    const data = (await formattedData.length)
+     (await formattedData.length)
       ? await formattedData.forEach(async (element: any) => {
           await element.data.forEach(async (item: any) => {
             const resp = await fetch(
@@ -157,7 +158,8 @@ const CheckoutItems = () => {
 
   return (
     <ul className="checkout-items">
-      {cartPrductArr &&
+      {isLoading ? "loading...":
+      cartPrductArr &&
         cartPrductArr &&
         cartItems &&
         cartItems?.map((item: any, Index: number) => (

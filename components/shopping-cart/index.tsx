@@ -1,7 +1,5 @@
-import { useSelector } from "react-redux";
 import CheckoutStatus from "../../components/checkout-status";
 import Item from "./item";
-import { RootState } from "store";
 import { useEffect, useState } from "react";
 import { API_URL } from "config";
 import { CURRENCY_SYMBOLE } from 'config';
@@ -24,13 +22,13 @@ const ShoppingCart = () => {
   const [cartPrductAvableArr, setCartPrductAvableArr] = useState<any>([]);
   const [cartUpdated, setCartUpdated] = useState<number>(0);
 
-  const priceTotal = () => {
-    let totalPrice = 0;
-    if (cartItems?.length > 0) {
-      cartItems.map((item: any) => (totalPrice += item.price * item.count));
-    }
-    return totalPrice;
-  };
+  // const priceTotal = () => {
+  //   let totalPrice = 0;
+  //   if (cartItems?.length > 0) {
+  //     cartItems.map((item: any) => (totalPrice += item.price * item.count));
+  //   }
+  //   return totalPrice;
+  // };
 
   const handlecart = async () => {
     try {
@@ -343,9 +341,9 @@ const ShoppingCart = () => {
   // useEffect(() => {
     const handleImage = async(formattedData:any)=>{
       console.log(formattedData,"formattedData")
-      var data1:any =formattedData
-     await formattedData?.forEach(async(element: any,index:number) => {
-          await element.data.forEach(async (item: any, inde:number) => {
+      // var data1:any =formattedData
+     await formattedData?.forEach(async(element: any) => {
+          await element.data.forEach(async (item: any) => {
             const resp = await fetch(
               `${API_URL}/concrete-products/${item.attributes.sku}?include=concrete-product-image-sets`,
               {

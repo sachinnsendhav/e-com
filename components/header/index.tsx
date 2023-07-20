@@ -1,12 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import useOnClickOutside from 'use-onclickoutside';
-import Logo from '../../assets/icons/logo';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { RootState } from 'store';
 import { API_URL } from 'config';
-import { CURRENCY_SYMBOLE } from 'config';
 
 type HeaderType = {
   isErrorPage?: Boolean;
@@ -17,13 +15,13 @@ const Header = ({ isErrorPage }: HeaderType) => {
   const { cartItems } = useSelector((state: RootState) => state.cart);
   const arrayPaths = ['/'];
 
-  const [onTop, setOnTop] = useState((!arrayPaths.includes(router.pathname) || isErrorPage) ? false : true);
+  const [ onTop, setOnTop] = useState((!arrayPaths.includes(router.pathname) || isErrorPage) ? false : true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(true);
   const [searchText, setSearchText] = useState()
   const [category, setCategory] = useState([])
-  const [authStatus, setAuthStatus] = useState("false")
-  const [authToken, setAuthToken] = useState("");
+  const [authStatus, setAuthStatus] = useState<any>("false")
+  const [authToken, setAuthToken] = useState<any>("");
   const [customerGroup, setCustomerGroup] = useState<any>();
   const [searchResult, setSearchResult] = useState<any[]>([]);
   const [isHovered, setIsHovered] = useState(false);
@@ -205,6 +203,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
 
 
   //logout
+  console.log(category,onTop,"category")
 
   const logout = () => {
     localStorage.clear();
@@ -236,8 +235,8 @@ const Header = ({ isErrorPage }: HeaderType) => {
 
             </button>
             {/* contact */}
-            <Link href='#'>
-                <a className='headerDummyTags'>Contact</a>
+            <Link href='#' >
+                <a style={{paddingLeft:"1rem"}} className='headerDummyTags'>Contact</a>
               </Link>
               <Link href='#'>
                 <a className='headerDummyTags'>Locations</a>
@@ -358,7 +357,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
   className='searchParent'
     style={{
       top:"4.5rem",
-      left:"16.7rem",
+      left:"27.5rem",
       borderRadius: "5px",
       position: "absolute",
       maxWidth: "30rem",

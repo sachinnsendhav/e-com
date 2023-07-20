@@ -49,7 +49,7 @@ function ConfigurableBundleItems() {
       });
 
       allProductsWithSlots?.forEach((products: any) => {
-        products?.productSKUS?.map((item: any, index: number) => {
+        products?.productSKUS?.map((item: any) => {
           configuredBundleTemplateSlots.included.forEach(
             (includedItem: any) => {
               if (
@@ -135,7 +135,7 @@ function ConfigurableBundleItems() {
     console.log(product, "prod", showBlock, "selectedProduct", selectedProduct);
     const tempArr: any = [];
     if (selectedProduct == product.id) {
-      await slotData?.map((item: any, index: number) => {
+      await slotData?.map((item: any) => {
         if (item.slotName == showBlock) {
           tempArr.push({
             slotID: item.slotID,
@@ -148,7 +148,7 @@ function ConfigurableBundleItems() {
         }
       });
     } else {
-      await slotData?.map((item: any, index: number) => {
+      await slotData?.map((item: any) => {
         if (item.slotName == showBlock) {
           tempArr.push({
             slotID: item.slotID,
@@ -218,8 +218,8 @@ function ConfigurableBundleItems() {
         type: "carts",
         attributes: {
           priceMode: "NET_MODE",
-          currency: "EUR",
-          store: "DE",
+          currency: "USD",
+          store: "US",
           name: "cart",
         },
       },
@@ -361,6 +361,7 @@ function ConfigurableBundleItems() {
       alert("Please configure atleast one slot");
     }
   };
+  console.log(isLoading)
 
   return (
     <>
@@ -437,7 +438,7 @@ function ConfigurableBundleItems() {
             {showBlock === "summary" ? (
               <div className="summeryParent">
                 <div style={{ width: "68%" }}>
-                  {slotData?.map((item: any, index: number) =>
+                  {slotData?.map((item: any) =>
                     item?.selected ? (
                       <>
                         <p style={{ paddingTop: "12px" }}>{item?.slotName}</p>

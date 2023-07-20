@@ -1,10 +1,8 @@
-import { useState } from 'react';
 import List from './list';
 import { useRouter } from 'next/router';
 
 const ProductsContent = () => {
   const router = useRouter();
-  const [orderProductsOpen, setOrderProductsOpen] = useState(false);
   const category = router.query.category;
   const convertedString = new String(category)
   .replace(/-/g, " ")

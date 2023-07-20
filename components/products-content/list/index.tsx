@@ -1,11 +1,8 @@
-import useSwr from "swr";
 import ProductItem from "../../product-item";
 import ProductsLoading from "./loading";
-import { ProductTypeList } from "types";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import {API_URL,SHOPPING_LIST_ID} from "config";
-import { forEach } from "lodash";
 const ProductsContent = () => {
   const router = useRouter();
   const [searchResults, setSearchResults] = useState<any[]>([]);

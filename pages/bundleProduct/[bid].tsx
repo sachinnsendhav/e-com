@@ -1,14 +1,14 @@
-import { GetServerSideProps } from 'next'
+// import { GetServerSideProps } from 'next'
 
 import { useState, useEffect } from 'react';
 import Footer from '../../components/footer';
 import Layout from '../../layouts/Main';
 import Breadcrumb from '../../components/breadcrumb';
-import ProductsFeatured from '../../components/products-featured';
+// import ProductsFeatured from '../../componen/ts/products-featured';
 import Gallery from '../../components/product-single/gallery';
 import Content from '../../components/product-single/content';
-import Description from '../../components/product-single/description';
-import Reviews from '../../components/product-single/reviews';
+// import Description from '../../components/product-single/description';
+// import Reviews from '../../components/product-single/reviews';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import {API_URL, CURRENCY_SYMBOLE} from 'config';
@@ -21,10 +21,10 @@ const BundleProduct = ({ image }:any) => {
   const [showBlock, setShowBlock] = useState('description');
   const [product, setProduct] = useState<any>()
   const [img, setImg] = useState()
-  const [authToken, setAuthToken] = useState("");
+  const [authToken, setAuthToken] = useState<any>("");
   const [productIds, setProductIds] = useState<any[]>([])
   const [productData, setProductData] = useState<any[]>([])
-  const [bundleProductIds, setBundleProductIds] = useState<any[]>([])
+  // const [bundleProductIds, setBundleProductIds] = useState<any[]>([])
   useEffect(() => {
     // getBundleProducts();
     setAuthToken(localStorage.getItem("token"))

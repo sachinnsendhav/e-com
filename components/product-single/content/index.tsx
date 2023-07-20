@@ -1,10 +1,5 @@
 import { useState, useEffect } from "react";
-import {CURRENCY_SYMBOLE} from '../../../config';
-
-import { some } from "lodash";
-import { addProduct } from "store/reducers/cart";
-import { ProductStoreType } from "types";
-import { RootState } from "store";
+import { CURRENCY_SYMBOLE } from "../../../config";
 import { API_URL } from "config";
 const Content = (product: any) => {
   var cartId: any;
@@ -17,8 +12,6 @@ const Content = (product: any) => {
     customerGroup = localStorage.getItem("customerGroup");
   }
   const [count, setCount] = useState<number>(1);
-  const [color, setColor] = useState<string>("");
-  const [itemSize, setItemSize] = useState<string>("");
   const [isWishlisted, setIsWishlisted] = useState<boolean>(false);
   const [variationData, setVariationData] = useState<any>();
   const [variationIdData, setVariationIdData] = useState<any>();
@@ -51,8 +44,7 @@ const Content = (product: any) => {
     setShowBlock(result.data[0]?.attributes?.name);
     setShppingListId(result.data[0]?.id);
   };
-
-  console.log(selectedMerchantOffer, "selectedMerchantOffer");
+  console.log(selectedMerchantOffer,isBundle,showBlock,merchantOffer, "selectedMerchantOffer");
 
   const getShoppingListItem = async (id: any) => {
     const resp = await fetch(
@@ -136,8 +128,8 @@ const Content = (product: any) => {
         type: "carts",
         attributes: {
           priceMode: "NET_MODE",
-          currency: "EUR",
-          store: "DE",
+          currency: "USD",
+          store: "US",
           name: "cart",
         },
       },
@@ -213,7 +205,6 @@ const Content = (product: any) => {
     }
   };
 
-
   useEffect(() => {
     if (productData) {
       const getPrice = async () => {
@@ -281,7 +272,7 @@ const Content = (product: any) => {
   }, [productData]);
   useEffect(() => {
     if (variationIdData && variationIdData[1]) {
-      shoppingItems?.map((item: any, index: number) => {
+      shoppingItems?.map((item: any) => {
         console.log(item, selectedId, "hey", variationIdData, "edsj");
         if (variationIdData[selectedId] == item?.id) {
           setIsWishlisted(true);
@@ -289,7 +280,7 @@ const Content = (product: any) => {
         }
       });
     } else {
-      shoppingItems?.map((item: any, index: number) => {
+      shoppingItems?.map((item: any) => {
         if (variationIdData[0] == item?.id) {
           setIsWishlisted(true);
           setWishlistedItemId(item?.itemId);
@@ -327,6 +318,24 @@ const Content = (product: any) => {
             },
           },
         };
+        await selectedMerchantOffer
+          ? (productCart = {
+              data: {
+                type: "items",
+                attributes: {
+                  sku: productSkuId.toString(),
+                  productOfferReference: selectedMerchantOffer?.id,
+                  merchantReference: selectedMerchantOffer?.attributes?.merchantReference,
+                  quantity: count,
+                  salesUnit: {
+                    id: 0,
+                    amount: 0,
+                  },
+                  productOptions: [null],
+                },
+              },
+            })
+          : "";
         setIsLoading(true);
         try {
           const resp = await fetch(`${API_URL}/carts/${cartId}/items`, {
@@ -411,10 +420,6 @@ const Content = (product: any) => {
       handleMerchant();
     }
   }, [variationIdData, selectedId]);
-
-  const onColorSet = (e: string) => setColor(e);
-  const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    setItemSize(e.target.value);
 
   const toggleFav = () => {
     setWishlistOperation(true);
@@ -602,7 +607,7 @@ const Content = (product: any) => {
             </h4>
           ) : (
             <h4 style={{ color: "rgb(207, 18, 46)" }}>
-              {priceSymbole} {price}
+              {priceSymbole} {price} <span style={{fontSize:"8px"}}>without offer</span>
             </h4>
           )}
         </div>
@@ -696,7 +701,7 @@ const Content = (product: any) => {
                 }}
               >
                 <button
-                  onClick={(e) => setShppingListId(item?.id)}
+                  onClick={() => setShppingListId(item?.id)}
                   className={`wishlistButton ${
                     item?.id === shppingListId ? "selected" : ""
                   }`}
@@ -781,7 +786,7 @@ const Content = (product: any) => {
             <button
               type="button"
               onClick={() => toggleFav()}
-              className='btn-heart'
+              className="btn-heart"
             >
               <i className="icon-heart"></i>
             </button>

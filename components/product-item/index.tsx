@@ -111,8 +111,8 @@ const ProductItem = ({
         type: "carts",
         attributes: {
           priceMode: "NET_MODE",
-          currency: "EUR",
-          store: "DE",
+          currency: "USD",
+          store: "US",
           name: "cart",
         },
       },

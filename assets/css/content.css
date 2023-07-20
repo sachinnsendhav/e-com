@@ -141,7 +141,7 @@
   font-size: 12px;
   font-weight: 500;
   padding: 8px;
-  margin: 0rem 1rem;
+  margin: 0rem 0rem;
 }
 
 .searchParent ::-webkit-scrollbar {

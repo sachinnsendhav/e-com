@@ -375,7 +375,7 @@ h5 {
     button {
       margin-left: 15px;
       @include breakpoint(tablet-lg) {
-        margin-left: 25px;
+        // margin-left: 25px;
       }
     }
     i {

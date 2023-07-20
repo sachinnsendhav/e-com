@@ -44,7 +44,6 @@ const Content = (product: any) => {
     setShowBlock(result.data[0]?.attributes?.name);
     setShppingListId(result.data[0]?.id);
   };
-
   console.log(selectedMerchantOffer,isBundle,showBlock,merchantOffer, "selectedMerchantOffer");
 
   const getShoppingListItem = async (id: any) => {

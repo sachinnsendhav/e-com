@@ -322,18 +322,17 @@ const LoginPage = () => {
                 >
                   Login
                 </button>
-                <a
+                <p
                   style={{
                     margin: "15px",
                     fontFamily: "'Circular', sans-serif",
                     color: "#b2b2b2",
                     fontSize: "0.9rem",
                   }}
-                  href="/forgot-password"
                   className="form__info__forgot-password"
                 >
                   Forgot Password
-                </a>
+                </p>
               </form>
             </div>
           </div>

@@ -1,22 +1,17 @@
 import Layout from "../layouts/Main";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { API_URL } from "config";
 
-type LoginMail = {
-  email: string;
-  password: string;
-};
+
 
 const LoginPage = () => {
   const router = useRouter();
-  const [authStatus, setAuthStatus] = useState("false");
+  const [authStatus, setAuthStatus] = useState<any>("false");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [authToken, setAuthToken] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [authToken, setAuthToken] = useState<any>("");
 
   useEffect(() => {
     setAuthStatus(localStorage.getItem("status"));
@@ -322,7 +317,7 @@ const LoginPage = () => {
                     background: "rgb(207, 18, 46)",
                     borderRadius: "1px",
                   }}
-                  onClick={(e)=>SubmitHandler(e)}
+                  onClick={(e:any)=>SubmitHandler(e)}
                   className="btn btn--rounded btn--yellow btn-submit"
                 >
                   Login

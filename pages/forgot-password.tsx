@@ -9,13 +9,13 @@ type ForgotMail = {
 }
 
 const ForgotPassword = () => {
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, errors }:any = useForm();
 
   const onSubmit = async (data: ForgotMail) => {
     const res = await postData(`${server}/api/login`, {
       email: data.email,
     });
-
+console.log(res)
   };
 
   return (

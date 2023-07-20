@@ -9,12 +9,13 @@ const UserDetails = ({ show }: AddressType) => {
   const style = {
     display: show ? 'block' : 'none',
   }
-  const [authToken, setAuthToken] = useState("");
-  const [userDetails, setUserDetails] = useState();
+  const [authToken, setAuthToken] = useState<any>("");
+  const [userDetails, setUserDetails] = useState<any>();
   const [loading, setLoading] = useState(false)
   useEffect(() => {
     setAuthToken(localStorage.getItem("token"))
   }, [])
+  console.log(loading)
   const getUserDetails = async () => {
     if (authToken) {
       setLoading(true)

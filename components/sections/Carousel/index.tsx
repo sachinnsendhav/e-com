@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import moment from "moment";
 // import {IS_LOGGEDIN} from '../../../config'
 
 
 function index(data: any) {
-  const [authStatus, setAuthStatus]= useState("");
+  const [authStatus, setAuthStatus]= useState<any>("");
 
   console.log(data, "data for carousal");
   const settings = {

@@ -1,19 +1,19 @@
 import Layout from "../layouts/Main";
-import PageIntro from "../components/page-intro";
-import ProductsFeatured from "../components/products-featured";
+// import PageIntro from "../components/page-intro";
+// import ProductsFeatured from "../components/products-featured";
 import { CURRENCY_SYMBOLE } from 'config';
 
 // import ProductsFeatured from "../components/products-featured`;
 import Footer from "../components/footer";
-import Subscribe from "../components/subscribe";
-import { API_URL , IS_LOGGEDIN} from '../config'
+// import Subscribe from "../components/subscribe";
+import { API_URL } from '../config'
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import RenderPageSection from "../cms/renderPageSections"
-import { forEach } from "lodash";
+// import { forEach } from "lodash";
 const IndexPage = () => {
   const [cmsData, setCmsData] = useState();
-  const [authToken, setAuthToken] = useState("");
+  const [authToken, setAuthToken] = useState<any>("");
   const [product, setProduct] = useState<any[]>([]);
   const [productData, setProductData] = useState<any[]>([]);
   const [ricohCms, setRicohCms] = useState<any[]>([])

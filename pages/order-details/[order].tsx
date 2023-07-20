@@ -17,11 +17,11 @@ const customStyles: any = {
 };
 function orderDetailsPage() {
     const router = useRouter();
-    const orderId: string = router.query.order;
+    const orderId: any = router.query.order;
     const [authToken, setAuthToken] = useState<any>()
     const [orderData, setOrderData] = useState<any[]>([]);
     const [productData, setProductData] = useState<any[]>([]);
-    const [configurableProduct, setConfigurableProduct] = useState<any[]>([]);
+    // const [configurableProduct, setConfigurableProduct] = useState<any[]>([]);
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [materialName, setMaterialName] = useState<any>("")
     const [quantity, setQuantity] = useState<any>("")
@@ -81,7 +81,7 @@ function orderDetailsPage() {
                             tempMap[key].data.push(item);
                         }
                     });
-                    setConfigurableProduct(modifiedArray)
+                    // setConfigurableProduct(modifiedArray)
                     const orderDetail = result.data.attributes
                     orderDetail.id = orderId
                     setOrderData((orderData) => [...orderData, orderDetail])

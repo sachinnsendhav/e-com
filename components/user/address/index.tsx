@@ -1,5 +1,8 @@
 import { API_URL } from "config";
 import React, { useState, useEffect } from "react"
+//@ts-ignore
+import deleteIcon from '../../../assets/images/delete.png'
+import Loader from '../../loader'
 
 type AddressType = {
     show: boolean;
@@ -7,15 +10,17 @@ type AddressType = {
 
 const Address = ({ show }: AddressType) => {
     const style = {
-        display: show ? 'flex' : 'none',
+        display: show ? 'block' : 'none',
     }
     const [authToken, setAuthToken] = useState<any>()
     const [address, setAddress] = useState([]);
+  const [loading, setLoading] = useState(false)
+
     useEffect(() => {
         setAuthToken(localStorage.getItem('token'))
     }, [])
     const getAddresses = async () => {
-
+        setLoading(true)
         if (authToken) {
             try {
                 const resp = await fetch(`${API_URL}/customers/DE--21/addresses`, {
@@ -31,6 +36,7 @@ const Address = ({ show }: AddressType) => {
                 localStorage.setItem("status", "false")
             }
         }
+        setLoading(false)
     }
     useEffect(() => {
         getAddresses()
@@ -50,45 +56,69 @@ const Address = ({ show }: AddressType) => {
         }
     }
     return (
-        <section style={style}>
-            <div className="address-list" style={{ width: "90%", margin: "auto" }}>
-                <table>
-                    <tbody >
-                        <tr style={{ border: "1px solid black" }}>
-                            <th style={{ color: "black", paddingTop: "20px" }}>Name</th>
-                            <th style={{ color: "black", paddingTop: "20px" }}>Address</th>
-                            <th style={{ color: "black", paddingTop: "20px" }}>City</th>
-                            <th style={{ color: "black", paddingTop: "20px" }}>Country</th>
-                            <th style={{ color: "black", paddingTop: "20px" }}>Phone No.</th>
-                            <th style={{ color: "black", paddingTop: "20px" }}>Zipcode</th>
-                            <th style={{ color: "black", paddingTop: "20px" }}>Company</th>
-                            <th style={{ color: "black", paddingTop: "20px" }}>Action</th>
-
-                        </tr>
-                        {address?.length > 0 ? address.map((item: any) => {
-                            return (
-                                <tr style={{ border: "1px solid black" }}>
-                                    <td>{`${item.attributes.salutation} ${item.attributes.firstName} ${item.attributes.lastName}`} </td>
-                                    <td>{`${item.attributes?.address1}, ${item.attributes?.address2}`}</td>
-                                    <td>{item.attributes.city}</td>
-                                    <td>{`${item.attributes.country}, (${item.attributes.iso2Code})`}</td>
-                                    <td>{item.attributes.phone}</td>
-                                    <td>{item.attributes.zipCode}</td>
-                                    <td>{item.attributes.company}</td>
-                                    <td><button style={{
-                                        backgroundColor: "black",
-                                        color: "white",
-                                        paddingInline: "10px",
-                                        padding: "5px",
-                                        borderRadius: "5px"
-                                    }} onClick={() => deleteAddress(item.id)}>Delete</button></td>
-
-                                </tr>)
-                        }) : null}
-                    </tbody>
-                </table>
+        <div style={style}>
+             {loading
+        ? <div style={{width:"100%", display:"flex", justifyContent:"center", paddingTop:"20px"}}>
+          <Loader />
+          </div> :<>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1rem" }}>
+                <h1 style={{
+                    fontWeight: "500",
+                    fontSize: "1.5rem",
+                    lineHeight: "1.4",
+                    display: "block",
+                    color: "#333",
+                }}>Addresses</h1>
+                <button style={{ padding: "10px", fontWeight: "bold", color: "white", background: "rgb(207, 18, 46)", borderRadius: "1px" }}> Add New Address</button>
             </div>
-        </section>
+            <div style={{ display: "flex" }}>
+                {address?.length > 0 ? address.map((item: any) => {
+                    return (
+                        <div style={{ width: "50%", background: "#f2f2f2", margin: "1rem", padding: "1rem" }}>
+                            <div style={{ display: "flex", justifyContent: "end" }}>
+                                <button onClick={() => deleteAddress(item.id)}>
+                                    <img src={deleteIcon.src} alt="" style={{ height: "25px", width: "25px" }} />
+                                </button>
+                            </div>
+                            <p style={{ color: "#8f8f8f", fontSize: "15px", padding: "4px", fontFamily: "sans-serif" }}>{item.attributes.salutation} <span style={{ fontWeight: "bold", color: "#333" }}>{item.attributes.firstName} {item.attributes.lastName}</span> </p>
+                            <p style={{ color: "#8f8f8f", fontSize: "15px", padding: "4px", fontFamily: "sans-serif" }}>{item.attributes.company}</p>
+                            <p style={{ color: "#8f8f8f", fontSize: "15px", padding: "4px", fontFamily: "sans-serif" }}>{`${item.attributes?.address1}, ${item.attributes?.address2}`}</p>
+                            <p style={{ color: "#8f8f8f", fontSize: "15px", padding: "4px", fontFamily: "sans-serif" }}>{item.attributes.zipCode}, {item.attributes.city}, {item.attributes.company}</p>
+                            <p style={{ color: "#8f8f8f", fontSize: "15px", padding: "4px", fontFamily: "sans-serif" }}>{item.attributes.phone}</p>
+                            <div style={{
+                                display: "flex",
+                                marginTop: "0.875rem",
+                                marginBottom: "0.3125rem"
+                            }}>
+                                {item.attributes.isDefaultBilling ?
+                                    <p style={{
+                                        background: "#dce0e5",
+                                        color: "#4c4c4c",
+                                        letterSpacing: "0.0125rem",
+                                        borderRadius: "2px",
+                                        fontSize: "0.6875rem",
+                                        lineHeight: "normal",
+                                        fontWeight: "700",
+                                        padding: "0.5rem",
+                                        marginRight: "10px"
+                                    }}> BILLING ADDRESS</p> : null}
+                                {item.attributes.isDefaultShipping ?
+                                    <p style={{
+                                        background: "#dce0e5",
+                                        color: "#4c4c4c",
+                                        letterSpacing: "0.0125rem",
+                                        borderRadius: "2px",
+                                        fontSize: "0.6875rem",
+                                        lineHeight: "normal",
+                                        fontWeight: "700",
+                                        padding: "0.5rem"
+                                    }}> SHIPPING ADDRESS</p> : null}
+                            </div>
+                        </div>
+                    )
+                }) : ""}
+            </div></>}
+        </div>
     )
 }
 

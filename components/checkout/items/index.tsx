@@ -1,6 +1,6 @@
 import { API_URL } from "config";
 import { useEffect, useState } from "react";
-import {CURRENCY_SYMBOLE} from '../../../config'
+import { CURRENCY_SYMBOLE } from '../../../config'
 import { CLIENT_RENEG_LIMIT } from "tls";
 
 const CheckoutItems = () => {
@@ -18,10 +18,11 @@ const CheckoutItems = () => {
   const [cartItems, setCartItems] = useState<any>();
   const [cartPrductArr, setCartPrductArr] = useState<any>([]);
   const [cartPrductImgArr, setCartPrductImgArr] = useState<any>([]);
-  const [cartUpdated, setCartUpdated] = useState<number>(0);
   const [configuredBundleData, setConfiguredBundleData] = useState<any[]>([]);
+  console.log(cartData)
 
   useEffect(() => {
+    setIsLoading(true);
     const handleGetCart = async () => {
       try {
         const resp = await fetch(
@@ -84,24 +85,24 @@ const CheckoutItems = () => {
       }
     };
     handleGetCart();
-  }, [cartUpdated]);
+  }, []);
 
   const handleImage = async (formattedData: any) => {
-    const data = (await formattedData.length)
+    (await formattedData.length)
       ? await formattedData.forEach(async (element: any) => {
-          await element.data.forEach(async (item: any) => {
-            const resp = await fetch(
-              `${API_URL}/concrete-products/${item.attributes.sku}?include=concrete-product-image-sets`,
-              {
-                method: "GET",
-              }
-            );
-            const result = await resp.json();
-            item.attributes.image = await result.included[0].attributes
-              .imageSets[0].images[0].externalUrlLarge;
-            item.attributes.name = result.data.attributes.name;
-          });
-        })
+        await element.data.forEach(async (item: any) => {
+          const resp = await fetch(
+            `${API_URL}/concrete-products/${item.attributes.sku}?include=concrete-product-image-sets`,
+            {
+              method: "GET",
+            }
+          );
+          const result = await resp.json();
+          item.attributes.image = await result.included[0].attributes
+            .imageSets[0].images[0].externalUrlLarge;
+          item.attributes.name = result.data.attributes.name;
+        });
+      })
       : null;
     await setConfiguredBundleData(formattedData);
   };
@@ -158,82 +159,86 @@ const CheckoutItems = () => {
 
   return (
     <div className="checkout-items">
-    {cartPrductArr &&
-      cartPrductArr &&
-      cartItems &&
-      cartItems?.map((item: any, Index: number) => (
-        <div className="checkout-item" style={{ background: "#fff", border: "3px solid rgba(0, 0, 0, 0.05)", paddingRight: "5rem", marginBottom: "10px", display: "flex", alignItems: "center" }}>
-          <div className="image_adjustment" style={{backgroundColor:"rgba(0, 0, 0, 0.05)", height:"14rem" , padding:"28px"}}>
-          <div className="checkout-item__img" style={{ width: "7rem", height: "7rem", borderRadius: "50%", overflow: "hidden",marginTop:"8vh", marginRight: "10px" }}>
-            <img src={cartPrductImgArr[Index]} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-          </div>
-          </div>
-          <div style={{ flex: 1,marginLeft:"2rem" }}>
-            <h3 style={{fontWeight: "500",
-    fontSize: "0.875rem",
-    lineHeight: 1.4,
-    display: "block",
-    color: "#333"}}>{cartPrductArr[Index]?.attributes?.name}</h3>
-            <p>{/* Add any other description elements here */}</p>
-          </div>
-          <h3 style={{ marginLeft: "auto",fontWeight: "800",
-    fontSize: "0.875rem",
-    lineHeight: 1.4,
-    display: "block",
-    color: "#333", background:"rgba(0, 0, 0, 0.05)", padding:"12px" , marginRight:"-75px"}}>
-          Item Total :        {CURRENCY_SYMBOLE} {item.attributes?.calculations?.unitPrice * item?.attributes?.quantity}
-          </h3>
-        </div>
-      ))}
-      
-    {configuredBundleData?.length > 0 &&
-    
+      {
+        isLoading ? "loading..." :
+          cartPrductArr &&
+          cartPrductArr &&
+          cartItems &&
+          cartItems?.map((item: any, Index: number) => (
+            <div className="checkout-item" style={{ background: "#fff", border: "3px solid rgba(0, 0, 0, 0.05)", paddingRight: "5rem", marginBottom: "10px", display: "flex", alignItems: "center" }}>
+              <div className="image_adjustment" style={{ backgroundColor: "rgba(0, 0, 0, 0.05)", height: "14rem", padding: "28px" }}>
+                <div className="checkout-item__img" style={{ width: "7rem", height: "7rem", borderRadius: "50%", overflow: "hidden", marginTop: "8vh", marginRight: "10px" }}>
+                  <img src={cartPrductImgArr[Index]} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                </div>
+              </div>
+              <div style={{ flex: 1, marginLeft: "2rem" }}>
+                <h3 style={{
+                  fontWeight: "500",
+                  fontSize: "0.875rem",
+                  lineHeight: 1.4,
+                  display: "block",
+                  color: "#333"
+                }}>{cartPrductArr[Index]?.attributes?.name}</h3>
+                <p>{/* Add any other description elements here */}</p>
+              </div>
+              <h3 style={{
+                marginLeft: "auto", fontWeight: "800",
+                fontSize: "0.875rem",
+                lineHeight: 1.4,
+                display: "block",
+                color: "#333", background: "rgba(0, 0, 0, 0.05)", padding: "12px", marginRight: "-75px"
+              }}>
+                Item Total :        {CURRENCY_SYMBOLE} {item.attributes?.calculations?.unitPrice * item?.attributes?.quantity}
+              </h3>
+            </div>
+          ))}
 
-      configuredBundleData?.map((item: any, index: number) => {
-        return (
-          <div key={index} style={{ border: "8px solid rgb(245, 245, 245)", marginBottom: "10px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", background: "#f5f5f5", padding: "20px" }}>
-              <div>
-                <h1>{item?.name}</h1>
+      {configuredBundleData?.length > 0 &&
+        configuredBundleData?.map((item: any, index: number) => {
+          return (
+            <div key={index} style={{ border: "8px solid rgb(245, 245, 245)", marginBottom: "10px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", background: "#f5f5f5", padding: "20px" }}>
+                <div>
+                  <h1>{item?.name}</h1>
+                </div>
+                <div style={{ display: "flex" }}>
+                  <p style={{ padding: "10px", fontWeight: "bold" }}>
+                    Total {CURRENCY_SYMBOLE} {item.total} X {item.data[0].attributes.quantity}
+                  </p>
+                </div>
               </div>
-              <div style={{ display: "flex" }}>
-                <p style={{ padding: "10px", fontWeight: "bold" }}>
-                  Total {CURRENCY_SYMBOLE} {item.total} X {item.data[0].attributes.quantity}
-                </p>
-              </div>
-            </div>
-            <div style={{ padding: "20px", background: "#fff" }}>
-              {item?.data?.map((val: any) => {
-                return (
-                  <div style={{ margin: "auto", width: "95%", marginBottom: "10px" }}>
-                    <div style={{ padding: "1rem", display: "flex", justifyContent: "space-between", background: "#dedede" }}>
-                      <div style={{ display: "flex" }}>
-                        <div style={{ width: "70px", height: "70px", borderRadius: "50%", overflow: "hidden", marginRight: "10px", backgroundColor: "red" }}>
-                          <img src={val?.attributes?.image} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              <div style={{ padding: "20px", background: "#fff" }}>
+                {item?.data?.map((val: any) => {
+                  return (
+                    <div style={{ margin: "auto", width: "95%", marginBottom: "10px" }}>
+                      <div style={{ padding: "1rem", display: "flex", justifyContent: "space-between", background: "#dedede" }}>
+                        <div style={{ display: "flex" }}>
+                          <div style={{ width: "70px", height: "70px", borderRadius: "50%", overflow: "hidden", marginRight: "10px", backgroundColor: "red" }}>
+                            <img src={val?.attributes?.image} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                          </div>
+                          <div style={{ flex: 1, padding: "20px", color: "black" }}>
+                            {val.attributes.name}
+                            <p style={{ color: "black", fontWeight: "bold" }}>
+                              SKU: {val.attributes.abstractSku}
+                            </p>
+                            {/* Add any other description elements here */}
+                          </div>
                         </div>
-                        <div style={{ flex: 1, padding: "20px", color: "black" }}>
-                          {val.attributes.name}
-                          <p style={{ color: "black", fontWeight: "bold" }}>
-                            SKU: {val.attributes.abstractSku}
-                          </p>
-                          {/* Add any other description elements here */}
-                        </div>
+                        <p style={{ color: "black", paddingTop: "20px", fontWeight: "bold" }}>
+                          {val.attributes.quantity} X {val.attributes.calculations.unitPrice}
+                        </p>
                       </div>
-                      <p style={{ color: "black", paddingTop: "20px", fontWeight: "bold" }}>
-                        {val.attributes.quantity} X {val.attributes.calculations.unitPrice}
-                      </p>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        );
-        
-      })}
-  </div>
-  
-  
+          );
+
+        })}
+    </div>
+
+
   );
 };
 

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { API_URL } from "../../../config";
-import { forEach } from 'lodash';
 import { CURRENCY_SYMBOLE } from 'config';
-
+//@ts-ignore
+import deleteIcon from '../../../assets/images/delete.png'
+import Loader from '../../loader'
 
 type WishlistType = {
     show: boolean;
@@ -10,18 +11,21 @@ type WishlistType = {
 
 const Wishlist = ({ show }: WishlistType) => {
     const style = {
-        display: show ? 'flex' : 'none',
+        display: show ? 'block' : 'none',
     }
-    const [authToken, setAuthToken] = useState("");
+    const [authToken, setAuthToken] = useState<any>("");
     const [shoppingListName, setShoppingListName] = useState<any[]>()
     const [showBlock, setShowBlock] = useState<any>("")
     const [shppingListId, setShppingListId] = useState("")
     const [shoppingItems, setShoppingItems] = useState<any[]>([])
+    const [loading, setLoading] = useState<any>(false)
+    const [listLoading, setListLoading] = useState<any>(false)
     useEffect(() => {
         setAuthToken(localStorage.getItem("token"))
     }, [])
 
     const getShoppingListName = async () => {
+        setLoading(true)
         const resp = await fetch(`${API_URL}/shopping-lists`,
             {
                 method: "GET",
@@ -32,8 +36,9 @@ const Wishlist = ({ show }: WishlistType) => {
         );
         const result = await resp.json();
         setShoppingListName(result.data);
-        setShowBlock(result?.data ? result?.data[0]?.attributes?.name: '');
-        setShppingListId(result?.data ? result.data[0]?.id: "")
+        setShowBlock(result?.data ? result?.data[0]?.attributes?.name : '');
+        setShppingListId(result?.data ? result.data[0]?.id : "")
+        setLoading(false)
     }
 
     useEffect(() => {
@@ -43,6 +48,7 @@ const Wishlist = ({ show }: WishlistType) => {
     }, [authToken])
 
     const getShoppingListItem = async (id: any) => {
+        setListLoading(true)
         const resp = await fetch(`${API_URL}/shopping-lists/${id}?include=shopping-list-items%2Cconcrete-products%2Cconcrete-product-image-sets%2Cconcrete-product-prices`,
             {
                 method: "GET",
@@ -105,6 +111,7 @@ const Wishlist = ({ show }: WishlistType) => {
             };
         });
         setShoppingItems(shoppingItems);
+        setListLoading(false)
     }
     useEffect(() => {
         getShoppingListItem(shppingListId)
@@ -125,64 +132,82 @@ const Wishlist = ({ show }: WishlistType) => {
     }
     return (
         <section style={style}>
-            <div style={{ margin: "auto", width: "80%" }}>
-                <div style={{ display: "flex", border: "1px solid" }}>
-                    <div style={{ width: "30%", borderRight: "1px solid #7f7f7f" }}>
-                        <ul>
-                            {shoppingListName?.map((list: any) => {
-                                return (
-                                    <li
-                                        onClick={() => {
-                                            setShowBlock(list.attributes.name);
-                                            setShppingListId(list.id)
-                                        }}
-                                        style={{
-                                            padding: "10px",
-                                            backgroundColor: `${showBlock === list.attributes.name ? "black" : "#f7f7f7"}`,
-                                            color: `${showBlock === list.attributes.name ? "#ffffff" : "black"}`,
-                                            borderBottom: "1px solid black"
-                                        }}>
-                                        {`${list.attributes.name} (${list.attributes.numberOfItems ? list.attributes.numberOfItems : 0})`}
-                                    </li>
-                                )
-                            })}
-                        </ul>
+            {loading
+                ?
+                <div style={{ width: "100%", display: "flex", justifyContent: "center", paddingTop: "20px" }}>
+                    <Loader />
+                </div> :
+                <>
+                    <h1 style={{
+                        fontWeight: "500",
+                        fontSize: "1.5rem",
+                        lineHeight: "1.4",
+                        display: "block",
+                        color: "#333",
+                        paddingBottom: "0.25rem"
+                    }}>Shopping List</h1>
+                    <div style={{ display: "flex", border: "0.0625rem solid #dce0e5" }}>
+                        <div style={{ width: "30%", borderRight: "0.0625rem solid #dce0e5" }}>
+                            <ul>
+                                {shoppingListName?.map((list: any) => {
+                                    return (
+                                        <li
+                                            onClick={() => {
+                                                setShowBlock(list.attributes.name);
+                                                setShppingListId(list.id)
+                                            }}
+                                            style={{
+                                                padding: "10px",
+                                                backgroundColor: `${showBlock === list.attributes.name ? "#f2f2f2" : "#ffffff"}`,
+                                                color: `${showBlock === list.attributes.name ? "black" : "#b2b2b2"}`,
+                                                borderBottom: "0.0625rem solid #dce0e5",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                // padding: "0.125rem 0.8125rem",
+                                                lineHeight: "1.3em",
+                                                fontSize: "1.0625rem",
+                                                fontWeight: "500",
+                                            }}>
+                                            {`${list.attributes.name} (${list.attributes.numberOfItems ? list.attributes.numberOfItems : 0})`}
+                                        </li>
+                                    )
+                                })}
+                            </ul>
+                        </div>
+                        <div style={{ width: "70%" }}>{
+                            listLoading ?
+                                <div style={{ width: "100%", display: "flex", justifyContent: "center", paddingTop: "20px" }}>
+                                    <Loader />
+                                </div>
+                                :
+                                shoppingItems.length > 0 ?
+                                    shoppingItems.map((item: any) => {
+                                        return (
+                                            <div style={{ paddingInline: "5px", display: "flex", borderBottom: "0.0625rem solid #dce0e5", marginTop: "5px" }}>
+                                                <div>
+                                                    <img src={item.image} style={{ height: "100px", width: "100px", objectFit: "contain" }} />
+                                                </div>
+                                                <div style={{ padding: "10px", width: "100%", display: "flex", justifyContent: "space-between" }}>
+                                                    <div>
+                                                        <p style={{ fontWeight: "400", fontFamily: "Frutiger LT W01_55 Roma1475738, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji" }}>{item.name}</p>
+                                                        <p style={{ paddingTop: "15px", fontWeight: "400" }}><span style={{ fontWeight: "600" }}>Quantity :</span> {item.quantity}</p>
+                                                        <p style={{ paddingTop: "10px", fontWeight: "400" }}><span style={{ fontWeight: "600" }}>Price : </span>{CURRENCY_SYMBOLE}{item.price}</p>
+                                                    </div>
+                                                    <div>
+                                                        <button style={{
+                                                            padding: "15px",
+                                                        }}
+                                                            onClick={() => deleteShoppingListItems(item.itemId)}>
+                                                            <img src={deleteIcon.src} style={{ height: "25px", width: "25px" }} />
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )
+                                    }) : null
+                        }</div>
                     </div>
-                    <div style={{ width: "70%" }}>{
-                        shoppingItems.length > 0 ?
-                            shoppingItems.map((item: any) => {
-                                return (
-                                    <div style={{ paddingInline: "50px", display: "flex", borderBottom: "1px solid #7f7f7f", marginTop: "5px" }}>
-                                        <div>
-                                            <img src={item.image} style={{ height: "100px", width: "100px", objectFit: "contain" }} />
-                                        </div>
-                                        <div style={{ padding: "10px", width: "100%", display: "flex", justifyContent: "space-between" }}>
-                                            <div>
-                                                <p style={{ fontWeight: "bold" }}>{item.name}</p>
-                                                <p style={{ paddingTop: "5px", fontWeight: "bold" }}>Quantity : {item.quantity}</p>
-                                                <p style={{ paddingTop: "5px", fontWeight: "bold" }}>Price : {CURRENCY_SYMBOLE} {item.price}</p>
-                                            </div>
-                                            <div>
-                                                <button style={{
-                                                    backgroundColor: "black",
-                                                    borderRadius: "5px",
-                                                    borderColor: "black",
-                                                    padding: "5px",
-                                                    paddingInline: "15px",
-                                                    color: "#ffffff"
-                                                }}
-                                                    onClick={() => deleteShoppingListItems(item.itemId)}>
-                                                    Delete
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )
-                            }) : null
-
-                    }</div>
-                </div>
-            </div>
+                </>}
         </section>
     )
 }

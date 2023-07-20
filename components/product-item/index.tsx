@@ -1,9 +1,4 @@
 import Link from "next/link";
-import { some } from "lodash";
-import { useDispatch, useSelector } from "react-redux";
-import { toggleFavProduct } from "store/reducers/user";
-import { RootState } from "store";
-import { ProductTypeList } from "types";
 import { API_URL, SHOPPING_LIST_ID } from "config";
 import { useEffect, useState } from "react";
 import {CURRENCY_SYMBOLE} from '../../config';
@@ -16,13 +11,10 @@ const ProductItem = ({
   description,
   price,
   concreteId,
-  wishlistProdId,
-}: ProductTypeList) => {
-  const dispatch = useDispatch();
-  const { favProducts } = useSelector((state: RootState) => state.user);
+  wishlistProdId
+}: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [wishlisted, setWishlisted] = useState<any>();
-  const isFavourite = some(favProducts, (productId) => productId === id);
   const token = localStorage.getItem("token");
   var cartId = localStorage.getItem("cartId");
   var wishlistId = SHOPPING_LIST_ID;
@@ -105,14 +97,15 @@ const ProductItem = ({
     }
   };
 
+
   const createCart = async () => {
     const data = {
       data: {
         type: "carts",
         attributes: {
           priceMode: "NET_MODE",
-          currency: "EUR",
-          store: "DE",
+          currency: "USD",
+          store: "US",
           name: "cart",
         },
       },
@@ -276,7 +269,7 @@ const ProductItem = ({
   };
 
   const sentences = description?.split(/\.|<B>/)
-  .map((sentence) => sentence.replace(/-/g, ' ').replace(/<br\/?>/g, '').replace(/<\/?b>/g, ''));
+  .map((sentence:any) => sentence.replace(/-/g, ' ').replace(/<br\/?>/g, '').replace(/<\/?b>/g, ''));
 console.log(description);
 
 
@@ -309,7 +302,7 @@ console.log(description);
         >
           Model : MX-COPIER
         </p>
-        <p style={{ fontFamily: "sans-serif", marginBottom: "1rem" }}>
+        <p style={{ fontFamily: "sans-serif", marginBottom: "1rem" }} className="pid">
           ID: {concreteId}
         </p>
         <div className="product__image" style={{ background: "#fff" }}>
@@ -328,15 +321,15 @@ console.log(description);
         </div>
         
         <div className="product__description">
-          <h3 style={{ fontFamily: "sans-serif" }}>Description: </h3>
-          {sentences?.slice(0, 2).map((item, index) => (
+          {/* <h3 style={{ fontFamily: "sans-serif" }}>Description: </h3> */}
+          {sentences?.slice(0, 2).map((item:any, index:number) => (
             <li style={{ marginTop: "1rem" }} key={index}>
               {item}
             </li>
           ))}
         </div>
       </div>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div style={{ display: "flex", justifyContent: "space-between" }} className="product-price">
         <span
           style={{ fontWeight: "bold", color: "rgb(207 18 46)", paddingTop: "10px" }}
         >

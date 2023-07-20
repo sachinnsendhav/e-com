@@ -1,16 +1,9 @@
-import { useState } from 'react';
 import { ProductStoreType } from 'types';
 import { CURRENCY_SYMBOLE } from 'config';
 
 
 const ShoppingCart = ({ thumb, name, pliId, id, avalibility, size, count, price, setProductCount, removeProductFromCart }: ProductStoreType) => {
-  var token: any;
-  var cartId: any;
-  if (typeof window !== 'undefined') {
-    // Code running in the browser
-    token = localStorage.getItem("token");
-    cartId = localStorage.getItem("cartId");
-  }
+  console.log(size)
 
   return (
     <tr style={{border:"8px solid #f5f5f5", background:"#fff"}}>

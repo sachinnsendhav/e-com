@@ -1,5 +1,6 @@
 import { API_URL } from "config";
 import React, { useState, useEffect } from "react"
+//@ts-ignore
 import deleteIcon from '../../../assets/images/delete.png'
 type AddressType = {
     show: boolean;

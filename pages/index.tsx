@@ -1,14 +1,14 @@
 import Layout from "../layouts/Main";
 // import PageIntro from "../components/page-intro";
 // import ProductsFeatured from "../components/products-featured";
-import { CURRENCY_SYMBOLE } from 'config';
+// import { CURRENCY_SYMBOLE } from 'config';
 
 // import ProductsFeatured from "../components/products-featured`;
 import Footer from "../components/footer";
 // import Subscribe from "../components/subscribe";
 import { API_URL } from '../config'
 import { useEffect, useState } from "react";
-import Link from "next/link";
+// import Link from "next/link";
 import RenderPageSection from "../cms/renderPageSections"
 // import { forEach } from "lodash";
 const IndexPage = () => {
@@ -18,6 +18,7 @@ const IndexPage = () => {
   const [productData, setProductData] = useState<any[]>([]);
   const [ricohCms, setRicohCms] = useState<any[]>([])
   const [imageData, setImageData] = useState<any[]>([])
+  console.log("productData",productData)
   useEffect(() => {
     setAuthToken(localStorage.getItem("token"));
   }, []);

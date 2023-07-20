@@ -1,7 +1,8 @@
 // for us development local url
 export const API_URL = "http://glue.us.spryker.local";
 export const SHOPPING_LIST_ID = "adb17f85-953f-565a-a4ce-e5cb02405f83";
-
+export const CURRENCY_SYMBOLE = "$";
+// export const CURRENCY_SYMBOLE = "€";    it is for euro for locale DE
 
 
 // production 

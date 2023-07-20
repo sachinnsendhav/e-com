@@ -1,6 +1,7 @@
 import Layout from "../layouts/Main";
 import PageIntro from "../components/page-intro";
 import ProductsFeatured from "../components/products-featured";
+import { CURRENCY_SYMBOLE } from 'config';
 
 // import ProductsFeatured from "../components/products-featured`;
 import Footer from "../components/footer";
@@ -327,7 +328,7 @@ const IndexPage = () => {
                       paddingLeft: "10px",
                     }}
                   >
-                    $ {item.price}
+                    {CURRENCY_SYMBOLE} {item.price}
                   </p>
                 </div>
               </Link>

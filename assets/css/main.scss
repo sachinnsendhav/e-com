@@ -325,17 +325,18 @@ h5 {
 }
 
 .site-header {
+  border-top: 2px solid #CF122E;
   position: sticky;
   width: 100%;
   top: 0;
   left: 0;
   z-index: 999;
-  height: 100px;
+  // height: 100px;
   color: #fff;
   box-shadow: none;
   transition: all 0.3s ease;
   @include breakpoint(phone) {
-    height: 100px;
+    // height: 100px;
   }
   .btn-hamburger {
     &:before,
@@ -389,19 +390,21 @@ h5 {
     top: 0;
     right: -250px;
     width: 250px;
+    margin-top: 1rem;
     z-index: 9999;
     height: 100vh;
-    margin:auto;
+    align-self: baseline;
+    // margin:auto;
     // margin-left: 25px;
-    margin-right: auto;
-    position: fixed;
+    // margin-right: auto;
+    // position: fixed;
     background-color: #fff;
     transition: all 0.3s ease;
     border-left: 1px solid #e5e5e5;
     @include breakpoint(tablet-lg) {
-      position: relative;
+      // position: relative;
       height: auto;
-      right: 0;
+      // right: 0;
       width: auto;
       border: none;
       background-color: transparent;
@@ -426,10 +429,10 @@ h5 {
       color: #000;
       display: block;
       text-align: left;
-      padding: 15px 18px;
+      padding: 15px 18px 15px 0px;
       @include breakpoint(tablet-lg) {
         width: auto;
-        padding: 1rem;
+        // padding: 1rem;
         color: #fff;
         margin-right: 15px;
         display: inline-block;
@@ -526,7 +529,7 @@ h5 {
         left: auto;
         right: -9px;
         border: none;
-        border-radius: 50px;
+        border-radius: 5px;
         margin-top: -21px;
         transform: none;
       }
@@ -2618,7 +2621,7 @@ h5 {
   width: 100%;
   margin: 0 auto;
   @include breakpoint(phone) {
-    width: 448px;
+    width: 48%;
   }
   .form-block__title {
     font-size: 22px;
@@ -2658,8 +2661,8 @@ h5 {
     border-radius: 8px;
     border: 1px solid #d8d8d8;
     @include breakpoint(phone) {
-      height: 56px;
-      padding: 0 40px;
+      border: 1px ;
+      padding: -1 40px;
     }
     &.form__input--sm {
       height: 49px;

@@ -1,6 +1,7 @@
 import {API_URL} from "config";
 import Link from "next/link";
 import React, { useEffect, useState } from "react"
+import { CURRENCY_SYMBOLE } from 'config';
 
 type AddressType = {
   show: boolean;
@@ -82,7 +83,7 @@ const Orders = ({ show }: AddressType) => {
                   <td>{item.id}</td>
                   {/* <td>{item?.attributes?.itemStates[0]}</td> */}
                   <td>{item.attributes.createdAt.split(' ')[0]}</td>
-                  <td> $ {item.attributes.totals.grandTotal}</td>
+                  <td> {CURRENCY_SYMBOLE} {item.attributes.totals.grandTotal}</td>
                   <td > <Link href={`/order-details/${item.id}`}><a style={{border:"1px solid black", borderRadius:"5px", padding:"5px"}}>Show</a></Link></td>
                 </tr>)
             }) : null}

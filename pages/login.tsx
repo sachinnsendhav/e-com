@@ -39,11 +39,30 @@ const LoginPage = () => {
     );
     const result = await resp.json();
     localStorage.setItem("token", result?.access_token)
+    await HandleUserDetails(result?.access_token)
     localStorage.setItem("status", "true")
     if (result) {
       router.push('/profile');
     }
   };
+
+  const HandleUserDetails = async(userToken:any)=>{
+    try {
+      const resp = await fetch(`${API_URL}/customers`,
+        {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${userToken}`
+          }
+        }
+      );
+      const result = await resp.json();
+      localStorage.setItem("userId",result?.data[0]?.id)
+      localStorage.setItem("customerGroup",result?.data[0]?.attributes?.fkCustomerGroup)
+    } catch {
+      localStorage.setItem("status", "false")
+    }
+  }
   const checkTokenExpiry = async () => {
 
 
@@ -97,82 +116,126 @@ const LoginPage = () => {
   return (
     <Layout>
       <section className="form-page">
-        <div className="container">
-          <div className="back-button-section">
-            <Link href="/">
-              <a><i className="icon-left"></i> Back to Home</a>
-            </Link>
+        <div className="container" style={{ paddingLeft: '0', paddingRight: '0', maxWidth: '#100%' }}>
+          <div style={{ background: "#f0f0f0", padding: "0.625rem 0 0.75rem" }}>
+
+            <p style={{
+
+              paddingInline: "100px",
+
+              display: "inline-block",
+
+              font: "0.8125rem/1rem 'Circular', sans-serif",
+
+              margin: "0.5rem",
+
+              color: "black"
+
+            }}><span style={{
+
+              transition: "color 250ms ease-in-out",
+
+              cursor: "pointer",
+
+              color: "#8f8f8f",
+
+              fontSize: "13px",
+
+            }}><Link href="/">Home</Link> / </span>Login</p>
+
           </div>
-          {
-            authStatus === "true" ?
-              ""
-              :
-              <div className="form-block">
-                <h2 className="form-block__title">Log in</h2>
 
-                <form className="form" onSubmit={handleSubmit(onSubmit)}>
-                  <div className="form__input-row">
-                    <input
-                      className="form__input"
-                      placeholder="sonia@spryker.com"
-                      type="text"
-                      name="email"
-                      // value={"sonia@spryker.com"}//just for development testing please remove it after development
-                      ref={register({
-                        required: true,
-                        pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                      })}
-                    />
 
-                    {errors.email && errors.email.type === 'required' &&
-                      <p className="message message--error">This field is required</p>
-                    }
 
-                    {errors.email && errors.email.type === 'pattern' &&
-                      <p className="message message--error">Please write a valid email</p>
-                    }
+          <div className="form-block">
+            <h2 className="form-block__title" style={{ fontSize: '2rem',paddingTop:"3rem", marginLeft: '-35px', textAlign: "left", fontWeight: '500', lineHeight: '1.2', color: "#333", marginBottom: "1.5rem", display: "block", fontFamily: "Circular, sans-serif" }}>Access your account</h2>
+
+            <div style={{ background: "#f0f0f0", paddingTop:"0.01rem", paddingBottom:"1.01rem" ,  paddingLeft:"1.9rem" , paddingRight:"1.9rem", margin: "1rem" }}>
+              <form className="form" onSubmit={handleSubmit(onSubmit)}>
+                <div className="form__input-row">
+                  <label style={{ display: "block", fontSize: "0.75rem", fontWeight: '700', marginBottom: "0.4rem", textTransform: "uppercase", color: "#333" }} htmlFor="email">Email  <span style={{ color: "rgb(207, 18, 46)" }}>*</span></label>
+                  <input
+                    className="form__input"
+                    style={{ borderRadius: "0px",  padding:"0.875rem 1.25rem 0.8125rem", boxSizing:"border-box"}}
+                    placeholder="Email"
+                    id='email'
+                    type="text"
+                    name="email"
+                    // value={"sonia@spryker.com"} //just for development testing please remove it after development
+                    ref={register({
+                      required: true,
+                      pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    })}
+                  />
+
+                  {errors.email && errors.email.type === 'required' &&
+                    <p className="message message--error">This field is required</p>
+                  }
+
+                  {errors.email && errors.email.type === 'pattern' &&
+                    <p className="message message--error">Please write a valid email</p>
+                  }
+                </div>
+               
+                <label style={{ display: "block", fontSize: "0.75rem", fontWeight: '700', marginBottom: "0.4rem", textTransform: "uppercase", color: "#333" }} htmlFor="password">Password  <span style={{ color: "rgb(207, 18, 46)" }}>*</span></label>
+                <div className="form__input-row">
+                  <input
+                 
+                    className="form__input"
+                    type="password"
+                    style={{ borderRadius: "0px",  padding:"0.875rem 1.25rem 0.8125rem", boxSizing:"border-box"}}
+                    id='password'
+                    placeholder="Password"
+                    // value={"change123"} //just for development testing please remove it after development
+                    name="password"
+                    
+                    ref={register({ required: true })}
+                  />
+                   
+                  {errors.password && errors.password.type === 'required' &&
+                    <p className="message message--error">This field is required</p>
+                  }
+                </div>
+              
+
+                <div className="form__info">
+                  <div className="checkbox-wrapper">
+                    <label htmlFor="check-signed-in" className={`checkbox checkbox--sm`}>
+                      <input
+                        type="checkbox"
+                        style={{marginRight:"0.875rem", width:"1.25rem" , height:"1.25rem", lineHeight:"1.25rem"
+                }}
+                        name="keepSigned"
+                        id="check-signed-in"
+                        ref={register({ required: false })}
+                      />
+                      {/* <span className="checkbox__check"></span> //removed because 2 checkboxes were showing */}
+                      
+                      
+  <p style={{ display: "block", verticalAlign: "middle", textTransform: "none", fontSize: "0.875rem", fontWeight: "400", margin: "0", userSelect: "none", flex: "1", fontFamily: "'Circular', sans-serif" }}>Remember Me</p>
+
+
+                    </label>
+
                   </div>
 
-                  <div className="form__input-row">
-                    <input
-                      className="form__input"
-                      type="password"
-                      placeholder="changer123"
-                      value={"change123"}  //just for development testing please remove it after development
-                      name="password"
-                      ref={register({ required: true })}
-                    />
-                    {errors.password && errors.password.type === 'required' &&
-                      <p className="message message--error">This field is required</p>
-                    }
-                  </div>
+                </div>
+                
+  <p style={{ display: "block", verticalAlign: "middle", textTransform: "none", fontSize: "0.875rem", fontWeight: "400", margin: "0", userSelect: "none", flex: "1", fontFamily: "'Circular', sans-serif" , color:'#8f8f8f' }}> &nbsp; *Required fields</p>
 
-                  <div className="form__info">
-                    <div className="checkbox-wrapper">
-                      <label htmlFor="check-signed-in" className={`checkbox checkbox--sm`}>
-                        <input
-                          type="checkbox"
-                          name="keepSigned"
-                          id="check-signed-in"
-                          ref={register({ required: false })}
-                        />
-                        {/* <span className="checkbox__check"></span> //removed because 2 checkboxes were showing */}
-                        <p>Keep me signed in</p>
-                      </label>
-                    </div>
-                    <a href="/forgot-password" className="form__info__forgot-password">Forgot password?</a>
-                  </div>
 
-                  {/* <div className="form__btns">
-                    <button type="button" className="btn-social fb-btn"><i className="icon-facebook"></i>Facebook</button>
-                    <button type="button" className="btn-social google-btn"><img src="/images/icons/gmail.svg" alt="gmail" /> Gmail</button>
-                  </div> */}
+                {/* <div className="form__btns">
+          <button type="button" className="btn-social fb-btn"><i className="icon-facebook"></i>Facebook</button>
+          <button type="button" className="btn-social google-btn"><img src="/images/icons/gmail.svg" alt="gmail" /> Gmail</button>
+        </div> */}
+                      
+                <button type="submit" style={{ width: "18%", background: "rgb(207, 18, 46)", borderRadius: "1px" }} className="btn btn--rounded btn--yellow btn-submit">Login</button>
+                <a style={{ margin: "15px", fontFamily: "'Circular', sans-serif", color: "#b2b2b2", fontSize: "0.9rem" }} href="/forgot-password" className="form__info__forgot-password">Forgot Password</a>
 
-                  <button type="submit" className="btn btn--rounded btn--yellow btn-submit">Sign in</button>
+              </form>
+            </div>
 
-                  <p className="form__signup-link">Not a member yet? <a href="/register">Sign up</a></p>
-                </form>
-              </div>}
+          </div>
 
 
         </div>

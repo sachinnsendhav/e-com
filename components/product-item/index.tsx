@@ -6,6 +6,8 @@ import { RootState } from "store";
 import { ProductTypeList } from "types";
 import { API_URL, SHOPPING_LIST_ID } from "config";
 import { useEffect, useState } from "react";
+import {CURRENCY_SYMBOLE} from '../../config';
+
 
 const ProductItem = ({
   images,
@@ -296,7 +298,7 @@ console.log(description);
             fontSize: "1.3rem",
           }}
         >
-          P {id}
+          {name}
         </h3>
         <p
           style={{
@@ -305,7 +307,7 @@ console.log(description);
             marginBottom: "1rem"
           }}
         >
-          {name}
+          Model : MX-COPIER
         </p>
         <p style={{ fontFamily: "sans-serif", marginBottom: "1rem" }} className="pid">
           ID: {concreteId}
@@ -338,7 +340,7 @@ console.log(description);
         <span
           style={{ fontWeight: "bold", color: "rgb(207 18 46)", paddingTop: "10px" }}
         >
-          $ {price}
+          {CURRENCY_SYMBOLE} {price}
         </span>
         <button
           style={{

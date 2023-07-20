@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { RootState } from 'store';
 import { API_URL } from 'config';
+import { CURRENCY_SYMBOLE } from 'config';
 
 type HeaderType = {
   isErrorPage?: Boolean;
@@ -18,7 +19,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
 
   const [onTop, setOnTop] = useState((!arrayPaths.includes(router.pathname) || isErrorPage) ? false : true);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(true);
   const [searchText, setSearchText] = useState()
   const [category, setCategory] = useState([])
   const [authStatus, setAuthStatus] = useState("false")
@@ -68,7 +69,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
   }
 
   const closeSearch = () => {
-    setSearchOpen(false);
+    setSearchOpen(true);
   }
 
   // on click outside
@@ -209,44 +210,58 @@ const Header = ({ isErrorPage }: HeaderType) => {
     localStorage.clear();
     setAuthStatus("false")
     localStorage.setItem("status","false")
-    window.location.reload();
+    window.location.href ='/';
   }
   return (
-    <header style={{ padding: "15px 80px" }} className={`site-header site-header--fixed`}>
+    <header style={{ padding: "28px 104px 0px" }} className={`site-header site-header--fixed`}>
       <div className="container" style={{ flexDirection: "column", }}>
         <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
           <Link href="/">
             <a><h1 className="site-logo">
-              {/* <Logo /> */}
-              <img src="https://www.ricoh.com/-/Media/Ricoh/Common/cmn_g_header_footer/img/logo/logo.svg" />
+              <img style={{height:"41px"}} src="https://www.ricoh.com/-/Media/Ricoh/Common/cmn_g_header_footer/img/logo/logo.svg" />
             </h1></a>
           </Link>
-
-
           <div className="site-header__actions">
+            {/* search */}
             <button ref={searchRef} className={`search-form-wrapper ${searchOpen ? 'search-form--active' : ''}`}>
               <form className={`search-form`}>
-                <i className="icon-cancel" onClick={() => setSearchOpen(!searchOpen)}></i>
+                <i className="icon-cancel" onClick={() => setSearchOpen(searchOpen)}></i>
                 <input type="text" name="search" onChange={(e: any) => { setSearchText(e.target.value) }} placeholder="Enter the product you are looking for" />
               </form>
               {searchText ? <Link href={`/search/${searchText}`}>
-                <i onClick={() => setSearchOpen(!searchOpen)} className="icon-search"></i>
+                <i onClick={() => setSearchOpen(searchOpen)} className="icon-search"></i>
               </Link> :
-                <i onClick={() => setSearchOpen(!searchOpen)} className="icon-search"></i>
+                <i onClick={() => setSearchOpen(searchOpen)} className="icon-search"></i>
               }
 
             </button>
+            {/* contact */}
+            <Link href='#'>
+                <a className='headerDummyTags'>Contact</a>
+              </Link>
+              <Link href='#'>
+                <a className='headerDummyTags'>Locations</a>
+              </Link>
+              <Link href='#'>
+                <a className='headerDummyTags'>Careers</a>
+              </Link>
+              <Link href='#'>
+                <a className='headerDummyTags'><span style={{fontSize:"14px"}}>{">"}</span> My Ricoh</a>
+              </Link>
+            {/* cart */}
             <Link href="/cart">
-              <button className="btn-cart">
+              <button className="btn-cart" style={{borderLeft:"1px solid black",paddingLeft:"12px"}}>
                 <i className="icon-cart"></i>
                 {cartItems.length > 0 &&
                   <span className="btn-cart__count">{cartItems.length}</span>
                 }
               </button>
             </Link>
+            {/* user */}
             <Link href={authStatus === "true" ? "/profile" : "/login"}>
               <button className="site-header__btn-avatar"><i className="icon-avatar"></i></button>
             </Link>
+            {/* login */}
             <div>
               {authStatus === "false" ?
                 <Link href="/login">
@@ -340,21 +355,21 @@ const Header = ({ isErrorPage }: HeaderType) => {
       </div>
       {searchResult.length > 0 ? (
   <div
+  className='searchParent'
     style={{
-      right: "0",
-      marginRight: "300px",
-      marginTop: "-10px",
-      borderRadius: "25px",
+      top:"4.5rem",
+      left:"16.7rem",
+      borderRadius: "5px",
       position: "absolute",
-      width: "40rem",
-      height: "400px",
-      overflowY: "scroll",
-      scrollbarWidth: "none",
+      maxWidth: "30rem",
+      overflowY:"auto",
+      maxHeight: "400px",
       backgroundColor: "white",
       boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
       padding: "10px",
       zIndex: "9999",
-    }}
+    }
+    }
   >
     {searchResult.map((item: any) => (
       <Link
@@ -364,6 +379,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
         <div
           style={{
             display: "flex",
+            alignItems:"center",
             padding: "5px",
             cursor: "pointer",
           }}
@@ -372,21 +388,24 @@ const Header = ({ isErrorPage }: HeaderType) => {
             <img
               src={item.images[0].externalUrlLarge}
               style={{
-                width: "92px",
+                width: "83px",
                 height: "83px",
                 objectFit: "contain",
-                border: "1px solid #7f7f7f",
-                borderRadius: "100%",
+                // border: "1px solid #7f7f7f",
+                // borderRadius: "100%",
               }}
               alt="product"
             />
           </div>
-          <div style={{ paddingTop: "8px", paddingLeft: "10px" }}>
-            <p style={{ color: "black", marginBottom: "5px" }}>
+          <div style={{padding: "10px" }}>
+            <p style={{ color: "black", margin: "5px", fontWeight: "bold" }}>
               {item.abstractName}
             </p>
-            <p style={{ color: "black", fontWeight: "bold" }}>
-              {item.price}
+            <p style={{ color: "black", margin: "5px", }}>
+              ID : {item.abstractSku}
+            </p>
+            <p style={{ color: "#800000",margin: "5px" }}>
+              $ {item.price}
             </p>
           </div>
         </div>

@@ -4,6 +4,8 @@ import Item from "./item";
 import { RootState } from "store";
 import { useEffect, useState } from "react";
 import { API_URL } from "config";
+import { CURRENCY_SYMBOLE } from 'config';
+
 
 const ShoppingCart = () => {
   var token: any;
@@ -477,7 +479,7 @@ const ShoppingCart = () => {
                       quantity = {item.data[0].attributes.quantity}{" "}
                     </p>
                     <p style={{ padding: "10px", fontWeight: "bold" }}>
-                     Total  $  {(item.total)*(item.data[0].attributes.quantity)}
+                     Total  {CURRENCY_SYMBOLE} {(item.total)*(item.data[0].attributes.quantity)}
                     </p>
                     <button
                       style={{
@@ -546,7 +548,7 @@ const ShoppingCart = () => {
                               fontWeight: "bold",
                             }}
                           >
-                           = ${(val.attributes.quantity)*(val.attributes.calculations.unitPrice)}
+                           = {CURRENCY_SYMBOLE} {(val.attributes.quantity)*(val.attributes.calculations.unitPrice)}
                           </div>
                         </div>
                       </div>
@@ -570,7 +572,7 @@ const ShoppingCart = () => {
               <p className="cart-actions__total">
                 Total cost{" "}
                 <strong>
-                  $ {cartData?.data?.attributes?.totals?.priceToPay}
+                  {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.priceToPay}
                 </strong>
               </p>
               <a href="/cart/checkout" className="btn btn--rounded btn--yellow">

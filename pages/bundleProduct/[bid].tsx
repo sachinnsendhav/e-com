@@ -11,7 +11,8 @@ import Description from '../../components/product-single/description';
 import Reviews from '../../components/product-single/reviews';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import {API_URL} from 'config';
+import {API_URL, CURRENCY_SYMBOLE} from 'config';
+
 
 const BundleProduct = ({ image }:any) => {
   const router = useRouter();
@@ -168,7 +169,7 @@ const BundleProduct = ({ image }:any) => {
                         <div style={{ padding: "5px" }}>
                           <img src={item.image} style={{ width: "220px", height: "250px", objectFit: "contain" }} />
                           <p style={{ paddingLeft: "10px" }}>{item.name}</p>
-                          <p style={{ fontWeight: "bold", paddingTop: "5px", paddingLeft: "10px" }}>$ {item.price}</p>
+                          <p style={{ fontWeight: "bold", paddingTop: "5px", paddingLeft: "10px" }}>{CURRENCY_SYMBOLE} {item.price}</p>
                         </div>
                       </Link>
                     </div>

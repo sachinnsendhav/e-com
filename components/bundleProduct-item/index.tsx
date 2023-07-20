@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toggleFavProduct } from 'store/reducers/user';
 import { RootState } from 'store';
 import { ProductTypeList } from 'types';
+import {CURRENCY_SYMBOLE} from '../../config';
 
 const ProductItem = ({ images, id, name, price }: ProductTypeList) => {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ const ProductItem = ({ images, id, name, price }: ProductTypeList) => {
       <div className="product__description">
         <h3 style={{fontFamily:"sans-serif"}}>{name}</h3>
         <div>
-          <span style={{ fontWeight: "bold", color:"black" }}>$ {price}</span>
+          <span style={{ fontWeight: "bold", color:"black" }}>{CURRENCY_SYMBOLE} {price}</span>
         </div>
       </div>
     </div>

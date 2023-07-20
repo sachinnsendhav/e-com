@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { API_URL } from "../../../config";
-import { forEach } from 'lodash';
 import { CURRENCY_SYMBOLE } from 'config';
 
 
@@ -12,7 +11,7 @@ const Wishlist = ({ show }: WishlistType) => {
     const style = {
         display: show ? 'flex' : 'none',
     }
-    const [authToken, setAuthToken] = useState("");
+    const [authToken, setAuthToken] = useState<any>("");
     const [shoppingListName, setShoppingListName] = useState<any[]>()
     const [showBlock, setShowBlock] = useState<any>("")
     const [shppingListId, setShppingListId] = useState("")

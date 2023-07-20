@@ -1,7 +1,6 @@
 import Layout from "../layouts/Main";
 import Footer from "../components/footer";
 import Breadcrumb from "../components/breadcrumb";
-import ProductsFilter from "../components/products-filter";
 import ProductItem from "components/bundleProduct-item";
 // import ProductsContent from '../components/products-content';
 

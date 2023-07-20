@@ -3,10 +3,9 @@ import { some } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleFavProduct } from 'store/reducers/user';
 import { RootState } from 'store';
-import { ProductTypeList } from 'types';
 import {CURRENCY_SYMBOLE} from '../../config';
 
-const ProductItem = ({ images, id, name, price }: ProductTypeList) => {
+const ProductItem = ({ images, id, name, price }: any) => {
   const dispatch = useDispatch();
   const { favProducts } = useSelector((state: RootState) => state.user);
 

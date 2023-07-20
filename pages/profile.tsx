@@ -7,10 +7,10 @@ import Orders from 'components/user/orders';
 import Wishlist from 'components/user/wishlist';
 import Link from 'next/link';
 import ProfileSection from '../components/user/profileSection'
-import profileIcon from '../assets/images/profile.png'
-import addressesIcon from '../assets/images/addresses.png'
-import orderIcon from '../assets/images/order-history.png'
-import shoppingList from '../assets/images/list.png'
+// import profileIcon from '../assets/images/profile.png'
+// import addressesIcon from '../assets/images/addresses.png'
+// import orderIcon from '../assets/images/order-history.png'
+// import shoppingList from '../assets/images/list.png'
 
 function profile() {
   const [showBlock, setShowBlock] = useState('profile');

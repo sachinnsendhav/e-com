@@ -1,4 +1,3 @@
-import Logo from '../../assets/icons/logo';
 
 const Footer = () => {
   return (

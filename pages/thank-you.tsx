@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+//@ts-ignore
 import img1 from '../assets/images/thank-you.jpg';
 import { useRouter } from 'next/router';
 import Link from 'next/link';

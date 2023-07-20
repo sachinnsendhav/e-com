@@ -11,15 +11,15 @@ const CheckoutPage = () => {
   const [cartData, setCartData] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const [shipments, setShipments] = useState<array[]>([]);
-  const [shipmentMethods, setShipmentMethods] = useState<array[]>([]);
-  const [paymentMethods, setPaymentMethods] = useState<array[]>([]);
-  const [addresses, setAddresses] = useState<array[]>([]);
-  const [items, setItems] = useState<array[]>([]);
+  const [shipments, setShipments] = useState<any>([]);
+  const [shipmentMethods, setShipmentMethods] = useState<any>([]);
+  const [paymentMethods, setPaymentMethods] = useState<any[]>([]);
+  const [addresses, setAddresses] = useState<any[]>([]);
+  const [items, setItems] = useState<any[]>([]);
 
   const [selectedAddress, setSelectedAddress] = useState<any>();
   const [selectedPayment, setSelectedPayment] = useState<any>();
-  const [selectedShipment, setSelectedShipment] = useState<any>();
+  // const [selectedShipment, setSelectedShipment] = useState<any>();
 
   var token: any;
   var cartId: any;
@@ -115,14 +115,14 @@ const CheckoutPage = () => {
     if (data?.length > 0) {
       data.forEach((element: any) => {
         if (element.type === "shipment-methods") {
-          setShipmentMethods((shipmentMethods) => [
+          setShipmentMethods((shipmentMethods:any) => [
             ...shipmentMethods,
             element,
           ]);
         } else if (element.type === "payment-methods") {
           setPaymentMethods((paymentMethods) => [...paymentMethods, element]);
         } else if (element.type === "shipments") {
-          setShipments((shipments) => [...shipments, element]);
+          setShipments((shipments:any) => [...shipments, element]);
         } else if (element.type === "addresses") {
           setAddresses((addresses) => [...addresses, element]);
         }
@@ -205,7 +205,7 @@ const CheckoutPage = () => {
     }
   };
   const handlePaymentSeclection = async (id: any) => {
-    paymentMethods?.map((item: any, index: number) => {
+    paymentMethods?.map((item: any) => {
       if (item.id == id) {
         setSelectedPayment({
           paymentMethodName: item?.attributes?.paymentMethodName,
@@ -216,7 +216,7 @@ const CheckoutPage = () => {
     });
   };
   const handleAddressSeclection = async (id: any) => {
-    addresses?.map((item: any, index: number) => {
+    addresses?.map((item: any) => {
       if (item.id == id) {
         setSelectedAddress({
           ...item?.attributes,
@@ -225,9 +225,11 @@ const CheckoutPage = () => {
       }
     });
   };
-  const handleShipmentSeclection = async (id: any) => {
-    setSelectedShipment(id);
+  const handleShipmentSeclection = async (e:any) => {
+    // setSelectedShipment(id);
+    console.log(e)
   };
+  console.log(isLoading)
   return (
     <Layout>
       <section
@@ -380,7 +382,7 @@ const CheckoutPage = () => {
                   type="button"
                   style={{ width: "100%" }}
                   className="btn btn--rounded btn--yellow"
-                  onClick={(e) => orderConfirm()}
+                  onClick={() => orderConfirm()}
                 >
                   Proceed to payment
                 </button>

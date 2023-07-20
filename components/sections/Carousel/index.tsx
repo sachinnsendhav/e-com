@@ -63,7 +63,20 @@ function index(data: any) {
                   <a onClick={()=>(window.location.href=item?.btnlink)}>{item?.btntext}</a>
                 </div>
               </div>
-            </>:""
+            </>:  <>
+              <div className="carousalItem" style={{width:"100%"}} key={index}>
+                <img
+                  alt="carousalImg"
+                  style={{ height: "35rem",width:"100%" }}
+                  src={item?.image}
+                />
+                <div className="carousalDetails">
+                  <h3>{item?.title}</h3>
+                  <p>{item?.description}</p>
+                  <a onClick={()=>(window.location.href=item?.btnlink)}>{item?.btntext}</a>
+                </div>
+              </div>
+            </>
           ))}
         </Slider>
       </div>

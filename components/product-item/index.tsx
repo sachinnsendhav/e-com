@@ -276,6 +276,7 @@ console.log(description);
   return (
     <div className="product-item">
       <div style={{display:"flex",flexDirection:'column'}}>
+        
         <button
           type="button"
           onClick={() => toggleFav()}
@@ -283,6 +284,7 @@ console.log(description);
         >
           <i className="icon-heart"></i>
         </button>
+        <div style={{height:"100px"}}>
         <h3
           style={{
             fontFamily: "sans-serif",
@@ -305,12 +307,14 @@ console.log(description);
         <p style={{ fontFamily: "sans-serif", marginBottom: "1rem" }} className="pid">
           ID: {concreteId}
         </p>
-        <div className="product__image" style={{ background: "#fff" }}>
-          <Link href={`/product/${name}?skuId=${id}`}>
+        </div>
+        <div className="product__image" style={{ background: "#fff" }} >
+          <Link href={`/product/${name}?skuId=${id}`} >
             <a
+            className="product__link"
               style={{
                 borderBottom: "1px solid",
-                width: "116%",
+                width: "121%",
                 position: "relative",
                 left: "-28px",
               }}
@@ -326,6 +330,7 @@ console.log(description);
             <li style={{ marginTop: "1rem" }} key={index}>
               {item}
             </li>
+            </ul>
           ))}
         </div>
       </div>
@@ -336,6 +341,7 @@ console.log(description);
           {CURRENCY_SYMBOLE} {price}
         </span>
         <button
+          className="add-to-cart"
           style={{
             padding: "16px 32px",
             color: "rgb(207 18 46)",

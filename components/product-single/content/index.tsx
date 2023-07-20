@@ -615,20 +615,20 @@ const Content = (product: any) => {
 
       <div className="product-content__filters">
         {productData && (
-          <div style={{ display: "flex", marginBottom: "2rem" }}>
-            <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ display: "flex", marginBottom: "1rem" }}>
+            <div style={{ display: "flex", flexDirection: "column", justifyContent:"space-evenly",height: "100px"}}>
               {Object.keys(productData?.attributes)?.map((item, index) => {
                 const formattedKey = item
                   .split("_")
                   .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                   .join(" ");
-                return <span key={index}>{formattedKey}</span>;
+                return <h5 key={index}>{formattedKey}</h5>;
               })}
             </div>
-            <div style={{ display: "flex", flexDirection: "column" }}>
+            <div style={{ display: "flex", flexDirection: "column", justifyContent:"space-evenly", height: "100px", marginLeft: "30px", fontWeight:"400" }}>
               {Object.keys(productData?.attributes)?.map((item, index) => {
                 return (
-                  <span key={index}>: {productData?.attributes[item]}</span>
+                  <span key={index}> {productData?.attributes[item]}</span>
                 );
               })}
             </div>

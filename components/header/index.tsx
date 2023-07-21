@@ -412,6 +412,10 @@ const Header = ({ isErrorPage }: HeaderType) => {
               <Link href={`/productList/ricoh?nodeId=39`}>
                 <a style={{ color: "black", padding: "5px" }}>Printers</a>
               </Link>}
+              {customerGroup == "DE--15" &&
+              <Link href={`/productList/ricoh?nodeId=39`}>
+                <a style={{ color: "black", padding: "5px" }}>Printers</a>
+              </Link>}
               {customerGroup == "DE--21" &&
               <Link href={`/productList/ricoh?nodeId=39`}>
                 <a style={{ color: "black", padding: "5px" }}>Printers</a>

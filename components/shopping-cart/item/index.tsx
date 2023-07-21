@@ -40,7 +40,7 @@ const ShoppingCart = ({ thumb, name, pliId, id, avalibility, size, count, price,
           </button>
         </div>
       </td>
-      <td>{CURRENCY_SYMBOLE} {price}</td>
+      <td>{CURRENCY_SYMBOLE} {price/100}</td>
       <td className="cart-item-cancel" style={{paddingRight:"1rem"}}><i className="icon-cancel" onClick={() => removeProductFromCart(pliId)}></i></td>
     </tr>
   )

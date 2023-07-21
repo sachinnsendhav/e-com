@@ -339,7 +339,8 @@ const ProductItem = ({
         <span
           style={{ fontWeight: "bold", color: "rgb(207 18 46)" }}
         >
-          {CURRENCY_SYMBOLE} {price}
+          {token ? 
+          <>{CURRENCY_SYMBOLE} {price/100} </>: ""}
         </span>
         <button
           className="add-to-cart"
@@ -353,7 +354,8 @@ const ProductItem = ({
           onClick={() => handleAddtocart()}
         >
           {" "}
-          {isLoading ? "Adding to Cart" : "Add To Cart"}
+          {isLoading ? "Adding to Cart" : token ? 
+         "Add To Cart": "Login to Add to Cart"}
         </button>
       </div>
     </div >

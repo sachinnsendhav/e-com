@@ -515,7 +515,6 @@ const ShoppingCart = () => {
                   <div style={{ display: "flex" }}>
                  
                     <div className="quantity-button">
-                    <h3>Quantity</h3>
                       <button
                         type="button"
                         onClick={() =>
@@ -547,6 +546,7 @@ const ShoppingCart = () => {
                     </p>
                     <p style={{ padding: "10px", fontWeight: "bold" }}>
                       Total  {CURRENCY_SYMBOLE} {(item.total) * (item.data[0].attributes.quantity)}
+                     Total  {CURRENCY_SYMBOLE} {(item.total/100)*(item.data[0].attributes.quantity)}
                     </p>
                     <button
                       style={{
@@ -606,7 +606,7 @@ const ShoppingCart = () => {
                               fontWeight: "bold",
                             }}
                           >
-                            {val.attributes.quantity} X        {val.attributes.calculations.unitPrice}
+                            {val.attributes.quantity} X        {val.attributes.calculations.unitPrice/100}
                           </p>
                           <div
                             style={{
@@ -616,6 +616,7 @@ const ShoppingCart = () => {
                             }}
                           >
                             = {CURRENCY_SYMBOLE} {(val.attributes.quantity) * (val.attributes.calculations.unitPrice)}
+                           = {CURRENCY_SYMBOLE} {(val.attributes.quantity)*(val.attributes.calculations.unitPrice)/100}
                           </div>
                         </div>
                       </div>
@@ -636,6 +637,17 @@ const ShoppingCart = () => {
             /> */}
 
 
+            <div className="cart-actions__items-wrapper">
+              <p className="cart-actions__total">
+                Total cost{" "}
+                <strong>
+                  {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.priceToPay/100}
+                </strong>
+              </p>
+              <a href="/cart/checkout" className="btn btn--rounded btn--yellow">
+                Checkout
+              </a>
+            </div>
           </div>
         </div>
       )}

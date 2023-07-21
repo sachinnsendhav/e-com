@@ -33,7 +33,6 @@ function orderDetailsPage() {
   const [concentration, setConcentration] = useState<any>("")
   const [storage, setStorage] = useState<any>("");
   const [postOrderStatus, setPostOrderStatus] = useState<any>(false);
-  // const [showBlock, setShowBlock] = useState('order');
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {

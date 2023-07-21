@@ -77,31 +77,35 @@ const CheckoutPage = () => {
         type: "checkout-data",
       },
     };
-    const resp = await fetch(
-      `${API_URL}/checkout-data?include=shipments%2Cshipment-methods%2Caddresses%2Cpayment-methods%2Citems`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-        body: JSON.stringify(data),
+    try {
+      const resp = await fetch(
+        `${API_URL}/checkout-data?include=shipments%2Cshipment-methods%2Caddresses%2Cpayment-methods%2Citems`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+          body: JSON.stringify(data),
+        }
+      );
+      if (resp.status === 401) {
+        // Redirect to "/login" route
+        alert("Please Login");
+        window.location.href = "/login";
+        return;
       }
-    );
-    if (resp.status === 401) {
-      // Redirect to "/login" route
-      alert("Please Login");
-      window.location.href = "/login";
-      return;
+      if (resp.status === 422) {
+        const response = await resp.json();
+        // Redirect to "/login" route
+        alert(response?.errors[0]?.detail);
+        // window.location.href = "/login";
+        return;
+      }
+      const reslut = await resp.json();
+      setData(reslut?.included);
+    } catch (error) {
+      console.log(error);
     }
-    if (resp.status === 422) {
-      const response = await resp.json();
-      // Redirect to "/login" route
-      alert(response?.errors[0]?.detail);
-      // window.location.href = "/login";
-      return;
-    }
-    const reslut = await resp.json();
-    setData(reslut?.included);
   };
   useEffect(() => {
     getCheckoutDetails();
@@ -210,7 +214,7 @@ const CheckoutPage = () => {
         setSelectedPayment({
           paymentMethodName: item?.attributes?.paymentMethodName,
           paymentProviderName: item?.attributes?.paymentProviderName,
-          paymentSelection: (item?.attributes?.priority)?.toString() || "1",
+          paymentSelection: item?.attributes?.priority?.toString() || "1",
         });
       }
     });
@@ -227,15 +231,12 @@ const CheckoutPage = () => {
   };
   const handleShipmentSeclection = async (e: any) => {
     // setSelectedShipment(id);
-    console.log(e)
+    console.log(e);
   };
-  console.log(isLoading)
+  console.log(isLoading);
   return (
     <Layout>
-      <section
-        className="cart"
-        style={{ color: "black", padding: "80px" }}
-      >
+      <section className="cart" style={{ color: "black", padding: "80px" }}>
         <div className="container">
           <div className="cart__intro">
             <h3 className="cart__title">Shipping and Payment</h3>
@@ -247,7 +248,7 @@ const CheckoutPage = () => {
             <div className="checkout__col-8" style={{ width: "60%" }}>
               <div className="block">
                 <h3 className="block__title">Your cart</h3>
-            
+
                 <CheckoutItems />
               </div>
             </div>
@@ -259,9 +260,34 @@ const CheckoutPage = () => {
                   shipments &&
                   addresses && (
                     <div className="block">
-                      <div style={{ background: "#f0f0f0", padding: "1rem 1.25rem", height: "114px", width: "18rem", marginBottom: "0.5rem" }}>
-                        <h3 className="block__title" style={{ fontWeight: "500", fontSize: "0.875rem", lineHeight: "1.4", display: "block", color: "#333", fontFamily: "'Circular', sans-serif" }}>Address information</h3>
-                        <hr style={{ borderTop: "1px solid #ccc", margin: "0.9375rem -1.05rem" }} />
+                      <div
+                        style={{
+                          background: "#f0f0f0",
+                          padding: "1rem 1.25rem",
+                          height: "114px",
+                          width: "18rem",
+                          marginBottom: "0.5rem",
+                        }}
+                      >
+                        <h3
+                          className="block__title"
+                          style={{
+                            fontWeight: "500",
+                            fontSize: "0.875rem",
+                            lineHeight: "1.4",
+                            display: "block",
+                            color: "#333",
+                            fontFamily: "'Circular', sans-serif",
+                          }}
+                        >
+                          Address information
+                        </h3>
+                        <hr
+                          style={{
+                            borderTop: "1px solid #ccc",
+                            margin: "0.9375rem -1.05rem",
+                          }}
+                        />
                         <form className="form">
                           <div className="form__input-row form__input-row--two">
                             <div
@@ -269,14 +295,33 @@ const CheckoutPage = () => {
                               style={{ width: "100%", right: "0px" }}
                             >
                               <select
-                                className="form__input form__input--sm" style={{ marginTop: "-12px", marginLeft: "-25px", fontSize: '0.75rem', color: "#8f8f8f", fontWeight: "400", fontFamily: "'Circular', sans-serif" }}
-                                onChange={(e) => handleAddressSeclection(e.target.value)}
+                                className="form__input form__input--sm"
+                                style={{
+                                  marginTop: "-12px",
+                                  marginLeft: "-25px",
+                                  fontSize: "0.75rem",
+                                  color: "#8f8f8f",
+                                  fontWeight: "400",
+                                  fontFamily: "'Circular', sans-serif",
+                                }}
+                                onChange={(e) =>
+                                  handleAddressSeclection(e.target.value)
+                                }
                               >
-                                <option style={{ color: "#8f8f8f", fontSize: '0.75rem' }}>Select Address</option>
+                                <option
+                                  style={{
+                                    color: "#8f8f8f",
+                                    fontSize: "0.75rem",
+                                  }}
+                                >
+                                  Select Address
+                                </option>
                                 {addresses.map((val: any) => {
                                   return (
                                     <option value={val.id}>
-                                      {val.attributes.address1}, {val.attributes.address2}, {val.attributes.city}
+                                      {val.attributes.address1},{" "}
+                                      {val.attributes.address2},{" "}
+                                      {val.attributes.city}
                                     </option>
                                   );
                                 })}
@@ -285,9 +330,34 @@ const CheckoutPage = () => {
                           </div>
                         </form>
                       </div>
-                      <div style={{ background: "#f0f0f0", padding: "1rem 1.25rem", height: "114px", width: "18rem", marginBottom: "0.5rem" }}>
-                        <h3 className="block__title" style={{ fontWeight: "500", fontSize: "0.875rem", lineHeight: "1.4", display: "block", color: "#333", fontFamily: "'Circular', sans-serif" }}>Payment method</h3>
-                        <hr style={{ borderTop: "1px solid #ccc", margin: "0.9375rem -1.05rem" }} />
+                      <div
+                        style={{
+                          background: "#f0f0f0",
+                          padding: "1rem 1.25rem",
+                          height: "114px",
+                          width: "18rem",
+                          marginBottom: "0.5rem",
+                        }}
+                      >
+                        <h3
+                          className="block__title"
+                          style={{
+                            fontWeight: "500",
+                            fontSize: "0.875rem",
+                            lineHeight: "1.4",
+                            display: "block",
+                            color: "#333",
+                            fontFamily: "'Circular', sans-serif",
+                          }}
+                        >
+                          Payment method
+                        </h3>
+                        <hr
+                          style={{
+                            borderTop: "1px solid #ccc",
+                            margin: "0.9375rem -1.05rem",
+                          }}
+                        />
                         <form className="form">
                           <div className="form__input-row form__input-row--two">
                             <div
@@ -295,12 +365,27 @@ const CheckoutPage = () => {
                               style={{ width: "100%" }}
                             >
                               <select
-                                className="form__input form__input--sm" style={{ marginTop: "-12px", marginLeft: "-25px", fontSize: '0.75rem', color: "#8f8f8f", fontWeight: "400", fontFamily: "'Circular', sans-serif" }}
+                                className="form__input form__input--sm"
+                                style={{
+                                  marginTop: "-12px",
+                                  marginLeft: "-25px",
+                                  fontSize: "0.75rem",
+                                  color: "#8f8f8f",
+                                  fontWeight: "400",
+                                  fontFamily: "'Circular', sans-serif",
+                                }}
                                 onChange={(e) =>
                                   handlePaymentSeclection(e.target.value)
                                 }
                               >
-                                <option style={{ color: "#8f8f8f", fontSize: '0.75rem' }}>Select Payment Method</option>
+                                <option
+                                  style={{
+                                    color: "#8f8f8f",
+                                    fontSize: "0.75rem",
+                                  }}
+                                >
+                                  Select Payment Method
+                                </option>
                                 {paymentMethods.map((val: any) => {
                                   return (
                                     <option value={val.id}>
@@ -313,9 +398,34 @@ const CheckoutPage = () => {
                           </div>
                         </form>
                       </div>
-                      <div style={{ background: "#f0f0f0", padding: "1rem 1.25rem", height: "114px", width: "18rem", marginBottom: "0.5rem" }}>
-                        <h3 className="block__title" style={{ fontWeight: "500", fontSize: "0.875rem", lineHeight: "1.4", display: "block", color: "#333", fontFamily: "'Circular', sans-serif" }}>Shipment method</h3>
-                        <hr style={{ borderTop: "1px solid #ccc", margin: "0.2rem -1rem" }} />
+                      <div
+                        style={{
+                          background: "#f0f0f0",
+                          padding: "1rem 1.25rem",
+                          height: "114px",
+                          width: "18rem",
+                          marginBottom: "0.5rem",
+                        }}
+                      >
+                        <h3
+                          className="block__title"
+                          style={{
+                            fontWeight: "500",
+                            fontSize: "0.875rem",
+                            lineHeight: "1.4",
+                            display: "block",
+                            color: "#333",
+                            fontFamily: "'Circular', sans-serif",
+                          }}
+                        >
+                          Shipment method
+                        </h3>
+                        <hr
+                          style={{
+                            borderTop: "1px solid #ccc",
+                            margin: "0.2rem -1rem",
+                          }}
+                        />
                         <form className="form">
                           <div className="form__input-row form__input-row--two">
                             <div
@@ -323,18 +433,33 @@ const CheckoutPage = () => {
                               style={{ width: "100%" }}
                             >
                               <select
-                                className="form__input form__input--sm" style={{ marginTop: "-12px", marginLeft: "-25px", fontSize: '0.75rem', color: "#8f8f8f", fontWeight: "400", fontFamily: "'Circular', sans-serif" }}
+                                className="form__input form__input--sm"
+                                style={{
+                                  marginTop: "-12px",
+                                  marginLeft: "-25px",
+                                  fontSize: "0.75rem",
+                                  color: "#8f8f8f",
+                                  fontWeight: "400",
+                                  fontFamily: "'Circular', sans-serif",
+                                }}
                                 onChange={(e) =>
                                   handleShipmentSeclection(e.target.value)
                                 }
                               >
-                                <option style={{ color: "#8f8f8f", fontSize: '0.75rem' }}>Select Shipment Method</option>
+                                <option
+                                  style={{
+                                    color: "#8f8f8f",
+                                    fontSize: "0.75rem",
+                                  }}
+                                >
+                                  Select Shipment Method
+                                </option>
                                 {shipmentMethods.map((val: any) => {
                                   return (
                                     <option value={val.id}>
                                       {val.attributes.name} &#91;
-                                      {val.attributes.currencyIsoCode}-
-                                      {val.attributes.price} &#93;
+                                      {val.attributes.currencyIsoCode}-{"0"}{" "}
+                                      &#93;
                                     </option>
                                   );
                                 })}
@@ -384,9 +509,17 @@ const CheckoutPage = () => {
                     <div style={{ flex: 1, marginRight: "0.5rem", display: "flex", justifyContent: "space-between" }}>
                       <p style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", fontWeight: "300", whiteSpace: "nowrap", display: "flex", marginLeft:"-14px", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Sub Total cost</p>
 
-
-                      <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
-                        {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.subtotal}
+                      <h3
+                        style={{
+                          padding: "1rem 1.25rem",
+                          margin: "0",
+                          fontSize: "0.875rem",
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        {CURRENCY_SYMBOLE}{" "}
+                        {cartData?.data?.attributes?.totals?.subtotal}
                       </h3>
                     </div>
                   </div>
@@ -424,14 +557,115 @@ const CheckoutPage = () => {
                       </h3>
                     </div>
                   </div>
-                  <hr style={{ borderTop: "1px solid #ccc", margin: "0.9375rem -1.05rem" }} />
+                  <hr
+                    style={{
+                      borderTop: "1px solid #ccc",
+                      margin: "0.2rem -1rem",
+                    }}
+                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginBottom: "0.5rem",
+                    }}
+                  >
+                    <div
+                      style={{
+                        flex: 1,
+                        marginRight: "0.5rem",
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <p
+                        style={{
+                          padding: "1rem 1.25rem",
+                          margin: "0",
+                          color: "green",
+                          fontSize: "0.875rem",
+                          fontWeight: "300",
+                          display: "flex",
+                          fontFamily: "'Circular', sans-serif",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        Discount Total
+                      </p>
+
+                      <h3
+                        style={{
+                          color: "green",
+                          padding: "1rem 1.25rem",
+                          margin: "0",
+                          fontSize: "0.875rem",
+                          overflow: "auto",
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        - {CURRENCY_SYMBOLE}{" "}
+                        {cartData?.data?.attributes?.totals?.discountTotal}
+                      </h3>
+                    </div>
+                  </div>
+                  <hr
+                    style={{
+                      borderTop: "1px solid #ccc",
+                      margin: "0.2rem -1rem",
+                    }}
+                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginBottom: "0.5rem",
+                    }}
+                  >
+                    <div
+                      style={{
+                        flex: 1,
+                        marginRight: "0.5rem",
+                        fontSize: "0.875rem",
+                        fontWeight: "300",
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <p
+                        style={{
+                          padding: "1rem 1.25rem",
+                          margin: "0",
+                          color: "#800000",
+                          fontFamily: "'Circular', sans-serif",
+                        }}
+                      >
+                        Total cost
+                      </p>
+
+                      <h3
+                        style={{
+                          color: "#800000",
+                          padding: "1rem 1.25rem",
+                          margin: "0",
+                          fontSize: "0.875rem",
+                        }}
+                      >
+                        = {CURRENCY_SYMBOLE}{" "}
+                        {cartData?.data?.attributes?.totals?.priceToPay}
+                      </h3>
+                    </div>
+                  </div>
+                  <hr
+                    style={{
+                      borderTop: "1px solid #ccc",
+                      margin: "0.9375rem -1.05rem",
+                    }}
+                  />
                 </div>
 
                 {/*  */}
-
               </div>
-
-
 
               <div className="cart-actions__items-wrapper">
                 <button

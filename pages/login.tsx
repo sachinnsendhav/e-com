@@ -17,38 +17,76 @@ const LoginPage = () => {
     setAuthStatus(localStorage.getItem("status"));
     setAuthToken(localStorage.getItem("token"));
   }, []);
-
-  const SubmitHandler = async (e:Event) => {
+  const SubmitHandler = async (e: Event) => {
     e.preventDefault();
-    if(!email || !password){
+    if (!email || !password) {
       alert("Please Enter Values");
-    }else {
-    var formdata = new FormData();
-    formdata.append("grant_type", "password");
-    formdata.append("username", email);
-    formdata.append("password", password);
-    // formdata.append('client_id', "");
-    formdata.append("client_id", "frontend");
-    formdata.append(
-      "client_secret",
-      "ODZJ57z0dlLj1UStVaQ26j2oMaLlokJOQyOwuCBXT5e4ppnA"
-    );
-    const resp:any = await fetch(`${API_URL}/token`, {
-      method: "POST",
-      body: formdata,
-    });
-    const result = await resp.json();
-    if(resp.status == 400){
-      console.log(result,"resp")
-      alert(result?.error_description)
-    }else{
-    localStorage.setItem("token", result?.access_token);
-    await HandleUserDetails(result?.access_token);
-    localStorage.setItem("status", "true");
-    if (result) {
-      router.push("/profile");
-    }}
-  }};
+    } else {
+      try {
+        var formdata = new FormData();
+        formdata.append("grant_type", "password");
+        formdata.append("username", email);
+        formdata.append("password", password);
+        formdata.append("client_id", "frontend");
+        formdata.append(
+          "client_secret",
+          "ODZJ57z0dlLj1UStVaQ26j2oMaLlokJOQyOwuCBXT5e4ppnA"
+        );
+
+        const resp: any = await fetch(`${API_URL}/token`, {
+          method: "POST",
+          body: formdata,
+        });
+
+        const result = await resp.json();
+        if (resp.status === 400) {
+          console.log(result, "resp");
+          alert(result?.error_description);
+        } else {
+          localStorage.setItem("token", result?.access_token);
+          await HandleUserDetails(result?.access_token);
+          localStorage.setItem("status", "true");
+          if (result) {
+            router.push("/profile");
+          }
+        }
+      } catch (error) {
+        console.error("An error occurred:", error);
+      }
+    }
+  };
+
+  // const SubmitHandler = async (e:Event) => {
+  //   e.preventDefault();
+  //   if(!email || !password){
+  //     alert("Please Enter Values");
+  //   }else {
+  //   var formdata = new FormData();
+  //   formdata.append("grant_type", "password");
+  //   formdata.append("username", email);
+  //   formdata.append("password", password);
+  //   // formdata.append('client_id', "");
+  //   formdata.append("client_id", "frontend");
+  //   formdata.append(
+  //     "client_secret",
+  //     "ODZJ57z0dlLj1UStVaQ26j2oMaLlokJOQyOwuCBXT5e4ppnA"
+  //   );
+  //   const resp:any = await fetch(`${API_URL}/token`, {
+  //     method: "POST",
+  //     body: formdata,
+  //   });
+  //   const result = await resp.json();
+  //   if(resp.status == 400){
+  //     console.log(result,"resp")
+  //     alert(result?.error_description)
+  //   }else{
+  //   localStorage.setItem("token", result?.access_token);
+  //   await HandleUserDetails(result?.access_token);
+  //   localStorage.setItem("status", "true");
+  //   if (result) {
+  //     router.push("/profile");
+  //   }}
+  // }};
 
   const HandleUserDetails = async (userToken: any) => {
     try {
@@ -205,8 +243,8 @@ const LoginPage = () => {
                     type="text"
                     name="email"
                     value={email}
-                    onChange={(e)=>setEmail(e.target.value)}
-                    // value={"sonia@spryker.com"} //just for development testing please remove it after development
+                    onChange={(e) => setEmail(e.target.value)}
+                  // value={"sonia@spryker.com"} //just for development testing please remove it after development
                   />
 
                   {/* {errors.email && errors.email.type === "required" && (
@@ -249,7 +287,7 @@ const LoginPage = () => {
                     // value={"change123"} //just for development testing please remove it after development
                     name="password"
                     value={password}
-                    onChange={(e)=>setPassword(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
 
@@ -321,7 +359,7 @@ const LoginPage = () => {
                     background: "rgb(207, 18, 46)",
                     borderRadius: "1px",
                   }}
-                  onClick={(e:any)=>SubmitHandler(e)}
+                  onClick={(e: any) => SubmitHandler(e)}
                   className="btn btn--rounded btn--yellow btn-submit"
                 >
                   Login

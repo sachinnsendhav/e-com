@@ -215,9 +215,9 @@ function orderDetailsPage() {
               <table style={{ width: "100%" }}>
                 <thead>
                   <tr>
-                    <th>Product</th>
+                    {/* <th>Product</th>
                     <th>Name</th>
-                    <th>Quantity</th>
+                    <th>Quantity</th> */}
                     <th>Discount</th>
                     <th>Tax</th>
                     <th>Total</th>

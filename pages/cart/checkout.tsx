@@ -240,8 +240,10 @@ const CheckoutPage = () => {
           <div className="cart__intro">
             <h3 className="cart__title">Shipping and Payment</h3>
             <CheckoutStatus step="checkout" />
+            
           </div>
           <div className="checkout-content">
+          
             <div className="checkout__col-8" style={{ width: "60%" }}>
               <div className="block">
                 <h3 className="block__title">Your cart</h3>
@@ -380,7 +382,7 @@ const CheckoutPage = () => {
                 <div style={{ background: "#f0f0f0", display: "flex", flexDirection: "column", padding: "1rem", height: "269px", width: "18rem", marginBottom: "0.5rem" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
                     <div style={{ flex: 1, marginRight: "0.5rem", display: "flex", justifyContent: "space-between" }}>
-                      <p style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", fontWeight: "300", whiteSpace: "nowrap", display: "flex", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Sub Total cost</p>
+                      <p style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", fontWeight: "300", whiteSpace: "nowrap", display: "flex", marginLeft:"-14px", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Sub Total cost</p>
 
 
                       <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
@@ -391,7 +393,7 @@ const CheckoutPage = () => {
                   <hr style={{ borderTop: "1px solid #ccc", margin: "0.2rem -1rem" }} />
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
                     <div style={{ flex: 1, marginRight: "0.5rem", fontSize: "0.875rem", fontWeight: "300", display: "flex", justifyContent: "space-between" }}>
-                      <p style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", fontWeight: "300", display: "flex", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Tax</p>
+                      <p style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", fontWeight: "300", marginLeft:"-14px", display: "flex", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Tax</p>
                       <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
 
                         + {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.taxTotal}
@@ -402,7 +404,7 @@ const CheckoutPage = () => {
                   <hr style={{ borderTop: "1px solid #ccc", margin: "0.2rem -1rem" }} />
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
                     <div style={{ flex: 1, marginRight: "0.5rem", display: "flex", justifyContent: "space-between" }}>
-                      <p style={{ padding: "1rem 1.25rem", margin: "0", color: "green", fontSize: "0.875rem", fontWeight: "300", display: "flex", fontFamily: "'Circular', sans-serif", justifyContent: "space-between" }}>Discount Total</p>
+                      <p style={{ padding: "1rem 1.25rem", margin: "0", color: "green", fontSize: "0.875rem", marginLeft:"-14px", fontWeight: "300", display: "flex", fontFamily: "'Circular', sans-serif", justifyContent: "space-between" }}>Discount Total</p>
 
 
                       <h3 style={{ color: "green", padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", overflow: "auto", display: "flex", justifyContent: "space-between" }}>
@@ -414,10 +416,10 @@ const CheckoutPage = () => {
                   <hr style={{ borderTop: "1px solid #ccc", margin: "0.2rem -1rem" }} />
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
                     <div style={{ flex: 1, marginRight: "0.5rem", fontSize: "0.875rem", fontWeight: "300", display: "flex", justifyContent: "space-between" }}>
-                      <p style={{ padding: "1rem 1.25rem", margin: "0", color: "#800000", fontFamily: "'Circular', sans-serif" }}>Total cost</p>
+                      <p style={{ padding: "1rem 1.25rem", marginLeft:"-14px", margin: "0", color: "#800000", fontFamily: "'Circular', sans-serif" }}>Total cost</p>
 
 
-                      <h3 style={{ color: "#800000", padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", }}>
+                      <h3 style={{ color: "#800000", marginRight:"-10px", padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", }}>
                         = {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.priceToPay}
                       </h3>
                     </div>

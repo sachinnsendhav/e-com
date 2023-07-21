@@ -53,6 +53,9 @@ export type ProductStoreType = {
   size: string;
   setProductCount:any
   removeProductFromCart:any
+  grandTotal:any
+  subTotal:any
+  taxTotal:any
 }
 
 export type GtagEventType = {

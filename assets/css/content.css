@@ -238,3 +238,50 @@
     opacity: 0;
   }
 }
+
+/* Shooping_list cart CSS */
+
+.cart-item {
+  display: flex;
+  margin-bottom: 10px;
+  width: 75%;
+  margin: auto;
+}
+
+.cart-item__left {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.cart-item__right {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.cart-item__delete {
+  margin-left: 1rem;
+  cursor: pointer;
+}
+
+.quantity-button {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  height: 49px;
+}
+
+.price {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-left: 1rem;
+}
+
+.quantity-buttons{
+  height: 38px;
+  padding: 0 20px;
+  display: inline-flex;
+  align-items: center;
+  border: 0px solid #d8d8d8;
+}

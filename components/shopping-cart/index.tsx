@@ -289,7 +289,7 @@ const ShoppingCart = () => {
 
     const groupKey = item?.groupKey;
     const templateUUID = item?.uuid;
-    const items = item?.data.map((items:any) => {
+    const items = item?.data.map((items: any) => {
       return {
         sku: items?.attributes?.sku,
         quantity: quantity,
@@ -339,34 +339,34 @@ const ShoppingCart = () => {
   };
 
   // useEffect(() => {
-    const handleImage = async(formattedData:any)=>{
-      console.log(formattedData,"formattedData")
-      // var data1:any =formattedData
-     await formattedData?.forEach(async(element: any) => {
-          await element.data.forEach(async (item: any) => {
-            const resp = await fetch(
-              `${API_URL}/concrete-products/${item.attributes.sku}?include=concrete-product-image-sets`,
-              {
-                method: "GET",
-              }
-            );
-            const result = await resp.json();
-            item.attributes.image = 
-              await result.included[0].attributes.imageSets[0].images[0].externalUrlLarge;
-            item.attributes.name = await result.data.attributes.name;
-          });
+  const handleImage = async (formattedData: any) => {
+    console.log(formattedData, "formattedData")
+    // var data1:any =formattedData
+    await formattedData?.forEach(async (element: any) => {
+      await element.data.forEach(async (item: any) => {
+        const resp = await fetch(
+          `${API_URL}/concrete-products/${item.attributes.sku}?include=concrete-product-image-sets`,
+          {
+            method: "GET",
+          }
+        );
+        const result = await resp.json();
+        item.attributes.image =
+          await result.included[0].attributes.imageSets[0].images[0].externalUrlLarge;
+        item.attributes.name = await result.data.attributes.name;
+      });
       // await data1.push(element);
-        })
-        setTimeout(async() => {
+    })
+    setTimeout(async () => {
       await setConfiguredBundleData(formattedData);
-          
-        }, 2000);
-    }
+
+    }, 2000);
+  }
   // }, [configuredBundleDataTemp]);
 
-  console.log(configuredBundleData,"configBundleData")
+  console.log(configuredBundleData, "configBundleData")
   return (
-    <section className="cart" style={{ paddingInline: "75px" , background:'#FFFBED', color:'black' }}>
+    <section className="cart" style={{ paddingInline: "75px", background: '#FFF', color: 'black' }}>
       {isLoading ? (
         <div
           style={{
@@ -391,7 +391,7 @@ const ShoppingCart = () => {
             {cartItems && cartItems?.length > 0 && (
               <table>
                 <tbody>
-                  <tr>
+                  {/* <tr>
                     <th style={{ textAlign: "left", color: "black" }}>
                       Product
                     </th>
@@ -400,24 +400,94 @@ const ShoppingCart = () => {
                     <th style={{ color: "black" }}>Quantity</th>
                     <th style={{ color: "black" }}>Price</th>
                     <th></th>
-                  </tr>
+                  </tr> */}
+                  <div style={{ display: "flex" , marginTop:"-54px" }}>
 
-                  {cartItems.map((item: any, Index: number) => (
-                    <Item
-                      key={item.id}
-                      pliId={item.id}
-                      id={cartPrductArr[Index]?.id}
-                      thumb={cartPrductImgArr[Index]}
-                      avalibility={cartPrductAvableArr[Index]}
-                      name={cartPrductArr[Index]?.attributes?.name}
-                      color={item.color}
-                      price={item.attributes?.calculations?.unitPrice}
-                      size={item.size}
-                      count={item?.attributes?.quantity}
-                      setProductCount={setProductCount}
-                      removeProductFromCart={removeProductFromCart}
-                    />
-                  ))}
+                    {cartItems.map((item: any, Index: number) => (
+                      <Item
+                        key={item.id}
+                        pliId={item.id}
+                        id={cartPrductArr[Index]?.id}
+                        thumb={cartPrductImgArr[Index]}
+                        avalibility={cartPrductAvableArr[Index]}
+                        name={cartPrductArr[Index]?.attributes?.name}
+                        color={item.color}
+                        price={item.attributes?.calculations?.unitPrice}
+                        size={item.size}
+                        grandTotal={item.grandTotal}
+                        subTotal={item.subtotal}
+                        taxTotal={item.taxTotal}
+                        count={item?.attributes?.quantity}
+                        setProductCount={setProductCount}
+                        removeProductFromCart={removeProductFromCart}
+                      />
+                    ))}
+
+                    <div style={{ background: "#f0f0f0", display: "flex", flexDirection: "column", padding: "1rem", height: "365px", width: "18rem", marginBottom: "0.5rem" ,marginLeft:"0.5rem"}}>
+                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
+
+                        <div style={{ flex: 1, marginRight: "0.5rem", display: "flex", justifyContent: "space-between" }}>
+                          <input
+                            type="text"
+                            placeholder="Promo Code"
+                            className="cart__promo-code"
+                          />
+
+                          <hr style={{ borderTop: "1px solid #ccc" }} />
+                        </div>
+                      </div>
+                      <hr style={{ borderTop: "1px solid #ccc" }} />
+
+                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
+
+                        <div style={{ flex: 1, marginRight: "0.5rem", display: "flex", justifyContent: "space-between" }}>
+                          <p style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", fontWeight: "300", whiteSpace: "nowrap", display: "flex", marginLeft: "-14px", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Sub Total</p>
+
+
+                          <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
+                            {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.subtotal}
+                          </h3>
+                        </div>
+                      </div>
+                      <hr style={{ borderTop: "1px solid #ccc" }} />
+                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
+                        <div style={{ flex: 1, marginRight: "0.5rem", fontSize: "0.875rem", fontWeight: "300", display: "flex", justifyContent: "space-between" }}>
+                          <p style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", fontWeight: "300", marginLeft: "-14px", display: "flex", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Tax Total</p>
+                          <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
+
+                            + {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.taxTotal}
+                          </h3>
+                        </div>
+
+                      </div>
+                      <hr style={{ borderTop: "1px solid #ccc" }} />
+                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
+                        <div style={{ flex: 1, marginRight: "0.5rem", display: "flex", justifyContent: "space-between" }}>
+                          <p style={{ padding: "1rem 1.25rem", margin: "0",  fontSize: "0.875rem", marginLeft: "-14px", fontWeight: "300", display: "flex", fontFamily: "'Circular', sans-serif", justifyContent: "space-between" }}>Grand Total</p>
+
+
+                          <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", overflow: "auto", display: "flex", justifyContent: "space-between" }}>
+                            ={CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.grandTotal}
+                          </h3>
+                        </div>
+
+                      </div>
+
+
+
+                    </div>
+                  </div>
+                  <div className="cart-actions__items-wrapper" style={{textAlign:"right"}}>
+              {/* <p className="cart-actions__total">
+                Total cost{" "}
+                <strong>
+                  {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.priceToPay}
+                </strong>
+              </p> */}
+              <a href="/cart/checkout" className="btn btn--rounded btn--yellow" style={{paddingLeft:"7rem",paddingRight:"7rem" , background: "rgb(207, 18, 46"}}>
+                Checkout
+              </a>
+            </div>
                 </tbody>
               </table>
             )}
@@ -429,8 +499,8 @@ const ShoppingCart = () => {
               <div
                 key={index}
                 style={{
-                  marginTop:"10px",
-                  background:"#fff",
+                  marginTop: "10px",
+                  background: "#fff",
                   border: "8px solid #f5f5f5",
                 }}
               >
@@ -477,7 +547,7 @@ const ShoppingCart = () => {
                       quantity = {item.data[0].attributes.quantity}{" "}
                     </p>
                     <p style={{ padding: "10px", fontWeight: "bold" }}>
-                     Total  {CURRENCY_SYMBOLE} {(item.total)*(item.data[0].attributes.quantity)}
+                      Total  {CURRENCY_SYMBOLE} {(item.total) * (item.data[0].attributes.quantity)}
                     </p>
                     <button
                       style={{
@@ -546,7 +616,7 @@ const ShoppingCart = () => {
                               fontWeight: "bold",
                             }}
                           >
-                           = {CURRENCY_SYMBOLE} {(val.attributes.quantity)*(val.attributes.calculations.unitPrice)}
+                            = {CURRENCY_SYMBOLE} {(val.attributes.quantity) * (val.attributes.calculations.unitPrice)}
                           </div>
                         </div>
                       </div>
@@ -560,23 +630,13 @@ const ShoppingCart = () => {
             <a href="/" className="cart__btn-back">
               <i className="icon-left"></i> Continue Shopping
             </a>
-            <input
+            {/* <input
               type="text"
               placeholder="Promo Code"
               className="cart__promo-code"
-            />
+            /> */}
 
-            <div className="cart-actions__items-wrapper">
-              <p className="cart-actions__total">
-                Total cost{" "}
-                <strong>
-                  {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.priceToPay}
-                </strong>
-              </p>
-              <a href="/cart/checkout" className="btn btn--rounded btn--yellow">
-                Checkout
-              </a>
-            </div>
+            
           </div>
         </div>
       )}

@@ -600,8 +600,8 @@ console.log(bundleData,"bundle");
           Sale
         </span> */}
         <h5 className="product__id">
-          ID:&nbsp;
-          {productData?.sku}
+          ID:&nbsp;P C311W
+          {/* {productData?.sku} */}
         </h5>
 
         <div className="product__prices">
@@ -636,16 +636,16 @@ console.log(bundleData,"bundle");
       <div className="product-content__filters" style={{borderTop: "0.0625rem solid #e7eaee",paddingTop: "1rem"}}>
         {productData && (
           <div style={{ display: "flex", marginBottom: "2rem" }}>
-            <div style={{ display: "flex", flexDirection: "column" }}>
+            <div style={{ display: "flex", flexDirection: "column", justifyContent:"space-evenly",height: "100px"}}>
               {Object.keys(productData?.attributes)?.map((item, index) => {
                 const formattedKey = item
                   .split("_")
                   .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                   .join(" ");
-                return <span key={index}>{formattedKey}</span>;
+                return <h5 key={index}>{formattedKey}</h5>;
               })}
             </div>
-            <div style={{ display: "flex", flexDirection: "column" }}>
+            <div style={{ display: "flex", flexDirection: "column", justifyContent:"space-evenly", height: "100px", marginLeft: "30px", fontWeight:"400"  }}>
               {Object.keys(productData?.attributes)?.map((item, index) => {
                 return (
                   <span key={index}> {productData?.attributes[item]}</span>

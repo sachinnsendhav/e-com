@@ -33,6 +33,9 @@ const ProductItem = ({ images, id, name, price, description }: any) => {
           >
             {name}
           </h3>
+          <p style={{ fontSize: ".875rem", marginTop: "1rem" }} className="pid">
+            ID: P C311W
+          </p>
       <div className="product__image">
        
         

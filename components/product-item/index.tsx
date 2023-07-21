@@ -337,7 +337,7 @@ const ProductItem = ({
       </div>
       <div style={{ display: "flex", justifyContent: "space-between" }} className="product-price">
         <span
-          style={{ fontWeight: "bold", color: "rgb(207 18 46)", paddingTop: "10px" }}
+          style={{ fontWeight: "bold", color: "rgb(207 18 46)" }}
         >
           {CURRENCY_SYMBOLE} {price}
         </span>

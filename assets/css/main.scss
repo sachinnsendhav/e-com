@@ -1023,10 +1023,11 @@ ul.product-description{
 // }
 .product__description{
   font-size: .875rem;
-  // line-height: 1.25rem;
+  margin-bottom: 1rem;
 }
 .product-price {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
@@ -3058,4 +3059,9 @@ ul.product-description{
       background-color: red;
     }
   }
+}
+
+.product-bundle{
+  padding-top: 1rem;
+  // border-top: 0.0625rem solid #e7eaee;
 }

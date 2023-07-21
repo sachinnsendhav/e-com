@@ -591,16 +591,16 @@ console.log(bundleData,"bundle");
   };
   return (
     <section className="product-content">
-      <div className="product-content__intro">
+      <div className="product-content__intro" style={{borderBottom: "0.0625rem solid #e7eaee"}}>
         <h1 className="product__name">{productData?.name}</h1>
-        <span
+        {/* <span
           className="product-on-sale"
           style={{ background: "rgb(207, 18, 46)" }}
         >
           Sale
-        </span>
+        </span> */}
         <h5 className="product__id">
-          Product ID:&nbsp;
+          ID:&nbsp;
           {productData?.sku}
         </h5>
 
@@ -611,7 +611,7 @@ console.log(bundleData,"bundle");
             </h4>
           ) : (
             <>
-            <h4 style={{ color: "rgb(207, 18, 46)" }}>
+            <h4 style={{ color: "rgb(207, 18, 46)", marginTop: "1rem" ,marginBottom: "1rem" }}>
               {priceSymbole} {price} 
             </h4>
             <span style={{fontSize:"8px"}}>Offer Not Avalible</span>
@@ -625,15 +625,15 @@ console.log(bundleData,"bundle");
         {bundleData?.map((item:any)=>{
             console.log(item,"bundItem");
             return (
-                <div style={{display:"flex", margin:"20px"}}>
-                    <img src={item?.image} width='100px'/>
-                    <div style={{display:"flex", flexDirection:"column", margin:"20px"}}><span>{item?.name}</span><span>x {item?.attributes?.quantity}</span></div>
+                <div style={{display:"flex", margin:"20px"}} className="product-bundle">
+                    <img src={item?.image} width='70px'/>
+                    <div style={{display:"flex", flexDirection:"column", margin:"20px"}}><span>{item?.name}</span><span style={{color: "#8f8f8f"}}>x {item?.attributes?.quantity}</span></div>
                 </div>
             )
         })}
       </div>}
 
-      <div className="product-content__filters">
+      <div className="product-content__filters" style={{borderTop: "0.0625rem solid #e7eaee",paddingTop: "1rem"}}>
         {productData && (
           <div style={{ display: "flex", marginBottom: "2rem" }}>
             <div style={{ display: "flex", flexDirection: "column" }}>
@@ -648,7 +648,7 @@ console.log(bundleData,"bundle");
             <div style={{ display: "flex", flexDirection: "column" }}>
               {Object.keys(productData?.attributes)?.map((item, index) => {
                 return (
-                  <span key={index}>: {productData?.attributes[item]}</span>
+                  <span key={index}> {productData?.attributes[item]}</span>
                 );
               })}
             </div>

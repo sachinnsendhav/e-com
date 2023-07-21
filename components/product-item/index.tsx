@@ -282,7 +282,7 @@ const ProductItem = ({
         >
           <i className="icon-heart"></i>
         </button>
-        <div style={{ height: "100px" }}>
+        <div style={{ height: "100px",marginBottom: "3rem" }}>
           <h3
             style={{
               fontFamily: "sans-serif",

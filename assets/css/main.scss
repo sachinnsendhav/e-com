@@ -3059,3 +3059,21 @@ ul.product-description{
     }
   }
 }
+.product-single .product-single__info .product-single__info-btns {
+  margin-left: 0px !important;
+  margin-bottom:10px;
+}
+.product-single__info {
+  line-height: 1.25rem;
+  padding-left: 30px;
+}
+.product-id{
+  font-weight: 400;
+}
+.product-content-top-specification h5, .product-content-top-specification span{
+  font-size: .875rem;
+  line-height: 1.25rem;
+}
+.product-content .product__prices h4 {
+  margin-top:1rem;
+}

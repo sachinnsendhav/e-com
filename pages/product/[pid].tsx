@@ -145,12 +145,13 @@ const Product = () => {
               {/* <button type="button" onClick={() => setShowBlock('reviews')} className={`btn btn--rounded ${showBlock === 'reviews' ? 'btn--active' : ''}`}>Reviews (2)</button> */}
             </div>
             {/* // updated the code because it was showing html tags aas texts, added bullet points to the description to make it look appealing */}
-            <p>{mainDisc}</p>
+            <p style={{ fontWeight: "600",marginBottom:"10px" }}>{mainDisc}</p> 
             <p
               style={{
                 fontFamily: "inherit",
                 letterSpacing: "1px",
                 lineHeight: "25px",
+                marginLeft:"10px"
               }}
             >{sentences?.map((item:any) => item ? <li>{item}</li>:"")}
             </p>

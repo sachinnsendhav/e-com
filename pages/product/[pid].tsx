@@ -53,6 +53,12 @@ const Product = () => {
       console.error("Error occurred while fetching image:", error);
     }
   };
+
+  const temp = product?.description.split('&')[1]
+  const mainDisc = product?.description.split('&')[0]
+  const sentences = temp?.split(/\.|<B>/)
+    .map((sentence: any) => sentence.replace(/-/g, ' ').replace(/<br\/?>/g, '').replace(/<\/?b>/g, ''));
+  console.log(sentences,"descccc");
   useEffect(() => {
     if (productId) {
       getProductDetails();
@@ -139,20 +145,15 @@ const Product = () => {
               {/* <button type="button" onClick={() => setShowBlock('reviews')} className={`btn btn--rounded ${showBlock === 'reviews' ? 'btn--active' : ''}`}>Reviews (2)</button> */}
             </div>
             {/* // updated the code because it was showing html tags aas texts, added bullet points to the description to make it look appealing */}
+            <p>{mainDisc}</p>
             <p
               style={{
                 fontFamily: "inherit",
                 letterSpacing: "1px",
                 lineHeight: "25px",
               }}
-              dangerouslySetInnerHTML={{
-                __html: `<ul style="list-style-type: disc; margin-left: 1.5em; padding-left: 1em;">${product?.description
-                  ?.replace(/<br\/?>/g, "<br/>")
-                  .split("<br/>")
-                  .map((item:any) => `<li>${item}</li>`)
-                  .join("")}</ul>`,
-              }}
-            ></p>
+            >{sentences?.slice(0,3)?.map((item:any) => <li>${item}</li>)}
+            </p>
           </div>
         </div>
         {productData.length > 0 ? (

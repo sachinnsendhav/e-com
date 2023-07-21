@@ -1,6 +1,6 @@
 import React from "react";
 //@ts-ignore
-import profileIcon from '../../assets/images/addresses.png';
+import profileIcon from '../../assets/images/profile.png';
 //@ts-ignore
 import addressesIcon from "../../assets/images/addresses.png";
 //@ts-ignore
@@ -26,6 +26,7 @@ function profileSection({ showBlock, setShowBlock }: any) {
           lineHeight: "1.3em",
           fontSize: "1.0625rem",
           fontWeight: "500",
+          cursor:"pointer",
           color: showBlock === "profile" ? "black" : "#b2b2b2",
         }}
         onClick={() => setShowBlock("profile")}
@@ -49,6 +50,7 @@ function profileSection({ showBlock, setShowBlock }: any) {
           lineHeight: "1.3em",
           fontSize: "1.0625rem",
           fontWeight: "500",
+          cursor:"pointer",
           color: showBlock === "address" ? "black" : "#b2b2b2",
         }}
         onClick={() => setShowBlock("address")}
@@ -71,6 +73,7 @@ function profileSection({ showBlock, setShowBlock }: any) {
           padding: "0.125rem 0.8125rem",
           lineHeight: "1.3em",
           fontSize: "1.0625rem",
+          cursor:"pointer",
           fontWeight: "500",
           color: showBlock === "order" ? "black" : "#b2b2b2",
         }}
@@ -91,6 +94,7 @@ function profileSection({ showBlock, setShowBlock }: any) {
           padding: "0.125rem 0.8125rem",
           lineHeight: "1.3em",
           fontSize: "1.0625rem",
+          cursor:"pointer",
           fontWeight: "500",
           color: showBlock === "shoppingList" ? "black" : "#b2b2b2",
         }}

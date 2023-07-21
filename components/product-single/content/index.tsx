@@ -629,10 +629,14 @@ const Content = (product: any) => {
               })}
             </div>
             <div style={{ display: "flex", flexDirection: "column", justifyContent:"space-evenly", height: "100px", marginLeft: "30px", fontWeight:"400" }}>
-              {Object.keys(productData?.attributes)?.map((item, index) => {
+              {Object.keys(productData?.attributes)?.map((item:any, index) => {
+                console.log(productData?.attributes[item],"formattedKey")
+                if(item == "color" ){
+                  return (<span key={index} style={{background:`${productData?.attributes[item]}`, width:"30px", height:"30px"}}></span>)
+                }else{
                 return (
                   <span key={index}> {productData?.attributes[item]}</span>
-                );
+                );}
               })}
             </div>
           </div>

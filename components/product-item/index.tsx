@@ -326,9 +326,10 @@ const ProductItem = ({
           {/* <h3 style={{ fontFamily: "sans-serif" }}>Description: </h3> */}
           {sentences?.slice(0, 4).map((item: any, index: number) => (
             <ul>
+              {item ? 
               <li style={{ marginTop: "1rem" }} key={index}>
                 {item}
-              </li>
+              </li>:""}
             </ul>
           ))}
         </div>

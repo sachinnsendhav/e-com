@@ -152,7 +152,7 @@ const Product = () => {
                 letterSpacing: "1px",
                 lineHeight: "25px",
               }}
-            >{sentences?.slice(0,3)?.map((item:any) => <li>${item}</li>)}
+            >{sentences?.map((item:any) => item ? <li>{item}</li>:"")}
             </p>
           </div>
         </div>

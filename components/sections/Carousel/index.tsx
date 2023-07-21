@@ -48,22 +48,22 @@ function index(data: any) {
       <div className="carousalContainer">
         <Slider {...settings}>
           {updatedArr?.map((item: any, index: number) => (
-           authStatus == (item?.isLoggedIn).toString() ?
+            authStatus == (item?.isLoggedIn).toString() ?
 
-            <>
-              <div className="carousalItem" style={{width:"100%"}} key={index}>
-                <img
-                  alt="carousalImg"
-                  style={{ height: "35rem",width:"100%" }}
-                  src={item?.image}
-                />
-                <div className="carousalDetails">
-                  <h3>{item?.title}</h3>
-                  <p>{item?.description}</p>
-                  <a onClick={()=>(window.location.href=item?.btnlink)}>{item?.btntext}</a>
+              <>
+                <div className="carousalItem" style={{ width: "100%" }} key={index}>
+                  <img
+                    alt="carousalImg"
+                    style={{ height: "35rem", width: "100%" }}
+                    src={item?.image}
+                  />
+                  <div className="carousalDetails">
+                    <h3>{item?.title}</h3>
+                    <p>{item?.description}</p>
+                    <a onClick={() => (window.location.href = item?.btnlink)}>{item?.btntext}</a>
+                  </div>
                 </div>
-              </div>
-            </>:""
+              </> : null
           ))}
         </Slider>
       </div>

@@ -1,23 +1,24 @@
 import Layout from "../layouts/Main";
 // import PageIntro from "../components/page-intro";
 // import ProductsFeatured from "../components/products-featured";
-import { CURRENCY_SYMBOLE } from "config";
+// import { CURRENCY_SYMBOLE } from 'config';
 
 // import ProductsFeatured from "../components/products-featured`;
 import Footer from "../components/footer";
 // import Subscribe from "../components/subscribe";
 import { API_URL } from "../config";
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import RenderPageSection from "../cms/renderPageSections";
+// import Link from "next/link";
+import RenderPageSection from "../cms/renderPageSections"
 // import { forEach } from "lodash";
 const IndexPage = () => {
   const [cmsData, setCmsData] = useState();
   const [authToken, setAuthToken] = useState<any>("");
   const [product, setProduct] = useState<any[]>([]);
   const [productData, setProductData] = useState<any[]>([]);
-  const [ricohCms, setRicohCms] = useState<any[]>([]);
-  const [imageData, setImageData] = useState<any[]>([]);
+  const [ricohCms, setRicohCms] = useState<any[]>([])
+  const [imageData, setImageData] = useState<any[]>([])
+  console.log("productData",productData)
   useEffect(() => {
     setAuthToken(localStorage.getItem("token"));
   }, []);
@@ -300,7 +301,7 @@ const IndexPage = () => {
           </section> */}
         </>
       ) : null}
-      <h1
+      {/* <h1
         style={{
           fontSize: "24px",
           fontWeight: "bold",
@@ -348,7 +349,7 @@ const IndexPage = () => {
             </div>
           );
         })}
-      </div>
+      </div> */}
 
       {/* <ProductsFeatured /> */}
       {/* <Subscribe /> */}

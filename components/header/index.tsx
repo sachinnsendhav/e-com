@@ -392,26 +392,30 @@ const Header = ({ isErrorPage }: HeaderType) => {
               ) : (
                 ""
               )}
-              {customerGroup == "DE--5" && (
+              {/* {customerGroup == "DE--5" && (
                 <Link href={`/productList/ink-&-toner?nodeId=43`}>
-                  <a style={{ color: "black", padding: "5px" }}>Ink & Toner</a>
-                </Link>
-              )}
-              {customerGroup == "DE--6" && (
-                <Link href={`/productList/ink-&-toner?nodeId=43`}>
-                  <a style={{ color: "black", padding: "5px" }}>Ink & Toner</a>
-                </Link>
-              )}
-              {customerGroup == "DE--7" && (
-                <Link href={`/productList/ricoh?nodeId=39`}>
-                  <a style={{ color: "black", padding: "5px" }}>Printers</a>
-                </Link>
-              )}
-              {customerGroup == "DE--21" && (
-                <Link href={`/productList/ricoh?nodeId=39`}>
-                  <a style={{ color: "black", padding: "5px" }}>Printers</a>
-                </Link>
-              )}
+                <a style={{ color: "black", padding: "5px" }}>Ink & Toner</a>
+              </Link>
+              <Link href={`/productList/ricoh?nodeId=39`}>
+                <a className="printer" style={{ color: "black", padding: "5px" }}>Printers</a>
+              </Link>
+              </> :""} */}
+              {customerGroup == "DE--5" &&
+              <Link href={`/productList/ink-&-toner?nodeId=43`}>
+                <a style={{ color: "black", padding: "5px" }}>Ink & Toner</a>
+              </Link>}
+              {customerGroup == "DE--6" &&
+              <Link href={`/productList/ink-&-toner?nodeId=43`}>
+                <a style={{ color: "black", padding: "5px" }}>Ink & Toner</a>
+              </Link>}
+              {customerGroup == "DE--7" &&
+              <Link href={`/productList/ricoh?nodeId=39`}>
+                <a style={{ color: "black", padding: "5px" }}>Printers</a>
+              </Link>}
+              {customerGroup == "DE--21" &&
+              <Link href={`/productList/ricoh?nodeId=39`}>
+                <a style={{ color: "black", padding: "5px" }}>Printers</a>
+              </Link>}
             </div>
           </div>
           {authStatus === "false" ? (

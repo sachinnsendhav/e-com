@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { API_URL } from "../../../config";
-import { CURRENCY_SYMBOLE } from "config";
+import { CURRENCY_SYMBOLE } from 'config';
+//@ts-ignore
+import deleteIcon from '../../../assets/images/delete.png'
+// import Loader from '../../loader'
 
 type WishlistType = {
   show: boolean;

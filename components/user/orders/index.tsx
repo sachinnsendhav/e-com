@@ -50,50 +50,53 @@ const Orders = ({ show }: AddressType) => {
       {loading
         ? <div style={{ width: "100%", display: "flex", justifyContent: "center", paddingTop: "20px" }}>
           <Loader />
-        </div> : <>
-          <h1 style={{
-            fontWeight: "500",
-            fontSize: "1.5rem",
-            lineHeight: "1.4",
-            color: "#333",
-            paddingBottom: "10px"
-          }}>Order History</h1>
-          <table style={{
-            width: "100%",
-            borderCollapse: "collapse",
-            borderSpacing: "0",
-            border: "none"
-          }}>
-            <thead style={{
-              backgroundColor: "#f0f0f0",
-              textTransform: "uppercase",
+        </div> :
+        order?.length > 0 ?
+          <>
+            <h1 style={{
+              fontWeight: "500",
+              fontSize: "1.5rem",
+              lineHeight: "1.4",
+              color: "#333",
+              paddingBottom: "10px"
+            }}>Order History</h1>
+            <table style={{
+              width: "100%",
+              borderCollapse: "collapse",
+              borderSpacing: "0",
               border: "none"
             }}>
-              <tr>
-                <th style={{ padding: "15px", color: "#333", fontWeight: "700" }}>REFERENCE</th>
-                <th style={{ color: "#333", fontWeight: "700", padding: "15px" }}>Date</th>
-                <th style={{ color: "#333", fontWeight: "700", padding: "15px" }}>Total</th>
-                <th style={{ color: "#333", fontWeight: "700", padding: "15px" }}>Action</th>
-              </tr>
-            </thead>
-            <tbody style={{ fontSize: "0.875rem" }} >
-              {order?.length > 0 ? order.map((item: any) => {
-                return (
-                  <tr style={{ borderBottom: "1px solid #B2B2B2" }}>
-                    <td style={{ color: "#4c4c4c", padding: "1rem 0.9375rem", textAlign: "center" }}>{item.id}</td>
-                    <td style={{ color: "#4c4c4c", padding: "1rem 0.9375rem", textAlign: "center" }}>{item.attributes.createdAt.split(' ')[0]}</td>
-                    <td style={{ color: "#4c4c4c", padding: "1rem 0.9375rem", textAlign: "center" }}> {CURRENCY_SYMBOLE} {item.attributes.totals.grandTotal}</td>
-                    <td style={{ color: "#4c4c4c", padding: "1rem 0.9375rem", textAlign: "center" }}>
-                      <Link href={`/order-details/${item.id}`}>
-                        <img src={eyeIcon.src} style={{ width: "25px", height: "25px" }} />
-                      </Link></td>
-                  </tr>
-                )
-              }) : ""}
+              <thead style={{
+                backgroundColor: "#f0f0f0",
+                textTransform: "uppercase",
+                border: "none"
+              }}>
+                <tr>
+                  <th style={{ padding: "15px", color: "#333", fontWeight: "700" }}>REFERENCE</th>
+                  <th style={{ color: "#333", fontWeight: "700", padding: "15px" }}>Date</th>
+                  <th style={{ color: "#333", fontWeight: "700", padding: "15px" }}>Total</th>
+                  <th style={{ color: "#333", fontWeight: "700", padding: "15px" }}>Action</th>
+                </tr>
+              </thead>
+              <tbody style={{ fontSize: "0.875rem" }} >
+                {order?.length > 0 ? order.map((item: any) => {
+                  return (
+                    <tr style={{ borderBottom: "1px solid #B2B2B2" }}>
+                      <td style={{ color: "#4c4c4c", padding: "1rem 0.9375rem", textAlign: "center" }}>{item.id}</td>
+                      <td style={{ color: "#4c4c4c", padding: "1rem 0.9375rem", textAlign: "center" }}>{item.attributes.createdAt.split(' ')[0]}</td>
+                      <td style={{ color: "#4c4c4c", padding: "1rem 0.9375rem", textAlign: "center" }}> {CURRENCY_SYMBOLE} {item.attributes.totals.grandTotal}</td>
+                      <td style={{ color: "#4c4c4c", padding: "1rem 0.9375rem", textAlign: "center" }}>
+                        <Link href={`/order-details/${item.id}`}>
+                          <img src={eyeIcon.src} style={{ width: "25px", height: "25px" }} />
+                        </Link></td>
+                    </tr>
+                  )
+                }) : ""}
 
-            </tbody>
-          </table>
-        </>}
+              </tbody>
+            </table>
+          </>
+          : <></>}
     </div>
   )
 }

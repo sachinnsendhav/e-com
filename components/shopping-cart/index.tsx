@@ -31,6 +31,7 @@ const ShoppingCart = () => {
   // };
 
   const handlecart = async () => {
+    setIsLoading(true);
     try {
       const resp = await fetch(`${API_URL}/carts`, {
         method: "GET",
@@ -64,6 +65,7 @@ const ShoppingCart = () => {
 
   useEffect(() => {
     const handleGetCart = async () => {
+      setIsLoading(true)
       try {
         const resp = await fetch(
           `${API_URL}/carts/${cartId}?include=items%2Cbundle-items`,
@@ -81,7 +83,7 @@ const ShoppingCart = () => {
           window.location.href = "/login";
           return;
         } else if (resp.status === 404) {
-          alert("Cart not found: checking");
+          // alert("Cart not found: checking");
           await handlecart();
           return;
         }

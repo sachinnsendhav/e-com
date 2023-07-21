@@ -606,9 +606,12 @@ const Content = (product: any) => {
               {CURRENCY_SYMBOLE} {selectedMerchantOffer?.price}
             </h4>
           ) : (
+            <>
             <h4 style={{ color: "rgb(207, 18, 46)" }}>
-              {priceSymbole} {price} <span style={{fontSize:"8px"}}>without offer</span>
+              {priceSymbole} {price} 
             </h4>
+            <span style={{fontSize:"8px"}}>Offer Not Avalible</span>
+            </>
           )}
         </div>
       </div>

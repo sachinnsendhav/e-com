@@ -266,9 +266,10 @@ const ProductItem = ({
     }
   };
 
-  const sentences = description?.split(/\.|<B>/)
+  const temp = description.split('&')[1]
+  const sentences = temp?.split(/\.|<B>/)
     .map((sentence: any) => sentence.replace(/-/g, ' ').replace(/<br\/?>/g, '').replace(/<\/?b>/g, ''));
-  console.log(description);
+  console.log(sentences,"descccc");
 
 
   return (
@@ -323,11 +324,12 @@ const ProductItem = ({
 
         <div className="product__description">
           {/* <h3 style={{ fontFamily: "sans-serif" }}>Description: </h3> */}
-          {sentences?.slice(0, 2).map((item: any, index: number) => (
-            <ul style={{ listStyle: "disc" }} className="product-description">
-              <li style={{marginBottom: "1rem"}} key={index}>
+          {sentences?.slice(0, 4).map((item: any, index: number) => (
+            <ul>
+              {item ? 
+              <li style={{ marginTop: "1rem" }} key={index}>
                 {item}
-              </li>
+              </li>:""}
             </ul>
           ))}
         </div>

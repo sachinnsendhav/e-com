@@ -6,7 +6,7 @@ import Layout from "../layouts/Main";
 // import ProductsFeatured from "../components/products-featured`;
 import Footer from "../components/footer";
 // import Subscribe from "../components/subscribe";
-import { API_URL } from '../config'
+import { API_URL } from "../config";
 import { useEffect, useState } from "react";
 // import Link from "next/link";
 import RenderPageSection from "../cms/renderPageSections"
@@ -93,17 +93,27 @@ const IndexPage = () => {
   };
 
   const getRelatedProduct = async () => {
-    const resp = await fetch(
-      `${API_URL}/abstract-products/408244/related-products`,
-      {
-        method: "GET",
-        headers: {
-          authorization: `Bearer ${authToken}`,
-        },
+    try {
+      const resp = await fetch(
+        `${API_URL}/abstract-products/408244/related-products`,
+        {
+          method: "GET",
+          headers: {
+            authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+      if (!resp.ok) {
+        // Handle non-2xx status codes (e.g., 4xx, 5xx)
+        throw new Error(
+          `Failed to fetch related products: ${resp.status} ${resp.statusText}`
+        );
       }
-    );
-    const result = await resp.json();
-    setProduct(result?.data);
+      const result = await resp.json();
+      setProduct(result?.data);
+    } catch (error) {
+      console.error("Error fetching related products:", error);
+    }
   };
 
   const getProductDetails = async (id: any) => {
@@ -150,21 +160,24 @@ const IndexPage = () => {
   }, [product]);
 
   const getCmsData = async () => {
-    const resp = await fetch('https://cdn.contentful.com/spaces/cp3b8ygfr8vj/environments/master/entries', {
-      method: "GET",
-      headers: {
-        authorization: `Bearer han2JFRAHW29fPTXp-2tIonLLKQicrfxfH6rFW-f9oY`
+    const resp = await fetch(
+      "https://cdn.contentful.com/spaces/cp3b8ygfr8vj/environments/master/entries",
+      {
+        method: "GET",
+        headers: {
+          authorization: `Bearer han2JFRAHW29fPTXp-2tIonLLKQicrfxfH6rFW-f9oY`,
+        },
       }
-    });
+    );
     const result = await resp.json();
     console.log("result-ricoh-cms---", result);
     setImageData(result.includes.Asset);
-    const arr: any = []
+    const arr: any = [];
     result.items.forEach((element: any) => {
       arr.push({
         id: element.sys.contentType.sys.id,
-        data: element.fields
-      })
+        data: element.fields,
+      });
     });
     const modifiedData = arr.reduce((acc: any, item: any) => {
       const { id, data } = item;
@@ -180,12 +193,12 @@ const IndexPage = () => {
       return acc;
     }, []);
 
-    setRicohCms(modifiedData)
-    console.log("modifiedData", modifiedData)
-  }
+    setRicohCms(modifiedData);
+    console.log("modifiedData", modifiedData);
+  };
   useEffect(() => {
-    getCmsData()
-  }, [])
+    getCmsData();
+  }, []);
 
   return (
     <Layout>

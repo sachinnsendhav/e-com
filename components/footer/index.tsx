@@ -58,15 +58,15 @@ const Footer = () => {
         width:"100%"
       }}>
         <div style={{ width: "80%",margin: "auto" }}>
-          <div style={{ display: "flex", margin:"auto", textAlign:"center",fontWeight: "500" }}>
-            <ul style={{display:"flex", fontSize:"14px"}}>
+          <div style={{ display: "flex", margin:"auto", textAlign:"center",fontWeight: "500",justifyContent: "center" }}>
+            <ul style={{display:"flex", fontSize:"14px", listStyle:"none"}}>
               <li style={{padding:"5px", color:"white"}}>Contact</li>
               <li style={{padding:"5px", color:"white"}}>Privacy</li>
               <li style={{padding:"5px", color:"white"}}>Accessibility</li>
               <li style={{padding:"5px", color:"white"}}>Sitemap</li>
               <li style={{padding:"5px", color:"white"}}>Terms of Use and Condition</li>
             </ul>
-            <ul style={{display:"flex", fontSize:"14px", textAlign:"center"}}>
+            <ul style={{display:"flex", fontSize:"14px", textAlign:"center" , listStyle:"none"}}>
               <li style={{padding:"5px", color:"white"}}>Careers</li>
               <li style={{padding:"5px", color:"white"}}>Locations</li>
               <li style={{padding:"5px", color:"white"}}>Access ricoh.com (global)</li>

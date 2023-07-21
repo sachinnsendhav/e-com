@@ -266,9 +266,10 @@ const ProductItem = ({
     }
   };
 
-  const sentences = description?.split(/\.|<B>/)
+  const temp = description.split('&')[1]
+  const sentences = temp?.split(/\.|<B>/)
     .map((sentence: any) => sentence.replace(/-/g, ' ').replace(/<br\/?>/g, '').replace(/<\/?b>/g, ''));
-  console.log(description);
+  console.log(sentences,"descccc");
 
 
   return (
@@ -281,13 +282,13 @@ const ProductItem = ({
         >
           <i className="icon-heart"></i>
         </button>
-        <div style={{ height: "100px" }}>
+        <div style={{ height: "100px",marginBottom: "3rem" }}>
           <h3
             style={{
               fontFamily: "sans-serif",
               marginTop: "1rem",
               marginBottom: "1rem",
-              fontSize: "1.3rem",
+              fontSize: "18px",
             }}
           >
             {name}
@@ -296,12 +297,13 @@ const ProductItem = ({
             style={{
               fontFamily: "sans-serif",
               marginTop: "1rem",
-              marginBottom: "1rem"
+              marginBottom: "1rem",
+              fontSize: ".875rem"
             }}
           >
             Model : MX-COPIER
           </p>
-          <p style={{ fontFamily: "sans-serif", marginBottom: "1rem" }} className="pid">
+          <p style={{ fontSize: ".875rem", marginBottom: "1rem" }} className="pid">
             ID: {concreteId}
           </p>
         </div>
@@ -323,18 +325,19 @@ const ProductItem = ({
 
         <div className="product__description">
           {/* <h3 style={{ fontFamily: "sans-serif" }}>Description: </h3> */}
-          {sentences?.slice(0, 2).map((item: any, index: number) => (
+          {sentences?.slice(0, 4).map((item: any, index: number) => (
             <ul>
-              <li style={{ marginTop: "1rem" }} key={index}>
+              {item ? 
+              <li style={{ marginTop: "1rem",fontSize: ".875rem" }} key={index}>
                 {item}
-              </li>
+              </li>:""}
             </ul>
           ))}
         </div>
       </div>
       <div style={{ display: "flex", justifyContent: "space-between" }} className="product-price">
         <span
-          style={{ fontWeight: "bold", color: "rgb(207 18 46)", paddingTop: "10px" }}
+          style={{ fontWeight: "bold", color: "rgb(207 18 46)" }}
         >
           {CURRENCY_SYMBOLE} {price}
         </span>

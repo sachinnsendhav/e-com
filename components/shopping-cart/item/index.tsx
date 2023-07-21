@@ -9,9 +9,9 @@ const ShoppingCart = ({ thumb, name, pliId, id, avalibility, size, count, price,
 
   return (
   
-    <div className="cart-item" style={{ marginBottom: "10px", width: "75%", border: "3px solid rgba(0, 0, 0, 0.05)", display:"flex" }}>
+    <div className="cart-item" style={{ marginBottom: "10px", width: "100%", border: "3px solid rgba(0, 0, 0, 0.05)"}}>
       <div className="cart-item__content" style={{ display: "flex", alignItems: "center" }}>
-        <div style={{ backgroundColor: "rgba(0, 0, 0, 0.05)", height: "40vh", padding: "1rem", marginRight: "1rem" }}>
+        <div style={{ backgroundColor: "rgba(0, 0, 0, 0.05)", height: "40vh",width:"8rem", padding: "1rem", marginRight: "1rem" }}>
           <div className="cart-item__left" style={{ width: "100%", height: "80px", marginTop: "10vh", marginRight: "1rem", overflow: "hidden" }}>
             <img src={thumb} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           </div>
@@ -27,6 +27,8 @@ const ShoppingCart = ({ thumb, name, pliId, id, avalibility, size, count, price,
         </div>
         <div style={{ alignItems: "right", marginTop: "2rem" }}>
           <div style={{ background: "rgba(0, 0, 0, 0.05", marginLeft: "29.3rem" }} className="quantity-buttons">
+          <span style={{background:"white",color:"black"}}>Quantity</span>
+            
             <button type="button" style={{ background: "white", width: "31px" }} onClick={() => setProductCount(count - 1, pliId, id)} className="quantity-button__btn">
               -
             </button>

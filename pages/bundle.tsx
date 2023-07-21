@@ -14,13 +14,18 @@ const Bundle = () => (
 
           <section className="products-list">
             <ProductItem
-              id="212"
-              name="ASUS Bundle"
-              price="$95.00"
-              key="212"
-              images="https://d2s0ynfc62ej12.cloudfront.net/b2c/product-bundle-asus.jpg"
+              id="bundle"
+              name="Printer Bundle"
+              price="150.00"
+              key="bundle"
+              description="Support small workgroups, hybrid office environments and mobile teams with secure, high-quality printing in a compact package&
+                Prints up to 26 ppm, copy, scan, fax.
+                2400x600 dpi max print resolution.
+                Paper capacity up to 751 sheets.
+                Superior features in an affordable package"
+              images="https://www.ricoh-usa.com/_next/image?url=http%3A%2F%2Fimages.salsify.com%2Fimages%2Fsazo66qaseg59pluw10a%2Fricohimages_Equipment_Printers-and-Copiers_eqp-p-c311W-10.png&w=1920&q=75"
             />
-            <ProductItem
+            {/* <ProductItem
               id="211"
               name="HP Bundle"
               price="$705.00"
@@ -40,7 +45,7 @@ const Bundle = () => (
               price="$1,000.00"
               key="210"
               images="https://d2s0ynfc62ej12.cloudfront.net/b2c/product-bundle-sony.jpg"
-            />
+            /> */}
           </section>
         </section>
       </div>

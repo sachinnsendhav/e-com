@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 
 function index(data: any) {
-  const [authStatus, setAuthStatus] = useState<any>("");
+  const [authStatus, setAuthStatus]= useState<any>("false");
 
   console.log(data, "data for carousal");
   const settings = {

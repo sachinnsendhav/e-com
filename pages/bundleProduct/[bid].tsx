@@ -6,7 +6,7 @@ import Layout from '../../layouts/Main';
 import Breadcrumb from '../../components/breadcrumb';
 // import ProductsFeatured from '../../componen/ts/products-featured';
 import Gallery from '../../components/product-single/gallery';
-import Content from '../../components/product-single/content';
+import Content from '../../components/bundleProduct-item/bundlePdp';
 // import Description from '../../components/product-single/description';
 // import Reviews from '../../components/product-single/reviews';
 import { useRouter } from 'next/router';
@@ -17,13 +17,31 @@ import {API_URL, CURRENCY_SYMBOLE} from 'config';
 const BundleProduct = ({ image }:any) => {
   const router = useRouter();
   const productId = router.query.skuId;
+  var cartId: any;
+  var token: any;
+  var customerGroup: any = "";
+  if (typeof window !== "undefined") {
+    // Code running in the browser
+    cartId = localStorage.getItem("cartId");
+    token = localStorage.getItem("token");
+    customerGroup = localStorage.getItem("customerGroup");
+  }
 
   const [showBlock, setShowBlock] = useState('description');
   const [product, setProduct] = useState<any>()
   const [img, setImg] = useState()
+  const [imgData, setImgData] = useState([]);
   const [authToken, setAuthToken] = useState<any>("");
   const [productIds, setProductIds] = useState<any[]>([])
   const [productData, setProductData] = useState<any[]>([])
+  const [bundleProductData, setBundleProductData] = useState<any>([]);
+  const [bundleProductDataProps, setBundleProductDataProps] = useState<any>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const temp = product?.description.split('&')[1]
+  const mainDisc = product?.description.split('&')[0]
+  const sentences = temp?.split(/\.|<B>/)
+    .map((sentence: any) => sentence.replace(/-/g, ' ').replace(/<br\/?>/g, '').replace(/<\/?b>/g, ''));
+  console.log(sentences,"descccc");
   // const [bundleProductIds, setBundleProductIds] = useState<any[]>([])
   useEffect(() => {
     // getBundleProducts();
@@ -88,6 +106,33 @@ const BundleProduct = ({ image }:any) => {
   useEffect(() => {
     if (productId) {
       getProductDetails()
+      const getBundleProductData = async() => {
+        try {
+            const resp = await fetch(`${API_URL}/concrete-products/${productId}/bundled-products`, {
+              method: "GET",
+              headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            });
+            if (resp.status === 401) {
+              alert("Please Login");
+              window.location.href = "/login";
+              return;
+            }
+            const response = await resp.json();
+            if (response) {
+                setBundleProductData(response?.data)
+                console.log(response,"response12")
+              setIsLoading(false);
+            } else {
+              setIsLoading(false);
+            }
+          } catch (error) {
+            setIsLoading(false);
+          }
+      }
+    getBundleProductData();
     }
   }, [productId])
 
@@ -135,6 +180,41 @@ const BundleProduct = ({ image }:any) => {
     }
   }, [productIds])
 
+  console.log(bundleProductData,"bundleProductData")
+  useEffect(()=>{
+     const handleundleProdData = async()=>{
+      const tempArr:any = []
+    if(bundleProductData){
+       await  bundleProductData?.map(async(item:any,index:number)=>{
+            const resp = await fetch(
+                `${API_URL}/concrete-products/${item.id}?include=concrete-product-image-sets`,
+                {
+                  method: "GET",
+                  headers: {
+                    Accept: "application/json",
+                    Authorization: `Bearer ${token}`,
+                  },
+                }
+              );
+              const response = await resp.json();
+              if (resp.status == 200) {
+                console.log(response,"INcludede")
+                bundleProductData[index].image = response?.included[0]?.attributes?.imageSets[0]?.images[0]?.externalUrlLarge;
+                bundleProductData[index].name = response?.data?.attributes?.name;
+                tempArr.push(response?.included[0]?.attributes?.imageSets[0]?.images[0]?.externalUrlLarge)
+              } else {
+                setIsLoading(false);
+              }
+        })
+
+         setBundleProductData(bundleProductData);
+         setBundleProductDataProps(bundleProductData);
+         setImgData(tempArr)
+    }}
+    handleundleProdData();
+  },[bundleProductData])
+
+
   return (
     <Layout>
       <Breadcrumb />
@@ -142,16 +222,28 @@ const BundleProduct = ({ image }:any) => {
       <section className="product-single">
         <div className="container">
           <div className="product-single__content">
-            <Gallery images={[image,img]} />
-            <Content product={product} />
+            <Gallery images={[image,...imgData]} />
+            {bundleProductDataProps && bundleProductDataProps[1] &&
+            <Content product={{product:product,bundleProductDataProps:bundleProductDataProps}}/>}
           </div>
 
           <div className="product-single__info">
             <div className="product-single__info-btns">
-              <button type="button" onClick={() => setShowBlock('description')} className={`btn btn--rounded ${showBlock === 'description' ? 'btn--active' : ''}`}>Description</button>
+              {/* <button type="button" onClick={() => setShowBlock('description')} className={`btn btn--rounded ${showBlock === 'description' ? 'btn--active' : ''}`}>Description</button> */}
+              <h2>Description</h2> 
               {/* <button type="button" onClick={() => setShowBlock('reviews')} className={`btn btn--rounded ${showBlock === 'reviews' ? 'btn--active' : ''}`}>Reviews (2)</button> */}
             </div>
-            <p style={{ fontFamily: "inherit", letterSpacing: "1px", lineHeight: "25px" }}>{product?.description}</p>
+            <p style={{ fontWeight: "600",marginBottom:"10px" }}>{mainDisc}</p> 
+            <p
+              style={{
+                fontFamily: "inherit",
+                letterSpacing: "1px",
+                lineHeight: "25px",
+                marginLeft:"10px"
+              }}
+            >{sentences?.map((item:any) => item ? <li>{item}</li>:"")}
+            </p>
+            {/* <p style={{ fontFamily: "inherit", letterSpacing: "1px", lineHeight: "25px" }}>{product?.description}</p> */}
             {/* <Description show={showBlock === 'description'} /> */}
             {/* <Reviews product={product} show={showBlock === 'reviews'} /> */}
           </div>

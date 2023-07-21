@@ -401,93 +401,90 @@ const ShoppingCart = () => {
                     <th style={{ color: "black" }}>Price</th>
                     <th></th>
                   </tr> */}
-                  <div style={{ display: "flex" , marginTop:"-54px" }}>
-
-                    {cartItems.map((item: any, Index: number) => (
-                      <Item
-                        key={item.id}
-                        pliId={item.id}
-                        id={cartPrductArr[Index]?.id}
-                        thumb={cartPrductImgArr[Index]}
-                        avalibility={cartPrductAvableArr[Index]}
-                        name={cartPrductArr[Index]?.attributes?.name}
-                        color={item.color}
-                        price={item.attributes?.calculations?.unitPrice}
-                        size={item.size}
-                        grandTotal={item.grandTotal}
-                        subTotal={item.subtotal}
-                        taxTotal={item.taxTotal}
-                        count={item?.attributes?.quantity}
-                        setProductCount={setProductCount}
-                        removeProductFromCart={removeProductFromCart}
-                      />
-                    ))}
-
-                    <div style={{ background: "#f0f0f0", display: "flex", flexDirection: "column", padding: "1rem", height: "365px", width: "18rem", marginBottom: "0.5rem" ,marginLeft:"0.5rem"}}>
-                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
-
-                        <div style={{ flex: 1, marginRight: "0.5rem", display: "flex", justifyContent: "space-between" }}>
-                          <input
-                            type="text"
-                            placeholder="Promo Code"
-                            className="cart__promo-code"
-                          />
-
-                          <hr style={{ borderTop: "1px solid #ccc" }} />
-                        </div>
-                      </div>
-                      <hr style={{ borderTop: "1px solid #ccc" }} />
-
-                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
-
-                        <div style={{ flex: 1, marginRight: "0.5rem", display: "flex", justifyContent: "space-between" }}>
-                          <p style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", fontWeight: "300", whiteSpace: "nowrap", display: "flex", marginLeft: "-14px", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Sub Total</p>
-
-
-                          <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
-                            {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.subtotal}
-                          </h3>
-                        </div>
-                      </div>
-                      <hr style={{ borderTop: "1px solid #ccc" }} />
-                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
-                        <div style={{ flex: 1, marginRight: "0.5rem", fontSize: "0.875rem", fontWeight: "300", display: "flex", justifyContent: "space-between" }}>
-                          <p style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", fontWeight: "300", marginLeft: "-14px", display: "flex", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Tax Total</p>
-                          <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
-
-                            + {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.taxTotal}
-                          </h3>
-                        </div>
-
-                      </div>
-                      <hr style={{ borderTop: "1px solid #ccc" }} />
-                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
-                        <div style={{ flex: 1, marginRight: "0.5rem", display: "flex", justifyContent: "space-between" }}>
-                          <p style={{ padding: "1rem 1.25rem", margin: "0",  fontSize: "0.875rem", marginLeft: "-14px", fontWeight: "300", display: "flex", fontFamily: "'Circular', sans-serif", justifyContent: "space-between" }}>Grand Total</p>
-
-
-                          <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", overflow: "auto", display: "flex", justifyContent: "space-between" }}>
-                            ={CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.grandTotal}
-                          </h3>
-                        </div>
-
-                      </div>
-
-
-
+                  <div style={{ display: "flex", marginTop: "-54px" }}>
+                    <div>
+                      {cartItems.map((item: any, Index: number) => (
+                        <Item
+                          key={item.id}
+                          pliId={item.id}
+                          id={cartPrductArr[Index]?.id}
+                          thumb={cartPrductImgArr[Index]}
+                          avalibility={cartPrductAvableArr[Index]}
+                          name={cartPrductArr[Index]?.attributes?.name}
+                          color={item.color}
+                          price={item.attributes?.calculations?.unitPrice}
+                          size={item.size}
+                          grandTotal={item.grandTotal}
+                          subTotal={item.subtotal}
+                          taxTotal={item.taxTotal}
+                          count={item?.attributes?.quantity}
+                          setProductCount={setProductCount}
+                          removeProductFromCart={removeProductFromCart}
+                        />
+                      ))}
                     </div>
+                    <div>
+                      <div style={{ background: "#f0f0f0", display: "flex", flexDirection: "column", padding: "1rem", height: "267px", width: "18rem", marginBottom: "0.5rem", marginLeft: "0.5rem" }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
+
+                          {/* <div style={{ flex: 1, marginRight: "0.5rem", display: "flex", justifyContent: "space-between" }}>
+                            <input
+                              type="text"
+                              placeholder="Promo Code"
+                              className="cart__promo-code"
+                            />
+
+                            <hr style={{ borderTop: "1px solid #ccc" }} />
+                          </div> */}
+                        </div>
+                     
+
+                        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
+
+                          <div style={{ flex: 1, marginRight: "0.5rem", display: "flex", justifyContent: "space-between" }}>
+                            <p style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", fontWeight: "300", whiteSpace: "nowrap", display: "flex", marginLeft: "-14px", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Sub Total</p>
+
+
+                            <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
+                              {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.subtotal}
+                            </h3>
+                          </div>
+                        </div>
+                        <hr style={{ borderTop: "1px solid #ccc" }} />
+                        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
+                          <div style={{ flex: 1, marginRight: "0.5rem", fontSize: "0.875rem", fontWeight: "300", display: "flex", justifyContent: "space-between" }}>
+                            <p style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", fontWeight: "300", marginLeft: "-14px", display: "flex", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Tax Total</p>
+                            <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
+
+                              + {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.taxTotal}
+                            </h3>
+                          </div>
+
+                        </div>
+                        <hr style={{ borderTop: "1px solid #ccc" }} />
+                        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
+                          <div style={{ flex: 1, marginRight: "0.5rem", display: "flex", justifyContent: "space-between" }}>
+                            <p style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", marginLeft: "-14px", fontWeight: "300", display: "flex", fontFamily: "'Circular', sans-serif", justifyContent: "space-between" }}>Grand Total</p>
+
+
+                            <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", overflow: "auto", display: "flex", justifyContent: "space-between" }}>
+                              {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.grandTotal}
+                            </h3>
+                          </div>
+
+                        </div>
+
+
+
+                      </div>
+                      <div className="cart-actions__items-wrapper" style={{ textAlign: "right" }}>
+                      <a href="/cart/checkout" className="btn btn--rounded btn--yellow" style={{ paddingLeft: "7rem", paddingRight: "7rem", background: "rgb(207, 18, 46" }}>
+                        Checkout
+                      </a>
+                    </div>
+                    </div>
+                    
                   </div>
-                  <div className="cart-actions__items-wrapper" style={{textAlign:"right"}}>
-              {/* <p className="cart-actions__total">
-                Total cost{" "}
-                <strong>
-                  {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.priceToPay}
-                </strong>
-              </p> */}
-              <a href="/cart/checkout" className="btn btn--rounded btn--yellow" style={{paddingLeft:"7rem",paddingRight:"7rem" , background: "rgb(207, 18, 46"}}>
-                Checkout
-              </a>
-            </div>
                 </tbody>
               </table>
             )}
@@ -516,7 +513,9 @@ const ShoppingCart = () => {
                     <h1>{item?.name}</h1>
                   </div>
                   <div style={{ display: "flex" }}>
+                 
                     <div className="quantity-button">
+                    <h3>Quantity</h3>
                       <button
                         type="button"
                         onClick={() =>
@@ -636,7 +635,7 @@ const ShoppingCart = () => {
               className="cart__promo-code"
             /> */}
 
-            
+
           </div>
         </div>
       )}

@@ -589,12 +589,12 @@ const Content = (product: any) => {
     <section className="product-content">
       <div className="product-content__intro">
         <h1 className="product__name">{productData?.name}</h1>
-        <span
+        {/* <span
           className="product-on-sale"
           style={{ background: "rgb(207, 18, 46)" }}
         >
           Sale
-        </span>
+        </span> */}
         <h5 className="product__id">
           Product ID:&nbsp;
           {productData?.sku}

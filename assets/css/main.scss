@@ -855,7 +855,7 @@ h5 {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 46rem;
+  height: 47rem;
   width: 20rem !important;
   color: var(--color-black);
   &.product-item--loading {
@@ -1023,7 +1023,7 @@ ul.product-description{
 // }
 .product__description{
   font-size: .875rem;
-  line-height: 1.25rem;
+  // line-height: 1.25rem;
 }
 .product-price {
   display: flex;

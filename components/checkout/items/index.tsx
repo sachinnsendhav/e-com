@@ -240,7 +240,7 @@ const CheckoutItems = () => {
                 </div>
                 <div style={{ display: "flex" }}>
                   <p style={{ padding: "10px", fontWeight: "bold" }}>
-                    Total {CURRENCY_SYMBOLE} {item.total} X {item.data[0].attributes.quantity}
+                    Total {CURRENCY_SYMBOLE} {item.total/100} X {item.data[0].attributes.quantity}
                   </p>
                 </div>
               </div>

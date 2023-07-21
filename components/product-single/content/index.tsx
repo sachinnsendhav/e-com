@@ -18,7 +18,7 @@ const Content = (product: any) => {
   const [variationKey, setVariationKey] = useState<any>();
   const [productData, setProductData] = useState<any>();
   const [isBundle, setIsBundle] = useState<any>();
-  const [price, setPrice] = useState(null);
+  const [price, setPrice] = useState("");
   const [priceSymbole, setPriceSymbole] = useState(null);
   const [selectedId, setSelectedId] = useState<any>();
   const [isLoading, setIsLoading] = useState(false);
@@ -359,7 +359,8 @@ const Content = (product: any) => {
             if (response.errors) {
               alert(response.errors[0]?.detail);
             } else {
-              alert("Added to cart");
+              // alert("Added to cart");
+              window.location.href = '/cart'
             }
             setIsLoading(false);
           } else {
@@ -503,7 +504,7 @@ const Content = (product: any) => {
             },
           },
         };
-        setIsLoading(true);
+        // setIsLoading(true);
         try {
           const resp = await fetch(
             `${API_URL}/shopping-lists/${shppingListId}/shopping-list-items`,
@@ -601,18 +602,19 @@ const Content = (product: any) => {
         </h5>
 
         <div className="product__prices">
-          {selectedMerchantOffer ? (
+          {token ? 
+          selectedMerchantOffer ? (
             <h4 style={{ color: "rgb(207, 18, 46)" }}>
-              {CURRENCY_SYMBOLE} {selectedMerchantOffer?.price}
+              {CURRENCY_SYMBOLE} {selectedMerchantOffer?.price/100}
             </h4>
           ) : (
             <>
             <h4 style={{ color: "rgb(207, 18, 46)" }}>
-              {priceSymbole} {price} 
+              {priceSymbole} {price ? price/100:<p style={{fontSize:"12px"}}>Price : Please login</p>} 
             </h4>
-            <span style={{fontSize:"8px"}}>Offer Not Avalible</span>
+            {/* <span style={{fontSize:"8px"}}>Offer Not Avalible</span> */}
             </>
-          )}
+          ):<p style={{color:"rgb(207, 18, 46)", fontSize:'16px'}}>Login To View Price</p>}
         </div>
       </div>
 

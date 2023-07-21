@@ -24,9 +24,21 @@ const ProductItem = ({ images, id, name, price, description }: any) => {
 
   return (
     <div className="product-item" style={{height:"auto"}}>
+       <button type="button" onClick={toggleFav} className={`btn-heart ${isFavourite ? 'btn-heart--active' : ''}`}><i className="icon-heart"></i></button>
+      <h3
+            style={{
+              marginTop: "1rem",
+              fontSize: "18px",
+            }}
+          >
+            {name}
+          </h3>
+          <p style={{ fontSize: ".875rem", marginTop: "1rem" }} className="pid">
+            ID: P C311W
+          </p>
       <div className="product__image">
-        <button type="button" onClick={toggleFav} className={`btn-heart ${isFavourite ? 'btn-heart--active' : ''}`}><i className="icon-heart"></i></button>
-
+       
+        
         <Link href={`/bundleProduct/${name}?skuId=${id}&image=${encodeURIComponent(images)}`}>
           <a>
             <img src={images ? images : ''} alt="product" />
@@ -34,7 +46,7 @@ const ProductItem = ({ images, id, name, price, description }: any) => {
         </Link>
       </div>
       <div className="product__description">
-        <h3 style={{fontFamily:"sans-serif"}}>{name}</h3>
+        {/* <h3 style={{fontFamily:"sans-serif"}}>{name}</h3> */}
         {/* <div>
           <span style={{ fontWeight: "bold", color:"black" }}>{CURRENCY_SYMBOLE} {price}</span>
         </div> */}
@@ -52,7 +64,7 @@ const ProductItem = ({ images, id, name, price, description }: any) => {
         </div>
         <div style={{ display: "flex", justifyContent: "space-between" }} className="product-price">
         <span
-          style={{ fontWeight: "bold", color: "rgb(207 18 46)", paddingTop: "10px" }}
+          style={{ fontWeight: "bold", color: "rgb(207 18 46)" }}
         >
           {CURRENCY_SYMBOLE} {price}
         </span>

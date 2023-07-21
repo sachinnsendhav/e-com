@@ -288,7 +288,7 @@ const ProductItem = ({
               fontFamily: "sans-serif",
               marginTop: "1rem",
               marginBottom: "1rem",
-              fontSize: "1.3rem",
+              fontSize: "18px",
             }}
           >
             {name}
@@ -297,12 +297,13 @@ const ProductItem = ({
             style={{
               fontFamily: "sans-serif",
               marginTop: "1rem",
-              marginBottom: "1rem"
+              marginBottom: "1rem",
+              fontSize: ".875rem"
             }}
           >
             Model : MX-COPIER
           </p>
-          <p style={{ fontFamily: "sans-serif", marginBottom: "1rem" }} className="pid">
+          <p style={{ fontSize: ".875rem", marginBottom: "1rem" }} className="pid">
             ID: {concreteId}
           </p>
         </div>
@@ -327,7 +328,7 @@ const ProductItem = ({
           {sentences?.slice(0, 4).map((item: any, index: number) => (
             <ul>
               {item ? 
-              <li style={{ marginTop: "1rem" }} key={index}>
+              <li style={{ marginTop: "1rem",fontSize: ".875rem" }} key={index}>
                 {item}
               </li>:""}
             </ul>
@@ -336,7 +337,7 @@ const ProductItem = ({
       </div>
       <div style={{ display: "flex", justifyContent: "space-between" }} className="product-price">
         <span
-          style={{ fontWeight: "bold", color: "rgb(207 18 46)", paddingTop: "10px" }}
+          style={{ fontWeight: "bold", color: "rgb(207 18 46)" }}
         >
           {token ? 
           <>{CURRENCY_SYMBOLE} {price/100} </>: ""}

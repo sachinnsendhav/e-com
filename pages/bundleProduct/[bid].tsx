@@ -37,7 +37,11 @@ const BundleProduct = ({ image }:any) => {
   const [bundleProductData, setBundleProductData] = useState<any>([]);
   const [bundleProductDataProps, setBundleProductDataProps] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
-
+  const temp = product?.description.split('&')[1]
+  const mainDisc = product?.description.split('&')[0]
+  const sentences = temp?.split(/\.|<B>/)
+    .map((sentence: any) => sentence.replace(/-/g, ' ').replace(/<br\/?>/g, '').replace(/<\/?b>/g, ''));
+  console.log(sentences,"descccc");
   // const [bundleProductIds, setBundleProductIds] = useState<any[]>([])
   useEffect(() => {
     // getBundleProducts();
@@ -225,10 +229,21 @@ const BundleProduct = ({ image }:any) => {
 
           <div className="product-single__info">
             <div className="product-single__info-btns">
-              <button type="button" onClick={() => setShowBlock('description')} className={`btn btn--rounded ${showBlock === 'description' ? 'btn--active' : ''}`}>Description</button>
+              {/* <button type="button" onClick={() => setShowBlock('description')} className={`btn btn--rounded ${showBlock === 'description' ? 'btn--active' : ''}`}>Description</button> */}
+              <h2>Description</h2> 
               {/* <button type="button" onClick={() => setShowBlock('reviews')} className={`btn btn--rounded ${showBlock === 'reviews' ? 'btn--active' : ''}`}>Reviews (2)</button> */}
             </div>
-            <p style={{ fontFamily: "inherit", letterSpacing: "1px", lineHeight: "25px" }}>{product?.description}</p>
+            <p style={{ fontWeight: "600",marginBottom:"10px" }}>{mainDisc}</p> 
+            <p
+              style={{
+                fontFamily: "inherit",
+                letterSpacing: "1px",
+                lineHeight: "25px",
+                marginLeft:"10px"
+              }}
+            >{sentences?.map((item:any) => item ? <li>{item}</li>:"")}
+            </p>
+            {/* <p style={{ fontFamily: "inherit", letterSpacing: "1px", lineHeight: "25px" }}>{product?.description}</p> */}
             {/* <Description show={showBlock === 'description'} /> */}
             {/* <Reviews product={product} show={showBlock === 'reviews'} /> */}
           </div>

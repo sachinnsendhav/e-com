@@ -590,14 +590,14 @@ const Content = (product: any) => {
     <section className="product-content">
       <div className="product-content__intro">
         <h1 className="product__name">{productData?.name}</h1>
-        <span
+        {/* <span
           className="product-on-sale"
           style={{ background: "rgb(207, 18, 46)" }}
         >
           Sale
-        </span>
-        <h5 className="product__id">
-          Product ID:&nbsp;
+        </span> */}
+        <h5 className="product__id product-id">
+          ID:&nbsp;
           {productData?.sku}
         </h5>
 
@@ -621,7 +621,7 @@ const Content = (product: any) => {
       <div className="product-content__filters">
         {productData && (
           <div style={{ display: "flex", marginBottom: "1rem" }}>
-            <div style={{ display: "flex", flexDirection: "column", justifyContent:"space-evenly",height: "100px"}}>
+            <div style={{ display: "flex", flexDirection: "column", justifyContent:"space-evenly",height: "100px"}} className="product-content-top-specification">
               {Object.keys(productData?.attributes)?.map((item, index) => {
                 const formattedKey = item
                   .split("_")
@@ -630,11 +630,11 @@ const Content = (product: any) => {
                 return <h5 key={index}>{formattedKey}</h5>;
               })}
             </div>
-            <div style={{ display: "flex", flexDirection: "column", justifyContent:"space-evenly", height: "100px", marginLeft: "30px", fontWeight:"400" }}>
+            <div style={{ display: "flex", flexDirection: "column", justifyContent:"space-evenly", height: "100px", marginLeft: "30px", fontWeight:"400"  }} className="product-content-top-specification">
               {Object.keys(productData?.attributes)?.map((item:any, index) => {
                 console.log(productData?.attributes[item],"formattedKey")
                 if(item == "color" ){
-                  return (<span key={index} style={{background:`${productData?.attributes[item]}`, width:"30px", height:"30px"}}></span>)
+                  return (<span key={index} style={{background:`${productData?.attributes[item]}`, width:"20px", height:"20px",borderRadius:"50%"  }}></span>)
                 }else{
                 return (
                   <span key={index}> {productData?.attributes[item]}</span>

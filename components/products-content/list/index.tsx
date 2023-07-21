@@ -2,7 +2,7 @@ import ProductItem from "../../product-item";
 import ProductsLoading from "./loading";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import {API_URL,SHOPPING_LIST_ID} from "config";
+import { API_URL, SHOPPING_LIST_ID } from "config";
 const ProductsContent = () => {
   const router = useRouter();
   const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -10,7 +10,7 @@ const ProductsContent = () => {
   const [wishlistProdId, setWishlistProdId] = useState<any[]>([]);
   const nodeId = router.query.nodeId;
   const searchUrl = router.query.search;
-  var token:any;
+  var token: any;
   if (typeof window !== "undefined") {
     // Code running in the browser
     token = localStorage.getItem("token");
@@ -52,61 +52,134 @@ const ProductsContent = () => {
     }
   }, [searchUrl]);
   useEffect(() => {
-    if(token){
+    if (token) {
       getShoppingListItem();
     }
-  }, [token])
+  }, [token]);
 
+  const getShoppingListItem = async () => {
+    try {
+      const resp = await fetch(
+        `${API_URL}/shopping-lists/${SHOPPING_LIST_ID}?include=shopping-list-items`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-  const getShoppingListItem = async() => {
-    const resp = await fetch(
-      `${API_URL}/shopping-lists/${SHOPPING_LIST_ID}?include=shopping-list-items`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      if (!resp.ok) {
+        // Handle non-2xx status codes (e.g., 4xx, 5xx)
+        throw new Error(
+          `Failed to fetch shopping list items: ${resp.status} ${resp.statusText}`
+        );
       }
-    );
-    const result = await resp.json();
-    var tempArr:any =[];
-    result?.included?.map((item:any)=>{
-      tempArr.push({sku:item?.attributes?.sku, wishId:item?.id});
-    })
-    setWishlistProdId(tempArr);
+
+      const result = await resp.json();
+      var tempArr: any = [];
+      result?.included?.map((item: any) => {
+        tempArr.push({ sku: item?.attributes?.sku, wishId: item?.id });
+      });
+      setWishlistProdId(tempArr);
+    } catch (error) {
+      console.error("Error fetching shopping list items:", error);
+    }
   };
 
-  const getProductData = async () => {
-    const resp = await fetch(
-      `${API_URL}/catalog-search?category=${nodeId}&include=abstract-products`,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-        },
-      }
-    );
-    const result = await resp.json();
+  // const getShoppingListItem = async() => {
+  //   const resp = await fetch(
+  //     `${API_URL}/shopping-lists/${SHOPPING_LIST_ID}?include=shopping-list-items`,
+  //     {
+  //       method: "GET",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     }
+  //   );
+  //   const result = await resp.json();
+  //   var tempArr:any =[];
+  //   result?.included?.map((item:any)=>{
+  //     tempArr.push({sku:item?.attributes?.sku, wishId:item?.id});
+  //   })
+  //   setWishlistProdId(tempArr);
+  // };
 
-    result?.data[0]?.attributes?.abstractProducts.forEach((element: any) => {
-      result?.included.forEach((item: any) => {
-        if (element.abstractSku === item.id) {
-          setProducts((products) => [
-            ...products,
-            {
-              abstractName: element.abstractName,
-              abstractSku: element.abstractSku,
-              description: item.attributes.description,
-              price: element.price,
-              image: element.images[0].externalUrlLarge,
-              concreteId: item.attributes.attributeMap.product_concrete_ids[0],
-            },
-          ]);
+  // const getProductData = async () => {
+  //   const resp = await fetch(
+  //     `${API_URL}/catalog-search?category=${nodeId}&include=abstract-products`,
+  //     {
+  //       method: "GET",
+  //       headers: {
+  //         Accept: "application/json",
+  //       },
+  //     }
+  //   );
+  //   const result = await resp.json();
+
+  //   result?.data[0]?.attributes?.abstractProducts.forEach((element: any) => {
+  //     result?.included.forEach((item: any) => {
+  //       if (element.abstractSku === item.id) {
+  //         setProducts((products) => [
+  //           ...products,
+  //           {
+  //             abstractName: element.abstractName,
+  //             abstractSku: element.abstractSku,
+  //             description: item.attributes.description,
+  //             price: element.price,
+  //             image: element.images[0].externalUrlLarge,
+  //             concreteId: item.attributes.attributeMap.product_concrete_ids[0],
+  //           },
+  //         ]);
+  //       }
+  //     });
+  //   });
+  //   // setProducts(result?.data[0]?.attributes?.abstractProducts);
+  //   // setProducts(result?.included)
+  // };
+
+  const getProductData = async () => {
+    try {
+      const resp = await fetch(
+        `${API_URL}/catalog-search?category=${nodeId}&include=abstract-products`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+          },
         }
+      );
+
+      if (!resp.ok) {
+        // Handle non-2xx status codes (e.g., 4xx, 5xx)
+        throw new Error(
+          `Failed to fetch product data: ${resp.status} ${resp.statusText}`
+        );
+      }
+
+      const result = await resp.json();
+
+      result?.data[0]?.attributes?.abstractProducts.forEach((element: any) => {
+        result?.included.forEach((item: any) => {
+          if (element.abstractSku === item.id) {
+            setProducts((products) => [
+              ...products,
+              {
+                abstractName: element.abstractName,
+                abstractSku: element.abstractSku,
+                description: item.attributes.description,
+                price: element.price,
+                image: element.images[0].externalUrlLarge,
+                concreteId:
+                  item.attributes.attributeMap.product_concrete_ids[0],
+              },
+            ]);
+          }
+        });
       });
-    });
-    // setProducts(result?.data[0]?.attributes?.abstractProducts);
-    // setProducts(result?.included)
+    } catch (error) {
+      console.error("Error fetching product data:", error);
+    }
   };
 
   useEffect(() => {
@@ -130,7 +203,7 @@ const ProductsContent = () => {
               key={item.abstractSku}
               images={item.image}
               concreteId={item.concreteId}
-              wishlistProdId = {wishlistProdId}
+              wishlistProdId={wishlistProdId}
             />
           ))}
         </section>
@@ -146,7 +219,7 @@ const ProductsContent = () => {
               key={item.abstractSku}
               images={item.image}
               concreteId={item.concreteId}
-              wishlistProdId = {wishlistProdId}
+              wishlistProdId={wishlistProdId}
             />
           ))}
         </section>

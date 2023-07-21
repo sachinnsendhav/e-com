@@ -33,17 +33,21 @@ const LoginPage = () => {
       "client_secret",
       "ODZJ57z0dlLj1UStVaQ26j2oMaLlokJOQyOwuCBXT5e4ppnA"
     );
-    const resp = await fetch(`${API_URL}/token`, {
+    const resp:any = await fetch(`${API_URL}/token`, {
       method: "POST",
       body: formdata,
     });
     const result = await resp.json();
+    if(resp.status == 400){
+      console.log(result,"resp")
+      alert(result?.error_description)
+    }else{
     localStorage.setItem("token", result?.access_token);
     await HandleUserDetails(result?.access_token);
     localStorage.setItem("status", "true");
     if (result) {
       router.push("/profile");
-    }
+    }}
   }};
 
   const HandleUserDetails = async (userToken: any) => {

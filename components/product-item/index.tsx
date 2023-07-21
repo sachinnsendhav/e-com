@@ -281,7 +281,7 @@ const ProductItem = ({
         >
           <i className="icon-heart"></i>
         </button>
-        <div style={{ height: "100px" }}>
+        <div style={{ height: "100px",marginBottom: "3rem" }}>
           <h3
             style={{
               fontFamily: "sans-serif",
@@ -324,8 +324,8 @@ const ProductItem = ({
         <div className="product__description">
           {/* <h3 style={{ fontFamily: "sans-serif" }}>Description: </h3> */}
           {sentences?.slice(0, 2).map((item: any, index: number) => (
-            <ul>
-              <li style={{ marginTop: "1rem" }} key={index}>
+            <ul style={{ listStyle: "disc" }} className="product-description">
+              <li style={{marginBottom: "1rem"}} key={index}>
                 {item}
               </li>
             </ul>

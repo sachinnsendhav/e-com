@@ -554,7 +554,7 @@ const CheckoutPage = () => {
                         }}
                       >
                         {CURRENCY_SYMBOLE}{" "}
-                        {cartData?.data?.attributes?.totals?.subtotal}
+                        {cartData?.data?.attributes?.totals?.subtotal/100}
                       </h3>
                     </div>
                   </div>
@@ -605,7 +605,7 @@ const CheckoutPage = () => {
                         }}
                       >
                         + {CURRENCY_SYMBOLE}{" "}
-                        {cartData?.data?.attributes?.totals?.taxTotal}
+                        {cartData?.data?.attributes?.totals?.taxTotal/100}
                       </h3>
                     </div>
                   </div>
@@ -658,7 +658,7 @@ const CheckoutPage = () => {
                         }}
                       >
                         - {CURRENCY_SYMBOLE}{" "}
-                        {cartData?.data?.attributes?.totals?.discountTotal}
+                        {cartData?.data?.attributes?.totals?.discountTotal/100}
                       </h3>
                     </div>
                   </div>
@@ -707,7 +707,7 @@ const CheckoutPage = () => {
                         }}
                       >
                         = {CURRENCY_SYMBOLE}{" "}
-                        {cartData?.data?.attributes?.totals?.priceToPay}
+                        {cartData?.data?.attributes?.totals?.priceToPay/100}
                       </h3>
                     </div>
                   </div>

@@ -553,7 +553,7 @@ const CheckoutPage = () => {
                           justifyContent: "space-between",
                         }}
                       >
-                        {CURRENCY_SYMBOLE}{" "}
+                        {CURRENCY_SYMBOLE}
                         {cartData?.data?.attributes?.totals?.subtotal/100}
                       </h3>
                     </div>
@@ -604,7 +604,7 @@ const CheckoutPage = () => {
                           justifyContent: "space-between",
                         }}
                       >
-                        + {CURRENCY_SYMBOLE}{" "}
+                        + {CURRENCY_SYMBOLE}
                         {cartData?.data?.attributes?.totals?.taxTotal/100}
                       </h3>
                     </div>
@@ -657,7 +657,7 @@ const CheckoutPage = () => {
                           justifyContent: "space-between",
                         }}
                       >
-                        - {CURRENCY_SYMBOLE}{" "}
+                        - {CURRENCY_SYMBOLE}
                         {cartData?.data?.attributes?.totals?.discountTotal/100}
                       </h3>
                     </div>
@@ -706,7 +706,7 @@ const CheckoutPage = () => {
                           fontSize: "0.875rem",
                         }}
                       >
-                        = {CURRENCY_SYMBOLE}{" "}
+                        = {CURRENCY_SYMBOLE}
                         {cartData?.data?.attributes?.totals?.priceToPay/100}
                       </h3>
                     </div>

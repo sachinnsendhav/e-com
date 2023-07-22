@@ -446,7 +446,7 @@ const ShoppingCart = () => {
 
 
                             <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
-                              {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.subtotal/100}
+                              {CURRENCY_SYMBOLE}{cartData?.data?.attributes?.totals?.subtotal/100}
                             </h3>
                           </div>
                         </div>
@@ -456,7 +456,7 @@ const ShoppingCart = () => {
                             <p style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", fontWeight: "300", marginLeft: "-14px", display: "flex", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Tax Total</p>
                             <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
 
-                              + {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.taxTotal/100}
+                              + {CURRENCY_SYMBOLE}{cartData?.data?.attributes?.totals?.taxTotal/100}
                             </h3>
                           </div>
 
@@ -468,7 +468,7 @@ const ShoppingCart = () => {
 
 
                             <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", overflow: "auto", display: "flex", justifyContent: "space-between" }}>
-                              {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.grandTotal/100}
+                              {CURRENCY_SYMBOLE}{cartData?.data?.attributes?.totals?.grandTotal/100}
                             </h3>
                           </div>
 
@@ -615,8 +615,8 @@ const ShoppingCart = () => {
                               fontWeight: "bold",
                             }}
                           >
-                            = {CURRENCY_SYMBOLE} {(val.attributes.quantity) * (val.attributes.calculations.unitPrice)/100}
-                           = {CURRENCY_SYMBOLE} {(val.attributes.quantity)*(val.attributes.calculations.unitPrice)/100}
+                            = {CURRENCY_SYMBOLE}{(val.attributes.quantity) * (val.attributes.calculations.unitPrice)/100}
+                           = {CURRENCY_SYMBOLE}{(val.attributes.quantity)*(val.attributes.calculations.unitPrice)/100}
                           </div>
                         </div>
                       </div>

@@ -380,14 +380,18 @@ const Header = ({ isErrorPage }: HeaderType) => {
             <div style={contentStyle1}>
               {!customerGroup ? (
                 <>
+                <div>
                   <Link href={`/productList/ink-&-toner?nodeId=43`}>
                     <a style={{ color: "black", padding: "5px" }}>
                       Ink & Toner
                     </a>
                   </Link>
+                  </div>
+                  <div>
                   <Link href={`/productList/ricoh?nodeId=39`}>
                     <a style={{ color: "black", padding: "5px" }}>Printers</a>
                   </Link>
+                  </div>
                 </>
               ) : (
                 ""

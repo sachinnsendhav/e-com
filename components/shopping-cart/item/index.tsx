@@ -9,10 +9,10 @@ const ShoppingCart = ({ thumb, name, pliId, id, avalibility, size, count, price,
 
   return (
   
-    <div className="cart-item" style={{ marginBottom: "10px", width: "100%", border: "3px solid rgba(0, 0, 0, 0.05)"}}>
+    <div className="cart-item" style={{ marginBottom: "10px",paddingRight:"15px", width: "100%", border: "3px solid rgba(0, 0, 0, 0.05)"}}>
       <div className="cart-item__content" style={{ display: "flex", alignItems: "center" }}>
-        <div style={{ backgroundColor: "rgba(0, 0, 0, 0.05)", height: "40vh",width:"8rem", padding: "1rem", marginRight: "1rem" }}>
-          <div className="cart-item__left" style={{ width: "100%", height: "80px", marginTop: "10vh", marginRight: "1rem", overflow: "hidden" }}>
+        <div style={{ backgroundColor: "rgba(0, 0, 0, 0.05)", height: "35vh",width:"8rem", padding: "1rem", marginRight: "1rem" }}>
+          <div className="cart-item__left" style={{ width: "100%", marginTop: "2rem", marginRight: "1rem", overflow: "hidden" }}>
             <img src={thumb} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           </div>
         </div>
@@ -22,26 +22,29 @@ const ShoppingCart = ({ thumb, name, pliId, id, avalibility, size, count, price,
         <div style={{ marginTop: "2rem", position: "absolute" }}>
           <div>
             <h3>{name}</h3>
-            <p>{avalibility?.availability ? <span style={{ color: 'green' }}>In Stock</span> : <span style={{ color: 'red' }}>Out of stock</span>}</p>
+            <p style={{ marginTop: '10px' }}>{avalibility?.availability ? <span style={{ color: 'green' }}>In Stock</span> : <span style={{ color: 'red' }}>Out of stock</span>}</p>
           </div>
         </div>
-        <div style={{ alignItems: "right", marginTop: "2rem" }}>
+        <div style={{ alignItems: "right", marginTop: "2rem" }}> 
+    
+    
+    
           <div style={{ background: "rgba(0, 0, 0, 0.05", marginLeft: "29.3rem" }} className="quantity-buttons">
-          <span style={{background:"white",color:"black"}}>Quantity</span>
+          <span style={{color: "rgb(76, 76, 76)",fontWeight: "500",marginRight: "10px",fontSize: "1.125rem;" }}>Quantity:</span>
             
             <button type="button" style={{ background: "white", width: "31px" }} onClick={() => setProductCount(count - 1, pliId, id)} className="quantity-button__btn">
               -
             </button>
-            <span>{count}</span>
+            <span style={{padding: "10px"}}>{count}</span>
             <button type="button" style={{ background: "white", width: "31px" }} onClick={() => setProductCount(count + 1, pliId, id)} className="quantity-button__btn">
               +
             </button>
           </div>
           <div style={{ marginTop: "1rem" }}>
-            <div style={{ marginLeft: "24rem", fontSize: "1.125rem", color:"#4c4c4c", fontWeight: "500", padding: "1rem", background: "rgba(0, 0, 0, 0.05)" }}> Item Total: {CURRENCY_SYMBOLE} {price/100}</div>
+            <div style={{ marginLeft: "24rem", fontSize: "1.125rem", color:"#4c4c4c", fontWeight: "500", padding: "1rem", background: "rgba(0, 0, 0, 0.05)",float: "right" }}> Item Total: {CURRENCY_SYMBOLE} {price/100}</div>
           </div>
           <div>
-            <div style={{ marginLeft: "29rem", cursor: "pointer", display: "flex", alignItems: "center", padding: "1rem" }}>
+            <div style={{ marginLeft: "36rem", cursor: "pointer", display: "flex", alignItems: "center", padding: "1rem" }}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="grey"

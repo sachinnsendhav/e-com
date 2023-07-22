@@ -2292,7 +2292,7 @@ ul.product-description{
     margin-bottom: 35px;
     justify-content: space-between;
     @include breakpoint(phone) {
-      margin-bottom: 66px;
+      // margin-bottom: 66px;
     }
   }
   .cart__title {
@@ -3086,4 +3086,12 @@ ul.product-description{
 }
 .product-content .product__prices h4 {
   margin-top:1rem;
+}
+
+
+.cart-actions__total{
+  display: none;
+}
+.checkout-steps{
+  display: none;
 }

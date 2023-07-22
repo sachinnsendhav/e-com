@@ -243,7 +243,7 @@ const CheckoutPage = () => {
             <CheckoutStatus step="checkout" />
           </div>
           <div className="checkout-content">
-            <div className="checkout__col-8" style={{ width: "60%" }}>
+            <div className="checkout__col-8" style={{ width: "70%" }}>
               <div className="block">
                 <h3 className="block__title">Your cart</h3>
 

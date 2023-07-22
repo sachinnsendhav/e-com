@@ -188,7 +188,7 @@ const CheckoutItems = () => {
                 >
                   <div
                     className="checkout-item__img"
-                    style={{ width: "7rem", height: "7rem", overflow: "hidden", marginTop: "8vh", marginRight: "10px" }}
+                    style={{ width: "7rem", height: "7rem", overflow: "hidden", marginTop: "2rem", marginRight: "10px" }}
                   >
                     <img src={cartPrductImgArr[Index]} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                   </div>

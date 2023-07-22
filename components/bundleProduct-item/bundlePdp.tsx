@@ -378,52 +378,52 @@ console.log(bundleData,"bundle");
     }
   };
 
-  useEffect(() => {
-    if (variationIdData && variationIdData[1]) {
-      console.log(variationIdData, "variationData");
-    } else if (variationIdData && variationIdData[0]) {
-      var skuId = variationIdData[0];
-      console.log(skuId, "skuIdIdIdIdID");
-      const handleMerchant = async () => {
-        try {
-          const resp = await fetch(
-            `${API_URL}/concrete-products/${skuId}/product-offers?include=product-offer-prices`,
-            {
-              method: "GET",
-              headers: {
-                Accept: "application/json",
-                // Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          const response = await resp.json();
+  // useEffect(() => {
+  //   if (variationIdData && variationIdData[1]) {
+  //     console.log(variationIdData, "variationData");
+  //   } else if (variationIdData && variationIdData[0]) {
+  //     var skuId = variationIdData[0];
+  //     console.log(skuId, "skuIdIdIdIdID");
+  //     const handleMerchant = async () => {
+  //       try {
+  //         const resp = await fetch(
+  //           `${API_URL}/concrete-products/${skuId}/product-offers?include=product-offer-prices`,
+  //           {
+  //             method: "GET",
+  //             headers: {
+  //               Accept: "application/json",
+  //               // Authorization: `Bearer ${token}`,
+  //             },
+  //           }
+  //         );
+  //         const response = await resp.json();
 
-          if (response) {
-            if (response.errors) {
-              alert(response.errors[0]?.detail);
-            } else {
-              console.log(response, "offer response");
-              var modifiedData = response?.data;
-              await modifiedData?.map(async (item: any, index: number) => {
-                item.price = await response.included[index]?.attributes?.price;
-              });
+  //         if (response) {
+  //           if (response.errors) {
+  //             alert(response.errors[0]?.detail);
+  //           } else {
+  //             console.log(response, "offer response");
+  //             var modifiedData = response?.data;
+  //             await modifiedData?.map(async (item: any, index: number) => {
+  //               item.price = await response.included[index]?.attributes?.price;
+  //             });
 
-              await setMerchantOffer(modifiedData);
-              var tempselected = await modifiedData?.find(
-                (offer: any) =>
-                  offer?.attributes?.fkCustomerGroup == customerGroup
-              );
-              console.log(tempselected, "temp");
-              setSelectedMerchantOffer(tempselected);
-            }
-          }
-        } catch (error) {
-          setIsLoading(false);
-        }
-      };
-      handleMerchant();
-    }
-  }, [variationIdData, selectedId]);
+  //             await setMerchantOffer(modifiedData);
+  //             var tempselected = await modifiedData?.find(
+  //               (offer: any) =>
+  //                 offer?.attributes?.fkCustomerGroup == customerGroup
+  //             );
+  //             console.log(tempselected, "temp");
+  //             setSelectedMerchantOffer(tempselected);
+  //           }
+  //         }
+  //       } catch (error) {
+  //         setIsLoading(false);
+  //       }
+  //     };
+  //     handleMerchant();
+  //   }
+  // }, [variationIdData, selectedId]);
 
   const toggleFav = () => {
     setWishlistOperation(true);

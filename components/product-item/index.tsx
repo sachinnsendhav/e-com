@@ -271,7 +271,8 @@ const ProductItem = ({
     .map((sentence: any) => sentence.replace(/-/g, ' ').replace(/<br\/?>/g, '').replace(/<\/?b>/g, ''));
   console.log(sentences,"descccc");
 
-
+const btnName= token ? "Add To Cart" : "Login to Add to Cart";
+// alert(btnName);
   return (
     <div className="product-item">
       <div style={{ display: "flex", flexDirection: 'column' }}>
@@ -312,7 +313,7 @@ const ProductItem = ({
             <a
               className="product__link"
               style={{
-                borderBottom: "1px solid",
+              
                 width: "121%",
                 position: "relative",
                 left: "-28px",
@@ -340,17 +341,31 @@ const ProductItem = ({
           style={{ fontWeight: "bold", color: "rgb(207 18 46)" }}
         >
           {token ? 
-          <>{CURRENCY_SYMBOLE} {price/100} </>: ""}
+          <>{CURRENCY_SYMBOLE}{price/100} </>: ""}
         </span>
         <button
           className="add-to-cart"
-          style={{
-            padding: "16px 32px",
-            color: "rgb(207 18 46)",
-            borderRadius: "33px",
-            border: "1px solid rgb(207 18 46)",
-            fontWeight: "900"
-          }}
+
+          style={ btnName == "Add To Cart" ? { padding: "16px 32px",
+          color: "rgb(207 18 46)",
+          borderRadius: "33px",
+          border: "1px solid rgb(207 18 46)",
+          fontWeight: "900",
+          } : {padding: "16px 32px",
+          color: "rgb(207 18 46)",
+          borderRadius: "33px",
+          border: "1px solid rgb(207 18 46)",
+          fontWeight: "900",
+          marginRight:"40px"}}
+
+          // style={{
+          //   padding: "16px 32px",
+          //   color: "rgb(207 18 46)",
+          //   borderRadius: "33px",
+          //   border: "1px solid rgb(207 18 46)",
+          //   fontWeight: "900",
+            
+          // }}
           onClick={() => handleAddtocart()}
         >
           {" "}

@@ -241,7 +241,8 @@ const BundleProduct = ({ image }:any) => {
                 lineHeight: "25px",
                 marginLeft:"10px"
               }}
-            >{sentences?.map((item:any) => item ? <li>{item}</li>:"")}
+            ><ul className="description-section">{sentences?.map((item:any) => item ? <li>{item}</li>:"")}
+            </ul>
             </p>
             {/* <p style={{ fontFamily: "inherit", letterSpacing: "1px", lineHeight: "25px" }}>{product?.description}</p> */}
             {/* <Description show={showBlock === 'description'} /> */}

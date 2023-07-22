@@ -553,7 +553,7 @@ const ShoppingCart = () => {
                       quantity = {item.data[0].attributes.quantity}{" "}
                     </p>
                     <p style={{ padding: "10px", fontWeight: "bold" }}>
-                      Total  {CURRENCY_SYMBOLE} {(item.total) * (item.data[0].attributes.quantity)}
+                      Total  {CURRENCY_SYMBOLE} {(item.total/100) * (item.data[0].attributes.quantity)}
                      Total  {CURRENCY_SYMBOLE} {(item.total/100)*(item.data[0].attributes.quantity)}
                     </p>
                     <button
@@ -623,8 +623,8 @@ const ShoppingCart = () => {
                               fontWeight: "bold",
                             }}
                           >
-                            = {CURRENCY_SYMBOLE} {(val.attributes.quantity) * (val.attributes.calculations.unitPrice)}
-                           = {CURRENCY_SYMBOLE} {(val.attributes.quantity)*(val.attributes.calculations.unitPrice)/100}
+                            = {CURRENCY_SYMBOLE}{(val.attributes.quantity) * (val.attributes.calculations.unitPrice)/100}
+                           = {CURRENCY_SYMBOLE}{(val.attributes.quantity)*(val.attributes.calculations.unitPrice)/100}
                           </div>
                         </div>
                       </div>

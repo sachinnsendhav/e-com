@@ -98,7 +98,7 @@ const ProductItem = ({ images, id, name, price, description, skuId }: any) => {
         <span
           style={{ fontWeight: "bold", color: "rgb(207 18 46)" }}
         >
-          {CURRENCY_SYMBOLE} {price}
+          {CURRENCY_SYMBOLE}{price}
         </span>
         <button
         

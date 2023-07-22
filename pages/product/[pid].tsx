@@ -153,7 +153,9 @@ const Product = () => {
                 lineHeight: "25px",
                 marginLeft:"10px"
               }}
-            >{sentences?.map((item:any) => item ? <li>{item}</li>:"")}
+              
+            ><ul className="description-section">{sentences?.map((item:any) => item ? <li>{item}</li>:"")}
+            </ul>
             </p>
           </div>
         </div>

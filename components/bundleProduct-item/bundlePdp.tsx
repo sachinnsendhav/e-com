@@ -607,12 +607,12 @@ console.log(bundleData,"bundle");
         <div className="product__prices">
           {selectedMerchantOffer ? (
             <h4 style={{ color: "rgb(207, 18, 46)" }}>
-              {CURRENCY_SYMBOLE} {(selectedMerchantOffer?.price)/100}
+              {CURRENCY_SYMBOLE}{(selectedMerchantOffer?.price)/100}
             </h4>
           ) : (
             <>
             <h4 style={{ color: "rgb(207, 18, 46)" }}>
-              {priceSymbole} {price ? (price)/100: ""} 
+              {priceSymbole}{price ? (price)/100: ""} 
             </h4>
             <span style={{fontSize:"8px"}}>Offer Not Avalible</span>
             </>
@@ -796,7 +796,7 @@ console.log(bundleData,"bundle");
             </div>
 
             <button
-              style={{ background: "rgb(207, 18, 46)" }}
+              style={{ background: "rgb(207, 18, 46)", borderRadius: "33px" }}
               type="submit"
               onClick={() => AddtoCartHandler()}
               className="btn btn--rounded btn--yellow"

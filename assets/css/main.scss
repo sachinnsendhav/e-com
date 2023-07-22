@@ -323,6 +323,7 @@ h5 {
     li {
       font-size: 13px;
       color: #b2b2b2;
+      display:block;
       &:not(:first-child) {
         margin-left: 10px;
         &:before {
@@ -2289,10 +2290,10 @@ ul.product-description{
   .cart__intro {
     display: flex;
     align-items: center;
-    margin-bottom: 35px;
+    margin-bottom: 66px;
     justify-content: space-between;
     @include breakpoint(phone) {
-      margin-bottom: 66px;
+      // margin-bottom: 66px;
     }
   }
   .cart__title {
@@ -3086,4 +3087,20 @@ ul.product-description{
 }
 .product-content .product__prices h4 {
   margin-top:1rem;
+}
+
+
+.cart-actions__total{
+  display: none;
+}
+.checkout-steps{
+  display: none;
+}
+ul.description-section{
+  list-style: none;
+}
+ul.description-section li::before {
+  color:rgb(207, 18, 46);
+  content: "\2022";
+  font-weight: bold;
 }

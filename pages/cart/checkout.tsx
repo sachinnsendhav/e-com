@@ -243,12 +243,7 @@ const CheckoutPage = () => {
             <CheckoutStatus step="checkout" />
           </div>
           <div className="checkout-content">
-<<<<<<< HEAD
-          
-            <div className="checkout__col-8" style={{ width: "73%" }}>
-=======
             <div className="checkout__col-8" style={{ width: "70%" }}>
->>>>>>> 64f820b7700e90120ea4f464559df0c84e4ba929
               <div className="block">
                 <h3 className="block__title">Your cart</h3>
 
@@ -564,53 +559,6 @@ const CheckoutPage = () => {
                           justifyContent: "space-between",
                         }}
                       >
-<<<<<<< HEAD
-                        {CURRENCY_SYMBOLE}{" "}
-                        {cartData?.data?.attributes?.totals?.subtotal/ 100}
-                      </h3>
-                    </div>
-                  </div>
-                  <hr style={{ borderTop: "1px solid #ccc", margin: "0.2rem -1rem" }} />
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
-                    <div style={{ flex: 1, marginRight: "0.5rem", fontSize: "0.875rem", fontWeight: "300", display: "flex", justifyContent: "space-between" }}>
-                      <p style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", fontWeight: "300", marginLeft:"-14px", display: "flex", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Tax</p>
-                      <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
-
-                        + {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.taxTotal/ 100}
-                      </h3>
-                    </div>
-
-                  </div>
-                 
-                  <hr style={{ borderTop: "1px solid #ccc", margin: "0.2rem -1rem" }} />
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
-                    <div style={{ flex: 1, marginRight: "0.5rem", display: "flex", justifyContent: "space-between" }}>
-                      <p style={{ padding: "1rem 1.25rem", margin: "0", color: "green", fontSize: "0.875rem", marginLeft:"-14px", fontWeight: "300", display: "flex", fontFamily: "'Circular', sans-serif", justifyContent: "space-between" }}>Discount Total</p>
-
-
-                      <h3 style={{ color: "green", padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", overflow: "auto", display: "flex", justifyContent: "space-between" }}>
-                        - {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.discountTotal/ 100}
-                      </h3>
-                    </div>
-
-                  </div>
-                  <hr style={{ borderTop: "1px solid #ccc", margin: "0.2rem -1rem" }} />
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
-                    <div style={{ flex: 1, marginRight: "0.5rem", fontSize: "0.875rem", fontWeight: "300", display: "flex", justifyContent: "space-between" }}>
-                      <p style={{ padding: "1rem 1.25rem", marginLeft:"-14px", margin: "0", color: "#800000", fontFamily: "'Circular', sans-serif" }}>Total cost</p>
-
-
-                      <h3 style={{ color: "#800000", marginRight:"-10px", padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", }}>
-                        = {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.priceToPay/ 100}
-                      </h3>
-                    </div>
-                  </div>
-                 
-                
-                 
-               
-                 
-=======
                         {CURRENCY_SYMBOLE}
                         {cartData?.data?.attributes?.totals?.subtotal/100}
                       </h3>
@@ -874,7 +822,6 @@ const CheckoutPage = () => {
                       margin: "0.9375rem -1.05rem",
                     }}
                   /> */}
->>>>>>> 64f820b7700e90120ea4f464559df0c84e4ba929
                 </div>
 
                 {/*  */}

@@ -13,9 +13,11 @@ const ProductItem = ({
 }: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [wishlisted, setWishlisted] = useState<any>();
+  const [offerPrice, setofferPrice] = useState<any>();
   const token = localStorage.getItem("token");
   var cartId = localStorage.getItem("cartId");
   var wishlistId = SHOPPING_LIST_ID;
+  const [selectedMerchantOffer, setSelectedMerchantOffer] = useState<any>();
   const toggleFav = async () => {
     wishlisted ? await handleAddtoWishlist() : await handleAddtoWishlist();
   };
@@ -33,13 +35,16 @@ const ProductItem = ({
 
 
   const handleAddtocart = async () => {
+    console.log(selectedMerchantOffer,"selectedMerchantOffer");
     if (token) {
       if (cartId) {
-        const productCart = {
+        var productCart = {
           data: {
             type: "items",
             attributes: {
-              sku: concreteId,
+              sku: String(concreteId),
+              productOfferReference: null,
+              merchantReference:null,
               quantity: 1,
               salesUnit: {
                 id: 0,
@@ -49,6 +54,26 @@ const ProductItem = ({
             },
           },
         };
+   
+        await selectedMerchantOffer
+          ? (productCart = {
+              data: {
+                type: "items",
+                attributes: {
+                  sku: String(concreteId),
+                  productOfferReference: selectedMerchantOffer?.id,
+                  merchantReference: selectedMerchantOffer?.attributes?.merchantReference,
+                  quantity: 1,
+                  salesUnit: {
+                    id: 0,
+                    amount: 0,
+                  },
+                  productOptions: [null],
+                },
+              },
+            })
+          : "";
+          console.log(productCart,"test")
         setIsLoading(true);
         try {
           const resp = await fetch(`${API_URL}/carts/${cartId}/items`, {
@@ -74,7 +99,7 @@ const ProductItem = ({
               localStorage.removeItem("cartId");
               cartId = null;
               alert(response.errors[0]?.detail);
-              handleAddtocart();
+             // handleAddtocart();
             } else {
               alert("Added to cart");
             }
@@ -157,13 +182,13 @@ const ProductItem = ({
 
       if (response) {
         setIsLoading(false);
-        if (response?.data?.id) {
+        if (response?.data.length>0) {
           localStorage.setItem("cartId", response?.data[0].id);
           cartId = response?.data[0].id;
           await handleAddtocart();
           return response?.data[0].id;
         } else {
-          await createCart();
+           await createCart();
         }
       } else {
         setIsLoading(false);
@@ -265,14 +290,57 @@ const ProductItem = ({
       }
     }
   };
+  // var offerPrice: any;
+  useEffect(() => {
+    const handleMerchant = async (skuId: any) => {
+      try {
+        const resp = await fetch(
+          `${API_URL}/concrete-products/${skuId}/product-offers?include=product-offer-prices`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
 
+            },
+          }
+        );
+        const response = await resp.json();
+        var groupId = localStorage.getItem("customerGroup");
+        if (response.data?.length && response.data.length > 0) {
+          var groupOffer = response.data.find((offer: any) => {
+            return offer.attributes?.fkCustomerGroup == groupId;
+          })
+         
+          if (groupOffer) {
+            if (response.included?.length && response.included.length > 0) {
+              var offerfilteredPrice: any = response.included.find((inc: any) => inc.id === groupOffer.id);
+              setSelectedMerchantOffer(groupOffer);
+              setofferPrice(offerfilteredPrice.attributes.price / 100);
+
+
+            }
+          }
+        }
+
+      } catch (error) {
+        console.log(error, "error offer")
+
+      }
+    };
+
+    // Call the handleMerchant function here
+    if (token) {
+      handleMerchant(id);
+    }
+  }, []);
   const temp = description.split('&')[1]
   const sentences = temp?.split(/\.|<B>/)
     .map((sentence: any) => sentence.replace(/-/g, ' ').replace(/<br\/?>/g, '').replace(/<\/?b>/g, ''));
-  console.log(sentences,"descccc");
+  console.log(sentences, "descccc");
 
-const btnName= token ? "Add To Cart" : "Login to Add to Cart";
-// alert(btnName);
+  const btnName = token ? "Add To Cart" : "Login to Add to Cart";
+  // alert(btnName);
+
   return (
     <div className="product-item">
       <div style={{ display: "flex", flexDirection: 'column' }}>
@@ -283,7 +351,7 @@ const btnName= token ? "Add To Cart" : "Login to Add to Cart";
         >
           <i className="icon-heart"></i>
         </button>
-        <div style={{ height: "100px",marginBottom: "3rem" }}>
+        <div style={{ height: "100px", marginBottom: "3rem" }}>
           <h3
             style={{
               fontFamily: "sans-serif",
@@ -313,7 +381,7 @@ const btnName= token ? "Add To Cart" : "Login to Add to Cart";
             <a
               className="product__link"
               style={{
-              
+
                 width: "121%",
                 position: "relative",
                 left: "-28px",
@@ -328,10 +396,10 @@ const btnName= token ? "Add To Cart" : "Login to Add to Cart";
           {/* <h3 style={{ fontFamily: "sans-serif" }}>Description: </h3> */}
           {sentences?.slice(0, 4).map((item: any, index: number) => (
             <ul>
-              {item ? 
-              <li style={{ marginTop: "1rem",fontSize: ".875rem" }} key={index}>
-                {item}
-              </li>:""}
+              {item ?
+                <li style={{ marginTop: "1rem", fontSize: ".875rem" }} key={index}>
+                  {item}
+                </li> : ""}
             </ul>
           ))}
         </div>
@@ -340,23 +408,26 @@ const btnName= token ? "Add To Cart" : "Login to Add to Cart";
         <span
           style={{ fontWeight: "bold", color: "rgb(207 18 46)" }}
         >
-          {token ? 
-          <>{CURRENCY_SYMBOLE}{price/100} </>: ""}
+          {token ?
+            <>{CURRENCY_SYMBOLE}{offerPrice ? offerPrice : price / 100} </> : ""}
         </span>
         <button
           className="add-to-cart"
 
-          style={ btnName == "Add To Cart" ? { padding: "16px 32px",
-          color: "rgb(207 18 46)",
-          borderRadius: "33px",
-          border: "1px solid rgb(207 18 46)",
-          fontWeight: "900",
-          } : {padding: "16px 32px",
-          color: "rgb(207 18 46)",
-          borderRadius: "33px",
-          border: "1px solid rgb(207 18 46)",
-          fontWeight: "900",
-          marginRight:"40px"}}
+          style={btnName == "Add To Cart" ? {
+            padding: "16px 32px",
+            color: "rgb(207 18 46)",
+            borderRadius: "33px",
+            border: "1px solid rgb(207 18 46)",
+            fontWeight: "900",
+          } : {
+            padding: "16px 32px",
+            color: "rgb(207 18 46)",
+            borderRadius: "33px",
+            border: "1px solid rgb(207 18 46)",
+            fontWeight: "900",
+            marginRight: "40px"
+          }}
 
           // style={{
           //   padding: "16px 32px",
@@ -364,13 +435,13 @@ const btnName= token ? "Add To Cart" : "Login to Add to Cart";
           //   borderRadius: "33px",
           //   border: "1px solid rgb(207 18 46)",
           //   fontWeight: "900",
-            
+
           // }}
           onClick={() => handleAddtocart()}
         >
           {" "}
-          {isLoading ? "Adding to Cart" : token ? 
-         "Add To Cart": "Login to Add to Cart"}
+          {isLoading ? "Adding to Cart" : token ?
+            "Add To Cart" : "Login to Add to Cart"}
         </button>
       </div>
     </div >

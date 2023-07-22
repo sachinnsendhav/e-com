@@ -323,6 +323,7 @@ h5 {
     li {
       font-size: 13px;
       color: #b2b2b2;
+      display:block;
       &:not(:first-child) {
         margin-left: 10px;
         &:before {
@@ -3094,4 +3095,12 @@ ul.product-description{
 }
 .checkout-steps{
   display: none;
+}
+ul.description-section{
+  list-style: none;
+}
+ul.description-section li::before {
+  color:rgb(207, 18, 46);
+  content: "\2022";
+  font-weight: bold;
 }

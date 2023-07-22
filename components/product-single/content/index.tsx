@@ -785,7 +785,7 @@ const Content = (product: any) => {
             </div>
 
             <button
-              style={{ background: "rgb(207, 18, 46)" }}
+              style={{ background: "rgb(207, 18, 46)",borderRadius:'33px' }}
               type="submit"
               onClick={() => AddtoCartHandler()}
               className="btn btn--rounded btn--yellow"

@@ -375,7 +375,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
             onMouseLeave={handleMouseLeave1}
           >
             <button style={buttonStyle}>
-              <a>Printers & Consumable</a>
+              <a>Printers & Products</a>
             </button>
             <div style={contentStyle1}>
               {!customerGroup ? (

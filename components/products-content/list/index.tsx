@@ -16,6 +16,7 @@ const ProductsContent = () => {
     token = localStorage.getItem("token");
   }
 
+
   const getSearchData = async () => {
     const resp = await fetch(
       `${API_URL}/catalog-search-suggestions?q=${searchUrl}&include=abstract-products%2Cconcrete-products%2F`,
@@ -188,6 +189,35 @@ const ProductsContent = () => {
       getProductData();
     }
   }, [nodeId]);
+
+  useEffect(() => {
+    const handleMerchant = async (skuId:any) => {
+      try {
+        const resp = await fetch(
+          `${API_URL}/concrete-products/${skuId}/product-offers?include=product-offer-prices`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              
+            },
+          }
+        );
+        const response = await resp.json();
+        console.log(response,"dfks")
+        
+      } catch (error) {
+      console.log(error,"skls")
+
+      }
+    };
+    
+    // Call the handleMerchant function here
+    handleMerchant
+  }, []);
+
+
+
   return (
     <>
       {!searchResults && <ProductsLoading />}

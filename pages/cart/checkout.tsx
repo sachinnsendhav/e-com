@@ -689,7 +689,7 @@ const CheckoutPage = () => {
                         style={{
                           padding: "1rem 1.25rem",
                           marginLeft: "-14px",
-                          margin: "0",
+                          // margin: "0",
                           color: "#800000",
                           fontFamily: "'Circular', sans-serif",
                         }}
@@ -824,7 +824,7 @@ const CheckoutPage = () => {
               <div className="cart-actions__items-wrapper">
                 <button
                   type="button"
-                  style={{ width: "107%", background: "rgb(207, 18, 46" }}
+                  style={{ width: "94%", background: "rgb(207, 18, 46" }}
                   className="btn btn--rounded btn--yellow"
                   onClick={() => orderConfirm()}
                 >

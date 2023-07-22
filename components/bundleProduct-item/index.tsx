@@ -3,9 +3,12 @@ import { some } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleFavProduct } from 'store/reducers/user';
 import { RootState } from 'store';
-import {CURRENCY_SYMBOLE} from '../../config';
+import {API_URL, CURRENCY_SYMBOLE} from '../../config';
+import { useEffect } from 'react';
 
-const ProductItem = ({ images, id, name, price, description }: any) => {
+
+const ProductItem = ({ images, id, name, price, description, skuId }: any) => {
+
   const dispatch = useDispatch();
   const { favProducts } = useSelector((state: RootState) => state.user);
 
@@ -21,6 +24,35 @@ const ProductItem = ({ images, id, name, price, description }: any) => {
       }
     ))
   }
+
+  useEffect(() => {
+    const handleMerchant = async (skuId:any) => {
+      try {
+        const resp = await fetch(
+          `${API_URL}/concrete-products/${skuId}/product-offers?include=product-offer-prices`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              
+            },
+          }
+        );
+        const response = await resp.json();
+        console.log(response,"dfks")
+        
+      } catch (error) {
+      console.log(error,"skls")
+
+      }
+    };
+    
+    // Call the handleMerchant function here
+    handleMerchant(skuId)
+  }, []); // Empty dependency array to run the effect only once on mount
+  
+
+  
 
   return (
     <div className="product-item" style={{height:"auto"}}>
@@ -66,7 +98,7 @@ const ProductItem = ({ images, id, name, price, description }: any) => {
         <span
           style={{ fontWeight: "bold", color: "rgb(207 18 46)" }}
         >
-          {CURRENCY_SYMBOLE} {price}
+          {CURRENCY_SYMBOLE}{price}
         </span>
         <button
         
@@ -79,6 +111,10 @@ const ProductItem = ({ images, id, name, price, description }: any) => {
             fontWeight: "900"
           }}
         >
+ 
+
+
+
           <a href={`/bundleProduct/${name}?skuId=${id}&image=${encodeURIComponent(images)}`}>
           {" "}
           {"View Details"}

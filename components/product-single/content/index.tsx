@@ -605,12 +605,12 @@ const Content = (product: any) => {
           {token ? 
           selectedMerchantOffer ? (
             <h4 style={{ color: "rgb(207, 18, 46)" }}>
-              {CURRENCY_SYMBOLE} {selectedMerchantOffer?.price/100}
+              {CURRENCY_SYMBOLE}{selectedMerchantOffer?.price/100}
             </h4>
           ) : (
             <>
             <h4 style={{ color: "rgb(207, 18, 46)" }}>
-              {priceSymbole} {price ? price/100:<p style={{fontSize:"12px"}}>Price : Please login</p>} 
+              {priceSymbole}{price ? price/100:<p style={{fontSize:"12px"}}>Price : Please login</p>} 
             </h4>
             {/* <span style={{fontSize:"8px"}}>Offer Not Avalible</span> */}
             </>

@@ -188,7 +188,7 @@ const CheckoutItems = () => {
                 >
                   <div
                     className="checkout-item__img"
-                    style={{ width: "7rem", height: "7rem", overflow: "hidden", marginTop: "8vh", marginRight: "10px" }}
+                    style={{ width: "7rem", height: "7rem", overflow: "hidden", marginTop: "2rem", marginRight: "10px" }}
                   >
                     <img src={cartPrductImgArr[Index]} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                   </div>
@@ -220,7 +220,7 @@ const CheckoutItems = () => {
                     marginRight: "-75px",
                   }}
                 >
-                  Item Total : {CURRENCY_SYMBOLE} {item.attributes?.calculations?.unitPrice * item?.attributes?.quantity/100}
+                  Item Total : {CURRENCY_SYMBOLE} {item.attributes?.calculations?.unitPrice/ 100 * item?.attributes?.quantity}
                 </h3>
            
               </div>
@@ -240,7 +240,7 @@ const CheckoutItems = () => {
                 </div>
                 <div style={{ display: "flex" }}>
                   <p style={{ padding: "10px", fontWeight: "bold" }}>
-                    Total {CURRENCY_SYMBOLE} {item.total/100} X {item.data[0].attributes.quantity}
+                    Total {CURRENCY_SYMBOLE}{item.total/100} X {item.data[0].attributes.quantity}
                   </p>
                 </div>
               </div>

@@ -3,6 +3,7 @@ import Item from "./item";
 import { useEffect, useState } from "react";
 import { API_URL } from "config";
 import { CURRENCY_SYMBOLE } from 'config';
+import Loader from "components/loader";
 
 
 const ShoppingCart = () => {
@@ -246,6 +247,7 @@ const ShoppingCart = () => {
         if (resp.status === 401) {
           // Redirect to "/login" route
           alert("Please Login");
+          
           setIsLoading(false);
           window.location.href = "/login";
           return;
@@ -254,8 +256,13 @@ const ShoppingCart = () => {
           await handlecart();
           return;
         }
+
         if (resp.status == 204) {
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 10000);
           setCartUpdated(cartUpdated + 1);
+
           setIsLoading(false);
         } else {
           setIsLoading(false);
@@ -374,8 +381,9 @@ const ShoppingCart = () => {
             justifyContent: "center",
             alignItems: "center",
           }}
+         
         >
-          Loading...
+           <Loader />
         </div>
       ) : (
         <div className="container">
@@ -446,7 +454,7 @@ const ShoppingCart = () => {
 
 
                             <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
-                              {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.subtotal/100}
+                              {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.subtotal / 100}
                             </h3>
                           </div>
                         </div>
@@ -456,7 +464,7 @@ const ShoppingCart = () => {
                             <p style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", fontWeight: "300", marginLeft: "-14px", display: "flex", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Tax Total</p>
                             <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
 
-                              + {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.taxTotal/100}
+                              {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.taxTotal/ 100}
                             </h3>
                           </div>
 
@@ -468,7 +476,7 @@ const ShoppingCart = () => {
 
 
                             <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", overflow: "auto", display: "flex", justifyContent: "space-between" }}>
-                              {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.grandTotal/100}
+                              {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.grandTotal/ 100}
                             </h3>
                           </div>
 
@@ -615,8 +623,8 @@ const ShoppingCart = () => {
                               fontWeight: "bold",
                             }}
                           >
-                            = {CURRENCY_SYMBOLE} {(val.attributes.quantity) * (val.attributes.calculations.unitPrice)/100}
-                           = {CURRENCY_SYMBOLE} {(val.attributes.quantity)*(val.attributes.calculations.unitPrice)/100}
+                            = {CURRENCY_SYMBOLE}{(val.attributes.quantity) * (val.attributes.calculations.unitPrice)/100}
+                           = {CURRENCY_SYMBOLE}{(val.attributes.quantity)*(val.attributes.calculations.unitPrice)/100}
                           </div>
                         </div>
                       </div>
@@ -638,7 +646,7 @@ const ShoppingCart = () => {
 
 
             <div className="cart-actions__items-wrapper">
-              <p className="cart-actions__total">
+              {/* <p className="cart-actions__total">
                 Total cost{" "}
                 <strong>
                   {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.priceToPay/100}
@@ -646,7 +654,7 @@ const ShoppingCart = () => {
               </p>
               <a href="/cart/checkout" className="btn btn--rounded btn--yellow">
                 Checkout
-              </a>
+              </a> */}
             </div>
           </div>
         </div>

@@ -4,13 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toggleFavProduct } from 'store/reducers/user';
 import { RootState } from 'store';
 import {API_URL, CURRENCY_SYMBOLE} from '../../config';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+
 
 
 const ProductItem = ({ images, id, name, price, description, skuId }: any) => {
 
   const dispatch = useDispatch();
   const { favProducts } = useSelector((state: RootState) => state.user);
+  const [activeTab, setActiveTab] = useState('tutorials');
 
   const isFavourite = some(favProducts, productId => productId === id);
   const temp = description.split('&')[1]
@@ -51,7 +53,9 @@ const ProductItem = ({ images, id, name, price, description, skuId }: any) => {
     handleMerchant(skuId)
   }, []); // Empty dependency array to run the effect only once on mount
   
-
+  const handleTabClick = (tabName: string) => {
+    setActiveTab(tabName);
+  };
   
 
   return (

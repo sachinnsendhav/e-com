@@ -614,7 +614,7 @@ console.log(bundleData,"bundle");
             <h4 style={{ color: "rgb(207, 18, 46)" }}>
               {priceSymbole}{price ? (price)/100: ""} 
             </h4>
-            <span style={{fontSize:"8px"}}>Offer Not Avalible</span>
+         {/* ;   <span style={{fontSize:"8px"}}>Offer Not Avalible</span> */}
             </>
           )}
         </div>

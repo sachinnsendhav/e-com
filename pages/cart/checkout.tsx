@@ -1,13 +1,15 @@
 import Layout from "../../layouts/Main";
 import CheckoutStatus from "../../components/checkout-status";
 import CheckoutItems from "../../components/checkout/items/index";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { API_URL, CURRENCY_SYMBOLE } from "config";
 
 const CheckoutPage = () => {
   const router = useRouter();
   const [data, setData] = useState([]);
+  const [selectedOptionPrice, setSelectedOptionPrice] = useState<any>([]);
+  const [selectedOptionId, setSelectedOptionId] = useState('');
   const [cartData, setCartData] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -229,11 +231,21 @@ const CheckoutPage = () => {
       }
     });
   };
-  const handleShipmentSeclection = async (e: any) => {
-    // setSelectedShipment(id);
-    console.log(e);
+  // const handleShipmentSeclection = async (e: any) => {
+  //   // setSelectedShipment(id);
+  //   console.log(e);
+  // };
+  // console.log(isLoading);
+
+  const handleShipmentSelection = (event:any) => {
+    const selectedId = event.target.value;
+    setSelectedOptionId(selectedId);
+
+    // Find the selected option element and access its data-price attribute
+    const selectedOption = event.target.querySelector(`option[value="${selectedId}"]`);
+    const price = selectedOption.getAttribute('data-price');
+    setSelectedOptionPrice(price);
   };
-  console.log(isLoading);
   return (
     <Layout>
       <section className="cart" style={{ color: "black", padding: "80px" }}>
@@ -241,14 +253,11 @@ const CheckoutPage = () => {
           <div className="cart__intro">
             <h3 className="cart__title">Shipping and Payment</h3>
             <CheckoutStatus step="checkout" />
+            
           </div>
           <div className="checkout-content">
-<<<<<<< HEAD
           
             <div className="checkout__col-8" style={{ width: "73%" }}>
-=======
-            <div className="checkout__col-8" style={{ width: "70%" }}>
->>>>>>> 64f820b7700e90120ea4f464559df0c84e4ba929
               <div className="block">
                 <h3 className="block__title">Your cart</h3>
 
@@ -435,41 +444,35 @@ const CheckoutPage = () => {
                               className="select-wrapper select-form"
                               style={{ width: "100%" }}
                             >
-                              <select
-                                className="form__input form__input--sm"
-                                style={{
-                                  marginTop: "-12px",
-                                  marginLeft: "-25px",
-                                  fontSize: "0.75rem",
-                                  color: "#8f8f8f",
-                                  fontWeight: "400",
-                                  fontFamily: "'Circular', sans-serif",
-                                }}
-                                onChange={(e) =>
-                                  handleShipmentSeclection(e.target.value)
-                                }
-                              >
-                                <option
-                                  style={{
-                                    color: "#8f8f8f",
-                                    fontSize: "0.75rem",
-                                  }}
-                                >
-                                  Select Shipment Method
-                                </option>
-                                {shipmentMethods.map((val: any) => {
-                                  return (
-                                    <option value={val.id} id={val.attributes.price}>
-                                      {val.attributes.name} &#91;
-                                      {val.attributes.price}
-                                      {val.attributes.currencyIsoCode}-{"0"}{" "}
-                                      &#93;
-                                     
-                                    </option>
-                                    
-                                  );
-                                })}
-                              </select>
+                             <select
+        className="form__input form__input--sm"
+        style={{
+          marginTop: "-12px",
+          marginLeft: "-25px",
+          fontSize: "0.75rem",
+          color: "#8f8f8f",
+          fontWeight: "400",
+          fontFamily: "'Circular', sans-serif",
+        }}
+        onChange={handleShipmentSelection}
+      >
+        <option style={{ color: "#8f8f8f", fontSize: "0.75rem" }}>
+          Select Shipment Method
+        </option>
+        {shipmentMethods.map((val:any) => (
+          <option
+            key={val.id}
+            value={val.id}
+            data-price={val.attributes.price}
+          >
+            {val.attributes.name} 
+            {val.attributes.price}
+            {val.attributes.currencyIsoCode}
+          </option>
+        ))}
+      </select>
+   
+     
                             
                               
                               
@@ -513,47 +516,20 @@ const CheckoutPage = () => {
                 </div> */}
 
                 {/* new */}
-                <div
-                  style={{
-                    background: "#f0f0f0",
-                    display: "flex",
-                    flexDirection: "column",
-                    padding: "1rem",
-                    height: "269px",
-                    width: "18rem",
-                    marginBottom: "0.5rem",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      marginBottom: "0.5rem",
-                    }}
-                  >
-                    <div
-                      style={{
-                        flex: 1,
-                        marginRight: "0.5rem",
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <p
-                        style={{
-                          padding: "1rem 1.25rem",
-                          margin: "0",
-                          fontSize: "0.875rem",
-                          fontWeight: "300",
-                          whiteSpace: "nowrap",
-                          display: "flex",
-                          marginLeft: "-14px",
-                          justifyContent: "space-between",
-                          fontFamily: "'Circular', sans-serif",
-                        }}
-                      >
-                        Sub Total cost
-                      </p>
+                <div style={{ background: "#f0f0f0", display: "flex", flexDirection: "column", padding: "1rem", height: "322px", width: "18rem", marginBottom: "0.5rem" }}>
+            
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
+                  <div style={{ flex: 1, marginRight: "0.5rem", fontSize: "0.875rem", fontWeight: "300", display: "flex", justifyContent: "space-between" }}>
+            <p style={{ padding: "1rem 1.25rem", marginLeft:"-14px", margin: "0", fontSize: "0.875rem", fontFamily: "'Circular', sans-serif" }}>Shipping Cost</p>
+            <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
+              {CURRENCY_SYMBOLE} {selectedOptionPrice/100} {/* The selected option price */}
+            </h3>
+          </div>
+        </div>
+        <hr style={{ borderTop: "1px solid #ccc", margin: "0.2rem -1rem" }} />
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
+                    <div style={{ flex: 1, marginRight: "0.5rem", display: "flex", justifyContent: "space-between" }}>
+                      <p style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", fontWeight: "300", whiteSpace: "nowrap", display: "flex", marginLeft:"-2px", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Sub Total cost</p>
 
                       <h3
                         style={{
@@ -564,7 +540,6 @@ const CheckoutPage = () => {
                           justifyContent: "space-between",
                         }}
                       >
-<<<<<<< HEAD
                         {CURRENCY_SYMBOLE}{" "}
                         {cartData?.data?.attributes?.totals?.subtotal/ 100}
                       </h3>
@@ -573,7 +548,7 @@ const CheckoutPage = () => {
                   <hr style={{ borderTop: "1px solid #ccc", margin: "0.2rem -1rem" }} />
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
                     <div style={{ flex: 1, marginRight: "0.5rem", fontSize: "0.875rem", fontWeight: "300", display: "flex", justifyContent: "space-between" }}>
-                      <p style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", fontWeight: "300", marginLeft:"-14px", display: "flex", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Tax</p>
+                      <p style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", fontWeight: "300", marginLeft:"-1px", display: "flex", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Tax</p>
                       <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
 
                         + {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.taxTotal/ 100}
@@ -581,11 +556,12 @@ const CheckoutPage = () => {
                     </div>
 
                   </div>
+               
                  
                   <hr style={{ borderTop: "1px solid #ccc", margin: "0.2rem -1rem" }} />
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
                     <div style={{ flex: 1, marginRight: "0.5rem", display: "flex", justifyContent: "space-between" }}>
-                      <p style={{ padding: "1rem 1.25rem", margin: "0", color: "green", fontSize: "0.875rem", marginLeft:"-14px", fontWeight: "300", display: "flex", fontFamily: "'Circular', sans-serif", justifyContent: "space-between" }}>Discount Total</p>
+                      <p style={{ padding: "1rem 1.25rem", marginLeft:"-14px", margin: "0", color: "green", fontSize: "0.875rem",  fontWeight: "300", display: "flex", fontFamily: "'Circular', sans-serif", justifyContent: "space-between" }}>Discount Total</p>
 
 
                       <h3 style={{ color: "green", padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", overflow: "auto", display: "flex", justifyContent: "space-between" }}>
@@ -610,271 +586,6 @@ const CheckoutPage = () => {
                  
                
                  
-=======
-                        {CURRENCY_SYMBOLE}
-                        {cartData?.data?.attributes?.totals?.subtotal/100}
-                      </h3>
-                    </div>
-                  </div>
-                  <hr
-                    style={{
-                      borderTop: "1px solid #ccc",
-                      margin: "0.2rem -1rem",
-                    }}
-                  />
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      marginBottom: "0.5rem",
-                    }}
-                  >
-                    <div
-                      style={{
-                        flex: 1,
-                        marginRight: "0.5rem",
-                        fontSize: "0.875rem",
-                        fontWeight: "300",
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <p
-                        style={{
-                          padding: "1rem 1.25rem",
-                          margin: "0",
-                          fontSize: "0.875rem",
-                          fontWeight: "300",
-                          marginLeft: "-14px",
-                          display: "flex",
-                          justifyContent: "space-between",
-                          fontFamily: "'Circular', sans-serif",
-                        }}
-                      >
-                        Tax
-                      </p>
-                      <h3
-                        style={{
-                          padding: "1rem 1.25rem",
-                          margin: "0",
-                          fontSize: "0.875rem",
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        + {CURRENCY_SYMBOLE}
-                        {cartData?.data?.attributes?.totals?.taxTotal/100}
-                      </h3>
-                    </div>
-                  </div>
-                  <hr
-                    style={{
-                      borderTop: "1px solid #ccc",
-                      margin: "0.2rem -1rem",
-                    }}
-                  />
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      marginBottom: "0.5rem",
-                    }}
-                  >
-                    <div
-                      style={{
-                        flex: 1,
-                        marginRight: "0.5rem",
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <p
-                        style={{
-                          padding: "1rem 1.25rem",
-                          margin: "0",
-                          color: "green",
-                          fontSize: "0.875rem",
-                          marginLeft: "-14px",
-                          fontWeight: "300",
-                          display: "flex",
-                          fontFamily: "'Circular', sans-serif",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        Discount Total
-                      </p>
-
-                      <h3
-                        style={{
-                          color: "green",
-                          padding: "1rem 1.25rem",
-                          margin: "0",
-                          fontSize: "0.875rem",
-                          overflow: "auto",
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        - {CURRENCY_SYMBOLE}
-                        {cartData?.data?.attributes?.totals?.discountTotal/100}
-                      </h3>
-                    </div>
-                  </div>
-                  <hr
-                    style={{
-                      borderTop: "1px solid #ccc",
-                      margin: "0.2rem -1rem",
-                    }}
-                  />
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      marginBottom: "0.5rem",
-                    }}
-                  >
-                    <div
-                      style={{
-                        flex: 1,
-                        marginRight: "0.5rem",
-                        fontSize: "0.875rem",
-                        fontWeight: "300",
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <p
-                        style={{
-                          padding: "1rem 1.25rem",
-                          marginLeft: "-14px",
-                          margin: "0",
-                          color: "#800000",
-                          fontFamily: "'Circular', sans-serif",
-                        }}
-                      >
-                        Total cost
-                      </p>
-
-                      <h3
-                        style={{
-                          color: "#800000",
-                          marginRight: "-10px",
-                          padding: "1rem 1.25rem",
-                          margin: "0",
-                          fontSize: "0.875rem",
-                        }}
-                      >
-                        = {CURRENCY_SYMBOLE}
-                        {cartData?.data?.attributes?.totals?.priceToPay/100}
-                      </h3>
-                    </div>
-                  </div>
-                  <hr
-                    style={{
-                      borderTop: "1px solid #ccc",
-                      margin: "0.2rem -1rem",
-                    }}
-                  />
-                  {/* <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      marginBottom: "0.5rem",
-                    }}
-                  >
-                    <div
-                      style={{
-                        flex: 1,
-                        marginRight: "0.5rem",
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <p
-                        style={{
-                          padding: "1rem 1.25rem",
-                          margin: "0",
-                          color: "green",
-                          fontSize: "0.875rem",
-                          fontWeight: "300",
-                          display: "flex",
-                          fontFamily: "'Circular', sans-serif",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        Discount Total
-                      </p>
-
-                      <h3
-                        style={{
-                          color: "green",
-                          padding: "1rem 1.25rem",
-                          margin: "0",
-                          fontSize: "0.875rem",
-                          overflow: "auto",
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        - {CURRENCY_SYMBOLE}{" "}
-                        {cartData?.data?.attributes?.totals?.discountTotal}
-                      </h3>
-                    </div>
-                  </div>
-                  <hr
-                    style={{
-                      borderTop: "1px solid #ccc",
-                      margin: "0.2rem -1rem",
-                    }}
-                  />
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      marginBottom: "0.5rem",
-                    }}
-                  >
-                    <div
-                      style={{
-                        flex: 1,
-                        marginRight: "0.5rem",
-                        fontSize: "0.875rem",
-                        fontWeight: "300",
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <p
-                        style={{
-                          padding: "1rem 1.25rem",
-                          margin: "0",
-                          color: "#800000",
-                          fontFamily: "'Circular', sans-serif",
-                        }}
-                      >
-                        Total cost
-                      </p>
-
-                      <h3
-                        style={{
-                          color: "#800000",
-                          padding: "1rem 1.25rem",
-                          margin: "0",
-                          fontSize: "0.875rem",
-                        }}
-                      >
-                        = {CURRENCY_SYMBOLE}{" "}
-                        {cartData?.data?.attributes?.totals?.priceToPay}
-                      </h3>
-                    </div>
-                  </div> */}
-                  {/* <hr
-                    style={{
-                      borderTop: "1px solid #ccc",
-                      margin: "0.9375rem -1.05rem",
-                    }}
-                  /> */}
->>>>>>> 64f820b7700e90120ea4f464559df0c84e4ba929
                 </div>
 
                 {/*  */}

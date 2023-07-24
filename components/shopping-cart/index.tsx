@@ -3,7 +3,8 @@ import Item from "./item";
 import { useEffect, useState } from "react";
 import { API_URL } from "config";
 import { CURRENCY_SYMBOLE } from 'config';
-// import Loader from "components/loader";
+
+import Loader from "components/loader";
 
 
 const ShoppingCart = () => {
@@ -503,7 +504,7 @@ const ShoppingCart = () => {
               </table>
             )}
 
-            {!cartItems && <p>Nothing in the cart</p>}
+            {!cartItems && <Loader/>}
           </div>
           {configuredBundleData && configuredBundleData?.map((item: any, index: number) => {
             return (

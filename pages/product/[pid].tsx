@@ -386,17 +386,9 @@ const Product = () => {
                   activeTab === "tutorials" ? "btn--active" : ""
                 }`}
               >
-                Tutorials
+                Tutorials & How TO's
               </button>
-              <button
-                type="button"
-                onClick={() => setActiveTab("howTos")}
-                className={`btn btn--rounded ${
-                  activeTab === "howTos" ? "btn--active" : ""
-                }`}
-              >
-                How Tos
-              </button>
+             
             </div>
             {activeTab === "description" && (
               <>
@@ -410,20 +402,35 @@ const Product = () => {
                 </ul>
               </>
             )}
-            {activeTab === "tutorials" && (
-              <ul className="description-section">
-                {tutorialsContent.map((item: any, index: number) => (
-                  <li style={{padding:"0.5rem"}} key={index}>{item}</li>
-                ))}
-              </ul>
-            )}
-            {activeTab === "howTos" && (
-              <ul className="description-section">
-                {howTosContent.map((item: any, index: number) => (
-                  <li key={index}>{item}</li>
-                ))}
-              </ul>
-            )}
+     {activeTab === "tutorials" && (
+ <div style={{ marginLeft: "12px" }} className="video-container">
+ <div
+   style={{
+     width: "600px", // Adjust width as needed
+     height: "300px", // Adjust height as needed
+     border: "1px solid black",
+     borderRadius: "2px",
+    
+     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+     overflow: "hidden", // Hide any overflowing content
+   }}
+ >
+   <iframe
+     width="600"
+     height="300"
+     src="https://www.youtube.com/embed/q41FgNuoVmE"
+     title="YouTube video player"
+     frameBorder="0"
+     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+     allowFullScreen
+   ></iframe>
+ </div>
+</div>
+
+
+)}
+
+           
           </div>
         </div>
         {productData.length > 0 && (

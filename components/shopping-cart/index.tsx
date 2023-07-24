@@ -439,7 +439,7 @@ const ShoppingCart = () => {
                       ))}
                     </div>
                     <div>
-                      <div style={{ background: "#f0f0f0", display: "flex", flexDirection: "column", padding: "1rem", height: "267px", width: "18rem", marginBottom: "0.5rem", marginLeft: "0.5rem" }}>
+                      <div style={{ background: "#f0f0f0", display: "flex", flexDirection: "column", padding: "1rem", height: "356px", width: "18rem", marginBottom: "0.5rem", marginLeft: "0.5rem" }}>
                         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
 
                           {/* <div style={{ flex: 1, marginRight: "0.5rem", display: "flex", justifyContent: "space-between" }}>
@@ -468,10 +468,21 @@ const ShoppingCart = () => {
                         <hr style={{ borderTop: "1px solid #ccc" }} />
                         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
                           <div style={{ flex: 1, marginRight: "0.5rem", fontSize: "0.875rem", fontWeight: "300", display: "flex", justifyContent: "space-between" }}>
-                            <p style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", fontWeight: "300", marginLeft: "-14px", display: "flex", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Tax Total</p>
-                            <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
+                            <p style={{ padding: "1rem 1.25rem", margin: "0",color:"#800000", fontSize: "0.875rem", fontWeight: "300", marginLeft: "-14px", display: "flex", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Tax Total</p>
+                            <h3 style={{ padding: "1rem 1.25rem", margin: "0",color:"#800000", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
 
                               {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.taxTotal/ 100}
+                            </h3>
+                          </div>
+
+                        </div>
+                        <hr style={{ borderTop: "1px solid #ccc" }} />
+                        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
+                          <div style={{ flex: 1, marginRight: "0.5rem", fontSize: "0.875rem", fontWeight: "300", display: "flex", justifyContent: "space-between" }}>
+                            <p style={{ padding: "1rem 1.25rem",color:"green", margin: "0", fontSize: "0.875rem", fontWeight: "300", marginLeft: "-14px", display: "flex", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Discount</p>
+                            <h3 style={{ padding: "1rem 1.25rem",color:"green", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
+
+                              {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.discountTotal/ 100}
                             </h3>
                           </div>
 

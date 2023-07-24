@@ -594,7 +594,7 @@ const CheckoutPage = () => {
               <div className="cart-actions__items-wrapper">
                 <button
                   type="button"
-                  style={{ width: "107%", background: "rgb(207, 18, 46" }}
+                  style={{ width: "18rem", background: "rgb(207, 18, 46" }}
                   className="btn btn--rounded btn--yellow"
                   onClick={() => orderConfirm()}
                 >

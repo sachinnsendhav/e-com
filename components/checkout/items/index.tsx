@@ -155,7 +155,7 @@ const CheckoutItems = () => {
     <div className="checkout-items">
       {isLoading ? (
         <div style={{ display: "flex", justifyContent: "center", paddingTop: "50px" }}>
-          <Loader />
+         
         </div>
       ) : (
         <>
@@ -184,11 +184,11 @@ const CheckoutItems = () => {
             
                 <div
                   className="image_adjustment"
-                  style={{ backgroundColor: "rgba(0, 0, 0, 0.05)", height: "14rem", padding: "28px" }}
+                  style={{ backgroundColor: "rgba(0, 0, 0, 0.05)", height: "10rem", padding: "28px" }}
                 >
                   <div
                     className="checkout-item__img"
-                    style={{ width: "7rem", height: "7rem", overflow: "hidden", marginTop: "2rem", marginRight: "10px" }}
+                    style={{ width: "7rem", height: "7rem", overflow: "hidden", marginRight: "10px" }}
                   >
                     <img src={cartPrductImgArr[Index]} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                   </div>

@@ -193,7 +193,7 @@ const Content = (product: any) => {
 
       if (response) {
         setIsLoading(false);
-        if (response?.data[0]?.id) {
+        if (response?.data.length>0) {
           localStorage.setItem("cartId", response?.data[0].id);
           cartId = response?.data[0].id;
           return response?.data[0].id;

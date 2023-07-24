@@ -3,7 +3,7 @@ import Item from "./item";
 import { useEffect, useState } from "react";
 import { API_URL } from "config";
 import { CURRENCY_SYMBOLE } from 'config';
-import Loader from "components/loader";
+// import Loader from "components/loader";
 
 
 const ShoppingCart = () => {
@@ -13,6 +13,7 @@ const ShoppingCart = () => {
     token = localStorage.getItem("token");
     cartId = localStorage.getItem("cartId");
   }
+ 
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [cartData, setCartData] = useState<any>();
@@ -30,6 +31,10 @@ const ShoppingCart = () => {
   //   }
   //   return totalPrice;
   // };
+
+//@ts-ignore
+  
+
 
   const handlecart = async () => {
     try {
@@ -222,6 +227,7 @@ const ShoppingCart = () => {
       }
       const response = await resp.json();
       if (response) {
+        
         setCartUpdated(cartUpdated + 1);
         setIsLoading(false);
       } else {
@@ -383,7 +389,7 @@ const ShoppingCart = () => {
           }}
          
         >
-           <Loader />
+         
         </div>
       ) : (
         <div className="container">
@@ -663,4 +669,4 @@ const ShoppingCart = () => {
   );
 };
 
-export default ShoppingCart;
+export default ShoppingCart

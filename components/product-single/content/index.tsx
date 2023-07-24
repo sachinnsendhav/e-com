@@ -586,6 +586,7 @@ const Content = (product: any) => {
     }
     setWishlistedItemId("");
   };
+  const btnName= token ? "Add To Cart" : "Login to Add to Cart";
   return (
     <section className="product-content">
       <div className="product-content__intro">
@@ -790,7 +791,7 @@ const Content = (product: any) => {
               onClick={() => AddtoCartHandler()}
               className="btn btn--rounded btn--yellow"
             >
-              {isLoading ? "Adding to cart..." : "Add to cart"}
+              {isLoading ? "Adding to cart..." : btnName}
             </button>
             <button
               type="button"

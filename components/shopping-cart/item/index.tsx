@@ -30,7 +30,7 @@ const ShoppingCart = ({ thumb, name, pliId, id, avalibility, size, count, price,
           </div>
         </div>
         <div style={{ alignItems: "right", marginTop: "2rem" }}>
-        <div style={{ background: "rgba(0, 0, 0, 0.05)", marginLeft: "29.3rem", padding: "8px", display: "inline-block" }} className="quantity-buttons">
+        <div style={{ background: "rgba(0, 0, 0, 0.05)", marginLeft: "28.6rem", padding: "8px", display: "inline-block" }} className="quantity-buttons">
   <span style={{ color: "black", fontSize:"1rem" , fontWeight:"500",  padding: "4px 8px", borderRadius: "4px" }}>Quantity :</span>
   <button type="button" style={{ background: "white", width: "25px" }} onClick={() => setProductCount(count - 1, pliId, id)} className="quantity-button__btn">
     -
@@ -41,7 +41,7 @@ const ShoppingCart = ({ thumb, name, pliId, id, avalibility, size, count, price,
   </button>
 </div>
           <div style={{ marginTop: "1rem" }}>
-            <div style={{ marginLeft: "30rem", fontSize:"1rem" , fontWeight:"500" ,  color:"#4c4c4c", padding: "0.7rem", background: "rgba(0, 0, 0, 0.05)" }}> Item Total: {CURRENCY_SYMBOLE}  {price / 100}</div>
+            <div style={{ marginLeft: "29rem", fontSize:"1rem" , fontWeight:"500" ,  color:"#4c4c4c", padding: "0.7rem", background: "rgba(0, 0, 0, 0.05)" }}> Item Total: {CURRENCY_SYMBOLE}  {price / 100}</div>
           </div>
           <div>
           <div

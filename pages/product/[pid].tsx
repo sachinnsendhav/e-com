@@ -405,7 +405,7 @@ const Product = () => {
                 </p>
                 <ul className="description-section">
                 {tutorialsContent.map((item: any, index: number) => (
-                  <li key={index}>{item}</li>
+                  <li style={{padding:"0.5rem"}} key={index}>{item}</li>
                 ))}
                 </ul>
               </>
@@ -413,7 +413,7 @@ const Product = () => {
             {activeTab === "tutorials" && (
               <ul className="description-section">
                 {tutorialsContent.map((item: any, index: number) => (
-                  <li key={index}>{item}</li>
+                  <li style={{padding:"0.5rem"}} key={index}>{item}</li>
                 ))}
               </ul>
             )}

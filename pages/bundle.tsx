@@ -23,7 +23,7 @@ const Bundle = () => (
                 2400x600 dpi max print resolution.
                 Paper capacity up to 751 sheets.
                 Superior features in an affordable package"
-              images="https://www.ricoh-usa.com/_next/image?url=http%3A%2F%2Fimages.salsify.com%2Fimages%2Fsazo66qaseg59pluw10a%2Fricohimages_Equipment_Printers-and-Copiers_eqp-p-c311W-10.png&w=1920&q=75"
+              images="assets/images/colbundle.jpg"
             />
             {/* <ProductItem
               id="211"

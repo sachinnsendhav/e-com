@@ -18,6 +18,7 @@ const ProductsContent = () => {
 
 
   const getSearchData = async () => {
+    try{
     const resp = await fetch(
       `${API_URL}/catalog-search-suggestions?q=${searchUrl}&include=abstract-products%2Cconcrete-products%2F`,
       {
@@ -44,6 +45,10 @@ const ProductsContent = () => {
         }
       });
     });
+  }
+  catch(error){
+    console.log(error);
+  }
     // setSearchResults(result?.data[0]?.attributes?.abstractProducts);
   };
   useEffect(() => {

@@ -7,24 +7,34 @@ function ConfigurableProduct() {
     const [data, setData] = useState<any[]>([]);
 
     const getConfigurableBundles = async () => {
-        const resp = await fetch(`${API_URL}/configurable-bundle-templates?include=configurable-bundle-template-image-sets`, {
+        try {
+          const resp = await fetch(`${API_URL}/configurable-bundle-templates?include=configurable-bundle-template-image-sets`, {
             method: "GET"
-        });
-        const result = await resp.json();
-        var newData: any[] = [];
-        result.data.forEach((item: any) => {
+          });
+          if (!resp.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const result = await resp.json();
+          var newData: any[] = [];
+          result.data.forEach((item: any) => {
             result.included.forEach((img: any) => {
-                if (item.id === img.id) {
-                    newData.push({
-                        name: item.attributes.name,
-                        image: img.attributes.images[0].externalUrlLarge,
-                        id: item.id
-                    })
-                }
-            })
-        })
-        setData(newData);
-    }
+              if (item.id === img.id) {
+                newData.push({
+                  name: item.attributes.name,
+                  image: img.attributes.images[0].externalUrlLarge,
+                  id: item.id
+                });
+              }
+            });
+          });
+      
+          setData(newData);
+        } catch (error) {
+          console.error('Error fetching configurable bundles:', error);
+          setData([]);
+        }
+      };
+      
     useEffect(() => {
         getConfigurableBundles()
     }, []);

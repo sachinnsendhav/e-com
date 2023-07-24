@@ -20,6 +20,24 @@ const Orders = ({ show }: AddressType) => {
 
   useEffect(() => {
     setAuthToken(localStorage.getItem('token'))
+    const reOrder = async () => {
+      try {
+        const resp = await fetch(
+          `${API_URL}/re-order?id=1`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+
+            },
+          }
+        );
+        alert("It has been reordered succesfully");
+      } catch (error) {
+      }
+    };
+    alert("Notification : your cartridge(sku id) needs a replacement . It has been sent for a reorder.");
+   // reOrder();
   }, [])
   const getOrder = async () => {
     setLoading(true)
@@ -41,6 +59,7 @@ const Orders = ({ show }: AddressType) => {
     }
     setLoading(false)
   }
+
   useEffect(() => {
     getOrder()
   }, [authToken])

@@ -199,16 +199,13 @@ const ProductsContent = () => {
             method: "GET",
             headers: {
               Accept: "application/json",
-              
             },
           }
         );
         const response = await resp.json();
-        console.log(response,"dfks")
-        
+        console.log(response,"resp")
       } catch (error) {
-      console.log(error,"skls")
-
+      console.log(error,"errors")
       }
     };
     

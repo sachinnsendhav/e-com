@@ -87,7 +87,7 @@ const ShoppingCart = () => {
           window.location.href = "/login";
           return;
         } else if (resp.status === 404) {
-          alert("Cart not found: checking");
+          // alert("Cart not found: checking");
           await handlecart();
           return;
         }
@@ -221,7 +221,7 @@ const ShoppingCart = () => {
         window.location.href = "/login";
         return;
       } else if (resp.status === 404) {
-        alert("Cart not found: checking");
+        // alert("Cart not found: checking");
         await handlecart();
         return;
       }
@@ -258,7 +258,7 @@ const ShoppingCart = () => {
           window.location.href = "/login";
           return;
         } else if (resp.status === 404) {
-          alert("Cart not found: checking");
+          // alert("Cart not found: checking");
           await handlecart();
           return;
         }
@@ -335,7 +335,7 @@ const ShoppingCart = () => {
         window.location.href = "/login";
         return;
       } else if (resp.status === 404) {
-        alert("Cart not found: checking");
+        // alert("Cart not found: checking");
         await handlecart();
         return;
       }

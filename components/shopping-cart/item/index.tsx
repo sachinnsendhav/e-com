@@ -1,5 +1,6 @@
 import { ProductStoreType } from 'types';
 import { CURRENCY_SYMBOLE } from 'config';
+import Img12 from '../../../assets/images/colbundle.jpg'
 
 const ShoppingCart = ({ thumb, name, pliId, id, avalibility, size, count, price, setProductCount, removeProductFromCart, grandTotal, subTotal, taxTotal }: ProductStoreType) => {
  
@@ -17,7 +18,9 @@ const ShoppingCart = ({ thumb, name, pliId, id, avalibility, size, count, price,
       <div className="cart-item__content" style={{ display: "flex", alignItems: "center" }}>
         <div style={{ backgroundColor: "rgba(0, 0, 0, 0.05)", height: "200px",width:"8rem", padding: "1rem", marginRight: "1rem" }}>
           <div className="cart-item__left" style={{ width: "100%", marginTop: "2rem", marginRight: "1rem", overflow: "hidden" }}>
-            <img src={thumb} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            {name == "Printer-Bundle" ?
+            <img src={Img12.src} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />:
+            <img src={thumb} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
           </div>
         </div>
       </div>

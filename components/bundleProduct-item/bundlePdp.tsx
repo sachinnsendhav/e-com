@@ -305,7 +305,7 @@ console.log(bundleData,"bundle");
         return alert("select Variant");
       }
     } else {
-      productSkuId = variationIdData[0];
+      productSkuId = "bundle";
     }
 
     if (productSkuId && (await checkCartExist())) {
@@ -614,7 +614,7 @@ console.log(bundleData,"bundle");
           ) : (
             <>
             <h4 style={{ color: "rgb(207, 18, 46)" }}>
-              {priceSymbole}{price ? (price)/100: ""} 
+              {priceSymbole}{price ? (15000)/100: ""} 
             </h4>
          {/* ;   <span style={{fontSize:"8px"}}>Offer Not Avalible</span> */}
             </>

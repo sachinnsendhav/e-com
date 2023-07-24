@@ -12,6 +12,8 @@ import Content from '../../components/bundleProduct-item/bundlePdp';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import {API_URL, CURRENCY_SYMBOLE} from 'config';
+//@ts-ignore
+import img12 from '../../assets/images/colbundle.jpg';
 
 
 const BundleProduct = ({ image }:any) => {
@@ -139,15 +141,26 @@ const BundleProduct = ({ image }:any) => {
   // related product
 
   const getRelatedProduct = async (id: any) => {
-    const resp = await fetch(`${API_URL}/abstract-products/${id}/related-products`, {
-      method: 'GET',
-      headers: {
-        // authorization: `Bearer ${authToken}`
+    try {
+      const resp = await fetch(`${API_URL}/abstract-products/${id}/related-products`, {
+        method: 'GET',
+        headers: {
+          // authorization: `Bearer ${authToken}`
+        }
+      });
+  
+      if (!resp.ok) {
+        throw new Error('Network response was not ok');
       }
-    });
-    const result = await resp.json();
-    setProductIds(result?.data)
-  }
+  
+      const result = await resp.json();
+      setProductIds(result?.data);
+    } catch (error) {
+      console.error('Error fetching related products:',error);
+      setProductIds([]);
+    }
+  };
+  
 
   const getProductData = async (id: any) => {
     const resp = await fetch(`${API_URL}/concrete-products/${id}?include=concrete-product-availabilities%2Cconcrete-product-image-sets%2Cconcrete-product-prices`, {
@@ -181,39 +194,45 @@ const BundleProduct = ({ image }:any) => {
   }, [productIds])
 
   console.log(bundleProductData,"bundleProductData")
-  useEffect(()=>{
-     const handleundleProdData = async()=>{
-      const tempArr:any = []
-    if(bundleProductData){
-       await  bundleProductData?.map(async(item:any,index:number)=>{
+  useEffect(() => {
+    const handleBundleProdData = async () => {
+      if (bundleProductData) {
+        try {
+          const tempArr:any = [];
+          const fetchPromises = bundleProductData.map(async (item:any) => {
             const resp = await fetch(
-                `${API_URL}/concrete-products/${item.id}?include=concrete-product-image-sets`,
-                {
-                  method: "GET",
-                  headers: {
-                    Accept: "application/json",
-                    Authorization: `Bearer ${token}`,
-                  },
-                }
-              );
-              const response = await resp.json();
-              if (resp.status == 200) {
-                console.log(response,"INcludede")
-                bundleProductData[index].image = response?.included[0]?.attributes?.imageSets[0]?.images[0]?.externalUrlLarge;
-                bundleProductData[index].name = response?.data?.attributes?.name;
-                tempArr.push(response?.included[0]?.attributes?.imageSets[0]?.images[0]?.externalUrlLarge)
-              } else {
-                setIsLoading(false);
+              `${API_URL}/concrete-products/${item.id}?include=concrete-product-image-sets`,
+              {
+                method: "GET",
+                headers: {
+                  Accept: "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
               }
-        })
-
-         setBundleProductData(bundleProductData);
-         setBundleProductDataProps(bundleProductData);
-         setImgData(tempArr)
-    }}
-    handleundleProdData();
-  },[bundleProductData])
-
+            );
+            const response = await resp.json();
+            if (resp.status === 200) {
+              console.log(response, "Included");
+              item.image = response?.included[0]?.attributes?.imageSets[0]?.images[0]?.externalUrlLarge;
+              item.name = response?.data?.attributes?.name;
+              tempArr.push(response?.included[0]?.attributes?.imageSets[0]?.images[0]?.externalUrlLarge);
+            }
+          });
+  
+          await Promise.all(fetchPromises);
+          setBundleProductData(bundleProductData);
+          setBundleProductDataProps(bundleProductData);
+          setImgData(tempArr);
+          setIsLoading(false);
+        } catch (error) {
+          setIsLoading(false);
+        }
+      }
+    };
+  
+    handleBundleProdData();
+  }, [bundleProductData]);
+  
 
   return (
     <Layout>
@@ -222,7 +241,8 @@ const BundleProduct = ({ image }:any) => {
       <section className="product-single">
         <div className="container">
           <div className="product-single__content">
-            <Gallery images={[image,...imgData]} />
+            {imgData &&
+            <Gallery images={[img12.src,...imgData]} />}
             {bundleProductDataProps && bundleProductDataProps[1] &&
             <Content product={{product:product,bundleProductDataProps:bundleProductDataProps}}/>}
           </div>

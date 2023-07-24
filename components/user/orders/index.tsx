@@ -36,7 +36,7 @@ const Orders = ({ show }: AddressType) => {
       } catch (error) {
       }
     };
-    alert("Notification : your cartridge(sku id) needs a replacement . It has been sent for a reorder.");
+    // alert("Notification : your cartridge(sku id) needs a replacement . It has been sent for a reorder.");
    // reOrder();
   }, [])
   const getOrder = async () => {

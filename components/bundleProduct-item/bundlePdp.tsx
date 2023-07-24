@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { CURRENCY_SYMBOLE } from "../../config";
 import { API_URL } from "config";
+//@ts-ignore
+import img from '../../assets/images/colbundle.jpg'
 const Content = (product: any) => {
   var cartId: any;
   var token: any;

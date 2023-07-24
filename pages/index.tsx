@@ -160,6 +160,7 @@ const IndexPage = () => {
   }, [product]);
 
   const getCmsData = async () => {
+    try{
     const resp = await fetch(
       "https://cdn.contentful.com/spaces/cp3b8ygfr8vj/environments/master/entries",
       {
@@ -195,6 +196,10 @@ const IndexPage = () => {
 
     setRicohCms(modifiedData);
     console.log("modifiedData", modifiedData);
+  }
+  catch(error){
+    console.log(error);
+  }
   };
   useEffect(() => {
     getCmsData();

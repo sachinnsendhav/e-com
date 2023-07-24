@@ -5,8 +5,8 @@ import { toggleFavProduct } from 'store/reducers/user';
 import { RootState } from 'store';
 import {API_URL, CURRENCY_SYMBOLE} from '../../config';
 import { useEffect, useState } from 'react';
-
-
+//@ts-ignore
+import img from '../../assets/images/colbundle.jpg';
 
 const ProductItem = ({ images, id, name, price, description, skuId }: any) => {
 
@@ -77,7 +77,7 @@ const ProductItem = ({ images, id, name, price, description, skuId }: any) => {
         
         <Link href={`/bundleProduct/${name}?skuId=${id}&image=${encodeURIComponent(images)}`}>
           <a>
-            <img src={images ? images : ''} alt="product" />
+            <img src={img.src} alt="product" />
           </a>
         </Link>
       </div>

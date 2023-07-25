@@ -16,7 +16,7 @@ const Bundle = () => (
             <ProductItem
               id="bundle"
               name="Printer Bundle"
-              price="150.00"
+              price="110.00"
               key="bundle"
               description="Support small workgroups, hybrid office environments and mobile teams with secure, high-quality printing in a compact package&
                 Prints up to 26 ppm, copy, scan, fax.

@@ -522,7 +522,7 @@ const CheckoutPage = () => {
                   <div style={{ flex: 1, marginRight: "0.5rem", fontSize: "0.875rem", fontWeight: "300", display: "flex", justifyContent: "space-between" }}>
             <p style={{ padding: "1rem 1.25rem", marginLeft:"-14px", margin: "0", fontSize: "0.875rem", fontFamily: "'Circular', sans-serif" }}>Shipping Cost</p>
             <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
-              {CURRENCY_SYMBOLE} {selectedOptionPrice/100} {/* The selected option price */}
+              {CURRENCY_SYMBOLE}{selectedOptionPrice/100} {/* The selected option price */}
             </h3>
           </div>
         </div>
@@ -540,7 +540,7 @@ const CheckoutPage = () => {
                           justifyContent: "space-between",
                         }}
                       >
-                        {CURRENCY_SYMBOLE}{" "}
+                        {CURRENCY_SYMBOLE}
                         {cartData?.data?.attributes?.totals?.subtotal/ 100}
                       </h3>
                     </div>
@@ -551,7 +551,7 @@ const CheckoutPage = () => {
                       <p style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", fontWeight: "300", marginLeft:"-1px", display: "flex", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Tax</p>
                       <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
 
-                        + {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.taxTotal/ 100}
+                        + {CURRENCY_SYMBOLE}{cartData?.data?.attributes?.totals?.taxTotal/ 100}
                       </h3>
                     </div>
 
@@ -565,7 +565,7 @@ const CheckoutPage = () => {
 
 
                       <h3 style={{ color: "green", padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", overflow: "auto", display: "flex", justifyContent: "space-between" }}>
-                        - {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.discountTotal/ 100}
+                        - {CURRENCY_SYMBOLE}{cartData?.data?.attributes?.totals?.discountTotal/ 100}
                       </h3>
                     </div>
 
@@ -577,7 +577,7 @@ const CheckoutPage = () => {
 
 
                       <h3 style={{ color: "#800000", marginRight:"-10px", padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", }}>
-                        = {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.priceToPay/ 100}
+                        = {CURRENCY_SYMBOLE}{cartData?.data?.attributes?.totals?.priceToPay/ 100}
                       </h3>
                     </div>
                   </div>

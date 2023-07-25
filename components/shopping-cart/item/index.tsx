@@ -98,7 +98,7 @@ const ShoppingCart = ({ thumb, name, pliId, id, avalibility, count, price, setPr
             </button>
           </div>
           <div style={{ marginTop: "1rem" }}>
-            <div style={{ marginLeft: "29rem", fontSize:"1rem" , fontWeight:"500" ,  color:"#4c4c4c", padding: "0.7rem", background: "rgba(0, 0, 0, 0.05)" }}> Item Total: {CURRENCY_SYMBOLE}  {price / 100}</div>
+            <div style={{ marginLeft: "29rem", fontSize:"1rem" , fontWeight:"500" ,  color:"#4c4c4c", padding: "0.7rem", background: "rgba(0, 0, 0, 0.05)" }}> Item Total: {CURRENCY_SYMBOLE}{price / 100}</div>
           </div>
           <div>
             <div

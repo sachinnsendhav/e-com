@@ -20,7 +20,7 @@ function ThankYouPage() {
                 <img src={img1.src} alt="Thank you" style={{ width: "60%", height: "500px", margin: "auto", objectFit: "cover" }} />
             </div>
             <div style={{ display: "flex", textAlign: "center", margin: "auto", width: "60%" }}>
-                <h1 style={{ textAlign: "center", paddingTop: "20px", fontSize: "24px" }}>Thank You! Your order Successfull, your Order ID is :-</h1>
+                <h1 style={{ textAlign: "center", paddingTop: "20px", fontSize: "24px" }}>Thank You! Your order Successfull, your Order ID is </h1>
                 <Link href={`/order-details/${orderId}`}>
                     <a style={{ textAlign: "center", paddingTop: "20px", fontSize: "24px", paddingLeft:"5px" }}> {orderId}</a></Link>
             </div>

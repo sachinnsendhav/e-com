@@ -234,10 +234,49 @@ const Content = (product: any) => {
           setIsLoading(false);
         }
       };
+      offerhandler(productData?.sku)
       getPrice();
     }
   }, [productData]);
+
 console.log(bundleData,"bundle");
+const offerhandler = async(id:any) =>{
+try {
+    const resp = await fetch(
+      `${API_URL}/concrete-products/${id}/product-offers?include=product-offer-prices`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          // Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const response = await resp.json();
+
+    if (response) {
+      if (response.errors) {
+        alert(response.errors[0]?.detail);
+      } else {
+        console.log(response, "offer response");
+        var modifiedData = response?.data;
+        await modifiedData?.map(async (item: any, index: number) => {
+          item.price = await response.included[index]?.attributes?.price;
+        });
+
+        await setMerchantOffer(modifiedData);
+        var tempselected = await modifiedData?.find(
+          (offer: any) =>
+            offer?.attributes?.fkCustomerGroup == customerGroup
+        );
+        console.log(tempselected, "temp");
+        setSelectedMerchantOffer(tempselected);
+      }
+    }
+  } catch (error) {
+    setIsLoading(false);
+  }
+}
 
   useEffect(() => {
     var tempVar: any = [];
@@ -366,6 +405,7 @@ console.log(bundleData,"bundle");
               alert(response.errors[0]?.detail);
             } else {
               alert("Added to cart");
+              window.location.href = "/cart";
             }
             setIsLoading(false);
           } else {

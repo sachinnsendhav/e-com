@@ -138,6 +138,7 @@ const ShoppingCart = () => {
     handleGetCart();
   }, [cartUpdated, cartId]);
 
+  console.log(isLoading,"isloading")
   useEffect(() => {
     const setCartData = async () => {
       const tempData: any = [];
@@ -296,6 +297,7 @@ const ShoppingCart = () => {
       );
       setConfiguredBundleData(updatedItems || []);
       alert("Configurable Item deleted sucessfully...!");
+      setIsLoading(false)
     }
   };
 
@@ -388,9 +390,7 @@ const ShoppingCart = () => {
             justifyContent: "center",
             alignItems: "center",
           }}
-         
         >
-         
         </div>
       ) : (
         <div className="container">
@@ -461,7 +461,7 @@ const ShoppingCart = () => {
 
 
                             <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
-                              {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.subtotal / 100}
+                              {CURRENCY_SYMBOLE}{cartData?.data?.attributes?.totals?.subtotal / 100}
                             </h3>
                           </div>
                         </div>
@@ -471,7 +471,7 @@ const ShoppingCart = () => {
                             <p style={{ padding: "1rem 1.25rem", margin: "0",color:"#800000", fontSize: "0.875rem", fontWeight: "300", marginLeft: "-14px", display: "flex", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Tax Total</p>
                             <h3 style={{ padding: "1rem 1.25rem", margin: "0",color:"#800000", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
 
-                              {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.taxTotal/ 100}
+                              {CURRENCY_SYMBOLE}{cartData?.data?.attributes?.totals?.taxTotal/ 100}
                             </h3>
                           </div>
 
@@ -482,7 +482,7 @@ const ShoppingCart = () => {
                             <p style={{ padding: "1rem 1.25rem",color:"green", margin: "0", fontSize: "0.875rem", fontWeight: "300", marginLeft: "-14px", display: "flex", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Discount</p>
                             <h3 style={{ padding: "1rem 1.25rem",color:"green", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
 
-                              {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.discountTotal/ 100}
+                              {CURRENCY_SYMBOLE}{cartData?.data?.attributes?.totals?.discountTotal/ 100}
                             </h3>
                           </div>
 
@@ -494,7 +494,7 @@ const ShoppingCart = () => {
 
 
                             <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", overflow: "auto", display: "flex", justifyContent: "space-between" }}>
-                              {CURRENCY_SYMBOLE} {cartData?.data?.attributes?.totals?.grandTotal/ 100}
+                              {CURRENCY_SYMBOLE}{cartData?.data?.attributes?.totals?.grandTotal/ 100}
                             </h3>
                           </div>
 
@@ -515,7 +515,7 @@ const ShoppingCart = () => {
               </table>
             )}
 
-            {!cartItems && <Loader/>}
+            {!cartItems && <h3 style={{fontSize:"24px"}}>Nothing In Cart</h3>}
           </div>
           {configuredBundleData && configuredBundleData?.map((item: any, index: number) => {
             return (
@@ -571,8 +571,8 @@ const ShoppingCart = () => {
                       quantity = {item.data[0].attributes.quantity}{" "}
                     </p>
                     <p style={{ padding: "10px", fontWeight: "bold" }}>
-                      Total  {CURRENCY_SYMBOLE} {(item.total/100) * (item.data[0].attributes.quantity)}
-                     Total  {CURRENCY_SYMBOLE} {(item.total/100)*(item.data[0].attributes.quantity)}
+                      Total  {CURRENCY_SYMBOLE}{(item.total/100) * (item.data[0].attributes.quantity)}
+                     Total  {CURRENCY_SYMBOLE}{(item.total/100)*(item.data[0].attributes.quantity)}
                     </p>
                     <button
                       style={{

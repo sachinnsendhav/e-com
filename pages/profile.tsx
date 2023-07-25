@@ -5,6 +5,7 @@ import UserDetail from 'components/user/userDetails';
 import Address from 'components/user/address';
 import Orders from 'components/user/orders';
 import Wishlist from 'components/user/wishlist';
+import CompanyUsers from 'components/user/companyUsers';
 import Link from 'next/link';
 import ProfileSection from '../components/user/profileSection'
 // import profileIcon from '../assets/images/profile.png'
@@ -39,6 +40,7 @@ function profile() {
               <UserDetail show={showBlock === 'profile'} />
               <Address show={showBlock === 'address'} />
               <Orders show={showBlock === 'order'} />
+              <CompanyUsers show={showBlock === 'companyusers'} />
               <Wishlist show={showBlock === 'shoppingList'} />
             </div>
           </div>

@@ -36,8 +36,8 @@ const Orders = ({ show }: AddressType) => {
       } catch (error) {
       }
     };
-    // alert("Notification : your cartridge(sku id) needs a replacement . It has been sent for a reorder.");
-   // reOrder();
+  //  alert("Notification : your cartridge(276) needs a replacement . It has been sent for a reorder.");
+  // reOrder();
   }, [])
   const getOrder = async () => {
     setLoading(true)
@@ -103,7 +103,7 @@ const Orders = ({ show }: AddressType) => {
                     <tr style={{ borderBottom: "1px solid #B2B2B2" }}>
                       <td style={{ color: "#4c4c4c", padding: "1rem 0.9375rem", textAlign: "center" }}>{item.id}</td>
                       <td style={{ color: "#4c4c4c", padding: "1rem 0.9375rem", textAlign: "center" }}>{item.attributes.createdAt.split(' ')[0]}</td>
-                      <td style={{ color: "#4c4c4c", padding: "1rem 0.9375rem", textAlign: "center" }}> {CURRENCY_SYMBOLE} {item.attributes.totals.grandTotal}</td>
+                      <td style={{ color: "#4c4c4c", padding: "1rem 0.9375rem", textAlign: "center" }}> {CURRENCY_SYMBOLE}{item.attributes.totals.grandTotal/100}</td>
                       <td style={{ color: "#4c4c4c", padding: "1rem 0.9375rem", textAlign: "center" }}>
                         <Link href={`/order-details/${item.id}`}>
                           <img src={eyeIcon.src} style={{ width: "25px", height: "25px" }} />

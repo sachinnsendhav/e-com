@@ -133,7 +133,7 @@ const EditInformationForm = () => {
 
       <div className="form__input-row" style={selectContainerStyles}>
           <label htmlFor="businessUnit" className="form__label" style={labelStyles}>
-            SELECT BUSINESS UNIT: <span style={{ color: "rgb(207, 18, 46)" }}>*</span>
+            SELECT: <span style={{ color: "rgb(207, 18, 46)" }}>*</span>
           </label>
           <select
             id="businessUnit"

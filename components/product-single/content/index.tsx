@@ -606,7 +606,7 @@ const Content = (product: any) => {
           {token ? 
           selectedMerchantOffer ? (
             <h4 style={{ color: "rgb(207, 18, 46)" }}>
-              {CURRENCY_SYMBOLE}{selectedMerchantOffer?.price/100}
+              {CURRENCY_SYMBOLE}{(selectedMerchantOffer?.price/100).toFixed(2)}
             </h4>
           ) : (
             <>

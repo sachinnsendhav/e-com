@@ -506,7 +506,7 @@ const ShoppingCart = () => {
 
                       </div>
                       <div className="cart-actions__items-wrapper" style={{ textAlign: "right" }}>
-                      <a href="/cart/checkout" className="btn btn--rounded btn--yellow" style={{ paddingLeft: "7rem", paddingRight: "7rem", background: "rgb(207, 18, 46" }}>
+                      <a href="/cart/checkout" className="btn btn--rounded btn--yellow" style={{ paddingLeft: "7rem", paddingRight: "7rem", background: "rgb(207, 18, 46" ,borderRadius:"30px" }}>
                         Checkout
                       </a>
                     </div>

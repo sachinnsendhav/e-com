@@ -409,7 +409,7 @@ const ProductItem = ({
           style={{ fontWeight: "bold", color: "rgb(207 18 46)" }}
         >
           {token ?
-            <>{CURRENCY_SYMBOLE}{offerPrice ? offerPrice : price / 100} </> : ""}
+            <>{CURRENCY_SYMBOLE}{(offerPrice ? offerPrice : price / 100).toFixed(2)} </> : ""}
         </span>
         <button
           className="add-to-cart"

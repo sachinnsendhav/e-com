@@ -283,7 +283,7 @@ function orderDetailsPage() {
                                 fontWeight: "400",
                                 color: "#4c4c4c",
                                 paddingTop: "10px"
-                              }}><span style={{ fontWeight: "500" }}>Price : </span>{CURRENCY_SYMBOLE}{item.unitPrice/100}</p>
+                              }}><span style={{ fontWeight: "500" }}>Price : </span>{CURRENCY_SYMBOLE}{(item.unitPrice/100).toFixed(2)}</p>
                             </div>
                           </div>
                         )
@@ -318,7 +318,7 @@ function orderDetailsPage() {
                           <p style={{ textTransform: "uppercase", fontSize: "15px" }}>{orderData[0]?.shipments[0]?.carrierName}</p>
                           <div style={{ display: "flex", justifyContent: "space-between", paddingTop: "10px" }}>
                             <p style={{ color: "#8f8f8f", fontSize: "15px", }}>{orderData[0]?.shipments[0]?.shipmentMethodName}</p>
-                            <p style={{ color: "#8f8f8f", fontSize: "15px", }}>{CURRENCY_SYMBOLE}{orderData[0]?.shipments[0]?.defaultNetPrice}</p>
+                            <p style={{ color: "#8f8f8f", fontSize: "15px", }}>{CURRENCY_SYMBOLE}{(orderData[0]?.shipments[0]?.defaultNetPrice).toFixed(2)}</p>
                           </div>
                         </div> : null}
                       <div style={{ background: "#f0f0f0", padding: "1rem", marginBottom: "1rem" }}>

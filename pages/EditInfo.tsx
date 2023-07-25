@@ -213,7 +213,8 @@ const EditInformationForm = () => {
       <button
         type="submit"
         style={{
-          width: '8rem',
+            width: '9rem',
+            height:"3.5rem",
           
           background: 'rgb(207, 18, 46)',
           borderRadius: '1px',
@@ -227,7 +228,8 @@ const EditInformationForm = () => {
       <button
         type="button"
         style={{
-          width: '8rem',
+          width: '9rem',
+          height:"3.5rem",
          
           background: 'white',
           borderRadius: '1px',

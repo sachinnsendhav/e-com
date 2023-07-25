@@ -9,15 +9,7 @@ const ShoppingCart = ({ thumb, name, pliId, id, avalibility, count, price, setPr
   console.log(subTotal, "this is the SubTotal");
   console.log(taxTotal, "this is the te");
 
-  const [showCommentBox, setShowCommentBox] = useState(false);
-  const [comment, setComment] = useState("");
-  const [savedComment, setSavedComment] = useState<string | null>(null);
   
-  const handleSaveComment = () => {
-    setSavedComment(comment);
-    setShowCommentBox(false);
-    setComment("");
-  };
 
   return (
     <div className="cart-item" style={{ marginBottom: "10px",paddingRight:"15px", width: "100%", border: "3px solid rgba(0, 0, 0, 0.05)"}}>
@@ -38,54 +30,7 @@ const ShoppingCart = ({ thumb, name, pliId, id, avalibility, count, price, setPr
             <p style={{ marginTop: '10px' }}>{avalibility?.availability ? <span style={{ color: 'green' }}>In Stock</span> : <span style={{ color: 'red' }}>Out of stock</span>}</p>
           </div>
         </div>
-        {showCommentBox ? (
-        <div style={{ marginTop: "10px" ,  marginLeft: "1rem" }}>
-          <textarea
-            rows={3}
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            style={{ width: "100%", resize: "none" }}
-            placeholder="Enter your comment here..."
-          ></textarea>
-          <button
-            type="button"
-            onClick={handleSaveComment}
-            className="btn btn--rounded"
-            style={{ background: "#28a745", color: "#fff", marginTop: "3px" }}
-          >
-            Save Comment
-          </button>
-        </div>
-      ) : (
-        <div
-          style={{
-            marginTop: "10px",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            padding: "1rem",
-          }}
-          onClick={() => setShowCommentBox(true)}
-        >
-          <span
-            style={{
-              marginRight: "0.5rem",
-              color: "#28a745",
-              fontSize: "0.8125rem",
-              textDecoration: "underline",
-              cursor: "pointer",
-            }}
-          >
-            Add a comment+
-          </span>
-        </div>
-      )}
-
-      {savedComment && (
-        <div style={{ marginTop: "10px" }}>
-          <p>Comment: {savedComment}</p>
-        </div>
-      )}
+   
         <div style={{ alignItems: "right", marginTop: "2rem" }}>
           <div style={{ background: "rgba(0, 0, 0, 0.05)", marginLeft: "28.6rem", padding: "8px", display: "inline-block" }} className="quantity-buttons">
             <span style={{ color: "black", fontSize:"1rem" , fontWeight:"500",  padding: "4px 8px", borderRadius: "4px" }}>Quantity :</span>

@@ -337,7 +337,7 @@ const Product = () => {
         image:
           result.included[0]?.attributes?.imageSets[0]?.images[0]
             ?.externalUrlLarge,
-        price: result.included[2]?.attributes?.price,
+        price: result.included[2]?.attributes?.price/100,
       },
     ]);
   };
@@ -478,7 +478,7 @@ const Product = () => {
                             paddingLeft: "10px",
                           }}
                         >
-                          {CURRENCY_SYMBOLE} {item.price}
+                          {CURRENCY_SYMBOLE} {item.price/100}
                         </p>
                       </div>
                     </Link>

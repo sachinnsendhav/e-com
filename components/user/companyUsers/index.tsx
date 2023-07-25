@@ -5,6 +5,8 @@ import React, { useEffect, useState } from "react";
 import { CURRENCY_SYMBOLE } from "config";
 //@ts-ignore
 import eyeIcon from "../../../assets/images/eye.png";
+import deleteIcon from "../../../assets/images/delete.png";
+import editIcon from "../../../assets/images/edit.png";
 import Loader from "../../loader";
 
 type AddressType = {
@@ -79,6 +81,7 @@ const ComponentUsers = ({ show }: AddressType) => {
                     reference: customer.id,
                     companyName: company?.attributes?.name,
                     companyEmail: company?.attributes?.email,
+                    companyId: company?.id,
                     roles: roles?.attributes?.name,
                   };
                   tempUserArr.push(userData);
@@ -100,6 +103,19 @@ const ComponentUsers = ({ show }: AddressType) => {
   useEffect(() => {
     getOrder();
   }, [authToken]);
+
+  const DeleteCustomerHander= (item:any) => {
+    console.log(item,"delte")
+
+  }
+  const EnableHandler= (item:any) => {
+    console.log(item,"toggle")
+
+  }
+  const EditCustomerHandler= (item:any) => {
+    console.log(item,"edit")
+
+  }
 
   return (
     <div style={style}>
@@ -125,7 +141,7 @@ const ComponentUsers = ({ show }: AddressType) => {
               paddingBottom: "10px",
             }}
           >
-            Order History
+           Company Users
           </h1>
           <table
             style={{
@@ -162,6 +178,11 @@ const ComponentUsers = ({ show }: AddressType) => {
                   style={{ color: "#333", fontWeight: "700", padding: "15px" }}
                 >
                   ENABLE
+                </th>
+                <th
+                  style={{ color: "#333", fontWeight: "700", padding: "15px" }}
+                >
+                  Actions
                 </th>
               </tr>
             </thead>
@@ -208,10 +229,27 @@ const ComponentUsers = ({ show }: AddressType) => {
                             <input
                               type="checkbox"
                               checked={item?.enable}
-                              onChange={() => handleToggle()}
+                              onChange={() => EnableHandler(item)}
                             />
                             <span className="slider round"></span>
                           </label>
+                        </td>
+                        <td style={{display:"flex",justifyContent:"space-between", width:"50px", marginLeft:"30px"}}>
+                          <div>
+                            <img
+                              src={editIcon.src}
+                              style={{ height: "20px", width: "20px" }}
+                              onClick={()=>EditCustomerHandler(item)}
+                            />
+                          </div>
+                          <div>
+                            <img
+                              src={deleteIcon.src}
+                              style={{ height: "20px", width: "20px" }}
+                              onClick={()=>DeleteCustomerHander(item)}
+
+                            />
+                          </div>
                         </td>
                       </tr>
                     );

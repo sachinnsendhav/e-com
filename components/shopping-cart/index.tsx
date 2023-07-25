@@ -138,6 +138,7 @@ const ShoppingCart = () => {
     handleGetCart();
   }, [cartUpdated, cartId]);
 
+  console.log(isLoading,"isloading")
   useEffect(() => {
     const setCartData = async () => {
       const tempData: any = [];
@@ -296,6 +297,7 @@ const ShoppingCart = () => {
       );
       setConfiguredBundleData(updatedItems || []);
       alert("Configurable Item deleted sucessfully...!");
+      setIsLoading(false)
     }
   };
 
@@ -388,9 +390,7 @@ const ShoppingCart = () => {
             justifyContent: "center",
             alignItems: "center",
           }}
-         
         >
-         
         </div>
       ) : (
         <div className="container">
@@ -515,7 +515,7 @@ const ShoppingCart = () => {
               </table>
             )}
 
-            {!cartItems && <Loader/>}
+            {!cartItems && <h3 style={{fontSize:"24px"}}>Nothing In Cart</h3>}
           </div>
           {configuredBundleData && configuredBundleData?.map((item: any, index: number) => {
             return (

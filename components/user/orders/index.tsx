@@ -23,7 +23,7 @@ const Orders = ({ show }: AddressType) => {
     const reOrder = async () => {
       try {
         const resp = await fetch(
-          `${API_URL}/re-order?id=1`,
+          `${API_URL}/re-order?id=39`,
           {
             method: "GET",
             headers: {
@@ -36,8 +36,10 @@ const Orders = ({ show }: AddressType) => {
       } catch (error) {
       }
     };
-  //  alert("Notification : your cartridge(276) needs a replacement . It has been sent for a reorder.");
+    if(localStorage.getItem("userId")=="DE--21"){
+   alert("Notification : your cartridge(276) needs a replacement . It has been sent for a reorder.");
   // reOrder();
+}
   }, [])
   const getOrder = async () => {
     setLoading(true)

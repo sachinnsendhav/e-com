@@ -168,8 +168,8 @@ const CheckoutPage = () => {
             {
               shippingAddress: selectedAddress,
               items: items,
-              idShipmentMethod: 7,
-              requestedDeliveryDate: "2023-06-23",
+              idShipmentMethod: 11,
+              requestedDeliveryDate: "2023-06-27",
             },
           ],
         },

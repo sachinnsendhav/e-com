@@ -74,8 +74,15 @@ const CheckoutPage = () => {
       data: {
         attributes: {
           idCart: cartId,
-          shipmentMethods: [],
+          shipmentMethods: []
         },
+          "payments": [
+            {
+              "paymentProviderName": "DummyMarketplacePayment",
+              "paymentMethodName": "Invoice"
+              
+            }
+          ],
         type: "checkout-data",
       },
     };

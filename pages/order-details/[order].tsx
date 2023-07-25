@@ -221,7 +221,7 @@ function orderDetailsPage() {
                       display: "block",
                       color: "#333",
                     }}>Order Details</h1>
-                    <button onClick={() => openModal()} style={{ padding: "10px", fontWeight: "bold", color: "white", background: "rgb(207, 18, 46)", borderRadius: "1px" }}> Post Order Form</button>
+                    <button onClick={() => openModal()} style={{ padding: "10px", fontWeight: "bold", color: "white", background: "rgb(207, 18, 46)", borderRadius: "1px" }}>Order handling instructions</button>
                   </div>
                   <div style={{ width: "100%", background: "#f0f0f0", padding: "1rem" }}>
                     <p style={{
@@ -379,7 +379,7 @@ function orderDetailsPage() {
                   marginBottom: "0.4rem",
                   textTransform: "uppercase",
                   color: "#333",
-                }}>Material Name</label>
+                }}>Equipment Type</label>
                 <input type='text' placeholder='Enter material name' value={materialName} onChange={(e) => setMaterialName(e.target.value)} style={{
                   display: "block",
                   borderRadius: "2px",
@@ -401,7 +401,7 @@ function orderDetailsPage() {
                   marginBottom: "0.4rem",
                   textTransform: "uppercase",
                   color: "#333",
-                }}>Quantity</label>
+                }}>Number of Parts</label>
                 <input type='text' placeholder='Enter quantity' value={quantity} onChange={(e) => setQuantity(e.target.value)} style={{
                   display: "block",
                   borderRadius: "2px",
@@ -423,7 +423,7 @@ function orderDetailsPage() {
                   marginBottom: "0.4rem",
                   textTransform: "uppercase",
                   color: "#333",
-                }}>Batch Number</label>
+                }}>Serial Number</label>
                 <input type='text' placeholder='Enter batch number' value={batchNumber} onChange={(e) => setBatchNumber(e.target.value)} style={{
                   display: "block",
                   borderRadius: "2px",
@@ -445,7 +445,7 @@ function orderDetailsPage() {
                   marginBottom: "0.4rem",
                   textTransform: "uppercase",
                   color: "#333",
-                }}>Concentration</label>
+                }}>Installation locations</label>
                 <input type='text' placeholder='Enter concentration' value={concentration} onChange={(e) => setConcentration(e.target.value)} style={{
                   display: "block",
                   borderRadius: "2px",
@@ -467,7 +467,7 @@ function orderDetailsPage() {
                   marginBottom: "0.4rem",
                   textTransform: "uppercase",
                   color: "#333",
-                }}>Storage</label>
+                }}>Floor Number</label>
                 <input type='text' placeholder='Enter storage' value={storage} onChange={(e) => setStorage(e.target.value)} style={{
                   display: "block",
                   borderRadius: "2px",

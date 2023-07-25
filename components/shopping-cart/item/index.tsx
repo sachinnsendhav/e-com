@@ -1,8 +1,9 @@
 import { ProductStoreType } from 'types';
 import { CURRENCY_SYMBOLE } from 'config';
 import Img12 from '../../../assets/images/colbundle.jpg'
+import { useState } from 'react';
 
-const ShoppingCart = ({ thumb, name, pliId, id, avalibility, size, count, price, setProductCount, removeProductFromCart, grandTotal, subTotal, taxTotal }: ProductStoreType) => {
+const ShoppingCart = ({ thumb, name, pliId, id, avalibility, count, price, setProductCount, removeProductFromCart, grandTotal, subTotal, taxTotal }: ProductStoreType) => {
  
   console.log(grandTotal, "this is the grandTotal");
   console.log(subTotal, "this is the SubTotal");

@@ -80,3 +80,4 @@ const ShoppingCart = ({ thumb, name, pliId, id, avalibility, count, price, setPr
 };
 
 export default ShoppingCart;
+

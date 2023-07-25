@@ -6,6 +6,8 @@ import addressesIcon from "../../assets/images/addresses.png";
 //@ts-ignore
 import orderIcon from "../../assets/images/order-history.png";
 //@ts-ignore
+import usersIcon from "../../assets/images/users.png";
+//@ts-ignore
 import shoppingList from "../../assets/images/list.png";
 function profileSection({ showBlock, setShowBlock }: any) {
   console.log("showBlock", showBlock, "setShowBlock", setShowBlock);
@@ -84,6 +86,27 @@ function profileSection({ showBlock, setShowBlock }: any) {
         </div>
         <div>
           <p style={{ padding: "9px" }}>Order History</p>
+        </div>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          background: showBlock === "companyusers" ? "#f2f2f2" : "#ffffff",
+          padding: "0.125rem 0.8125rem",
+          lineHeight: "1.3em",
+          fontSize: "1.0625rem",
+          cursor:"pointer",
+          fontWeight: "500",
+          color: showBlock === "companyusers" ? "black" : "#b2b2b2",
+        }}
+        onClick={() => setShowBlock("companyusers")}
+      >
+        <div>
+          <img src={usersIcon.src} style={{ height: "20px", width: "20px" }} />
+        </div>
+        <div>
+          <p style={{ padding: "9px" }}>Company Users</p>
         </div>
       </div>
       <div

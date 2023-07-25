@@ -8,6 +8,7 @@ import eyeIcon from "../../../assets/images/eye.png";
 import deleteIcon from "../../../assets/images/delete.png";
 import editIcon from "../../../assets/images/edit.png";
 import Loader from "../../loader";
+import EditUser from './editUser';
 
 type AddressType = {
   show: boolean;
@@ -18,11 +19,16 @@ const ComponentUsers = ({ show }: AddressType) => {
     display: show ? "block" : "none",
   };
   var authToken: any = "";
+  var customerId: any = "";
   const [customerData, setCustomerData] = useState([]);
+  const [editUserData, setEditUserData] = useState(false);
+  const [compData, setCompData] = useState(false);
+  const [editProfileData, setEditProfileData] = useState(false);
   const [loading, setLoading] = useState(false);
   if (typeof window !== "undefined") {
     // Code running in the browser
     authToken = localStorage?.getItem("token");
+    customerId = localStorage?.getItem("userId");
   }
   const [isToggled, setIsToggled] = useState(true);
 
@@ -90,8 +96,9 @@ const ComponentUsers = ({ show }: AddressType) => {
             });
           });
         });
-        console.log(tempUserArr, "heyhey");
+        console.log(tempUserArr, "tempUserArr");
         setCustomerData(tempUserArr);
+        setCompData(tempIncludeCompany);
       } catch {
         setCustomerData([]);
         localStorage.setItem("status", "false");
@@ -114,12 +121,16 @@ const ComponentUsers = ({ show }: AddressType) => {
   }
   const EditCustomerHandler= (item:any) => {
     console.log(item,"edit")
-
+    if(item){
+        setEditProfileData(item);
+        setEditUserData(true);
+    }
   }
 
   return (
     <div style={style}>
-      {loading ? (
+        {!editUserData ? 
+      loading ? (
         <div
           style={{
             width: "100%",
@@ -242,6 +253,7 @@ const ComponentUsers = ({ show }: AddressType) => {
                               onClick={()=>EditCustomerHandler(item)}
                             />
                           </div>
+                          {customerId != item?.reference ?
                           <div>
                             <img
                               src={deleteIcon.src}
@@ -249,7 +261,7 @@ const ComponentUsers = ({ show }: AddressType) => {
                               onClick={()=>DeleteCustomerHander(item)}
 
                             />
-                          </div>
+                          </div>:""}
                         </td>
                       </tr>
                     );
@@ -260,7 +272,9 @@ const ComponentUsers = ({ show }: AddressType) => {
         </>
       ) : (
         <></>
-      )}
+      ):
+
+    <EditUser data={editProfileData} company={compData} setEditUserData={setEditUserData}/>}
     </div>
   );
 };

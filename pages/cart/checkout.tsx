@@ -76,13 +76,12 @@ const CheckoutPage = () => {
           idCart: cartId,
           shipmentMethods: []
         },
-          "payments": [
-            {
-              "paymentProviderName": "DummyMarketplacePayment",
-              "paymentMethodName": "Invoice"
-              
-            }
-          ],
+          // "payments": [
+          //   {
+          //     "paymentProviderName": "DummyMarketplacePayment",
+          //     "paymentMethodName": "Invoice"
+          //   }
+          // ],
         type: "checkout-data",
       },
     };

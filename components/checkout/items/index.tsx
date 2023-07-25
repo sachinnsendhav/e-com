@@ -2,6 +2,8 @@ import { API_URL } from "config";
 import { useEffect, useState } from "react";
 import { CURRENCY_SYMBOLE } from "../../../config";
 import Loader from "../../loader";
+import Img12 from '../../../assets/images/colbundle.jpg'
+
 
 const CheckoutItems = () => {
   var token: any;
@@ -166,10 +168,7 @@ const CheckoutItems = () => {
             cartPrductArr &&
             cartItems &&
             cartItems?.map((item: any, Index: number) => (
-             
-             
               <div
-             
                 className="checkout-item"
                 style={{
                   background: "#fff",
@@ -190,7 +189,9 @@ const CheckoutItems = () => {
                     className="checkout-item__img"
                     style={{ width: "7rem", height: "7rem", overflow: "hidden", marginRight: "10px" }}
                   >
-                    <img src={cartPrductImgArr[Index]} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                     {cartPrductArr[Index]?.attributes?.name == "Printer-Bundle" ?
+                  <img src={Img12.src} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />:
+                    <img src={cartPrductImgArr[Index]} style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
                   </div>
                 </div>
                 <div style={{ flex: 1, marginLeft: "2rem" }}>

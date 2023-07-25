@@ -23,7 +23,7 @@ const ShoppingCart = ({ thumb, name, pliId, id, avalibility, count, price, setPr
         </div>
       </div>
 
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex",width:"100%",position: "relative" }}>
         <div style={{ marginTop: "2rem", position: "absolute" }}>
           <div>
             <h3>{name}</h3>
@@ -31,7 +31,7 @@ const ShoppingCart = ({ thumb, name, pliId, id, avalibility, count, price, setPr
           </div>
         </div>
    
-        <div style={{ alignItems: "right", marginTop: "2rem" }}>
+        <div style={{ alignItems: "right", marginTop: "2rem",position: "absolute",right: "0" }}>
           <div style={{ background: "rgba(0, 0, 0, 0.05)", marginLeft: "28.6rem", padding: "8px", display: "inline-block" }} className="quantity-buttons">
             <span style={{ color: "black", fontSize:"1rem" , fontWeight:"500",  padding: "4px 8px", borderRadius: "4px" }}>Quantity :</span>
             <button type="button" style={{ background: "white", width: "25px" }} onClick={() => setProductCount(count - 1, pliId, id)} className="quantity-button__btn">

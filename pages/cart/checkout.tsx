@@ -471,8 +471,8 @@ const CheckoutPage = () => {
             value={val.id}
             data-price={val.attributes.price}
           >
-            {val.attributes.name} 
-            {val.attributes.price}
+            {val.attributes.name} {" "}
+            - {val.attributes.price} {" "}
             {val.attributes.currencyIsoCode}
           </option>
         ))}

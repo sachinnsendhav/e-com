@@ -26,6 +26,7 @@ const Wishlist = ({ show }: WishlistType) => {
   }, []);
 
   const getShoppingListName = async () => {
+    try{
     setLoading(true);
     const resp = await fetch(`${API_URL}/shopping-lists`, {
       method: "GET",
@@ -38,6 +39,10 @@ const Wishlist = ({ show }: WishlistType) => {
     setShowBlock(result?.data ? result?.data[0]?.attributes?.name : "");
     setShppingListId(result?.data ? result.data[0]?.id : "");
     setLoading(false);
+  }
+  catch(error){
+    console.log(error,"errors")
+  }
   };
 
   useEffect(() => {

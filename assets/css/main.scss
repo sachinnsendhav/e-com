@@ -2712,7 +2712,7 @@ ul.product-description{
     font-weight: 500;
     color: #808080;
     padding: 0 22px;
-    border-radius: 8px;
+    // border-radius: 8px;
     border: 1px solid #d8d8d8;
     @include breakpoint(phone) {
       border: 1px;
@@ -2932,7 +2932,7 @@ ul.product-description{
       margin-top: 0;
     }
     @include breakpoint(desktop-lg) {
-      width: 25%;
+      width: 22%;
     }
   }
   .checkout__col-2 {
@@ -3105,4 +3105,7 @@ ul.description-section li::before {
   color:rgb(207, 18, 46);
   content: "\2022";
   font-weight: bold;
+}
+.product-single .product-single__info .product-single__info-btns .btn.btn--active {
+  border-radius:30px; 
 }

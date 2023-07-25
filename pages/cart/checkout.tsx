@@ -167,8 +167,8 @@ const CheckoutPage = () => {
             {
               shippingAddress: selectedAddress,
               items: items,
-              idShipmentMethod: 7,
-              requestedDeliveryDate: "2023-06-23",
+              idShipmentMethod: 11,
+              requestedDeliveryDate: "2023-06-27",
             },
           ],
         },
@@ -263,7 +263,7 @@ const CheckoutPage = () => {
           </div>
           <div className="checkout-content">
           
-            <div className="checkout__col-8" style={{ width: "73%" }}>
+            <div className="checkout__col-8" style={{ width: "77%" }}>
               <div className="block">
                 <h3 className="block__title">Your cart</h3>
 
@@ -528,11 +528,11 @@ const CheckoutPage = () => {
                   <div style={{ flex: 1, marginRight: "0.5rem", fontSize: "0.875rem", fontWeight: "300", display: "flex", justifyContent: "space-between" }}>
             <p style={{ padding: "1rem 1.25rem", marginLeft:"-14px", margin: "0", fontSize: "0.875rem", fontFamily: "'Circular', sans-serif" }}>Shipping Cost</p>
             <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
-              {CURRENCY_SYMBOLE}{selectedOptionPrice/100} {/* The selected option price */}
+              {CURRENCY_SYMBOLE}{(selectedOptionPrice/100).toFixed(2)} {/* The selected option price */}
             </h3>
           </div>
         </div>
-        <hr style={{ borderTop: "1px solid #ccc", margin: "0.2rem -1rem" }} />
+        {/* <hr style={{ borderTop: "1px solid #ccc", margin: "0.2rem -1rem" }} /> */}
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
                     <div style={{ flex: 1, marginRight: "0.5rem", display: "flex", justifyContent: "space-between" }}>
                       <p style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", fontWeight: "300", whiteSpace: "nowrap", display: "flex", marginLeft:"-2px", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Sub Total cost</p>
@@ -547,31 +547,31 @@ const CheckoutPage = () => {
                         }}
                       >
                         {CURRENCY_SYMBOLE}
-                        {cartData?.data?.attributes?.totals?.subtotal/ 100}
+                        {(cartData?.data?.attributes?.totals?.subtotal/ 100).toFixed(2)} 
                       </h3>
                     </div>
                   </div>
-                  <hr style={{ borderTop: "1px solid #ccc", margin: "0.2rem -1rem" }} />
+                  {/* <hr style={{ borderTop: "1px solid #ccc", margin: "0.2rem -1rem" }} /> */}
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
                     <div style={{ flex: 1, marginRight: "0.5rem", fontSize: "0.875rem", fontWeight: "300", display: "flex", justifyContent: "space-between" }}>
                       <p style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", fontWeight: "300", marginLeft:"-1px", display: "flex", justifyContent: "space-between", fontFamily: "'Circular', sans-serif" }}>Tax</p>
                       <h3 style={{ padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", display: "flex", justifyContent: "space-between" }}>
 
-                        + {CURRENCY_SYMBOLE}{cartData?.data?.attributes?.totals?.taxTotal/ 100}
+                         {CURRENCY_SYMBOLE}{(cartData?.data?.attributes?.totals?.taxTotal/ 100).toFixed(2)}
                       </h3>
                     </div>
 
                   </div>
                
                  
-                  <hr style={{ borderTop: "1px solid #ccc", margin: "0.2rem -1rem" }} />
+                  {/* <hr style={{ borderTop: "1px solid #ccc", margin: "0.2rem -1rem" }} /> */}
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
                     <div style={{ flex: 1, marginRight: "0.5rem", display: "flex", justifyContent: "space-between" }}>
                       <p style={{ padding: "1rem 1.25rem", marginLeft:"-14px", margin: "0", color: "green", fontSize: "0.875rem",  fontWeight: "300", display: "flex", fontFamily: "'Circular', sans-serif", justifyContent: "space-between" }}>Discount Total</p>
 
 
                       <h3 style={{ color: "green", padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", overflow: "auto", display: "flex", justifyContent: "space-between" }}>
-                        - {CURRENCY_SYMBOLE}{cartData?.data?.attributes?.totals?.discountTotal/ 100}
+                         {CURRENCY_SYMBOLE}{(cartData?.data?.attributes?.totals?.discountTotal/ 100).toFixed(2)}
                       </h3>
                     </div>
 
@@ -583,7 +583,7 @@ const CheckoutPage = () => {
 
 
                       <h3 style={{ color: "#800000", marginRight:"-10px", padding: "1rem 1.25rem", margin: "0", fontSize: "0.875rem", }}>
-                        = {CURRENCY_SYMBOLE}{cartData?.data?.attributes?.totals?.priceToPay/ 100}
+                         {CURRENCY_SYMBOLE}{(cartData?.data?.attributes?.totals?.priceToPay/ 100).toFixed(2)}
                       </h3>
                     </div>
                   </div>
@@ -600,7 +600,7 @@ const CheckoutPage = () => {
               <div className="cart-actions__items-wrapper">
                 <button
                   type="button"
-                  style={{ width: "18rem", background: "rgb(207, 18, 46" }}
+                  style={{ width: "18rem", background: "rgb(207, 18, 46",borderRadius:"30px" }}
                   className="btn btn--rounded btn--yellow"
                   onClick={() => orderConfirm()}
                 >

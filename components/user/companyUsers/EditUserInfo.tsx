@@ -1,28 +1,17 @@
 import React from 'react';
 
 const EditInformationForm = () => {
-    
   // Custom styles for input fields
   const inputStyles = {
     color: 'black', // Change the text color to blue
     backgroundColor: '#f0f0f0', // Change the background color to light gray
-    // Add rounded corners to the input fields
+    borderRadius: '5px', // Add rounded corners to the input fields
     padding: '0.5rem 1rem', // Add padding to the input fields
    // Add a border to the input fields
-    width: '34rem', // Set the width of the input fields to 100% of their container
+    width: '27rem', // Set the width of the input fields to 100% of their container
     border:"0.0625rem solid #dce0e5",
     marginBottom: '1rem'
   };
-//   const checkboxStyles = {
-//     width: '1.5rem', // Increase the width of the checkboxes
-//     height: '1.5rem', // Increase the height of the checkboxes
-//     border: '2px solid black', // Add a border to the checkboxes
-//     borderRadius: '3px', // Add rounded corners to the checkboxes
-//     display: 'inline-block',
-//     position: 'relative',
-//     marginRight: '0.5rem', // Add some space between the checkbox and the label
-//   };
- 
   const checkboxesContainerStyles = {
     marginTop: '1rem',
     display: "block",
@@ -30,61 +19,41 @@ const EditInformationForm = () => {
     fontWeight: "700",
     marginBottom:" 0.4rem",
     textTransform:" uppercase",
-    color:" #333",
-    cursor:"pointer"
+    color:" #333"
     
   };
   const listItemStyles = {
     listStyle: 'none',
   };
-  const selectContainerStyles = {
-    position: 'relative',
-  };
-
-  const selectStyles = {
-    ...inputStyles,
-    paddingRight: '2rem', // Add space for the accordion icon
-  };
-
-  const arrowIconStyles = {
-    position: 'absolute',
-    top: '50%',
-    right: '0.75rem',
-    transform: 'translateY(-50%)',
-    
-    fontSize: '1rem',
-  };
   
   const styleeee = {
-    color: 'black', 
-    // Change the text color to blue
-    backgroundColor: '#f0f0f0',
-    // Change the background color to light gray
-    // Add rounded corners to the input fields
+    color: 'black', // Change the text color to blue
+    backgroundColor: '#f0f0f0', // Change the background color to light gray
+    borderRadius: '5px', // Add rounded corners to the input fields
     padding: '0.5rem 1rem', // Add padding to the input fields
    // Add a border to the input fields
-    width: '11rem', // Set the width of the input fields to 100% of their container
+    width: '6rem', // Set the width of the input fields to 100% of their container
     border:"0.0625rem solid #dce0e5",
     marginBottom: '1rem'
   };
   const styleee = {
     color: 'black', // Change the text color to blue
-    // Change the background color to light gray
-    // Add rounded corners to the input fields
+    backgroundColor: '#f0f0f0', // Change the background color to light gray
+    borderRadius: '5px', // Add rounded corners to the input fields
     padding: '0.5rem 1rem', // Add padding to the input fields
    // Add a border to the input fields
-    width: '11rem', // Set the width of the input fields to 100% of their container
+    width: '8rem', // Set the width of the input fields to 100% of their container
     border:"0.0625rem solid #dce0e5",
     marginBottom: '1rem'
   };
   const stylee = {
     color: 'black', // Change the text color to blue
     backgroundColor: '#f0f0f0', // Change the background color to light gray
-   // Add rounded corners to the input fields
+    borderRadius: '5px', // Add rounded corners to the input fields
     padding: '0.5rem 1rem', // Add padding to the input fields
     
    // Add a border to the input fields
-    width: '11rem', // Set the width of the input fields to 100% of their container
+    width: '8rem', // Set the width of the input fields to 100% of their container
     border:"0.0625rem solid #dce0e5",
     marginBottom: '1rem'
   };
@@ -92,12 +61,11 @@ const EditInformationForm = () => {
   // Custom styles for labels
   const labelStyles = {
     display: 'block', // Make the labels block-level elements
-    fontSize: '12px',
+    fontSize: '0.75rem',
     fontWeight: '700',
     marginBottom: '0.4rem',
     textTransform: 'uppercase',
     color: '#333',
-    fontFamily: "'Circular', sans-serif",
   };
   const inputContainerStyles = {
     flex: 1,
@@ -122,32 +90,26 @@ const EditInformationForm = () => {
 
   return (
     <div style={formContainerStyles}>
-   
     <form className="form">
       <fieldset>
-      <legend style={{fontWeight: "500", marginBottom:"1rem",
-    fontSize: "1.5rem",
-    lineHeight: "1.4",
-    display: "block",
-    color:" #333"}}>Edit User Information</legend>
+      <legend style={{ marginBottom: '1rem' }}>Edit Information</legend>
 
-      <div className="form__input-row" style={selectContainerStyles}>
+
+        <div className="form__input-row">
           <label htmlFor="businessUnit" className="form__label" style={labelStyles}>
-            SELECT BUSINESS UNIT: <span style={{ color: "rgb(207, 18, 46)" }}>*</span>
+            SELECT BUSINESS UNIT:
           </label>
           <select
             id="businessUnit"
             name="businessUnit"
             className="form__input form__input--select"
-            style={selectStyles}
-            required
+            style={inputStyles}
           >
             <option value="1">Spryker Systems GmBH ID:23</option>
             <option value="2">Spryker Systems GmBH ID:24</option>
             <option value="3">Spryker Systems GmBH ID:26</option>
             <option value="4">Spryker Systems GmBH ID:27</option>
           </select>
-          <span style={arrowIconStyles}>▼</span>
         </div>
 
         <div className="form__input-row" style={checkboxesContainerStyles}>
@@ -158,7 +120,6 @@ const EditInformationForm = () => {
               <li className="list__item list__item--checkbox">
                 <span className="checkbox">
                   <input type="checkbox" id="role1" name="roles[]" value="Role 1" className="checkbox__input" />
-                
                   <span className="checkbox__box">
                    
                   </span>
@@ -225,46 +186,28 @@ const EditInformationForm = () => {
         <div className="form__input-row" style={rowStyles}>
         <div style={inputContainerStyles}>
           <label className="form__label" style={labelStyles}>
-            Salutation: <span style={{ color: "rgb(207, 18, 46)" }}>*</span>
+            Salutation:
           </label>
-          <input type="text" name="salutation" className="form__input form__input--text" style={styleeee} required   />
+          <input type="text" name="salutation" className="form__input form__input--text" style={styleeee}  />
 </div>
 <div style={inputContainerStyles}>
           <label className="form__label" style={labelStyles}>
-            First Name: <span style={{ color: "rgb(207, 18, 46)" }}>*</span>
+            First Name:
           </label>
-          <input type="text" name="firstName" className="form__input form__input--text"  style={styleee} required  />
+          <input type="text" name="firstName" className="form__input form__input--text"  style={styleee} />
 </div>
 <div style={inputContainerStyles}>
           <label className="form__label" style={labelStyles}>
-            Last Name: <span style={{ color: "rgb(207, 18, 46)" }}>*</span>
+            Last Name:
           </label>
-          <input type="text" name="lastName" className="form__input form__input--text"   style={styleee} required   />
+          <input type="text" name="lastName" className="form__input form__input--text"   style={styleee}  />
           </div>
         </div>
 
         <label htmlFor="email" className="form__label" style={labelStyles}>
-          Email: <span style={{ color: "rgb(207, 18, 46)" }}>*</span>
+          Email:
         </label>
-        <input type="email" id="email" name="email" className="form__input form__input--text" style={inputStyles} required  />
-        <p
-                  style={{
-                    display: "block",
-                    verticalAlign: "middle",
-                    textTransform: "none",
-                    fontSize: "0.875rem",
-                    fontWeight: "400",
-                    margin: "0",
-                    userSelect: "none",
-                    flex: "1",
-                    fontFamily: "'Circular', sans-serif",
-                    color: "#8f8f8f",
-                  }}
-                >
-                  {" "}
-                  &nbsp; *Required fields
-                </p>
-
+        <input type="email" id="email" name="email" className="form__input form__input--text" style={inputStyles} />
       </fieldset>
 
       <button
@@ -286,7 +229,7 @@ const EditInformationForm = () => {
         type="button"
         style={{
           width: '9rem',
-          height:"3.7rem",
+          height:"3.5rem",
          
           background: 'white',
           borderRadius: '1px',

@@ -221,7 +221,7 @@ const CheckoutItems = () => {
                     marginRight: "-75px",
                   }}
                 >
-                  Item Total : {CURRENCY_SYMBOLE}{item.attributes?.calculations?.unitPrice/ 100 * item?.attributes?.quantity}
+                  Item Total : {CURRENCY_SYMBOLE}{(item.attributes?.calculations?.unitPrice/ 100 * item?.attributes?.quantity).toFixed(2)}
                 </h3>
            
               </div>

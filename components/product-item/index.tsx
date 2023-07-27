@@ -14,12 +14,18 @@ const ProductItem = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [wishlisted, setWishlisted] = useState<any>();
   const [offerPrice, setofferPrice] = useState<any>();
+  
   const token = localStorage.getItem("token");
   var cartId = localStorage.getItem("cartId");
   var wishlistId = SHOPPING_LIST_ID;
   const [selectedMerchantOffer, setSelectedMerchantOffer] = useState<any>();
   const toggleFav = async () => {
-    wishlisted ? await handleAddtoWishlist() : await handleAddtoWishlist();
+    if (wishlisted) {
+      // Item is already wishlisted, do nothing
+    } else {
+      // Item is not wishlisted, add it to the wishlist
+      await handleAddtoWishlist();
+    }
   };
 
   useEffect(() => {

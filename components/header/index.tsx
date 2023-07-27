@@ -22,6 +22,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
   const [searchOpen, setSearchOpen] = useState(true);
   const [searchText, setSearchText] = useState();
   const [category, setCategory] = useState([]);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [authStatus, setAuthStatus] = useState<any>("false");
   const [authToken, setAuthToken] = useState<any>("");
   const [customerGroup, setCustomerGroup] = useState<any>();
@@ -29,6 +30,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isHovered1, setIsHovered1] = useState(false);
 
+  
   useEffect(() => {
     setAuthStatus(localStorage.getItem("status"));
     setAuthToken(localStorage.getItem("token"));
@@ -53,6 +55,21 @@ const Header = ({ isErrorPage }: HeaderType) => {
     }
   };
 
+  const logout = () => {
+    // Show the confirmation popup
+    const confirmLogout = window.confirm("Are you sure you want to logout?");
+    if (confirmLogout) {
+      // User clicked "OK," proceed with the logout
+      localStorage.clear();
+      setAuthStatus("false");
+      localStorage.setItem("status", "false");
+      window.location.href = "/";
+    } else {
+      // User clicked "Cancel," do nothing
+      // Optionally, you can add some feedback to the user
+      // e.g., "Logout canceled" or simply do nothing
+    }
+  };
   useEffect(() => {
     if (!arrayPaths.includes(router.pathname) || isErrorPage) {
       return;
@@ -72,20 +89,11 @@ const Header = ({ isErrorPage }: HeaderType) => {
     setSearchOpen(true);
   };
 
-  // on click outside
+ 
   useOnClickOutside(navRef, closeMenu);
   useOnClickOutside(searchRef, closeSearch);
 
-  // const getCategory = async () => {
-  //   const resp = await fetch(`${API_URL}/category-trees`, {
-  //     method: "GET",
-  //     headers: {
-  //       Accept: "application/json",
-  //     },
-  //   });
-  //   const result = await resp.json();
-  //   setCategory(result?.data[0]?.attributes?.categoryNodesStorage);
-  // };
+ 
 
   const getCategory = async () => {
     try {
@@ -110,49 +118,9 @@ const Header = ({ isErrorPage }: HeaderType) => {
     getCategory();
   }, []);
 
-  // const checkTokenExpiry = async () => {
-  //   if (authToken) {
-  //     const data =
-  //     {
-  //       "data": {
-  //         "type": "access-tokens",
-  //         "attributes": {
-  //           "username": "sonia@spryker.com",
-  //           "password": "change123"
-  //         }
-  //       }
-  //     }
-  //     try {
-  //       const resp = await fetch(
-  //         `${API_URL}/access-tokens`,
-  //         {
-  //           method: 'POST',
-  //           headers: {
-  //             "Authorization": `Bearer ${authToken}`
-  //           },
-  //           body: JSON.stringify(data),
-  //         },
-  //       );
-  //       const result = await resp.json();
-  //       if (result?.data?.attributes?.accessToken) {
-  //         localStorage.setItem("status", "true")
-  //         localStorage.setItem("token", result?.data?.attributes?.accessToken)
-  //       } else {
-  //         localStorage.setItem("status", "false")
-  //         router.push('/login')
-  //       }
-  //     } catch (err) {
-  //       localStorage.setItem("status", "false")
-  //       router.push('/login')
-  //     }
-  //   } else {
-  //     localStorage.setItem("status", "false")
-  //   }
+  
 
-  // }
-  // useEffect(() => {
-  //   checkTokenExpiry();
-  // }, [authToken])
+ 
 
   const getSearchResult = async (text: any) => {
     try {
@@ -181,6 +149,8 @@ const Header = ({ isErrorPage }: HeaderType) => {
     getSearchResult(searchText);
   }, [searchText]);
 
+
+  
   const dropdownStyle: any = {
     position: "relative",
     display: "inline-block",
@@ -234,12 +204,12 @@ const Header = ({ isErrorPage }: HeaderType) => {
   //logout
   console.log(category, onTop, "category");
 
-  const logout = () => {
-    localStorage.clear();
-    setAuthStatus("false");
-    localStorage.setItem("status", "false");
-    window.location.href = "/";
-  };
+  // const logout = () => {
+  //   localStorage.clear();
+  //   setAuthStatus("false");
+  //   localStorage.setItem("status", "false");
+  //   window.location.href = "/";
+  // };
   return (
     <header
       style={{ padding: "28px 104px 0px" }}
@@ -266,39 +236,50 @@ const Header = ({ isErrorPage }: HeaderType) => {
           <div className="site-header__actions">
             {/* search */}
             <button
-              ref={searchRef}
-              className={`search-form-wrapper ${
-                searchOpen ? "search-form--active" : ""
-              }`}
-            >
-              <form className={`search-form`}>
-                <i
-                  className="icon-cancel"
-                  onClick={() => setSearchOpen(searchOpen)}
-                ></i>
-                <input
-                  type="text"
-                  name="search"
-                  onChange={(e: any) => {
-                    setSearchText(e.target.value);
-                  }}
-                  placeholder="Enter the product you are looking for"
-                />
-              </form>
-              {searchText ? (
-                <Link href={`/search/${searchText}`}>
-                  <i
-                    onClick={() => setSearchOpen(searchOpen)}
-                    className="icon-search"
-                  ></i>
-                </Link>
-              ) : (
-                <i
-                  onClick={() => setSearchOpen(searchOpen)}
-                  className="icon-search"
-                ></i>
-              )}
-            </button>
+  ref={searchRef}
+  
+  className={`search-form-wrapper ${
+    searchOpen ? "search-form--active" : ""
+  }`}
+>
+  <form
+    className={`search-form`}
+    onClick={(e) => {
+      // Remove the stopPropagation() call
+      // e.stopPropagation();
+    }}
+  >
+    <i
+      className="icon-cancel"
+      onClick={() => setSearchOpen(!searchOpen)} // Update this line
+    ></i>
+    <input
+      type="text"
+      name="search"
+      onChange={(e: any) => {
+        setSearchText(e.target.value);
+     
+       
+      }}
+      onFocus={() => setIsSearchFocused(true)} // Update this line
+      onBlur={() => setIsSearchFocused(false)} // Update this line
+      placeholder="Enter the product you are looking for"
+    />
+  </form>
+  {searchText ? (
+    <Link href={`/search/${searchText}`}>
+      <i
+        onClick={() => setSearchOpen(!searchOpen)} // Update this line
+        className="icon-search"
+      ></i>
+    </Link>
+  ) : (
+    <i
+      onClick={() => setSearchOpen(!searchOpen)} // Update this line
+      className="icon-search"
+    ></i>
+  )}
+</button>
             {/* contact */}
             <Link href="#">
               <a style={{ paddingLeft: "1rem" }} className="headerDummyTags">
@@ -341,7 +322,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
                   <button>Login</button>
                 </Link>
               ) : (
-                <button onClick={() => logout()}>Logout</button>
+                <button onClick={logout}>Logout</button>
               )}
             </div>
             <button
@@ -470,8 +451,9 @@ const Header = ({ isErrorPage }: HeaderType) => {
           </button>
         </nav>
       </div>
-      {searchResult.length > 0 ? (
+      { isSearchFocused && searchResult.length > 0 ? (
         <div
+       
           className="searchParent"
           style={{
             top: "4.5rem",

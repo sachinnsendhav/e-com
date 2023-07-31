@@ -11,6 +11,8 @@ const ProductsContent = () => {
   const [sortingOption, setSortingOption] = useState<any>({})
   const [valueFacets, setvalueFacets] = useState<any[]>([])
   const [sortValue, setSortValue] = useState<any>()
+  const [selectedValues, setSelectedValues] = useState<any>({});
+
   const nodeId = router.query.nodeId;
   const searchUrl = router.query.search;
   var token: any;
@@ -147,10 +149,10 @@ const ProductsContent = () => {
   //   // setProducts(result?.included)
   // };
 
-  const getProductData = async (val: any) => {
+  const getProductData = async (val: any, queryString:any) => {
     try {
       const resp = await fetch(
-        `${API_URL}/catalog-search?category=${nodeId}&include=abstract-products${val}`,
+        `${API_URL}/catalog-search?category=${nodeId}&include=abstract-products&${queryString}${val}`,
         {
           method: "GET",
           headers: {
@@ -197,9 +199,14 @@ const ProductsContent = () => {
     if (nodeId) {
       setProducts([]);
       const val = `&sort=${sortValue}`
-      getProductData(val);
+      const queryString = Object.entries(selectedValues)
+        .map(([key, values]: any) => `${key}=${values?.map(encodeURIComponent).join("%2C")}`)
+        .join("&");
+
+      console.log("queryString", queryString);
+      getProductData(val, queryString);
     }
-  }, [nodeId, sortValue]);
+  }, [nodeId, sortValue, selectedValues]);
 
   useEffect(() => {
     const handleMerchant = async (skuId: any) => {
@@ -225,7 +232,37 @@ const ProductsContent = () => {
   }, []);
 
 
+  // for selected filters vallue
+  const handleCheckboxChange = (parameterName: any, value: any) => {
+    setSelectedValues((prevState: any) => {
+      if (prevState[parameterName]?.includes(value)) {
+        // If the value is already in the state array, remove it
+        return {
+          ...prevState,
+          [parameterName]: prevState[parameterName].filter(
+            (selectedValue: any) => selectedValue !== value
+          ),
+        };
+      } else {
+        // If the value is not in the state array, add it
+        return {
+          ...prevState,
+          [parameterName]: prevState[parameterName]
+            ? [...prevState[parameterName], value]
+            : [value],
+        };
+      }
+    });
+  };
 
+  const handleRadioChange = (parameterName: any, value: any) => {
+    console.log("Gggggg", parameterName, "val-", value)
+    setSelectedValues((prevState: any) => ({
+      ...prevState,
+      [parameterName]: [value],
+    }));
+  };
+  console.log("selectedValues", selectedValues)
   return (
     <>
       {!searchResults && <ProductsLoading />}
@@ -235,15 +272,23 @@ const ProductsContent = () => {
             return (
               val.values.length > 0 && val.name !== "category" ?
                 <div style={{ border: "1px solid black", margin: "10px", padding: "5px" }}>
-                  <p style={{ fontWeight: "bold", textAlign:"center" }}>{val.localizedName}</p>
+                  <p style={{ fontWeight: "bold", textAlign: "center" }}>{val.localizedName}</p>
                   {val.values.map((item: any) => {
                     return (
                       val.config.isMultiValued ?
-                        <div style={{ display: "flex", padding:"3px" }}>
-                          <input type="checkbox" />
+                        <div style={{ display: "flex", padding: "3px" }}>
+                          <input
+                            type="checkbox"
+                            checked={selectedValues[val.name]?.includes(item.value)}
+                            onChange={() => handleCheckboxChange(val.name, item.value)}
+                          />
                           <label>{item.value}</label>
-                        </div> : <div style={{ display: "flex", padding:"3px" }}>
-                          <input type="radio" />
+                        </div> : <div style={{ display: "flex", padding: "3px" }}>
+                          <input
+                            type="radio"
+                            checked={selectedValues[val.name] === item.value}
+                            onChange={() => handleRadioChange(val.name, item.value)}
+                          />
                           <label>{item.value}</label>
                         </div>
                     )

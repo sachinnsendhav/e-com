@@ -30,7 +30,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isHovered1, setIsHovered1] = useState(false);
 
-  
+
   useEffect(() => {
     setAuthStatus(localStorage.getItem("status"));
     setAuthToken(localStorage.getItem("token"));
@@ -89,11 +89,11 @@ const Header = ({ isErrorPage }: HeaderType) => {
     setSearchOpen(true);
   };
 
- 
+
   useOnClickOutside(navRef, closeMenu);
   useOnClickOutside(searchRef, closeSearch);
 
- 
+
 
   const getCategory = async () => {
     try {
@@ -103,24 +103,25 @@ const Header = ({ isErrorPage }: HeaderType) => {
           Accept: "application/json",
         },
       });
-  
+
       if (!resp.ok) {
         throw new Error("Network response was not ok");
       }
-  
+
       const result = await resp.json();
       setCategory(result?.data[0]?.attributes?.categoryNodesStorage);
     } catch (error) {
       console.error("Error while fetching category:", error);
-    }}
+    }
+  }
 
   useEffect(() => {
     getCategory();
   }, []);
 
-  
 
- 
+
+
 
   const getSearchResult = async (text: any) => {
     try {
@@ -150,7 +151,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
   }, [searchText]);
 
 
-  
+
   const dropdownStyle: any = {
     position: "relative",
     display: "inline-block",
@@ -236,50 +237,49 @@ const Header = ({ isErrorPage }: HeaderType) => {
           <div className="site-header__actions">
             {/* search */}
             <button
-  ref={searchRef}
-  
-  className={`search-form-wrapper ${
-    searchOpen ? "search-form--active" : ""
-  }`}
->
-  <form
-    className={`search-form`}
-    onClick={(e) => {
-      // Remove the stopPropagation() call
-      // e.stopPropagation();
-    }}
-  >
-    <i
-      className="icon-cancel"
-      onClick={() => setSearchOpen(!searchOpen)} // Update this line
-    ></i>
-    <input
-      type="text"
-      name="search"
-      onChange={(e: any) => {
-        setSearchText(e.target.value);
-     
-       
-      }}
-      onFocus={() => setIsSearchFocused(true)} // Update this line
-      onBlur={() => setIsSearchFocused(false)} // Update this line
-      placeholder="Enter the product you are looking for"
-    />
-  </form>
-  {searchText ? (
-    <Link href={`/search/${searchText}`}>
-      <i
-        onClick={() => setSearchOpen(!searchOpen)} // Update this line
-        className="icon-search"
-      ></i>
-    </Link>
-  ) : (
-    <i
-      onClick={() => setSearchOpen(!searchOpen)} // Update this line
-      className="icon-search"
-    ></i>
-  )}
-</button>
+              ref={searchRef}
+
+              className={`search-form-wrapper ${searchOpen ? "search-form--active" : ""
+                }`}
+            >
+              <form
+                className={`search-form`}
+                onClick={(e) => {
+                  // Remove the stopPropagation() call
+                  // e.stopPropagation();
+                }}
+              >
+                <i
+                  className="icon-cancel"
+                  onClick={() => setSearchOpen(!searchOpen)} // Update this line
+                ></i>
+                <input
+                  type="text"
+                  name="search"
+                  onChange={(e: any) => {
+                    setSearchText(e.target.value);
+
+
+                  }}
+                  onFocus={() => setIsSearchFocused(true)} // Update this line
+                  onBlur={() => setIsSearchFocused(false)} // Update this line
+                  placeholder="Enter the product you are looking for"
+                />
+              </form>
+              {searchText ? (
+                <Link href={`/search/${searchText}`}>
+                  <i
+                    onClick={() => setSearchOpen(!searchOpen)} // Update this line
+                    className="icon-search"
+                  ></i>
+                </Link>
+              ) : (
+                <i
+                  onClick={() => setSearchOpen(!searchOpen)} // Update this line
+                  className="icon-search"
+                ></i>
+              )}
+            </button>
             {/* contact */}
             <Link href="#">
               <a style={{ paddingLeft: "1rem" }} className="headerDummyTags">
@@ -339,14 +339,15 @@ const Header = ({ isErrorPage }: HeaderType) => {
           ref={navRef}
           className={`site-nav ${menuOpen ? "site-nav--open" : ""}`}
         >
-          {/* {category.map((item: any) => {
+          {category.map((item: any) => {
             return (
               <Link href={`/productList/${item?.url?.split('/')[2]}?nodeId=${item.nodeId}`}>
                 <a>{item.name}</a>
               </Link>
             )
-          })} */}
-          <Link href="#">
+          })}
+          {/* for glue local url */}
+          {/* <Link href="#">
             <a>Solutions</a>
           </Link>
 
@@ -361,50 +362,42 @@ const Header = ({ isErrorPage }: HeaderType) => {
             <div style={contentStyle1}>
               {!customerGroup ? (
                 <>
-                <div>
-                  <Link href={`/productList/ink-&-toner?nodeId=43`}>
-                    <a style={{ color: "black", padding: "5px" }}>
-                      Ink & Toner
-                    </a>
-                  </Link>
+                  <div>
+                    <Link href={`/productList/ink-&-toner?nodeId=43`}>
+                      <a style={{ color: "black", padding: "5px" }}>
+                        Ink & Toner
+                      </a>
+                    </Link>
                   </div>
                   <div>
-                  <Link href={`/productList/ricoh?nodeId=39`}>
-                    <a style={{ color: "black", padding: "5px" }}>Printers</a>
-                  </Link>
+                    <Link href={`/productList/ricoh?nodeId=39`}>
+                      <a style={{ color: "black", padding: "5px" }}>Printers</a>
+                    </Link>
                   </div>
                 </>
               ) : (
                 ""
               )}
-              {/* {customerGroup == "DE--5" && (
-                <Link href={`/productList/ink-&-toner?nodeId=43`}>
-                <a style={{ color: "black", padding: "5px" }}>Ink & Toner</a>
-              </Link>
-              <Link href={`/productList/ricoh?nodeId=39`}>
-                <a className="printer" style={{ color: "black", padding: "5px" }}>Printers</a>
-              </Link>
-              </> :""} */}
               {customerGroup == "DE--5" &&
-              <Link href={`/productList/ink-&-toner?nodeId=43`}>
-                <a style={{ color: "black", padding: "5px" }}>Ink & Toner</a>
-              </Link>}
+                <Link href={`/productList/ink-&-toner?nodeId=43`}>
+                  <a style={{ color: "black", padding: "5px" }}>Ink & Toner</a>
+                </Link>}
               {customerGroup == "DE--6" &&
-              <Link href={`/productList/ink-&-toner?nodeId=43`}>
-                <a style={{ color: "black", padding: "5px" }}>Ink & Toner</a>
-              </Link>}
+                <Link href={`/productList/ink-&-toner?nodeId=43`}>
+                  <a style={{ color: "black", padding: "5px" }}>Ink & Toner</a>
+                </Link>}
               {customerGroup == "DE--7" &&
-              <Link href={`/productList/ricoh?nodeId=39`}>
-                <a style={{ color: "black", padding: "5px" }}>Printers</a>
-              </Link>}
+                <Link href={`/productList/ricoh?nodeId=39`}>
+                  <a style={{ color: "black", padding: "5px" }}>Printers</a>
+                </Link>}
               {customerGroup == "DE--15" &&
-              <Link href={`/productList/ricoh?nodeId=39`}>
-                <a style={{ color: "black", padding: "5px" }}>Printers</a>
-              </Link>}
+                <Link href={`/productList/ricoh?nodeId=39`}>
+                  <a style={{ color: "black", padding: "5px" }}>Printers</a>
+                </Link>}
               {customerGroup == "DE--21" &&
-              <Link href={`/productList/ricoh?nodeId=39`}>
-                <a style={{ color: "black", padding: "5px" }}>Printers</a>
-              </Link>}
+                <Link href={`/productList/ricoh?nodeId=39`}>
+                  <a style={{ color: "black", padding: "5px" }}>Printers</a>
+                </Link>}
             </div>
           </div>
           {authStatus === "false" ? (
@@ -448,12 +441,12 @@ const Header = ({ isErrorPage }: HeaderType) => {
 
           <button className="site-nav__btn">
             <p>Account</p>
-          </button>
+          </button> */}
         </nav>
       </div>
-      { isSearchFocused && searchResult.length > 0 ? (
+      {isSearchFocused && searchResult.length > 0 ? (
         <div
-       
+
           className="searchParent"
           style={{
             top: "4.5rem",

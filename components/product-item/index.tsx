@@ -339,7 +339,7 @@ const ProductItem = ({
       handleMerchant(id);
     }
   }, []);
-  const temp = description.split('&')[1]
+  const temp = description?.split('&')[1]
   const sentences = temp?.split(/\.|<B>/)
     .map((sentence: any) => sentence.replace(/-/g, ' ').replace(/<br\/?>/g, '').replace(/<\/?b>/g, ''));
   //console.log(sentences, "descccc");

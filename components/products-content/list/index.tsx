@@ -3,6 +3,7 @@ import ProductsLoading from "./loading";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { API_URL, SHOPPING_LIST_ID } from "config";
+import { fetchCatalogSearchSuggestionsMethod } from '../../../service/serviceMethods/publicApiMethods';
 const ProductsContent = () => {
   const router = useRouter();
   const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -23,37 +24,39 @@ const ProductsContent = () => {
 
 
   const getSearchData = async () => {
-    try {
-      const resp = await fetch(
-        `${API_URL}/catalog-search-suggestions?q=${searchUrl}&include=abstract-products%2Cconcrete-products%2F`,
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-          },
-        }
-      );
-      const result = await resp.json();
-      result?.data[0]?.attributes?.abstractProducts.forEach((element: any) => {
-        result?.included.forEach((item: any) => {
-          if (element.abstractSku === item.id) {
-            setSearchResults((searchResults) => [
-              ...searchResults,
-              {
-                abstractName: element.abstractName,
-                abstractSku: element.abstractSku,
-                price: element.price,
-                image: element.images[0].externalUrlLarge,
-                concreteId: item.attributes.attributeMap.product_concrete_ids[0],
-              },
-            ]);
-          }
-        });
-      });
-    }
-    catch (error) {
-      //console.log(error);
-    }
+    const result = await fetchCatalogSearchSuggestionsMethod(searchUrl)
+    await setSearchResults(result);
+    // try {
+    //   const resp = await fetch(
+    //     `${API_URL}/catalog-search-suggestions?q=${searchUrl}&include=abstract-products%2Cconcrete-products%2F`,
+    //     {
+    //       method: "GET",
+    //       headers: {
+    //         Accept: "application/json",
+    //       },
+    //     }
+    //   );
+    //   const result = await resp.json();
+    //   result?.data[0]?.attributes?.abstractProducts.forEach((element: any) => {
+    //     result?.included.forEach((item: any) => {
+    //       if (element.abstractSku === item.id) {
+    //         setSearchResults((searchResults) => [
+    //           ...searchResults,
+    //           {
+    //             abstractName: element.abstractName,
+    //             abstractSku: element.abstractSku,
+    //             price: element.price,
+    //             image: element.images[0].externalUrlLarge,
+    //             concreteId: item.attributes.attributeMap.product_concrete_ids[0],
+    //           },
+    //         ]);
+    //       }
+    //     });
+    //   });
+    // }
+    // catch (error) {
+    //   //console.log(error);
+    // }
     // setSearchResults(result?.data[0]?.attributes?.abstractProducts);
   };
   useEffect(() => {

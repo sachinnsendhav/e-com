@@ -61,7 +61,7 @@ const UserDetails = ({ show }: AddressType) => {
         );
         const result = await resp.json();
         setUserDetails(result.data[0].attributes)
-        console.log(result, "result")
+        //console.log(result, "result")
         localStorage.setItem("userId", result?.data[0]?.id)
         localStorage.setItem("customerGroup", result?.data[0]?.attributes?.fkCustomerGroup)
       } catch {
@@ -96,14 +96,14 @@ const UserDetails = ({ show }: AddressType) => {
         }
       );
       const result = await resp.json();
-      console.log("result", result)
+      //console.log("result", result)
       if (result?.status === 204) {
         alert('Your password change successfully!')
       } else {
         alert(result?.errors[0]?.detail)
       }
     } catch (err) {
-      console.log("err", err)
+      //console.log("err", err)
     }
 
   }
@@ -133,11 +133,11 @@ const UserDetails = ({ show }: AddressType) => {
         }
       );
       const result = await resp.json();
-      console.log("re-up", result)
+      //console.log("re-up", result)
       getUserDetails()
       closeModal()
     } catch (err) {
-      console.log("err", err)
+      //console.log("err", err)
     }
   }
 

@@ -126,7 +126,7 @@ const CheckoutItems = () => {
     };
 
     if (cartItems && cartItems.length > 0) {
-      console.log(cartItems.length,"hiii")
+      //console.log(cartItems.length,"hiii")
       setCartData();
     }
   }, [cartItems]);

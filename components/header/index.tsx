@@ -203,7 +203,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
   };
 
   //logout
-  console.log(category, onTop, "category");
+  //console.log(category, onTop, "category");
 
   // const logout = () => {
   //   localStorage.clear();

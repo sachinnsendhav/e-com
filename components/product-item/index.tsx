@@ -41,7 +41,7 @@ const ProductItem = ({
 
 
   const handleAddtocart = async () => {
-    console.log(selectedMerchantOffer,"selectedMerchantOffer");
+    //console.log(selectedMerchantOffer,"selectedMerchantOffer");
     if (token) {
       if (cartId) {
         var productCart = {
@@ -79,7 +79,7 @@ const ProductItem = ({
               },
             })
           : "";
-          console.log(productCart,"test")
+          //console.log(productCart,"test")
         setIsLoading(true);
         try {
           const resp = await fetch(`${API_URL}/carts/${cartId}/items`, {
@@ -329,7 +329,7 @@ const ProductItem = ({
         }
 
       } catch (error) {
-        console.log(error, "error offer")
+        //console.log(error, "error offer")
 
       }
     };
@@ -342,7 +342,7 @@ const ProductItem = ({
   const temp = description.split('&')[1]
   const sentences = temp?.split(/\.|<B>/)
     .map((sentence: any) => sentence.replace(/-/g, ' ').replace(/<br\/?>/g, '').replace(/<\/?b>/g, ''));
-  console.log(sentences, "descccc");
+  //console.log(sentences, "descccc");
 
   const btnName = token ? "Add To Cart" : "Login to Add to Cart";
   // alert(btnName);

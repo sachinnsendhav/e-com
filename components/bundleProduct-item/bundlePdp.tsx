@@ -13,7 +13,7 @@ const Content = (product: any) => {
     token = localStorage.getItem("token");
     customerGroup = localStorage.getItem("customerGroup");
   }
-  console.log(product,"productproduct")
+  // //console.log(product,"productproduct")
   const [count, setCount] = useState<number>(1);
   const [isWishlisted, setIsWishlisted] = useState<boolean>(false);
   const [variationData, setVariationData] = useState<any>();
@@ -48,7 +48,7 @@ const Content = (product: any) => {
     setShowBlock(result.data[0]?.attributes?.name);
     setShppingListId(result.data[0]?.id);
   };
-  console.log(selectedMerchantOffer,isBundle,showBlock,merchantOffer, "selectedMerchantOffer");
+  //console.log(selectedMerchantOffer,isBundle,showBlock,merchantOffer, "selectedMerchantOffer");
 
   const getShoppingListItem = async (id: any) => {
     const resp = await fetch(
@@ -239,7 +239,7 @@ const Content = (product: any) => {
     }
   }, [productData]);
 
-console.log(bundleData,"bundle");
+//console.log(bundleData,"bundle");
 const offerhandler = async(id:any) =>{
 try {
     const resp = await fetch(
@@ -258,7 +258,7 @@ try {
       if (response.errors) {
         alert(response.errors[0]?.detail);
       } else {
-        console.log(response, "offer response");
+        //console.log(response, "offer response");
         var modifiedData = response?.data;
         await modifiedData?.map(async (item: any, index: number) => {
           item.price = await response.included[index]?.attributes?.price;
@@ -269,7 +269,7 @@ try {
           (offer: any) =>
             offer?.attributes?.fkCustomerGroup == customerGroup
         );
-        console.log(tempselected, "temp");
+        //console.log(tempselected, "temp");
         setSelectedMerchantOffer(tempselected);
       }
     }
@@ -318,7 +318,7 @@ try {
   useEffect(() => {
     if (variationIdData && variationIdData[1]) {
       shoppingItems?.map((item: any) => {
-        console.log(item, selectedId, "hey", variationIdData, "edsj");
+        //console.log(item, selectedId, "hey", variationIdData, "edsj");
         if (variationIdData[selectedId] == item?.id) {
           setIsWishlisted(true);
           setWishlistedItemId(item?.itemId);
@@ -422,10 +422,10 @@ try {
 
   // useEffect(() => {
   //   if (variationIdData && variationIdData[1]) {
-  //     console.log(variationIdData, "variationData");
+  //     //console.log(variationIdData, "variationData");
   //   } else if (variationIdData && variationIdData[0]) {
   //     var skuId = variationIdData[0];
-  //     console.log(skuId, "skuIdIdIdIdID");
+  //     //console.log(skuId, "skuIdIdIdIdID");
   //     const handleMerchant = async () => {
   //       try {
   //         const resp = await fetch(
@@ -444,7 +444,7 @@ try {
   //           if (response.errors) {
   //             alert(response.errors[0]?.detail);
   //           } else {
-  //             console.log(response, "offer response");
+  //             //console.log(response, "offer response");
   //             var modifiedData = response?.data;
   //             await modifiedData?.map(async (item: any, index: number) => {
   //               item.price = await response.included[index]?.attributes?.price;
@@ -455,7 +455,7 @@ try {
   //               (offer: any) =>
   //                 offer?.attributes?.fkCustomerGroup == customerGroup
   //             );
-  //             console.log(tempselected, "temp");
+  //             //console.log(tempselected, "temp");
   //             setSelectedMerchantOffer(tempselected);
   //           }
   //         }
@@ -487,7 +487,7 @@ try {
       }
     }
   };
-  console.log(shoppingItems, "shoppingItems");
+  //console.log(shoppingItems, "shoppingItems");
 
   const checkCartExist = async () => {
     if (localStorage.getItem("cartId")) {
@@ -527,13 +527,13 @@ try {
     return true;
   };
 
-  console.log(
-    isWishlisted,
-    "isWishlisted",
-    shppingListId,
-    "shppingListId",
-    isLoadingWishlist
-  );
+  //console.log(
+  //   isWishlisted,
+  //   "isWishlisted",
+  //   shppingListId,
+  //   "shppingListId",
+  //   isLoadingWishlist
+  // );
   const handleAddtoWishlist = async (wishlisted: any) => {
     if (token) {
       if (!wishlisted) {
@@ -665,7 +665,7 @@ try {
       <div>
         <h3>Bundle includes</h3>
         {bundleData?.map((item:any)=>{
-            console.log(item,"bundItem");
+            //console.log(item,"bundItem");
             return (
                 <div style={{display:"flex", margin:"20px"}} className="product-bundle">
                     <img src={item?.image} width='70px'/>

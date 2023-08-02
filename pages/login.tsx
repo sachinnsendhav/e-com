@@ -41,7 +41,7 @@ const LoginPage = () => {
 
         const result = await resp.json();
         if (resp.status === 400) {
-          console.log(result, "resp");
+          //console.log(result, "resp");
           alert(result?.error_description);
         } else {
           localStorage.setItem("token", result?.access_token);
@@ -78,7 +78,7 @@ const LoginPage = () => {
   //   });
   //   const result = await resp.json();
   //   if(resp.status == 400){
-  //     console.log(result,"resp")
+  //     //console.log(result,"resp")
   //     alert(result?.error_description)
   //   }else{
   //   localStorage.setItem("token", result?.access_token);

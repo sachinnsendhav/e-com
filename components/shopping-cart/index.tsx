@@ -138,7 +138,7 @@ const ShoppingCart = () => {
     handleGetCart();
   }, [cartUpdated, cartId]);
 
-  console.log(isLoading,"isloading")
+  //console.log(isLoading,"isloading")
   useEffect(() => {
     const setCartData = async () => {
       const tempData: any = [];
@@ -356,7 +356,7 @@ const ShoppingCart = () => {
 
   // useEffect(() => {
   const handleImage = async (formattedData: any) => {
-    console.log(formattedData, "formattedData")
+    //console.log(formattedData, "formattedData")
     // var data1:any =formattedData
     await formattedData?.forEach(async (element: any) => {
       await element.data.forEach(async (item: any) => {
@@ -380,7 +380,7 @@ const ShoppingCart = () => {
   }
   // }, [configuredBundleDataTemp]);
 
-  console.log(configuredBundleData, "configBundleData")
+  //console.log(configuredBundleData, "configBundleData")
   return (
     <section className="cart" style={{ paddingInline: "75px", background: '#FFF', color: 'black' }}>
       {isLoading ? (

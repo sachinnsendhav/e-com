@@ -26,7 +26,7 @@ function index(data: any) {
   //     setFinalData(temp)
   //   }
   // }, [newData]);
-  console.log(newData, "newData", authStatus)
+  //console.log(newData, "newData", authStatus)
 
   useEffect(() => {
     setAuthStatus(localStorage.getItem("status"));

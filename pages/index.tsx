@@ -18,7 +18,7 @@ const IndexPage = () => {
   const [productData, setProductData] = useState<any[]>([]);
   const [ricohCms, setRicohCms] = useState<any[]>([])
   const [imageData, setImageData] = useState<any[]>([])
-  console.log("productData",productData)
+  //console.log("productData",productData)
   useEffect(() => {
     setAuthToken(localStorage.getItem("token"));
   }, []);
@@ -171,7 +171,7 @@ const IndexPage = () => {
       }
     );
     const result = await resp.json();
-    console.log("result-ricoh-cms---", result);
+    //console.log("result-ricoh-cms---", result);
     setImageData(result.includes.Asset);
     const arr: any = [];
     result.items.forEach((element: any) => {
@@ -195,10 +195,10 @@ const IndexPage = () => {
     }, []);
 
     setRicohCms(modifiedData);
-    console.log("modifiedData", modifiedData);
+    //console.log("modifiedData", modifiedData);
   }
   catch(error){
-    console.log(error);
+    //console.log(error);
   }
   };
   useEffect(() => {

@@ -33,7 +33,7 @@ const ComponentUsers = ({ show }: AddressType) => {
   const [isToggled, setIsToggled] = useState(true);
 
   const handleToggle = () => {
-    console.log("hey");
+    //console.log("hey");
     setIsToggled(!isToggled);
   };
 
@@ -51,7 +51,7 @@ const ComponentUsers = ({ show }: AddressType) => {
           }
         );
         const result = await resp.json();
-        console.log(result, "resres");
+        //console.log(result, "resres");
         var tempIncludeCustomer: any = [];
         var tempIncludeCompany: any = [];
         var tempIncludeRoles: any = [];
@@ -96,7 +96,7 @@ const ComponentUsers = ({ show }: AddressType) => {
             });
           });
         });
-        console.log(tempUserArr, "tempUserArr");
+        //console.log(tempUserArr, "tempUserArr");
         setCustomerData(tempUserArr);
         setCompData(tempIncludeCompany);
       } catch {
@@ -112,15 +112,15 @@ const ComponentUsers = ({ show }: AddressType) => {
   }, [authToken]);
 
   const DeleteCustomerHander= (item:any) => {
-    console.log(item,"delte")
+    //console.log(item,"delte")
 
   }
   const EnableHandler= (item:any) => {
-    console.log(item,"toggle")
+    //console.log(item,"toggle")
 
   }
   const EditCustomerHandler= (item:any) => {
-    console.log(item,"edit")
+    //console.log(item,"edit")
     if(item){
         setEditProfileData(item);
         setEditUserData(true);

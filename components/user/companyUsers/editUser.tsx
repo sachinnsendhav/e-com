@@ -1,6 +1,6 @@
 import React from "react";
 const EditInformationForm = ({data,company, setEditUserData}:any) => {
-    console.log(data,"data,company",company)
+    //console.log(data,"data,company",company)
   // Custom styles for input fields
   const inputStyles:any = {
     color: "black", // Change the text color to blue
@@ -102,7 +102,7 @@ const EditInformationForm = ({data,company, setEditUserData}:any) => {
             >
                 {
                     company?.map((item:any)=>{
-                        console.log(item,"comppppp")
+                        //console.log(item,"comppppp")
                     return (<option selected={item?.id == data?.companyId} value={item?.id}>{item?.attributes?.name}</option>)
                     })
                 }

@@ -41,7 +41,7 @@ const Wishlist = ({ show }: WishlistType) => {
     setLoading(false);
   }
   catch(error){
-    console.log(error,"errors")
+    //console.log(error,"errors")
   }
   };
 
@@ -147,7 +147,7 @@ const Wishlist = ({ show }: WishlistType) => {
         }
       );
       const response = await resp.json();
-      console.log(response, "resp");
+      //console.log(response, "resp");
       if (response) {
         var groupId = await localStorage.getItem("customerGroup");
         if (response.data?.length && response.data.length > 0) {
@@ -163,7 +163,7 @@ const Wishlist = ({ show }: WishlistType) => {
         }
       }
     } catch (error) {
-      console.log(error, "errors");
+      //console.log(error, "errors");
     }
   };
 
@@ -213,7 +213,7 @@ const Wishlist = ({ show }: WishlistType) => {
   }, [shoppingItems]);
   
 
-  console.log(shoppingItemsPrice, "shoppingItemsPrice");
+  //console.log(shoppingItemsPrice, "shoppingItemsPrice");
   return (
     <div style={style}>
       {/* <div style={{ margin: "auto", width: "80%" }}>

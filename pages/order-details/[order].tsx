@@ -52,7 +52,7 @@ function orderDetailsPage() {
           const result = await resp.json();
           const products = result.data.attributes.items.filter((item: any) => item.salesOrderConfiguredBundle === null);
           const configureProducts = result.data.attributes.items.filter((item: any) => item.salesOrderConfiguredBundle !== null);
-          console.log("products", products);
+          //console.log("products", products);
           const skuSet = new Set();
           const uniqueArray: any = [];
           products.forEach((item: any) => {
@@ -111,7 +111,7 @@ function orderDetailsPage() {
     });
     const result = await resp.json()
     if (result?.error) {
-      console.log("sdfds")
+      //console.log("sdfds")
       setPostOrderStatus(false)
     } else {
       setBatchNumber(result?.batch_number)
@@ -120,7 +120,7 @@ function orderDetailsPage() {
       setMaterialName(result?.material_name);
       setStorage(result?.storage)
       setPostOrderStatus(true)
-      console.log('text-article-----', result)
+      //console.log('text-article-----', result)
 
     }
 
@@ -149,7 +149,7 @@ function orderDetailsPage() {
     const result = await resp.json();
     alert(result.success_message)
     closeModal()
-    console.log("result--", result)
+    //console.log("result--", result)
   }
 
   const updatePostOrderForm = async (orderId: any) => {
@@ -175,7 +175,7 @@ function orderDetailsPage() {
     const result = await resp.json();
     alert(result.success_message)
     closeModal()
-    console.log("result--", result)
+    //console.log("result--", result)
   }
   useEffect(() => {
     if (orderId) {

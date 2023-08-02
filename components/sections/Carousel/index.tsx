@@ -8,7 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 function index(data: any) {
   const [authStatus, setAuthStatus]= useState<any>("false");
 
-  console.log(data, "data for carousal");
+  //console.log(data, "data for carousal");
   const settings = {
     dots: false,
     infinite: true,
@@ -38,7 +38,7 @@ function index(data: any) {
 
 
 
-  console.log(updatedArr, "updatedArr");
+  //console.log(updatedArr, "updatedArr");
   useEffect(() => {
     setAuthStatus(localStorage.getItem("status"));
   }, [newData])

@@ -4,7 +4,7 @@ function index(data: any) {
   const newData = Array.from(Object.values(data));
   const imageData: any = newData.pop();
   const updatedArr: any[] = []
-  console.log("newData-infotile--", newData)
+  //console.log("newData-infotile--", newData)
   newData.forEach((element: any) => {
     imageData.forEach((img: any) => {
       if (element.image[0]?.sys?.id === img?.sys?.id) {

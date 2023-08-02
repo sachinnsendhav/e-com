@@ -58,7 +58,7 @@
 //   const mainDisc = product?.description.split('&')[0]
 //   const sentences = temp?.split(/\.|<B>/)
 //     .map((sentence: any) => sentence.replace(/-/g, ' ').replace(/<br\/?>/g, '').replace(/<\/?b>/g, ''));
-//   console.log(sentences,"descccc");
+//   //console.log(sentences,"descccc");
 //   useEffect(() => {
 //     if (productId) {
 //       getProductDetails();

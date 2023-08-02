@@ -5,9 +5,9 @@ import { useState } from 'react';
 
 const ShoppingCart = ({ thumb, name, pliId, id, avalibility, count, price, setProductCount, removeProductFromCart, grandTotal, subTotal, taxTotal }: ProductStoreType) => {
  
-  console.log(grandTotal, "this is the grandTotal");
-  console.log(subTotal, "this is the SubTotal");
-  console.log(taxTotal, "this is the te");
+  //console.log(grandTotal, "this is the grandTotal");
+  //console.log(subTotal, "this is the SubTotal");
+  //console.log(taxTotal, "this is the te");
 
   
 

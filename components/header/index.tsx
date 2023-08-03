@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { RootState } from "store";
 import { API_URL } from "config";
+import { fetchCategoryTreeMethod } from '../../service/serviceMethods/publicApiMethods';
 
 type HeaderType = {
   isErrorPage?: Boolean;
@@ -96,23 +97,8 @@ const Header = ({ isErrorPage }: HeaderType) => {
 
 
   const getCategory = async () => {
-    try {
-      const resp = await fetch(`${API_URL}/category-trees`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-        },
-      });
-
-      if (!resp.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const result = await resp.json();
-      setCategory(result?.data[0]?.attributes?.categoryNodesStorage);
-    } catch (error) {
-      console.error("Error while fetching category:", error);
-    }
+    const catData:any = await fetchCategoryTreeMethod();
+    setCategory(catData);
   }
 
   useEffect(() => {
@@ -203,7 +189,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
   };
 
   //logout
-  console.log(category, onTop, "category");
+  //console.log(category, onTop, "category");
 
   // const logout = () => {
   //   localStorage.clear();

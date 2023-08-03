@@ -7,6 +7,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Link from "next/link";
+import { fetchCatalogSearchSuggestionsMethod } from "service/serviceMethods/publicApiMethods";
 
 const settings = {
   dots: false,
@@ -39,37 +40,39 @@ const ProductsContent = () => {
 
 
   const getSearchData = async () => {
-    try {
-      const resp = await fetch(
-        `${API_URL}/catalog-search-suggestions?q=${searchUrl}&include=abstract-products%2Cconcrete-products%2F`,
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-          },
-        }
-      );
-      const result = await resp.json();
-      result?.data[0]?.attributes?.abstractProducts.forEach((element: any) => {
-        result?.included.forEach((item: any) => {
-          if (element.abstractSku === item.id) {
-            setSearchResults((searchResults) => [
-              ...searchResults,
-              {
-                abstractName: element.abstractName,
-                abstractSku: element.abstractSku,
-                price: element.price,
-                image: element.images[0].externalUrlLarge,
-                concreteId: item.attributes.attributeMap.product_concrete_ids[0],
-              },
-            ]);
-          }
-        });
-      });
-    }
-    catch (error) {
-      console.log(error);
-    }
+    const result = await fetchCatalogSearchSuggestionsMethod(searchUrl)
+    await setSearchResults(result);
+    // try {
+    //   const resp = await fetch(
+    //     `${API_URL}/catalog-search-suggestions?q=${searchUrl}&include=abstract-products%2Cconcrete-products%2F`,
+    //     {
+    //       method: "GET",
+    //       headers: {
+    //         Accept: "application/json",
+    //       },
+    //     }
+    //   );
+    //   const result = await resp.json();
+    //   result?.data[0]?.attributes?.abstractProducts.forEach((element: any) => {
+    //     result?.included.forEach((item: any) => {
+    //       if (element.abstractSku === item.id) {
+    //         setSearchResults((searchResults) => [
+    //           ...searchResults,
+    //           {
+    //             abstractName: element.abstractName,
+    //             abstractSku: element.abstractSku,
+    //             price: element.price,
+    //             image: element.images[0].externalUrlLarge,
+    //             concreteId: item.attributes.attributeMap.product_concrete_ids[0],
+    //           },
+    //         ]);
+    //       }
+    //     });
+    //   });
+    // }
+    // catch (error) {
+    //   //console.log(error);
+    // }
     // setSearchResults(result?.data[0]?.attributes?.abstractProducts);
   };
   useEffect(() => {
@@ -185,7 +188,7 @@ const ProductsContent = () => {
       }
 
       const result = await resp.json();
-      console.log("result-catlog", result)
+      //console.log("result-catlog", result)
       setSortingOption(result?.data[0]?.attributes?.sort?.sortParamLocalizedNames);
       setvalueFacets(result?.data[0]?.attributes?.valueFacets)
       result?.data[0]?.attributes?.abstractProducts.forEach((element: any) => {
@@ -219,7 +222,7 @@ const ProductsContent = () => {
         .map(([key, values]: any) => `${key}=${values?.map(encodeURIComponent).join("%2C")}`)
         .join("&");
 
-      console.log("queryString", queryString);
+      //console.log("queryString", queryString);
       getProductData(val, queryString);
     }
   }, [nodeId, sortValue, selectedValues]);
@@ -237,9 +240,9 @@ const ProductsContent = () => {
           }
         );
         const response = await resp.json();
-        console.log(response, "resp")
+        //console.log(response, "resp")
       } catch (error) {
-        console.log(error, "errors")
+        //console.log(error, "errors")
       }
     };
 
@@ -272,7 +275,7 @@ const ProductsContent = () => {
   };
 
   const handleRadioChange = (parameterName: any, value: any) => {
-    console.log("Gggggg", parameterName, "val-", value)
+    //console.log("Gggggg", parameterName, "val-", value)
     setSelectedValues((prevState: any) => ({
       ...prevState,
       [parameterName]: [value],

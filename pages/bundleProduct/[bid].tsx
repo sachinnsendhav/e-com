@@ -43,7 +43,7 @@ const BundleProduct = ({ image }:any) => {
   const mainDisc = product?.description.split('&')[0]
   const sentences = temp?.split(/\.|<B>/)
     .map((sentence: any) => sentence.replace(/-/g, ' ').replace(/<br\/?>/g, '').replace(/<\/?b>/g, ''));
-  console.log(sentences,"descccc");
+  //console.log(sentences,"descccc");
   // const [bundleProductIds, setBundleProductIds] = useState<any[]>([])
   useEffect(() => {
     // getBundleProducts();
@@ -125,7 +125,7 @@ const BundleProduct = ({ image }:any) => {
             const response = await resp.json();
             if (response) {
                 setBundleProductData(response?.data)
-                console.log(response,"response12")
+                //console.log(response,"response12")
               setIsLoading(false);
             } else {
               setIsLoading(false);
@@ -193,7 +193,7 @@ const BundleProduct = ({ image }:any) => {
     }
   }, [productIds])
 
-  console.log(bundleProductData,"bundleProductData")
+  //console.log(bundleProductData,"bundleProductData")
   useEffect(() => {
     const handleBundleProdData = async () => {
       if (bundleProductData) {
@@ -212,7 +212,7 @@ const BundleProduct = ({ image }:any) => {
             );
             const response = await resp.json();
             if (resp.status === 200) {
-              console.log(response, "Included");
+              //console.log(response, "Included");
               item.image = response?.included[0]?.attributes?.imageSets[0]?.images[0]?.externalUrlLarge;
               item.name = response?.data?.attributes?.name;
               tempArr.push(response?.included[0]?.attributes?.imageSets[0]?.images[0]?.externalUrlLarge);

@@ -18,7 +18,7 @@ const Content = (product: any) => {
   const [variationKey, setVariationKey] = useState<any>();
   const [productData, setProductData] = useState<any>();
   const [isBundle, setIsBundle] = useState<any>();
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState<any>("");
   const [priceSymbole, setPriceSymbole] = useState(null);
   const [selectedId, setSelectedId] = useState<any>();
   const [isLoading, setIsLoading] = useState(false);
@@ -44,7 +44,7 @@ const Content = (product: any) => {
     setShowBlock(result.data[0]?.attributes?.name);
     setShppingListId(result.data[0]?.id);
   };
-  console.log(selectedMerchantOffer,isBundle,showBlock,merchantOffer, "selectedMerchantOffer");
+  //console.log(selectedMerchantOffer,isBundle,showBlock,merchantOffer, "selectedMerchantOffer");
 
   const getShoppingListItem = async (id: any) => {
     const resp = await fetch(
@@ -273,7 +273,7 @@ const Content = (product: any) => {
   useEffect(() => {
     if (variationIdData && variationIdData[1]) {
       shoppingItems?.map((item: any) => {
-        console.log(item, selectedId, "hey", variationIdData, "edsj");
+        //console.log(item, selectedId, "hey", variationIdData, "edsj");
         if (variationIdData[selectedId] == item?.id) {
           setIsWishlisted(true);
           setWishlistedItemId(item?.itemId);
@@ -377,10 +377,10 @@ const Content = (product: any) => {
 
   useEffect(() => {
     if (variationIdData && variationIdData[1]) {
-      console.log(variationIdData, "variationData");
+      //console.log(variationIdData, "variationData");
     } else if (variationIdData && variationIdData[0]) {
       var skuId = variationIdData[0];
-      console.log(skuId, "skuIdIdIdIdID");
+      //console.log(skuId, "skuIdIdIdIdID");
       const handleMerchant = async () => {
         try {
           const resp = await fetch(
@@ -399,7 +399,7 @@ const Content = (product: any) => {
             if (response.errors) {
               alert(response.errors[0]?.detail);
             } else {
-              console.log(response, "offer response");
+              //console.log(response, "offer response");
               var modifiedData = response?.data;
               await modifiedData?.map(async (item: any, index: number) => {
                 item.price = await response.included[index]?.attributes?.price;
@@ -410,7 +410,7 @@ const Content = (product: any) => {
                 (offer: any) =>
                   offer?.attributes?.fkCustomerGroup == customerGroup
               );
-              console.log(tempselected, "temp");
+              //console.log(tempselected, "temp");
               setSelectedMerchantOffer(tempselected);
             }
           }
@@ -442,7 +442,7 @@ const Content = (product: any) => {
       }
     }
   };
-  console.log(shoppingItems, "shoppingItems");
+  //console.log(shoppingItems, "shoppingItems");
 
   const checkCartExist = async () => {
     if (localStorage.getItem("cartId")) {
@@ -482,13 +482,13 @@ const Content = (product: any) => {
     return true;
   };
 
-  console.log(
-    isWishlisted,
-    "isWishlisted",
-    shppingListId,
-    "shppingListId",
-    isLoadingWishlist
-  );
+  //console.log(
+  //   isWishlisted,
+  //   "isWishlisted",
+  //   shppingListId,
+  //   "shppingListId",
+  //   isLoadingWishlist
+  // );
   const handleAddtoWishlist = async (wishlisted: any) => {
     if (token) {
       if (!wishlisted) {
@@ -633,7 +633,7 @@ const Content = (product: any) => {
             </div>
             <div style={{ display: "flex", flexDirection: "column", justifyContent:"space-evenly", height: "100px", marginLeft: "30px", fontWeight:"400"  }} className="product-content-top-specification">
               {Object.keys(productData?.attributes)?.map((item:any, index) => {
-                console.log(productData?.attributes[item],"formattedKey")
+                //console.log(productData?.attributes[item],"formattedKey")
                 if(item == "color" ){
                   return (<span key={index} style={{background:`${productData?.attributes[item]}`, width:"20px", height:"20px",borderRadius:"50%"  }}></span>)
                 }else{

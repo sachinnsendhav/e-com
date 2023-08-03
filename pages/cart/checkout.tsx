@@ -112,7 +112,7 @@ const CheckoutPage = () => {
       const reslut = await resp.json();
       setData(reslut?.included);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
   useEffect(() => {
@@ -239,9 +239,9 @@ const CheckoutPage = () => {
   };
   // const handleShipmentSeclection = async (e: any) => {
   //   // setSelectedShipment(id);
-  //   console.log(e);
+  //   //console.log(e);
   // };
-  // console.log(isLoading);
+  // //console.log(isLoading);
 
   const handleShipmentSelection = (event:any) => {
     const selectedId = event.target.value;

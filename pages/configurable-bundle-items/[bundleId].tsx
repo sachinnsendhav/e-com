@@ -93,7 +93,7 @@ function ConfigurableBundleItems() {
         }
       );
       const response = await resp.json();
-      console.log(response, "resp");
+      //console.log(response, "resp");
       setConfiguredBundleTemplateSlots(response);
       setIsLoading(false);
     };
@@ -102,7 +102,7 @@ function ConfigurableBundleItems() {
   useEffect(() => {
     setShowBlock(finalData[0]?.slotName);
   }, [finalData]);
-  console.log(productData, "productData");
+  //console.log(productData, "productData");
   useEffect(() => {
     finalData.forEach((element: any) => {
       if (element.slotName === showBlock) {
@@ -129,10 +129,10 @@ function ConfigurableBundleItems() {
     setSlotData(tempSlotArr);
   }, [finalData]);
 
-  console.log(finalData, "finalData", slotData);
+  //console.log(finalData, "finalData", slotData);
 
   const productSelcetionHandler = async (product: any) => {
-    console.log(product, "prod", showBlock, "selectedProduct", selectedProduct);
+    //console.log(product, "prod", showBlock, "selectedProduct", selectedProduct);
     const tempArr: any = [];
     if (selectedProduct == product.id) {
       await slotData?.map((item: any) => {
@@ -172,7 +172,7 @@ function ConfigurableBundleItems() {
             total = total + Number(item?.selectedProduct?.price)
         }
       });
-      console.log(total)
+      //console.log(total)
       setTotalPrice(total);
     };
     totalHandler();
@@ -293,7 +293,7 @@ function ConfigurableBundleItems() {
   };
 
   const addtoCartHandler = async () => {
-    console.log(slotData, "slotData");
+    //console.log(slotData, "slotData");
     const tempItem: any = [];
     slotData?.map((item: any) => {
       if (item?.selectedProduct?.id) {
@@ -361,7 +361,7 @@ function ConfigurableBundleItems() {
       alert("Please configure atleast one slot");
     }
   };
-  console.log(isLoading)
+  //console.log(isLoading)
 
   return (
     <>

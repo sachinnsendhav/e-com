@@ -10,7 +10,7 @@ import usersIcon from "../../assets/images/users.png";
 //@ts-ignore
 import shoppingList from "../../assets/images/list.png";
 function profileSection({ showBlock, setShowBlock }: any) {
-  console.log("showBlock", showBlock, "setShowBlock", setShowBlock);
+  //console.log("showBlock", showBlock, "setShowBlock", setShowBlock);
   return (
     <div
       style={{

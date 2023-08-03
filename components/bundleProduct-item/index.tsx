@@ -18,7 +18,7 @@ const ProductItem = ({ images, id, name, price, description, skuId }: any) => {
   const temp = description.split('&')[1]
   const sentences = temp?.split(/\.|<B>/)
     .map((sentence: any) => sentence.replace(/-/g, ' ').replace(/<br\/?>/g, '').replace(/<\/?b>/g, ''));
-  console.log(sentences,"descccc");
+  //console.log(sentences,"descccc");
   const toggleFav = () => {
     dispatch(toggleFavProduct(
       {
@@ -41,10 +41,10 @@ const ProductItem = ({ images, id, name, price, description, skuId }: any) => {
           }
         );
         const response = await resp.json();
-        console.log(response,"dfks")
+        //console.log(response,"dfks")
         
       } catch (error) {
-      console.log(error,"skls")
+      //console.log(error,"skls")
 
       }
     };

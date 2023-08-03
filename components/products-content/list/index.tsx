@@ -2,7 +2,21 @@ import ProductItem from "../../product-item";
 import ProductsLoading from "./loading";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { API_URL, SHOPPING_LIST_ID } from "config";
+import { API_URL, SHOPPING_LIST_ID, CURRENCY_SYMBOLE } from "config";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Link from "next/link";
+
+const settings = {
+  dots: false,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 5,
+  slidesToScroll: 2,
+  autoplay: true,
+  autoplaySpeed: 2000,
+};
 const ProductsContent = () => {
   const router = useRouter();
   const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -12,6 +26,8 @@ const ProductsContent = () => {
   const [valueFacets, setvalueFacets] = useState<any[]>([])
   const [sortValue, setSortValue] = useState<any>()
   const [selectedValues, setSelectedValues] = useState<any>({});
+  const [productIds, setProductIds] = useState<any[]>([]);
+  const [productData, setProductData] = useState<any[]>([]);
 
   const nodeId = router.query.nodeId;
   const searchUrl = router.query.search;
@@ -149,7 +165,7 @@ const ProductsContent = () => {
   //   // setProducts(result?.included)
   // };
 
-  const getProductData = async (val: any, queryString:any) => {
+  const getProductData = async (val: any, queryString: any) => {
     try {
       const resp = await fetch(
         `${API_URL}/catalog-search?category=${nodeId}&include=abstract-products&${queryString}${val}`,
@@ -262,7 +278,52 @@ const ProductsContent = () => {
       [parameterName]: [value],
     }));
   };
-  console.log("selectedValues", selectedValues)
+  const getRelatedProduct = async (id: any) => {
+    const resp = await fetch(
+      `${API_URL}/abstract-products/${id}/related-products`,
+      {
+        method: "GET",
+      }
+    );
+    const result = await resp.json();
+    setProductIds(result?.data);
+  };
+  const getRelatedProductData = async (id: any) => {
+    const resp = await fetch(
+      `${API_URL}/concrete-products/${id}?include=concrete-product-availabilities%2Cconcrete-product-image-sets%2Cconcrete-product-prices`,
+      {
+        method: "GET",
+      }
+    );
+    const result = await resp.json();
+    setProductData((productData) => [
+      ...productData,
+      {
+        name: result.data.attributes.name,
+        id: result.data.id,
+        image:
+          result.included[0]?.attributes?.imageSets[0]?.images[0]
+            ?.externalUrlLarge,
+        price: result.included[2]?.attributes?.price / 100,
+      },
+    ]);
+  };
+
+  useEffect(() => {
+    if (products.length > 0) {
+      getRelatedProduct(products[0].abstractSku);
+    }
+  }, [products]);
+
+  useEffect(() => {
+    setProductData([]);
+    if (productIds?.length > 0) {
+      productIds.forEach((element: any) => {
+        getRelatedProductData(element.attributes.attributeMap.product_concrete_ids[0]);
+      });
+    }
+  }, [productIds]);
+
   return (
     <>
       {!searchResults && <ProductsLoading />}
@@ -349,6 +410,49 @@ const ProductsContent = () => {
             </>
           )}
         </div>
+      </div>
+      <div style={{ paddingInline: "75px", background:"white" }}>
+        <p style={{
+          fontWeight: "500",
+          fontSize: "1.5rem",
+          lineHeight: "1.4",
+          color: "#333",
+          paddingBottom: "10px"
+        }}>Related Products</p>
+        <Slider {...settings}>
+
+          {productData.map((item: any) => {
+            return (
+              <div style={{ padding: "10px" }}>
+                <Link
+                  href={`/product/${item.name}?skuId=${item.id.split("_")[0]
+                    }`}
+                >
+                  <div style={{ margin: "5px",cursor:"pointer" }}>
+                    <img
+                      src={item.image}
+                      style={{
+                        width: "220px",
+                        height: "250px",
+                        objectFit: "contain",
+                      }}
+                    />
+                    <p style={{ paddingLeft: "10px" }}>{item.name}</p>
+                    <p
+                      style={{
+                        fontWeight: "bold",
+                        paddingTop: "5px",
+                        paddingLeft: "10px",
+                      }}
+                    >
+                      {CURRENCY_SYMBOLE}{item.price / 100}
+                    </p>
+                  </div>
+                </Link>
+              </div>
+            );
+          })}
+        </Slider>
       </div>
     </>
   );

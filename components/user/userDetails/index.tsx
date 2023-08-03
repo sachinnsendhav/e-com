@@ -105,7 +105,6 @@ const UserDetails = ({ show }: AddressType) => {
     } catch (err) {
       console.log("err", err)
     }
-
   }
 
   const updateProfile = async () => {

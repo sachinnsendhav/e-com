@@ -325,7 +325,7 @@ const Header = ({ isErrorPage }: HeaderType) => {
           ref={navRef}
           className={`site-nav ${menuOpen ? "site-nav--open" : ""}`}
         >
-          {category.map((item: any) => {
+          {category?.map((item: any) => {
             return (
               <Link href={`/productList/${item?.url?.split('/')[2]}?nodeId=${item.nodeId}`}>
                 <a>{item.name}</a>

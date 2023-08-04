@@ -101,6 +101,27 @@ class ApiClient {
     }
   }
 
+  async getPrivate(endpoint: any, queryParams:any,token:any) {
+    const url = new URL(endpoint, API_URL);
+
+    Object.keys(queryParams).forEach((key) => {
+      url.searchParams.append(key, queryParams[key]);
+    });
+
+    try {
+      const response = await fetch(url.toString(),{
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        }});
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
+      }
+      return response.json();
+    } catch (error:any) {
+      throw new Error(`Failed to fetch ${url.toString()}: ${error.message}`);
+    }
+  }
 }
 
 const apiClient = new ApiClient();

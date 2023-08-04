@@ -1,8 +1,10 @@
-import ProductItem from './../../product-item';
-import { ProductTypeList } from 'types';
+import ProductItem from "./../../product-item";
+// @ts-ignore
+import { ProductTypeList } from "types";
 
 // import Swiper core and required components
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from "swiper/react";
+import React from "react";
 
 let slidesPerView = 1.3;
 let centeredSlides = true;
@@ -21,8 +23,8 @@ if (process.browser) {
 }
 
 type ProductsCarouselType = {
-  products: ProductTypeList[]
-}
+  products: ProductTypeList[];
+};
 
 const ProductsCarousel = ({ products }: ProductsCarouselType) => {
   if (!products) return <div>Loading</div>;
@@ -35,8 +37,9 @@ const ProductsCarousel = ({ products }: ProductsCarouselType) => {
         centeredSlides={centeredSlides}
         watchOverflow={true}
         slidesPerView={slidesPerView}
-        className="swiper-wrapper">
-        {products.map(item => (
+        className="swiper-wrapper"
+      >
+        {products.map((item) => (
           <SwiperSlide key={item.id}>
             <ProductItem
               id={item.id}
@@ -52,7 +55,7 @@ const ProductsCarousel = ({ products }: ProductsCarouselType) => {
         ))}
       </Swiper>
     </div>
-  )
-}
+  );
+};
 
-export default ProductsCarousel
+export default ProductsCarousel;

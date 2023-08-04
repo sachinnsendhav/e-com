@@ -47,6 +47,7 @@ const Content = (product: any) => {
   //console.log(selectedMerchantOffer,isBundle,showBlock,merchantOffer, "selectedMerchantOffer");
 
   const getShoppingListItem = async (id: any) => {
+    try{
     const resp = await fetch(
       `${API_URL}/shopping-lists/${id}?include=shopping-list-items%2Cconcrete-products%2Cconcrete-product-image-sets%2Cconcrete-product-prices`,
       {
@@ -115,6 +116,10 @@ const Content = (product: any) => {
       };
     });
     setShoppingItems(shoppingItems);
+  }
+  catch(error){
+    console.log(error)
+  }
   };
   useEffect(() => {
     setIsLoadingWishlist(true);

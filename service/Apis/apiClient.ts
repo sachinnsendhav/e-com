@@ -58,7 +58,7 @@ class ApiClient {
       }
 
       return response.json();
-    } catch (error) {
+    } catch (error:any) {
       throw new Error(`Failed to fetch ${url.toString()}: ${error.message}`);
     }
   }

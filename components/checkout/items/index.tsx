@@ -2,6 +2,7 @@ import { API_URL } from "config";
 import { useEffect, useState } from "react";
 import { CURRENCY_SYMBOLE } from "../../../config";
 import Loader from "../../loader";
+// @ts-ignore
 import Img12 from '../../../assets/images/colbundle.jpg'
 
 

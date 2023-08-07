@@ -27,32 +27,6 @@ const ProductItem = ({ images, id, name, price, description, skuId }: any) => {
     ))
   }
 
-  useEffect(() => {
-    const handleMerchant = async (skuId:any) => {
-      try {
-        const resp = await fetch(
-          `${API_URL}/concrete-products/${skuId}/product-offers?include=product-offer-prices`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              
-            },
-          }
-        );
-        const response = await resp.json();
-        //console.log(response,"dfks")
-        
-      } catch (error) {
-      //console.log(error,"skls")
-
-      }
-    };
-    
-    // Call the handleMerchant function here
-    handleMerchant(skuId)
-  }, []); // Empty dependency array to run the effect only once on mount
-  
   const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
   };

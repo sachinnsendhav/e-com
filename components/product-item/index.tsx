@@ -2,6 +2,7 @@ import Link from "next/link";
 import { API_URL, SHOPPING_LIST_ID } from "config";
 import { useEffect, useState } from "react";
 import { CURRENCY_SYMBOLE } from '../../config';
+import { fetchProductOfferByConcreteSkuMethod } from '../../service/serviceMethods/publicApiMethods'
 const ProductItem = ({
   images,
   id,
@@ -125,7 +126,6 @@ const ProductItem = ({
       }
     }
   };
-
 
   const createCart = async () => {
     const data = {
@@ -299,42 +299,10 @@ const ProductItem = ({
   // var offerPrice: any;
   useEffect(() => {
     const handleMerchant = async (skuId: any) => {
-      try {
-        const resp = await fetch(
-          `${API_URL}/concrete-products/${skuId}/product-offers?include=product-offer-prices`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-
-            },
-          }
-        );
-        const response = await resp.json();
-        var groupId = localStorage.getItem("customerGroup");
-        if (response.data?.length && response.data.length > 0) {
-          var groupOffer = response.data.find((offer: any) => {
-            return offer.attributes?.fkCustomerGroup == groupId;
-          })
-         
-          if (groupOffer) {
-            if (response.included?.length && response.included.length > 0) {
-              var offerfilteredPrice: any = response.included.find((inc: any) => inc.id === groupOffer.id);
-              setSelectedMerchantOffer(groupOffer);
-              setofferPrice(offerfilteredPrice.attributes.price / 100);
-
-
-            }
-          }
-        }
-
-      } catch (error) {
-        //console.log(error, "error offer")
-
-      }
+      const response = await fetchProductOfferByConcreteSkuMethod(skuId);
+          setSelectedMerchantOffer(response?.selectedMerchantOffer);
+          setofferPrice(response?.offerPrice);
     };
-
-    // Call the handleMerchant function here
     if (token) {
       handleMerchant(id);
     }

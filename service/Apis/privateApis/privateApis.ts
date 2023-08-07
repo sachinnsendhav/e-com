@@ -2,7 +2,6 @@ import apiClient from "../apiClient";
 var token:any;
 
 if (typeof window !== "undefined") {
-  // Code running in the browser
   token = localStorage.getItem("token");
 }
 
@@ -12,6 +11,6 @@ export async function fetchShoppingListItems(shoppingListId: any) {
       const response = await apiClient.getPrivate(endpoint, "",token);
       return response;
     } catch (error: any) {
-      console.error("Error fetching category trees:", error.message);
+      console.error("Error fetching shopping list:", error.message);
     }
   }

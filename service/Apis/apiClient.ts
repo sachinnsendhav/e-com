@@ -114,10 +114,65 @@ class ApiClient {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         }});
+      if(response?.status == 401){
+        alert("Session Expired: Please Login Again")
+        window.location.href="/login";
+      }
       if (!response.ok) {
         throw new Error(`Error ${response.status}: ${response.statusText}`);
       }
       return response.json();
+    } catch (error:any) {
+      throw new Error(`Failed to fetch ${url.toString()}: ${error.message}`);
+    }
+  }
+
+  async postPrivate(endpoint:any, data:any, token:any) {
+    const url = new URL(endpoint, API_URL);
+
+    try {
+      const response = await fetch(url.toString(), {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      if(response?.status == 401){
+        alert("Session Expired: Please Login Again")
+        window.location.href="/login";
+      }
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
+      }
+      return response.json();
+    } catch (error:any) {
+      throw new Error(`Failed to fetch ${url.toString()}: ${error.message}`);
+    }
+  }
+
+  async patchPrivate(endpoint:any, data:any, token:any) {
+    const url = new URL(endpoint, API_URL);
+
+    try {
+      const response = await fetch(url.toString(), {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      if(response?.status == 401){
+        alert("Session Expired: Please Login Again")
+        window.location.href="/login";
+      }
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        return { error: errorResponse, status: response.status };
+      }
+      return response;
     } catch (error:any) {
       throw new Error(`Failed to fetch ${url.toString()}: ${error.message}`);
     }

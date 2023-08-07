@@ -438,7 +438,7 @@ const Wishlist = ({ show }: WishlistType) => {
                           <p style={{ paddingTop: "10px", fontWeight: "400" }}>
                             <span style={{ fontWeight: "600" }}>Price : </span>
                             {CURRENCY_SYMBOLE}
-                            {Number(shoppingItemsPrice  ?shoppingItemsPrice[index]: item.price) / 100}
+                            {Number(shoppingItemsPrice&&shoppingItemsPrice[0]  ?shoppingItemsPrice[index]: item.price) / 100}
                           </p>
                         </div>
                         <div>

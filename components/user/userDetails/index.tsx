@@ -2,6 +2,7 @@ import { API_URL } from "config";
 import React, { useState, useEffect } from "react"
 import Loader from '../../loader'
 import Modal from 'react-modal';
+import { fetchCustomerBasicDetailsMethod, updateCustomerDetailsMethod, updateCustomerPasswordMethod } from '../../../service/serviceMethods/privateApiMethods';
 
 type AddressType = {
   show: boolean;
@@ -50,26 +51,14 @@ const UserDetails = ({ show }: AddressType) => {
   const getUserDetails = async () => {
     if (authToken) {
       setLoading(true)
-      try {
-        const resp = await fetch(`${API_URL}/customers`,
-          {
-            method: "GET",
-            headers: {
-              "Authorization": `Bearer ${authToken}`
-            }
-          }
-        );
-        const result = await resp.json();
-        setUserDetails(result.data[0].attributes)
-        //console.log(result, "result")
-        localStorage.setItem("userId", result?.data[0]?.id)
-        localStorage.setItem("customerGroup", result?.data[0]?.attributes?.fkCustomerGroup)
-      } catch {
-        localStorage.setItem("status", "false")
-      }
-      setLoading(false)
+      const response = await fetchCustomerBasicDetailsMethod()
+        setUserDetails(response?.attributes)
+        localStorage.setItem("userId", response?.id)
+        localStorage.setItem("customerGroup", response?.attributes?.fkCustomerGroup)
+        setLoading(false)
     }
   }
+
   useEffect(() => {
     getUserDetails();
   }, [authToken])
@@ -86,24 +75,15 @@ const UserDetails = ({ show }: AddressType) => {
       }
     }
     try {
-      const resp = await fetch(`${API_URL}/customer-password/${userId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Authorization": `Bearer ${authToken}`
-          },
-          body: JSON.stringify(data)
-        }
-      );
-      const result = await resp.json();
-      //console.log("result", result)
-      if (result?.status === 204) {
+      const result = await updateCustomerPasswordMethod(data,userId)
+      console.log(result,"resres")
+      if (result?.status == 204) {
         alert('Your password change successfully!')
       } else {
-        alert(result?.errors[0]?.detail)
+        alert(result?.error?.errors[0]?.detail)
       }
     } catch (err) {
-      //console.log("err", err)
+      console.log("err", err)
     }
 
   }
@@ -123,25 +103,14 @@ const UserDetails = ({ show }: AddressType) => {
       }
     }
     try {
-      const resp = await fetch(`${API_URL}/customers/${userId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Authorization": `Bearer ${authToken}`
-          },
-          body: JSON.stringify(data)
-        }
-      );
-      const result = await resp.json();
-      //console.log("re-up", result)
+      const response:any = await updateCustomerDetailsMethod(data,userId);
       getUserDetails()
       closeModal()
     } catch (err) {
-      //console.log("err", err)
+      console.log("err", err)
     }
   }
 
-  //for madal implementation
   let subtitle: any;
 
   function openModal() {

@@ -16,7 +16,7 @@ export async function fetchCatalogSearchSuggestions(searchQuery: any) {
     const response = await apiClient.get(endpoint, "");
     return response;
   } catch (error: any) {
-    console.error("Error fetching category trees:", error.message);
+    console.error("Error fetching catalog data:", error.message);
   }
 }
 
@@ -26,7 +26,17 @@ export async function fetchCatalogSearchByCategory(nodeId: any, queryString:any,
       const response = await apiClient.get(endpoint, "");
       return response;
     } catch (error: any) {
-      console.error("Error fetching category trees:", error.message);
+      console.error("Error fetching catalog data:", error.message);
     }
   }
 
+
+  export async function fetchProductOfferByConcreteSku(skuId: any) {
+    const endpoint = `concrete-products/${skuId}/product-offers?include=product-offer-prices`;
+    try {
+      const response = await apiClient.get(endpoint, "");
+      return response;
+    } catch (error: any) {
+      console.error("Error fetching product offer:", error.message);
+    }
+  }
